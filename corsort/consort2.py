@@ -1,4 +1,60 @@
+import numpy as np
+
+
+def bound(n):
+    return n * (np.log2(n) - 1 / np.log(2)) + np.log2(n)
+
+
+class Node:
+    """
+
+    Parameters
+    ----------
+    v
+    n
+    """
+
+    def __init__(self, v, n):
+        self.v = v
+        self.mo = set()  # set of mothers (greater from direct comparison)
+        self.da = set()  # set of daughters (lesser from direct comparison)
+        self.an = set()  # set of ancestors (ancestors are greater than)
+        self.de = set()  # set of descendants (descendants are less than)
+        self.u = None
+        self.pos = None
+        self.refresh(n)
+
+    def __lt__(self, other):
+        return self.v < other.v
+
+    def __repr__(self):
+        return "Node(" + str(self.v) + ")"
+
+    def refresh(self, n):
+        self.u = n - 1 - len(self.an) - len(self.de)
+        self.pos = (n - 1 - len(self.an) + len(self.de)) / 2
+
+
 class CorSort:
+    """
+
+    Parameters
+    ----------
+    perm: :class:`~numpy.ndarray`
+        Output of np.random.permutation
+
+    Examples
+    --------
+
+    >>> np.random.seed(22)
+    >>> n = 15
+    >>> p = np.random.permutation(n)
+    >>> c = CorSort(p)
+    >>> c.sort()
+    40
+    >>> bound(n) # doctest: +ELLIPSIS
+    40.869...
+    """
     def __init__(self, perm):
         self.n = len(perm)
         self.xs = [Node(v, self.n) for v in perm]
