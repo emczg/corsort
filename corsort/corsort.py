@@ -165,9 +165,9 @@ print(n1.u)
 
 #Creer une classe qui fait la liste toute seule
 
-P1=Corsort(P=[Node(1,3),Node(0,3),Node(2,3)])
+# P1=Corsort(P=[Node(1,3),Node(0,3),Node(2,3)])
 
-print(Corsort.corsort(P1,P=[Node(1,3),Node(0,3),Node(2,3)]))
+# print(Corsort.corsort(P1,P=[Node(1,3),Node(0,3),Node(2,3)]))
 
 #print(Posort.__gt__(P1,0,1))
 
