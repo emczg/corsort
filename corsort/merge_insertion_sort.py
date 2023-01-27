@@ -15,6 +15,8 @@ def merge_insertion_sort(collection):
 
     Examples
     --------
+        >>> merge_insertion_sort([4, 1, 7, 6, 0, 8, 2, 3, 5])
+        [0, 1, 2, 3, 4, 5, 6, 7, 8]
         >>> merge_insertion_sort([0, 5, 3, 2, 2])
         [0, 2, 2, 3, 5]
         >>> merge_insertion_sort([99])
@@ -108,14 +110,14 @@ def merge_insertion_sort(collection):
         ->
            [40,   75,    100,   999,   10000]
     """
-    is_last_odd_item_inserted_before_this_index = False
+    is_last_odd_item_inserted_at_this_index_or_before = False
     for i in range(len(sorted_list_2d) - 1):
-        if result[i] == collection[-i]:
-            is_last_odd_item_inserted_before_this_index = True
+        if has_last_odd_item and result[i] == collection[-1]:
+            is_last_odd_item_inserted_at_this_index_or_before = True
         pivot = sorted_list_2d[i][1]
         # If last_odd_item is inserted before the item's index,
         # you should forward index one more.
-        if is_last_odd_item_inserted_before_this_index:
+        if is_last_odd_item_inserted_at_this_index_or_before:
             result = result[: i + 2] + binary_search_insertion(result[i + 2:], pivot)
         else:
             result = result[: i + 1] + binary_search_insertion(result[i + 1:], pivot)
