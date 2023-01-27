@@ -12,21 +12,23 @@ def merge_insertion_sort(collection):
     -------
     :class:`list`
         The same collection ordered by ascending order.
+    :class:`int`
+        Number of comparisons performed.
 
     Examples
     --------
         >>> merge_insertion_sort([4, 1, 7, 6, 0, 8, 2, 3, 5])
-        [0, 1, 2, 3, 4, 5, 6, 7, 8]
+        ([0, 1, 2, 3, 4, 5, 6, 7, 8], 19)
         >>> merge_insertion_sort([0, 5, 3, 2, 2])
-        [0, 2, 2, 3, 5]
+        ([0, 2, 2, 3, 5], 7)
         >>> merge_insertion_sort([99])
-        [99]
+        ([99], 0)
         >>> merge_insertion_sort([-2, -5, -45])
-        [-45, -5, -2]
+        ([-45, -5, -2], 2)
     """
-
+    nc = [0]
     if len(collection) <= 1:
-        return collection
+        return collection, nc[0]
 
     """
     Group the items into two pairs, and leave one element if there is a last odd item.
@@ -41,6 +43,7 @@ def merge_insertion_sort(collection):
         if i == len(collection) - 1:
             has_last_odd_item = True
         else:
+            nc[0] += 1
             if collection[i] < collection[i + 1]:
                 two_paired_list.append([collection[i], collection[i + 1]])
             else:
@@ -52,7 +55,7 @@ def merge_insertion_sort(collection):
     After this step:
       sorted_list_2d = [[40, 75], [100, 999]]
     """
-    sorted_list_2d = sortlist_2d(two_paired_list)
+    sorted_list_2d = sortlist_2d(two_paired_list, nc)
 
     """
     40 < 100 is sure because it has already been sorted.
@@ -95,7 +98,7 @@ def merge_insertion_sort(collection):
     """
     if has_last_odd_item:
         pivot = collection[-1]
-        result = binary_search_insertion(result, pivot)
+        result = binary_search_insertion(result, pivot, nc)
 
     """
     Insert the remaining items.
@@ -118,14 +121,14 @@ def merge_insertion_sort(collection):
         # If last_odd_item is inserted before the item's index,
         # you should forward index one more.
         if is_last_odd_item_inserted_at_this_index_or_before:
-            result = result[: i + 2] + binary_search_insertion(result[i + 2:], pivot)
+            result = result[: i + 2] + binary_search_insertion(result[i + 2:], pivot, nc)
         else:
-            result = result[: i + 1] + binary_search_insertion(result[i + 1:], pivot)
+            result = result[: i + 1] + binary_search_insertion(result[i + 1:], pivot, nc)
 
-    return result
+    return result, nc[0]
 
 
-def binary_search_insertion(sorted_list, item):
+def binary_search_insertion(sorted_list, item, nc):
     """
     Insert an item in a sorted list by binary search.
 
@@ -135,6 +138,8 @@ def binary_search_insertion(sorted_list, item):
         A sorted list.
     item: object
         The item to insert.
+    nc: :class:`list`
+        A one-element list with the number of comparisons (to update).
 
     Returns
     -------
@@ -143,32 +148,40 @@ def binary_search_insertion(sorted_list, item):
 
     Examples
     --------
-        >>> binary_search_insertion([1, 12, 45, 51, 69, 99], 42)
+        >>> nc = [0]
+        >>> binary_search_insertion([1, 12, 45, 51, 69, 99], 42, nc)
         [1, 12, 42, 45, 51, 69, 99]
+        >>> nc[0]
+        3
     """
     left = 0
     right = len(sorted_list) - 1
     while left <= right:
         middle = (left + right) // 2
         if left == right:
+            nc[0] += 1
             if sorted_list[middle] < item:
                 left = middle + 1
             break
-        elif sorted_list[middle] < item:
-            left = middle + 1
         else:
-            right = middle - 1
+            nc[0] += 1
+            if sorted_list[middle] < item:
+                left = middle + 1
+            else:
+                right = middle - 1
     sorted_list.insert(left, item)
     return sorted_list
 
 
-def sortlist_2d(list_2d):
+def sortlist_2d(list_2d, nc):
     """Sort a list of pairs according to their first elements.
 
     Parameters
     ----------
     list_2d: :class:`list`
         List of pairs.
+    nc: :class:`list`
+        A one-element list with the number of comparisons (to update).
 
     Returns
     -------
@@ -178,17 +191,20 @@ def sortlist_2d(list_2d):
     Examples
     --------
         >>> my_lst = [[1, 43], [3, 35], [4, 11], [0, 12], [2, 28], [5, 18]]
-        >>> sortlist_2d(my_lst)
+        >>> nc = [0]
+        >>> sortlist_2d(my_lst, nc)
         [[0, 12], [1, 43], [2, 28], [3, 35], [4, 11], [5, 18]]
+        >>> nc[0]
+        9
     """
     length = len(list_2d)
     if length <= 1:
         return list_2d
     middle = length // 2
-    return merge(sortlist_2d(list_2d[:middle]), sortlist_2d(list_2d[middle:]))
+    return merge(sortlist_2d(list_2d[:middle], nc), sortlist_2d(list_2d[middle:], nc), nc)
 
 
-def merge(left, right):
+def merge(left, right, nc):
     """
     Merge two lists of pairs that are already sorted according to their first element.
 
@@ -198,6 +214,8 @@ def merge(left, right):
         List of pairs.
     right: :class:`list`
         List of pairs.
+    nc: :class:`list`
+        A one-element list with the number of comparisons (to update).
 
     Returns
     -------
@@ -208,11 +226,15 @@ def merge(left, right):
     --------
         >>> my_left = [[1, 43], [3, 35], [4, 11]]
         >>> my_right = [[0, 12], [2, 28], [5, 18]]
-        >>> merge(my_left, my_right)
+        >>> nc = [0]
+        >>> merge(my_left, my_right, nc)
         [[0, 12], [1, 43], [2, 28], [3, 35], [4, 11], [5, 18]]
+        >>> nc[0]
+        5
     """
     result = []
     while left and right:
+        nc[0] += 1
         if left[0][0] < right[0][0]:
             result.append(left.pop(0))
         else:
