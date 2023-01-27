@@ -8,8 +8,8 @@ from numpy import random
 
 # mo = set of mothers
 # da = set of daughters
-# an = set of ancestors
-# de = set of descendants
+# an_ = set of ancestors
+# de_ = set of descendants
 # x.downheight = max card(chain of descendants of x)
 # x.upheight = max card(chain of ascendants of x)
 # downlen = number of daughters
@@ -58,7 +58,7 @@ class Node():
 
 class Corsort():
     def __init__(self,P):
-        self.poset=P #[Node(val,n) for val in random.sample( n)]
+        self.poset=P #[Node(val,n_) for val in random.sample( n_)]
         self.n=len(P)
         self.rank=[x.altrank for x in self.poset]
         self.currentsort=self.poset
@@ -76,11 +76,11 @@ class Corsort():
         node1=currentsort[index1]
         node2=currentsort[index2]
         node1.da.add(node2)
-        node1.de.add(node2)
-        node1.de = node1.de | node2.de
+        node1.de_.add(node2)
+        node1.de_ = node1.de_ | node2.de_
         node2.mo.add(node1)
-        node2.an.add(node1)
-        node2.an = node2.an | node1.an
+        node2.an_.add(node1)
+        node2.an_ = node2.an_ | node1.an_
         self.updatedown(index1,index2)
         self.updateup(index1,index2)
         self.updatesort(index1,index2)
@@ -90,7 +90,7 @@ class Corsort():
         currentsort=self.currentsort
         node1=currentsort[index1]
         node2=currentsort[index2]
-        for ancestor in node1.an:
+        for ancestor in node1.an_:
             ancestor.downheight=max(ancestor.downheight,ancestor.downheight- node1.downheight + node2.downheight+1)
             ancestor.refreshnode(self.n)
         node1.downheight=max(node1.downheight,node2.downheight+1)
@@ -102,7 +102,7 @@ class Corsort():
         currentsort=self.currentsort
         node1=currentsort[index2]
         node2=currentsort[index1]
-        for descendant in node1.an:
+        for descendant in node1.an_:
             descendant.upheight=max(descendant.upheight,descendant.upheight- node1.upheight + node2.upheight+1)
             descendant.refreshnode(self.n)
         node1.upheight=max(node1.upheight,node2.upheight+1)

@@ -130,7 +130,7 @@ def merge_insertion_sort(collection):
 
 def binary_search_insertion(sorted_list, item, nc):
     """
-    Insert an item in a sorted list by binary search.
+    Insert an_ item in a sorted list by binary search.
 
     Parameters
     ----------

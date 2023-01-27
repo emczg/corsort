@@ -37,7 +37,7 @@ class MyClass1:
     * Refer to a class this way: :class:`MyClass2` (except as a type indication, cf. :meth:`update_b_from_class_2`).
     * Refer to a method this way: :meth:`addition`.
     * Refer to a method in another class: :meth:`MyClass2.addition`.
-    * Refer to an attribute this way: :attr:`my_string`.
+    * Refer to an_ attribute this way: :attr:`my_string`.
     * Refer to a property this way: :attr:`a_square`.
     * Refer to a parameter or variable this way: `a`.
 
@@ -87,7 +87,7 @@ class MyClass1:
 
         Notes
         -----
-        This function gives an example of documentation with typical features.
+        This function gives an_ example of documentation with typical features.
 
         Examples
         --------
@@ -133,9 +133,9 @@ class MyClass1:
         ----------
         object_of_class_2 : MyClass2
             An object from the other class. The purpose of this function is essentially to show how to document when
-            an argument is an object of another class.
+            an_ argument is an_ object of another class.
 
-            N.B.: for the type of an argument, you can enter only the name of the class, e.g. ``MyClass2``.
+            N.B.: for the type of an_ argument, you can enter only the name of the class, e.g. ``MyClass2``.
             However, in the rest of the documentation, you must use the full syntax, like ``:class:`MyClass2```.
 
         Examples
