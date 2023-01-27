@@ -1,8 +1,108 @@
 import numpy as np
+from corsort.distance_to_sorted_array import distance_to_sorted_array
 
 
-def bound(n):
-    return n * (np.log2(n) - 1 / np.log(2)) + np.log2(n)
+def entropy_bound(n):
+    """
+    Gives an approximation of the information theoretical lower bound of the number of comparisons
+    required to sort n items.
+
+    An extra offset log2(n) is added.
+
+    Cf https://en.wikipedia.org/wiki/Comparison_sort
+
+    Parameters
+    ----------
+    n: :class:`int`
+        Number of items to sort.
+
+    Returns
+    -------
+    :class:`float`
+        A lower bound.
+
+    Examples
+    --------
+    >>> print(f"{entropy_bound(10):.1f}")
+    22.1
+    >>> print(f"{entropy_bound(100):.1f}")
+    526.8
+    >>> print(f"{entropy_bound(1000):.1f}")
+    8533.1
+    """
+    return n * (np.log2(n) - 1 / np.log(2))+np.log2(n)
+
+
+class CorSortLexi:
+    """
+    Attributes
+    ----------
+
+    n_: :class:`int`:
+        N
+    """
+    def __init__(self):
+        self.n = None
+        self.perm = None
+        self.an = None
+        self.de = None
+        self.res_ = None
+
+    @property
+    def pos(self):
+        return np.array([(len(self.de[i]) - 1 + self.n - len(self.an[i])) / 2 for i in range(self.n)])
+
+    def test_i_lt_j(self, i, j):
+        return self.perm[i] < self.perm[j]
+
+    def gain_i_lt_j(self, i, j):
+        gain = 0
+        if j in self.an[i]:
+            return gain
+        for jj in self.an[j]:
+            gain += len(self.de[i] - self.de[jj])
+        for ii in self.de[i]:
+            gain += len(self.an[j] - self.an[ii])
+        return gain
+
+    def gain(self, i, j):
+        return min(self.gain_i_lt_j(i, j), self.gain_i_lt_j(j, i))
+
+    def apply_i_lt_j(self, i, j):
+        for jj in self.an[j]:
+            self.de[jj] |= self.de[i]
+        for ii in self.de[i]:
+            self.an[ii] |= self.an[j]
+
+    def compare(self, i, j):
+        if self.test_i_lt_j(i, j):
+            self.apply_i_lt_j(i, j)
+        else:
+            self.apply_i_lt_j(j, i)
+
+    def next_compare(self):
+        gain = (0, 0)
+        arg = None
+        pos = self.pos
+        for i in range(self.n):
+            for j in range(i + 1, self.n):
+                ng = (self.gain(i, j), -abs(pos[i] - pos[j]))
+                if ng > gain:
+                    arg = (i, j)
+                    gain = ng
+        return arg
+
+    def __call__(self, perm):
+        self.n = len(perm)
+        self.perm = perm
+        self.an = [{i} for i in range(self.n)]
+        self.de = [{i} for i in range(self.n)]
+        self.res_ = [distance_to_sorted_array(self.perm)]
+        while c := self.next_compare():
+            self.compare(*c)
+            self.res_.append(distance_to_sorted_array(np.argsort(self.pos)))
+        return self.res_
+
 
 
 class Node:
@@ -52,7 +152,7 @@ class CorSort:
     >>> c = CorSort(p)
     >>> c.sort()
     40
-    >>> bound(n) # doctest: +ELLIPSIS
+    >>> entropy_bound(n) # doctest: +ELLIPSIS
     40.869...
     """
     def __init__(self, perm):
