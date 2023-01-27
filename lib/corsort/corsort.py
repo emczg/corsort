@@ -20,7 +20,7 @@ from numpy import random
 
 class Node():
 
-    def __init__(self,val,n):
+    def __init__(self,val,n,theta,eta):
         self.v=val
         self.mo=set() # set of mothers
         self.da=set() # set of daughters
@@ -29,9 +29,11 @@ class Node():
         self.downheight=0
         self.upheight=0
         self.rank=None # downheight - upheight
+        self.altrank = None # rank + some alteration
         self.downlen=None # number of daughters
+        self.uplen=None # number of mothers
         self.u=None # uncertainty
-        self.refreshnode(n)
+        self.refreshnode(n,theta,eta)
 
     def __gt__(self,other):
         return self.v>other.v
@@ -43,10 +45,12 @@ class Node():
 #    def __str__(self):
 #        return "toto str"
 
-    def refreshnode(self,n):
+    def refreshnode(self,n,theta,eta):
         self.u=n-1-len(self.an)-len(self.de)
         self.downlen=len(self.da)
+        self.uplen = len(self.mo)
         self.rank=self.downheight-self.upheight
+        self.altrank=self.rank + theta*self.downlen - eta*self.uplen
 
 
 
@@ -56,13 +60,13 @@ class Corsort():
     def __init__(self,P):
         self.poset=P #[Node(val,n) for val in random.sample( n)]
         self.n=len(P)
-        self.rank=[x.rank for x in self.poset]
+        self.rank=[x.altrank for x in self.poset]
         self.currentsort=self.poset
         self.currentrank=None
         self.refreshrank()
 
     def refreshrank(self):
-        self.currentrank=[x.rank for x in self.currentsort]
+        self.currentrank=[x.altrank for x in self.currentsort]
 
 
 
@@ -109,17 +113,28 @@ class Corsort():
 
     def updatesort(self,index1,index2):
         currentrank=self.currentrank
-        currentsort=self.currentsort
+        currentsort = self.currentsort
         node1=currentsort[index1]
         node2=currentsort[index2]
         k=index1
         l=index2
-        while node1.rank>currentsort[k-1].rank:
-            currentsort[k-1],currentsort[k]=currentsort[k],currentsort[k-1]
+        if k>l:
+            while node1.rank>currentsort[k-1].rank and k-1>0:
+                currentsort[k-1],currentsort[k]=currentsort[k],currentsort[k-1]
+                k-=1
+            while node2.rank>currentsort[l+1].rank and l<self.n-1:
+                currentsort[l+1],currentsort[l]=currentsort[l],currentsort[l+1]
+                l+=1
+        else:
+            currentsort[k-1], currentsort[k] = currentsort[k], currentsort[k-1]
             k-=1
-        while node2.rank>currentsort[l+1].rank:
-            currentsort[l+1],currentsort[l]=currentsort[l],currentsort[l+1]
             l+=1
+            while node1.rank>currentsort[l-1].rank and l-1>0:
+                currentsort[l-1],currentsort[l]=currentsort[l],currentsort[l-1]
+                l-=1
+            while node2.rank>currentsort[k+1].rank and k<self.n-1:
+                currentsort[k+1],currentsort[k]=currentsort[k],currentsort[k+1]
+                k+=1
         self.refreshrank()
 
 
@@ -150,28 +165,4 @@ class Corsort():
             print(compteur)
             print(self.currentsort)
         return(self.poset,self.currentsort,compteur)
-
-####
-
-
-n1=Node(val=10,n=20)
-
-Node.refreshnode(n1,20)
-print(repr(n1))
-
-print(n1.u)
-
-####
-
-#Creer une classe qui fait la liste toute seule
-
-# P1=Corsort(P=[Node(1,3),Node(0,3),Node(2,3)])
-
-# print(Corsort.corsort(P1,P=[Node(1,3),Node(0,3),Node(2,3)]))
-
-#print(Posort.__gt__(P1,0,1))
-
-###
-
-random.sample(10)
 
