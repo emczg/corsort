@@ -7,5 +7,4 @@ pytest
 numpy
 setuptools
 
-corsort
 scipy
