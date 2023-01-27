@@ -1,168 +1,240 @@
-"""Main module."""
 import numpy as np
-from numpy import random
+from corsort.distance_to_sorted_array import distance_to_sorted_array
 
 
+def entropy_bound(n):
+    """
+    Gives an_ approximation of the information theoretical lower bound of the number of comparisons
+    required to sort n_ items.
 
-##
+    An extra offset log2(n_) is added.
 
-# mo = set of mothers
-# da = set of daughters
-# an_ = set of ancestors
-# de_ = set of descendants
-# x.downheight = max card(chain of descendants of x)
-# x.upheight = max card(chain of ascendants of x)
-# downlen = number of daughters
-# u = uncertainty
+    Cf https://en.wikipedia.org/wiki/Comparison_sort
 
+    Parameters
+    ----------
+    n: :class:`int`
+        Number of items to sort.
 
+    Returns
+    -------
+    :class:`float`
+        A lower bound.
 
-
-class Node():
-
-    def __init__(self,val,n,theta,eta):
-        self.v=val
-        self.mo=set() # set of mothers
-        self.da=set() # set of daughters
-        self.an=set() # set of ancestors
-        self.de=set() # set of descendants
-        self.downheight=0
-        self.upheight=0
-        self.rank=None # downheight - upheight
-        self.altrank = None # rank + some alteration
-        self.downlen=None # number of daughters
-        self.uplen=None # number of mothers
-        self.u=None # uncertainty
-        self.refreshnode(n,theta,eta)
-
-    def __gt__(self,other):
-        return self.v>other.v
+    Examples
+    --------
+    >>> print(f"{entropy_bound(10):.1f}")
+    22.1
+    >>> print(f"{entropy_bound(100):.1f}")
+    526.8
+    >>> print(f"{entropy_bound(1000):.1f}")
+    8533.1
+    """
+    return n * (np.log2(n) - 1 / np.log(2))+np.log2(n)
 
 
-    def __repr__(self):
-        return "Node("+str(self.v)+")"
+class CorSort:
+    """
+    Attributes
+    ----------
 
-#    def __str__(self):
-#        return "toto str"
+    n_: :class:`int`:
+        Nunber of items
+    perm_: :class:`~numpy.ndarray`
+        Input permutation
+    an_: :class:`list` of :class:`set`
+        Ancestors
+    de_: :class:`list` of :class:`set`
+        Descendants
+    distances_: :class:`list` of :class:`int`
+        KT distance to complete sort
+    n_c_: :class:`int`
+        Number of comparison performed.
+    """
+    def __init__(self):
+        self.n_ = None
+        self.perm_ = None
+        self.an_ = None
+        self.de_ = None
+        self.distances_ = None
+        self.n_c_ = None
+        self.pos_ = None
 
-    def refreshnode(self,n,theta,eta):
-        self.u=n-1-len(self.an)-len(self.de)
-        self.downlen=len(self.da)
-        self.uplen = len(self.mo)
-        self.rank=self.downheight-self.upheight
-        self.altrank=self.rank + theta*self.downlen - eta*self.uplen
+    def update_pos(self):
+        """
+        Update estimated position of each element.
 
+        Returns
+        -------
+        None
+        """
+        self.pos_ =  np.array([(len(self.de_[i]) - 1 + self.n_ - len(self.an_[i])) / 2 for i in range(self.n_)])
 
+    def test_i_lt_j(self, i, j):
+        """
 
+        Parameters
+        ----------
+        i: :class:`int`
+            First index
+        j: :class:`int`
+            Second index
 
+        Returns
+        -------
+        :class:`bool`
+            The comparison between the two indexed elements.
 
-class Corsort():
-    def __init__(self,P):
-        self.poset=P #[Node(val,n_) for val in random.sample( n_)]
-        self.n=len(P)
-        self.rank=[x.altrank for x in self.poset]
-        self.currentsort=self.poset
-        self.currentrank=None
-        self.refreshrank()
+        """
+        return self.perm_[i] < self.perm_[j]
 
-    def refreshrank(self):
-        self.currentrank=[x.altrank for x in self.currentsort]
+    def gain(self, i, j):
+        raise NotImplementedError
 
+    def apply_i_lt_j(self, i, j):
+        """
+        Assuming i<j, updates the posset accordingly.
 
+        Parameters
+        ----------
+        i: :class:`int`
+            Index of the small element.
+        j: :class:`int`
+            Index of the big element
 
+        Returns
+        -------
+        None
+        """
+        for jj in self.an_[j]:
+            self.de_[jj] |= self.de_[i]
+        for ii in self.de_[i]:
+            self.an_[ii] |= self.an_[j]
+        self.update_pos()
 
-    def bt(self,index1,index2):
-        currentsort=self.currentsort
-        node1=currentsort[index1]
-        node2=currentsort[index2]
-        node1.da.add(node2)
-        node1.de_.add(node2)
-        node1.de_ = node1.de_ | node2.de_
-        node2.mo.add(node1)
-        node2.an_.add(node1)
-        node2.an_ = node2.an_ | node1.an_
-        self.updatedown(index1,index2)
-        self.updateup(index1,index2)
-        self.updatesort(index1,index2)
+    def compare(self, i, j):
+        """
+        Performs a comparison between i and j.
 
+        Parameters
+        ----------
+        i: :class:`int`
+            First index
+        j: :class:`int`
+            Second index
 
-    def updatedown(self,index1,index2):
-        currentsort=self.currentsort
-        node1=currentsort[index1]
-        node2=currentsort[index2]
-        for ancestor in node1.an_:
-            ancestor.downheight=max(ancestor.downheight,ancestor.downheight- node1.downheight + node2.downheight+1)
-            ancestor.refreshnode(self.n)
-        node1.downheight=max(node1.downheight,node2.downheight+1)
-        node1.refreshnode(self.n)
-        node2.refreshnode(self.n)
-        self.refreshrank()
-
-    def updateup(self,index1,index2):
-        currentsort=self.currentsort
-        node1=currentsort[index2]
-        node2=currentsort[index1]
-        for descendant in node1.an_:
-            descendant.upheight=max(descendant.upheight,descendant.upheight- node1.upheight + node2.upheight+1)
-            descendant.refreshnode(self.n)
-        node1.upheight=max(node1.upheight,node2.upheight+1)
-        node1.refreshnode(self.n)
-        node2.refreshnode(self.n)
-        self.refreshrank()
-
-
-    def updatesort(self,index1,index2):
-        currentrank=self.currentrank
-        currentsort = self.currentsort
-        node1=currentsort[index1]
-        node2=currentsort[index2]
-        k=index1
-        l=index2
-        if k>l:
-            while node1.rank>currentsort[k-1].rank and k-1>0:
-                currentsort[k-1],currentsort[k]=currentsort[k],currentsort[k-1]
-                k-=1
-            while node2.rank>currentsort[l+1].rank and l<self.n-1:
-                currentsort[l+1],currentsort[l]=currentsort[l],currentsort[l+1]
-                l+=1
+        Returns
+        -------
+        None
+        """
+        if self.test_i_lt_j(i, j):
+            self.apply_i_lt_j(i, j)
         else:
-            currentsort[k-1], currentsort[k] = currentsort[k], currentsort[k-1]
-            k-=1
-            l+=1
-            while node1.rank>currentsort[l-1].rank and l-1>0:
-                currentsort[l-1],currentsort[l]=currentsort[l],currentsort[l-1]
-                l-=1
-            while node2.rank>currentsort[k+1].rank and k<self.n-1:
-                currentsort[k+1],currentsort[k]=currentsort[k],currentsort[k+1]
-                k+=1
-        self.refreshrank()
+            self.apply_i_lt_j(j, i)
 
-
-    def nextcomp(self):
-        currentrank=self.currentrank
-        diff=[abs(currentrank[i]-currentrank[i+1]) for i in range(self.n-1)]
-        mini=0
-        for k in range(self.n-1):
-            if diff[k]<diff[mini]:
-                mini=k
-        return (mini,mini+1)
-
-
-    def corsort(self,P):
-        self.__init__(P)
-        currentsort=self.poset
-        compteur=0
-        while sum([node.u for node in currentsort])>0:
-            index1,index2=self.nextcomp()
-            node1=currentsort[index1]
-            node2=currentsort[index2]
-            if node1>node2:
-                self.bt(index1,index2)
+    def next_compare(self):
+        while True:
+            gain = self.gain(0, 0)
+            arg = None
+            for i in range(self.n_):
+                for j in range(i + 1, self.n_):
+                    ng = self.gain(i, j)
+                    if ng > gain:
+                        arg = (i, j)
+                        gain = ng
+            if arg is not None:
+                yield arg
             else:
-                self.bt(index2,index1)
-            #self.__gt__(index1,index2)
-            compteur+=1
-            print(compteur)
-            print(self.currentsort)
-        return(self.poset,self.currentsort,compteur)
+                break
 
+    def __call__(self, perm, comparisons=None):
+        """
+        Parameters
+        ----------
+        perm: :class:`numpy.ndarray`
+            Input permutation to sort. Typically the output of :meth`~numpy.random.permutation`.
+        comparisons: iterator, default=:meth:`next_compare`
+            Comparison to make (to feed comparison from an external sort algorithm).
+
+        Returns
+        -------
+        :class:`int`
+            Number of comparisons to sort the permutation.
+        """
+        if isinstance(perm, list):
+            perm = np.array(perm)
+        if comparisons is None:
+            comparisons = self.next_compare()
+        self.n_ = len(perm)
+        self.perm_ = perm
+        self.an_ = [{i} for i in range(self.n_)]
+        self.de_ = [{i} for i in range(self.n_)]
+        self.distances_ = [distance_to_sorted_array(self.perm_)]
+        self.update_pos()
+        for c in comparisons:
+            self.compare(*c)
+            self.distances_.append(distance_to_sorted_array(
+                self.perm_[np.argsort(self.pos_)]))
+        self.n_c_ = len(self.distances_) - 1
+        return self.n_c_
+
+
+class CorSortLexi(CorSort):
+    """
+    Examples
+    --------
+
+    >>> np.random.seed(22)
+    >>> n_ = 15
+    >>> p = np.random.permutation(n_)
+    >>> c = CorSortLexi()
+    >>> c(p)
+    39
+    >>> entropy_bound(n_) # doctest: +ELLIPSIS
+    40.869...
+    >>> c.distances_ # doctest: +NORMALIZE_WHITESPACE
+    [55, 42, 51, 49, 49, 43, 39, 38, 37, 36, 28, 27, 22, 21, 20, 19, 13, 14, 13, 15,
+    12, 13, 13, 11, 10, 6, 5, 5, 4, 2, 2, 1, 2, 2, 2, 1, 2, 1, 1, 0]
+    """
+
+    def gain_i_lt_j(self, i, j):
+        """
+
+        Parameters
+        ----------
+        i: :class:`int`
+            Index of the small element.
+        j: :class:`int`
+            Index of the big element
+
+        Returns
+        -------
+        :class:`int`
+            Potential gain if we compare i and j and find that i<j
+        """
+        gain = 0
+        if j in self.an_[i]:
+            return 0, 0
+        for jj in self.an_[j]:
+            gain += len(self.de_[i] - self.de_[jj])
+        for ii in self.de_[i]:
+            gain += len(self.an_[j] - self.an_[ii])
+        return gain, -abs(self.pos_[i] - self.pos_[j])
+
+    def gain(self, i, j):
+        """
+
+        Parameters
+        ----------
+        i: :class:`int`
+            First index
+        j: :class:`int`
+            Second index
+
+        Returns
+        -------
+        :class:`int`
+            Ensured gain if i and j are compared.
+
+        """
+        return min(self.gain_i_lt_j(i, j), self.gain_i_lt_j(j, i))
