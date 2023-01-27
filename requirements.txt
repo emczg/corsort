@@ -7,3 +7,6 @@ pytest
 numpy
 numba
 setuptools
+
+corsort
+scipy
