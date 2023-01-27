@@ -4,10 +4,10 @@ from corsort.distance_to_sorted_array import distance_to_sorted_array
 
 def entropy_bound(n):
     """
-    Gives an approximation of the information theoretical lower bound of the number of comparisons
-    required to sort n items.
+    Gives an_ approximation of the information theoretical lower bound of the number of comparisons
+    required to sort n_ items.
 
-    An extra offset log2(n) is added.
+    An extra offset log2(n_) is added.
 
     Cf https://en.wikipedia.org/wiki/Comparison_sort
 
@@ -39,40 +39,87 @@ class CorSortLexi:
     ----------
 
     n_: :class:`int`:
-        N
+        Nunber of items
+    perm_: :class:`~numpy.ndarray`
+        Input permutation
+    an_: :class:`list` of :class:`set`
+        Ancestors
+    de_: :class:`list` of :class:`set`
+        Descendants
+    distances_: :class:`list` of :class:`int`
+        KT distance to complete sort
+    n_c_: :class:`int`
+        Number of comparison performed.
     """
     def __init__(self):
-        self.n = None
-        self.perm = None
-        self.an = None
-        self.de = None
-        self.res_ = None
+        self.n_ = None
+        self.perm_ = None
+        self.an_ = None
+        self.de_ = None
+        self.distances_ = None
+        self.n_c_ = None
 
     @property
-    def pos(self):
-        return np.array([(len(self.de[i]) - 1 + self.n - len(self.an[i])) / 2 for i in range(self.n)])
+    def pos_(self):
+        """
+        Returns
+        -------
+        :class:`~numpy.ndarray`
+            Estimated position of each element.
+        """
+        return np.array([(len(self.de_[i]) - 1 + self.n_ - len(self.an_[i])) / 2 for i in range(self.n_)])
 
     def test_i_lt_j(self, i, j):
-        return self.perm[i] < self.perm[j]
+        """
+
+        Parameters
+        ----------
+        i: :class:`int`
+            First index
+        j: :class:`int`
+            Second index
+
+        Returns
+        -------
+        :class:`bool`
+            The comparison between the two indexed elements.
+
+        """
+        return self.perm_[i] < self.perm_[j]
 
     def gain_i_lt_j(self, i, j):
+        """
+
+        Parameters
+        ----------
+        i: :class:`int`
+            Index of the small element.
+        j: :class:`int`
+            Index of the big element
+
+        Returns
+        -------
+        :class:`int`
+            Potential gain if we compare i and j and find that i<j
+        """
         gain = 0
-        if j in self.an[i]:
+        if j in self.an_[i]:
             return gain
-        for jj in self.an[j]:
-            gain += len(self.de[i] - self.de[jj])
-        for ii in self.de[i]:
-            gain += len(self.an[j] - self.an[ii])
+        for jj in self.an_[j]:
+            gain += len(self.de_[i] - self.de_[jj])
+        for ii in self.de_[i]:
+            gain += len(self.an_[j] - self.an_[ii])
         return gain
 
     def gain(self, i, j):
+        """"""
         return min(self.gain_i_lt_j(i, j), self.gain_i_lt_j(j, i))
 
     def apply_i_lt_j(self, i, j):
-        for jj in self.an[j]:
-            self.de[jj] |= self.de[i]
-        for ii in self.de[i]:
-            self.an[ii] |= self.an[j]
+        for jj in self.an_[j]:
+            self.de_[jj] |= self.de_[i]
+        for ii in self.de_[i]:
+            self.an_[ii] |= self.an_[j]
 
     def compare(self, i, j):
         if self.test_i_lt_j(i, j):
@@ -83,9 +130,9 @@ class CorSortLexi:
     def next_compare(self):
         gain = (0, 0)
         arg = None
-        pos = self.pos
-        for i in range(self.n):
-            for j in range(i + 1, self.n):
+        pos = self.pos_
+        for i in range(self.n_):
+            for j in range(i + 1, self.n_):
                 ng = (self.gain(i, j), -abs(pos[i] - pos[j]))
                 if ng > gain:
                     arg = (i, j)
@@ -93,14 +140,28 @@ class CorSortLexi:
         return arg
 
     def __call__(self, perm):
-        self.n = len(perm)
-        self.perm = perm
-        self.an = [{i} for i in range(self.n)]
-        self.de = [{i} for i in range(self.n)]
-        self.res_ = [distance_to_sorted_array(self.perm)]
+        """
+
+        Parameters
+        ----------
+        perm: :class:`numpy.ndarray`
+            Input permutation to sort. Typically the output of :meth`~numpy.random.permutation`.
+
+        Returns
+        -------
+        :class:`int`
+            Number of comparisons to sort the permutation.
+        """
+        if isinstance(perm, list):
+            perm = np.array(perm)
+        self.n_ = len(perm)
+        self.perm_ = perm
+        self.an_ = [{i} for i in range(self.n_)]
+        self.de_ = [{i} for i in range(self.n_)]
+        self.res_ = [distance_to_sorted_array(self.perm_)]
         while c := self.next_compare():
             self.compare(*c)
-            self.res_.append(distance_to_sorted_array(np.argsort(self.pos)))
+            self.res_.append(distance_to_sorted_array(np.argsort(self.pos_)))
         return self.res_
 
 
@@ -147,12 +208,12 @@ class CorSort:
     --------
 
     >>> np.random.seed(22)
-    >>> n = 15
-    >>> p = np.random.permutation(n)
+    >>> n_ = 15
+    >>> p = np.random.permutation(n_)
     >>> c = CorSort(p)
     >>> c.sort()
     40
-    >>> entropy_bound(n) # doctest: +ELLIPSIS
+    >>> entropy_bound(n_) # doctest: +ELLIPSIS
     40.869...
     """
     def __init__(self, perm):
