@@ -5,7 +5,6 @@ sphinx-rtd-theme
 
 pytest
 numpy
-numba
 setuptools
 
 corsort
