@@ -2,6 +2,58 @@ import numpy as np
 from corsort.distance_to_sorted_array import distance_to_sorted_array
 
 
+def corsort(perm):
+    """
+    A fast, direct, implementation of the Borda Corsort.
+
+    Parameters
+    ----------
+    perm: :class:`numpy.ndarray`
+        Input (random) permutation
+
+    Returns
+    -------
+    d: :class:`int`
+        Number of permutations required to sort the input
+    distances: :class:`list`
+        Evolution of distances to target.
+
+    Examples
+    --------
+
+    >>> np.random.seed(22)
+    >>> n = 15
+    >>> p = np.random.permutation(n)
+    >>> d, dists =corsort(p)
+    >>> d
+    44
+    >>> entropy_bound(n) # doctest: +ELLIPSIS
+    40.869...
+    >>> dists # doctest: +NORMALIZE_WHITESPACE
+    [55, 42, 51, 49, 49, 48, 40, 39, 33, 29, 29, 28, 28, 28, 28, 26, 26, 21, 20, 16, 14, 11, 10, 9, 8, 7,
+     8, 7, 6, 7, 7, 7, 7, 5, 5, 4, 4, 4, 3, 2, 3, 2, 1, 0, 0]
+
+    """
+    n = len(perm)
+    an = np.eye(n, dtype=bool)
+    pos = np.sum(an, axis=0) - np.sum(an, axis=1)
+    distances = [distance_to_sorted_array(perm[np.argsort(pos)])]
+    while True:
+        pos_matrix = 2*n-np.abs(pos[np.newaxis, :] - pos[:, np.newaxis])
+        pos_matrix[an] = 0
+        pos_matrix[an.T] = 0
+        i, j = np.unravel_index(pos_matrix.argmax(), pos_matrix.shape)
+        if pos_matrix[i, j] == 0:
+            break
+        if perm[i] < perm[j]:
+            an[np.ix_(an[:, i], an[j, :])] = True
+        else:
+            an[np.ix_(an[:, j], an[i, :])] = True
+        pos = np.sum(an, axis=0) - np.sum(an, axis=1)
+        distances.append(distance_to_sorted_array(perm[np.argsort(pos)]))
+    return len(distances)-1, distances
+
+
 def entropy_bound(n):
     """
     Gives an_ approximation of the information theoretical lower bound of the number of comparisons
