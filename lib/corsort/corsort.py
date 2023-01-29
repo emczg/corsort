@@ -1,5 +1,37 @@
+from numba import njit
 import numpy as np
 from corsort.distance_to_sorted_array import distance_to_sorted_array
+
+
+@njit
+def jit_corsort(perm):
+    n = len(perm)
+    an = np.eye(n, dtype=np.bool_)
+    pos = np.zeros(n, dtype = np.int_)
+    distances = [perm[np.argsort(pos)]]
+    while True:
+        gain, ij = 0, (0,0)
+        for i in range(n):
+            for j in range(i+1, n):
+                if (not an[i, j]) and (not an[j, i]):
+                    pij = 2*n - abs(pos[i]-pos[j])
+                    if pij > gain:
+                        gain = pij
+                        ij = (i, j)
+        i, j = ij
+        if gain == 0:
+            break
+        if perm[i] > perm[j]:
+            i, j = j, i
+        for ii in range(n):
+            for jj in range(n):
+                if an[ii, i] and an[j, jj]:
+                    if not an[ii, jj]:
+                        an[ii, jj] = True
+                        pos[ii] -= 1
+                        pos[jj] += 1
+        distances.append(perm[np.argsort(pos)])
+    return len(distances)-1, distances
 
 
 def corsort(perm):
@@ -34,24 +66,26 @@ def corsort(perm):
      8, 7, 6, 7, 7, 7, 7, 5, 5, 4, 4, 4, 3, 2, 3, 2, 1, 0, 0]
 
     """
-    n = len(perm)
-    an = np.eye(n, dtype=bool)
-    pos = np.sum(an, axis=0) - np.sum(an, axis=1)
-    distances = [distance_to_sorted_array(perm[np.argsort(pos)])]
-    while True:
-        pos_matrix = 2*n-np.abs(pos[np.newaxis, :] - pos[:, np.newaxis])
-        pos_matrix[an] = 0
-        pos_matrix[an.T] = 0
-        i, j = np.unravel_index(pos_matrix.argmax(), pos_matrix.shape)
-        if pos_matrix[i, j] == 0:
-            break
-        if perm[i] < perm[j]:
-            an[np.ix_(an[:, i], an[j, :])] = True
-        else:
-            an[np.ix_(an[:, j], an[i, :])] = True
-        pos = np.sum(an, axis=0) - np.sum(an, axis=1)
-        distances.append(distance_to_sorted_array(perm[np.argsort(pos)]))
-    return len(distances)-1, distances
+    n_perms, states = jit_corsort(perm)
+    return n_perms, [distance_to_sorted_array(state) for state in states]
+    # n = len(perm)
+    # an = np.eye(n, dtype=bool)
+    # pos = np.sum(an, axis=0) - np.sum(an, axis=1)
+    # distances = [distance_to_sorted_array(perm[np.argsort(pos)])]
+    # while True:
+    #     pos_matrix = 2*n-np.abs(pos[np.newaxis, :] - pos[:, np.newaxis])
+    #     pos_matrix[an] = 0
+    #     pos_matrix[an.T] = 0
+    #     i, j = np.unravel_index(pos_matrix.argmax(), pos_matrix.shape)
+    #     if pos_matrix[i, j] == 0:
+    #         break
+    #     if perm[i] < perm[j]:
+    #         an[np.ix_(an[:, i], an[j, :])] = True
+    #     else:
+    #         an[np.ix_(an[:, j], an[i, :])] = True
+    #     pos = np.sum(an, axis=0) - np.sum(an, axis=1)
+    #     distances.append(distance_to_sorted_array(perm[np.argsort(pos)]))
+    # return len(distances)-1, distances
 
 
 def entropy_bound(n):
