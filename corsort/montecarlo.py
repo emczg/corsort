@@ -73,7 +73,7 @@ def evaluate(sort_list, n_list, nt, pool=None):
     res = defaultdict(dict)
     for n in n_list:
         for sort in sort_list:
-            print(f"Evaluate comparisons of {sort.__name__} for n = {n}")
+            print(f"Evaluate {sort.__name__} for n = {n}")
             convs = np.zeros(nt, dtype=int)
             distances = []
             if pool is not None:
@@ -123,7 +123,7 @@ def evaluate_comparisons(sort_list, n_list, nt, pool=None):
     res = defaultdict(dict)
     for n in n_list:
         for sort in sort_list:
-            print(f"Evaluate {sort.__name__} for n = {n}")
+            print(f"Evaluate comparisons of {sort.__name__} for n = {n}")
             convs = np.zeros(nt, dtype=int)
             if pool is not None:
                 for k, cd in enumerate(pool.imap_unordered(sort,
