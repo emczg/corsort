@@ -9,7 +9,6 @@ setuptools~=59.8.0
 
 scipy~=1.10.0
 
-corsort~=0.1.0
 numba~=0.56.2
 multiprocess~=0.70.14
 tqdm~=4.64.1
