@@ -31,10 +31,10 @@ def jit_corsort(perm):
                         pos[ii] -= 1
                         pos[jj] += 1
         distances.append(perm[np.argsort(pos)])
-    return len(distances)-1, distances
+    return distances
 
 
-def corsort(perm):
+def corsort(perm, compute_history=False):
     """
     A fast, direct, implementation of the Borda Corsort.
 
@@ -56,7 +56,7 @@ def corsort(perm):
     >>> np.random.seed(22)
     >>> n = 15
     >>> p = np.random.permutation(n)
-    >>> d, dists =corsort(p)
+    >>> d, dists =corsort(p, compute_history=True)
     >>> d
     44
     >>> entropy_bound(n) # doctest: +ELLIPSIS
@@ -66,8 +66,9 @@ def corsort(perm):
      8, 7, 6, 7, 7, 7, 7, 5, 5, 4, 4, 4, 3, 2, 3, 2, 1, 0, 0]
 
     """
-    n_perms, states = jit_corsort(perm)
-    return n_perms, [distance_to_sorted_array(state) for state in states]
+    states = jit_corsort(perm)
+    history = [distance_to_sorted_array(state) for state in states] if compute_history else []
+    return len(states)-1, history
     # n = len(perm)
     # an = np.eye(n, dtype=bool)
     # pos = np.sum(an, axis=0) - np.sum(an, axis=1)
