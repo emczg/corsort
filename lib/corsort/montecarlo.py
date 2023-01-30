@@ -47,8 +47,8 @@ def evaluate(sort_list, n_list, nt, pool=None):
     >>> print_res(res)
     n=10, quicksort: mean=24.05, std=3.52
     n=15, quicksort: mean=46.72, std=6.90
-    n=10, corsort: mean=22.12, std=0.89
-    n=15, corsort: mean=40.94, std=1.34
+    n=10, corsort: mean=22.11, std=0.87
+    n=15, corsort: mean=40.59, std=1.33
 
     Same without the pool:
 
@@ -61,8 +61,8 @@ def evaluate(sort_list, n_list, nt, pool=None):
     >>> print_res(res)
     n=10, quicksort: mean=24.05, std=3.52
     n=15, quicksort: mean=46.72, std=6.90
-    n=10, corsort: mean=22.12, std=0.89
-    n=15, corsort: mean=40.94, std=1.34
+    n=10, corsort: mean=22.11, std=0.87
+    n=15, corsort: mean=40.59, std=1.33
 
     Bound (loose, not exact):
 
