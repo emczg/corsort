@@ -17,7 +17,7 @@ class CorSortBorda(CorSort):
     44
     >>> entropy_bound(n_) # doctest: +ELLIPSIS
     40.869...
-    >>> c.distances_ # doctest: +NORMALIZE_WHITESPACE
+    >>> c.history_distances_ # doctest: +NORMALIZE_WHITESPACE
     [55, 42, 51, 49, 49, 48, 40, 39, 33, 29, 29, 28, 28, 28, 28, 26, 26, 21, 20, 16, 14, 11, 10, 9, 8, 7,
      8, 7, 6, 7, 7, 7, 7, 5, 5, 4, 4, 4, 3, 2, 3, 2, 1, 0, 0]
     """
@@ -28,12 +28,12 @@ class CorSortBorda(CorSort):
 
     def next_compare(self):
         while True:
-            gain_matrix = -np.abs(self.pos_[np.newaxis, :] - self.pos_[:, np.newaxis])
+            gain_matrix = -np.abs(self.position_estimates_[np.newaxis, :] - self.position_estimates_[:, np.newaxis])
             arg = None
             gain = None
             for i in range(self.n_):
                 for j in range(i + 1, self.n_):
-                    if i not in self.de_[j] and i not in self.an_[j]:
+                    if i not in self.sets_descendants[j] and i not in self.sets_ancestors_[j]:
                         ng = gain_matrix[i, j]
                         if gain is None or ng > gain:
                             arg = (i, j)

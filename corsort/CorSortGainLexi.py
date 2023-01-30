@@ -16,7 +16,7 @@ class CorSortGainLexi(CorSortGain):
     39
     >>> entropy_bound(n_) # doctest: +ELLIPSIS
     40.869...
-    >>> c.distances_ # doctest: +NORMALIZE_WHITESPACE
+    >>> c.history_distances_ # doctest: +NORMALIZE_WHITESPACE
     [55, 42, 51, 49, 49, 43, 39, 38, 37, 36, 28, 27, 22, 21, 20, 19, 13, 14, 13, 15,
     12, 13, 13, 11, 10, 6, 5, 5, 4, 2, 2, 1, 2, 2, 2, 1, 2, 1, 1, 0]
     """
@@ -37,13 +37,13 @@ class CorSortGainLexi(CorSortGain):
             Potential gain if we compare i and j and find that i<j
         """
         gain = 0
-        if j in self.an_[i]:
+        if j in self.sets_ancestors_[i]:
             return 0, 0
-        for jj in self.an_[j]:
-            gain += len(self.de_[i] - self.de_[jj])
-        for ii in self.de_[i]:
-            gain += len(self.an_[j] - self.an_[ii])
-        return gain, -abs(self.pos_[i] - self.pos_[j])
+        for jj in self.sets_ancestors_[j]:
+            gain += len(self.sets_descendants[i] - self.sets_descendants[jj])
+        for ii in self.sets_descendants[i]:
+            gain += len(self.sets_ancestors_[j] - self.sets_ancestors_[ii])
+        return gain, -abs(self.position_estimates_[i] - self.position_estimates_[j])
 
     def gain(self, i, j):
         """
