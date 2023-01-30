@@ -20,8 +20,13 @@ def evaluate(sort_list, n_list, nt, pool=None):
 
     Parameters
     ----------
-
-    pool: :class:`~mulyiprocess.pool.Pool`, optional.
+    sort_list: :class:`list`
+        List of sorting algorithms (cf. examples).
+    n_list: :class:`list`
+        List of sizes for the tested lists.
+    nt: :class:`int`
+        Number of samples.
+    pool: :class:`~multiprocess.pool.Pool`, optional.
         Use parallelism.
     Returns
     -------
@@ -30,21 +35,21 @@ def evaluate(sort_list, n_list, nt, pool=None):
     --------
 
     >>> from corsort import quicksort, corsort, entropy_bound
-    >>> n_t = 100
-    >>> n = 10
+    >>> my_nt = 100
+    >>> my_n = 10
     >>> np.random.seed(42)
-    >>> sort_list = [quicksort, corsort]
-    >>> n_list = [10, 15]
+    >>> my_sort_list = [quicksort, corsort]
+    >>> my_n_list = [10, 15]
 
     With evaluate corsort and quicksort using a Pool:
 
     >>> with Pool() as p:
-    ...     res = evaluate(sort_list, n_list, nt=n_t, pool=p)
+    ...     my_res = evaluate(my_sort_list, my_n_list, nt=my_nt, pool=p)
     Evaluate quicksort for n = 10
     Evaluate corsort for n = 10
     Evaluate quicksort for n = 15
     Evaluate corsort for n = 15
-    >>> print_res(res)
+    >>> print_res(my_res)
     n=10, quicksort: mean=24.05, std=3.52
     n=15, quicksort: mean=46.72, std=6.90
     n=10, corsort: mean=22.11, std=0.87
@@ -53,12 +58,12 @@ def evaluate(sort_list, n_list, nt, pool=None):
     Same without the pool:
 
     >>> np.random.seed(42)
-    >>> res = evaluate(sort_list, n_list, nt=n_t)
+    >>> my_res = evaluate(my_sort_list, my_n_list, nt=my_nt)
     Evaluate quicksort for n = 10
     Evaluate corsort for n = 10
     Evaluate quicksort for n = 15
     Evaluate corsort for n = 15
-    >>> print_res(res)
+    >>> print_res(my_res)
     n=10, quicksort: mean=24.05, std=3.52
     n=15, quicksort: mean=46.72, std=6.90
     n=10, corsort: mean=22.11, std=0.87
@@ -66,7 +71,7 @@ def evaluate(sort_list, n_list, nt, pool=None):
 
     Bound (loose, not exact):
 
-    >>> print("\\n".join(f"Bound for n={n}: {entropy_bound(n):.2f}" for n in n_list))
+    >>> print("\\n".join(f"Bound for n={my_n}: {entropy_bound(my_n):.2f}" for my_n in my_n_list))
     Bound for n=10: 22.11
     Bound for n=15: 40.87
     """
@@ -74,24 +79,24 @@ def evaluate(sort_list, n_list, nt, pool=None):
     for n in n_list:
         for sort in sort_list:
             print(f"Evaluate {sort.__name__} for n = {n}")
-            convs = np.zeros(nt, dtype=int)
+            convergence_times = np.zeros(nt, dtype=int)
             distances = []
             if pool is not None:
                 for k, cd in enumerate(pool.imap_unordered(sort,
                                                            tqdm([np.random.permutation(n)
                                                                  for _ in range(nt)]))):
-                    convs[k] = cd[0]
+                    convergence_times[k] = cd[0]
                     distances.append(cd[1])
             else:
                 for k in tqdm(range(nt)):
                     cd = sort(np.random.permutation(n))
-                    convs[k] = cd[0]
+                    convergence_times[k] = cd[0]
                     distances.append(cd[1])
             max_d = max(len(d) for d in distances)
             dist_array = np.zeros((nt, max_d), dtype=int)
             for i, dist in enumerate(distances):
                 dist_array[i, :len(dist)] = dist
-            res[sort.__name__][n] = {'time': convs, 'distance': dist_array}
+            res[sort.__name__][n] = {'time': convergence_times, 'distance': dist_array}
     return res
 
 
@@ -108,7 +113,7 @@ def evaluate_convergence(sort_list, n, nt, pool=None):
                                                              for _ in range(nt)]))):
                 distances.append(cd[1])
         else:
-            for k in tqdm(range(nt)):
+            for _ in tqdm(range(nt)):
                 cd = sort(np.random.permutation(n))
                 distances.append(cd[1])
         max_d = max(len(d) for d in distances)
@@ -124,16 +129,15 @@ def evaluate_comparisons(sort_list, n_list, nt, pool=None):
     for n in n_list:
         for sort in sort_list:
             print(f"Evaluate comparisons of {sort.__name__} for n = {n}")
-            convs = np.zeros(nt, dtype=int)
+            convergence_times = np.zeros(nt, dtype=int)
             if pool is not None:
                 for k, cd in enumerate(pool.imap_unordered(sort,
                                                            tqdm([np.random.permutation(n)
                                                                  for _ in range(nt)]))):
-                    convs[k] = cd[0]
+                    convergence_times[k] = cd[0]
             else:
                 for k in tqdm(range(nt)):
                     cd = sort(np.random.permutation(n))
-                    convs[k] = cd[0]
-            res[sort.__name__][n] = convs
+                    convergence_times[k] = cd[0]
+            res[sort.__name__][n] = convergence_times
     return res
-
