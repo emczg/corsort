@@ -100,16 +100,17 @@ class CorSort:
             self.apply_i_lt_j(j, i)
 
     def next_compare(self):
+        """
+        Iterator of pairwise comparisons to make.
+        """
         raise NotImplementedError
 
-    def __call__(self, perm, comparisons=None):
+    def __call__(self, perm):
         """
         Parameters
         ----------
         perm: :class:`numpy.ndarray`
             Input permutation to sort. Typically the output of :meth`~numpy.random.permutation`.
-        comparisons: iterator, default=:meth:`next_compare`
-            Comparison to make (to feed comparison from an external sort algorithm).
 
         Returns
         -------
@@ -118,15 +119,13 @@ class CorSort:
         """
         if isinstance(perm, list):
             perm = np.array(perm)
-        if comparisons is None:
-            comparisons = self.next_compare()
         self.n_ = len(perm)
         self.perm_ = perm
         self.an_ = [{i} for i in range(self.n_)]
         self.de_ = [{i} for i in range(self.n_)]
         self.distances_ = [distance_to_sorted_array(self.perm_)]
         self.update_pos()
-        for c in comparisons:
+        for c in self.next_compare():
             self.compare(*c)
             self.distances_.append(distance_to_sorted_array(
                 self.perm_[np.argsort(self.pos_)]))
