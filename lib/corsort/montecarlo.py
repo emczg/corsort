@@ -34,11 +34,11 @@ def evaluate(sort_list, n_list, nt, pool=None):
     Examples
     --------
 
-    >>> from corsort import quicksort, corsort, entropy_bound
+    >>> from corsort import quicksort, corsort_borda_fast, entropy_bound
     >>> my_nt = 100
     >>> my_n = 10
     >>> np.random.seed(42)
-    >>> my_sort_list = [quicksort, corsort]
+    >>> my_sort_list = [quicksort, corsort_borda_fast]
     >>> my_n_list = [10, 15]
 
     With evaluate corsort and quicksort using a Pool:
@@ -46,28 +46,28 @@ def evaluate(sort_list, n_list, nt, pool=None):
     >>> with Pool() as p:
     ...     my_res = evaluate(my_sort_list, my_n_list, nt=my_nt, pool=p)
     Evaluate quicksort for n = 10
-    Evaluate corsort for n = 10
+    Evaluate corsort_borda_fast for n = 10
     Evaluate quicksort for n = 15
-    Evaluate corsort for n = 15
+    Evaluate corsort_borda_fast for n = 15
     >>> print_res(my_res)
     n=10, quicksort: mean=24.05, std=3.52
     n=15, quicksort: mean=46.72, std=6.90
-    n=10, corsort: mean=22.11, std=0.87
-    n=15, corsort: mean=40.59, std=1.33
+    n=10, corsort_borda_fast: mean=22.11, std=0.87
+    n=15, corsort_borda_fast: mean=40.59, std=1.33
 
     Same without the pool:
 
     >>> np.random.seed(42)
     >>> my_res = evaluate(my_sort_list, my_n_list, nt=my_nt)
     Evaluate quicksort for n = 10
-    Evaluate corsort for n = 10
+    Evaluate corsort_borda_fast for n = 10
     Evaluate quicksort for n = 15
-    Evaluate corsort for n = 15
+    Evaluate corsort_borda_fast for n = 15
     >>> print_res(my_res)
     n=10, quicksort: mean=24.05, std=3.52
     n=15, quicksort: mean=46.72, std=6.90
-    n=10, corsort: mean=22.11, std=0.87
-    n=15, corsort: mean=40.59, std=1.33
+    n=10, corsort_borda_fast: mean=22.11, std=0.87
+    n=15, corsort_borda_fast: mean=40.59, std=1.33
 
     Bound (loose, not exact):
 
