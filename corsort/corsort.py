@@ -18,12 +18,14 @@ def jit_corsort(perm):
                 if (not leq[ii, jj]) and (not leq[jj, ii]):
                     diff_ij = abs(pos[ii]-pos[jj])
                     xp_ij = info[ii] + info[jj]
-                    if (diff_ij < diff) or (diff_ij==diff and xp_ij>xp):
+                    if (diff_ij < diff) or (diff_ij == diff and xp_ij > xp):
                         diff = diff_ij
                         xp = xp_ij
                         i, j = ii, jj
         if diff == n:
             break
+        # TODO: Check whether there is an edge case to deal with, where i/j might not be assigned before getting here.
+        # noinspection PyUnboundLocalVariable
         if perm[i] > perm[j]:
             i, j = j, i
         for ii in range(n):
@@ -46,6 +48,8 @@ def corsort(perm, compute_history=False):
     ----------
     perm: :class:`numpy.ndarray`
         Input (random) permutation
+    compute_history: :class:`bool`
+        If True, then compute the history of the distance to the sorted array.
 
     Returns
     -------
@@ -129,7 +133,7 @@ class CorSort:
     ----------
 
     n_: :class:`int`:
-        Nunber of items
+        Number of items
     perm_: :class:`~numpy.ndarray`
         Input permutation
     an_: :class:`list` of :class:`set`
@@ -158,7 +162,7 @@ class CorSort:
         -------
         None
         """
-        self.pos_ =  np.array([(len(self.de_[i]) - 1 + self.n_ - len(self.an_[i])) / 2 for i in range(self.n_)])
+        self.pos_ = np.array([(len(self.de_[i]) - 1 + self.n_ - len(self.an_[i])) / 2 for i in range(self.n_)])
 
     def test_i_lt_j(self, i, j):
         """
@@ -179,11 +183,13 @@ class CorSort:
         return self.perm_[i] < self.perm_[j]
 
     def gain(self, i, j):
+        # TODO: in fact this should be only in a sub-class that uses the `gain` method.
+        # (For the moment, it is not used in CorSortBorda for example).
         raise NotImplementedError
 
     def apply_i_lt_j(self, i, j):
         """
-        Assuming i<j, updates the posset accordingly.
+        Assuming i<j, updates the poset accordingly.
 
         Parameters
         ----------
@@ -286,6 +292,10 @@ class CorSortBorda(CorSort):
     [55, 42, 51, 49, 49, 48, 40, 39, 33, 29, 29, 28, 28, 28, 28, 26, 26, 21, 20, 16, 14, 11, 10, 9, 8, 7,
      8, 7, 6, 7, 7, 7, 7, 5, 5, 4, 4, 4, 3, 2, 3, 2, 1, 0, 0]
     """
+
+    def gain(self, i, j):
+        # TODO: remove this method when it won't be in the parent class anymore.
+        raise NotImplementedError
 
     def next_compare(self):
         while True:

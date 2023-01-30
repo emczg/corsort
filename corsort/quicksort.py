@@ -20,6 +20,8 @@ def quicksort(xs, i=0, j=None, nc=None, history_distance=None, compute_history=F
         A one-element list with the number of comparisons (to update in recursive calls).
     history_distance: :class:`list`
         History of the distance between the list and the sorted list (to update in recursive calls).
+    compute_history: :class:`bool`
+        If True, then compute the history of the distance to the sorted array.
 
     Returns
     -------
@@ -84,6 +86,8 @@ def partition(xs, i, j, nc, history_distance, compute_history=False):
         A one-element list with the number of comparisons (to update).
     history_distance: :class:`list`
         History of the distance between the list and the sorted list (to update).
+    compute_history: :class:`bool`
+        If True, then compute the history of the distance to the sorted array.
 
     Returns
     -------
