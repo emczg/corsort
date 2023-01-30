@@ -7,36 +7,39 @@ from corsort.distance_to_sorted_array import distance_to_sorted_array
 @njit
 def jit_corsort(perm):
     n = len(perm)
-    leq = np.eye(n, dtype=np.bool_)
+    leq = np.eye(n, dtype=np.int8)
     pos = np.zeros(n, dtype=np.int_)
     info = np.zeros(n, dtype=np.int_)
     distances = [perm[np.argsort(pos)]]
+    i, j = 0, 1
     while True:
         diff = n
         xp = 0
         for ii in range(n):
-            for jj in range(ii+1, n):
-                if (not leq[ii, jj]) and (not leq[jj, ii]):
-                    diff_ij = abs(pos[ii]-pos[jj])
+            for jj in range(ii + 1, n):
+                if leq[ii, jj] == 0:
+                    diff_ij = abs(pos[ii] - pos[jj])
+                    if diff_ij > diff:
+                        continue
                     xp_ij = info[ii] + info[jj]
-                    if (diff_ij < diff) or (diff_ij == diff and xp_ij > xp):
+                    if diff_ij < diff or (diff_ij == diff and xp_ij > xp):
                         diff = diff_ij
                         xp = xp_ij
                         i, j = ii, jj
         if diff == n:
             break
-        # TODO: Check whether there is an edge case to deal with, where i/j might not be assigned before getting here.
-        # noinspection PyUnboundLocalVariable
         if perm[i] > perm[j]:
             i, j = j, i
         for ii in range(n):
-            for jj in range(n):
-                if leq[ii, i] and leq[j, jj] and (not leq[ii, jj]):
-                    leq[ii, jj] = True
-                    info[ii] += 1
-                    info[jj] += 1
-                    pos[ii] -= 1
-                    pos[jj] += 1
+            if leq[ii, i] > 0:
+                for jj in range(n):
+                    if leq[j, jj] > 0 and leq[ii, jj] == 0:
+                        leq[ii, jj] = 1
+                        leq[jj, ii] = -1
+                        info[ii] += 1
+                        info[jj] += 1
+                        pos[ii] -= 1
+                        pos[jj] += 1
         distances.append(perm[np.argsort(pos)])
     return distances
 
@@ -76,7 +79,7 @@ def corsort_borda_fast(perm, compute_history=False):
     """
     states = jit_corsort(perm)
     history = [distance_to_sorted_array(state) for state in states] if compute_history else []
-    return len(states)-1, history
+    return len(states) - 1, history
     # n = len(perm)
     # an = np.eye(n, dtype=bool)
     # pos = np.sum(an, axis=0) - np.sum(an, axis=1)
