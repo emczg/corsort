@@ -18,15 +18,7 @@ class _RecordingItem:
 
     Examples
     --------
-        >>> lst = [4, 1, 7, 6, 0, 8, 2, 3, 5]
-        >>> history_comparisons = []
-        >>> recording_lst = [_RecordingItem(x, pos, history_comparisons) for pos, x in enumerate(lst)]
-        >>> recording_lst[0] > recording_lst[1]
-        True
-        >>> recording_lst[3] < recording_lst[2]
-        True
-        >>> history_comparisons
-        [(0, 1), (3, 2)]
+        Cf. `_recording_lst`.
     """
 
     def __init__(self, value, position, history_comparisons):
@@ -40,6 +32,37 @@ class _RecordingItem:
     def __lt__(self, other):
         self.history_comparisons.append((self.position, other.position))
         return self.value < other.value
+
+
+def _recording_lst(lst, history_comparisons):
+    """
+    Wrap a list so that pairwise comparisons are recorded.
+
+    Parameters
+    ----------
+    lst: :class:`list`
+        A list to sort.
+    history_comparisons: :class:`list`
+        A list of pairs. A pair (i, j) means that the items of positions i and j are compared.
+
+    Returns
+    -------
+    :class:`list`
+        A list of :class:`_RecordingItem` objets (the wrapped items of the original list).
+
+    Examples
+    --------
+        >>> my_lst = [4, 1, 7, 6, 0, 8, 2, 3, 5]
+        >>> my_history_comparisons = []
+        >>> recording_lst = _recording_lst(my_lst, my_history_comparisons)
+        >>> recording_lst[0] > recording_lst[1]
+        True
+        >>> recording_lst[3] < recording_lst[2]
+        True
+        >>> my_history_comparisons
+        [(0, 1), (3, 2)]
+    """
+    return [_RecordingItem(x, pos, history_comparisons) for pos, x in enumerate(lst)]
 
 
 def record_comparisons(sort, history_comparisons):
