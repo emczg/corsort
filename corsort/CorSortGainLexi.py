@@ -11,7 +11,7 @@ class CorSortGainLexi(CorSortGain):
     >>> np.random.seed(22)
     >>> n_ = 15
     >>> p = np.random.permutation(n_)
-    >>> c = CorSortGainLexi()
+    >>> c = CorSortGainLexi(compute_history=True)
     >>> c(p)
     39
     >>> entropy_bound(n_) # doctest: +ELLIPSIS

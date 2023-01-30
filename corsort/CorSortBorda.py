@@ -12,7 +12,7 @@ class CorSortBorda(CorSort):
     >>> np.random.seed(22)
     >>> n_ = 15
     >>> p = np.random.permutation(n_)
-    >>> c = CorSortBorda()
+    >>> c = CorSortBorda(compute_history=True)
     >>> c(p)
     44
     >>> entropy_bound(n_) # doctest: +ELLIPSIS
