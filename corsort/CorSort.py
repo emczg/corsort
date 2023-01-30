@@ -34,6 +34,7 @@ class CorSort:
         a position of `n - 1` means the end of the sorted list, i.e. the greatest element. In other
         words, the position estimates are the Borda scores.
     """
+
     def __init__(self, compute_history=False):
         # Options
         self.compute_history = compute_history
@@ -92,7 +93,7 @@ class CorSort:
 
     def apply_i_lt_j(self, i, j):
         """
-        Assuming perm[i] < perm[j], updates the poset accordingly.
+        Assuming perm[i] < perm[j], update the poset accordingly.
 
         Parameters
         ----------
@@ -129,18 +130,14 @@ class CorSort:
 
     def compare(self, i, j):
         """
-        Performs a comparison between i and j.
+        Perform a comparison between perm[i] and perm[j], and update the poset accordingly.
 
         Parameters
         ----------
         i: :class:`int`
-            First index
+            First index.
         j: :class:`int`
-            Second index
-
-        Returns
-        -------
-        None
+            Second index.
         """
         if self.test_i_lt_j(i, j):
             self.apply_i_lt_j(i, j)
