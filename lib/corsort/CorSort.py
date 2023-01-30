@@ -54,8 +54,8 @@ class CorSort:
         --------
             >>> corsort = CorSort()
             >>> corsort.n_ = 4
-            >>> corsort.sets_ancestors_ = [{1, 2, 3}, {}, {}, {1}]
-            >>> corsort.sets_descendants = [{}, {0, 2, 3}, {}, {2}]
+            >>> corsort.sets_ancestors_ = [{0, 1, 2, 3}, {1}, {2}, {1, 3}]
+            >>> corsort.sets_descendants = [{0}, {0, 1, 2, 3}, {2}, {2, 3}]
             >>> corsort.update_position_estimates()
             >>> corsort.position_estimates_
             array([0. , 3. , 1.5, 1.5])
@@ -108,20 +108,19 @@ class CorSort:
 
         Assume that we know perm[0] < perm[1], and perm[2] < perm[3]:
 
-            >>> corsort.sets_ancestors_ = [{1}, {}, {3}, {}]
-            >>> corsort.sets_descendants = [{}, {0}, {}, {2}]
+            >>> corsort.sets_ancestors_ = [{0, 1}, {1}, {2, 3}, {3}]
+            >>> corsort.sets_descendants = [{0}, {0, 1}, {2}, {2, 3}]
 
         Assume we learn that perm[1] < perm[2]:
 
             >>> corsort.apply_i_lt_j(1, 2)
             >>> corsort.sets_ancestors_
-            [{1, 3}, {}, {3}, {}]
+            [{0, 1, 2, 3}, {1, 2, 3}, {2, 3}, {3}]
             >>> corsort.sets_descendants
-            [{}, {0}, {}, {0, 2}]
+            [{0}, {0, 1}, {0, 1, 2}, {0, 1, 2, 3}]
 
-        But that is a bug, because at that stage we should know the full order.
+        Now we know the full order by transitivity.
         """
-        # TODO: solve this bug.
         for ancestor_of_j in self.sets_ancestors_[j]:
             self.sets_descendants[ancestor_of_j] |= self.sets_descendants[i]
         for descendant_of_i in self.sets_descendants[i]:
