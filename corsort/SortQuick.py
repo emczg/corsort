@@ -1,9 +1,10 @@
 import copy
 import numpy as np
+from corsort.Sort import Sort
 from corsort.distance_to_sorted_array import distance_to_sorted_array
 
 
-class SortQuick:
+class SortQuick(Sort):
     """
     Quicksort.
 
@@ -22,24 +23,13 @@ class SortQuick:
     """
 
     def __init__(self, compute_history=False):
-        # Parameters
-        self.compute_history = compute_history
-        # Computed values
-        self.n_ = None
-        self.perm_ = None
-        self.n_comparisons_ = None
-        self.history_distances_ = None
+        super().__init__(compute_history=compute_history)
         self.sorted_list_ = None
 
-    def __call__(self, perm):
-        if isinstance(perm, list):
-            perm = np.array(perm)
-        self.n_ = len(perm)
-        self.perm_ = perm
-        self.sorted_list_ = copy.copy(perm)
+    def _call_aux(self):
+        self.sorted_list_ = copy.copy(self.perm_)
         self.n_comparisons_, self.history_distances_ = _quicksort(
             self.sorted_list_, compute_history=self.compute_history)
-        return self.n_comparisons_, self.history_distances_
 
 
 def _quicksort(xs, i=0, j=None, nc=None, history_distance=None, compute_history=False):
