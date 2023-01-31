@@ -1,7 +1,8 @@
 def merge_insertion_sort(collection):
     """Merge-insertion sort (Ford-Johnson).
 
-    Inspired by https://www.w3resource.com/python-exercises/data-structures-and-algorithms/python-search-and-sorting-exercise-39.php
+    Inspired by
+    https://www.w3resource.com/python-exercises/data-structures-and-algorithms/python-search-and-sorting-exercise-39.php
 
     Parameters
     ----------
@@ -55,7 +56,7 @@ def merge_insertion_sort(collection):
     After this step:
       sorted_list_2d = [[40, 75], [100, 999]]
     """
-    sorted_list_2d = sortlist_2d(two_paired_list, nc)
+    sorted_list_2d = sort_list_2d(two_paired_list, nc)
 
     """
     40 < 100 is sure because it has already been sorted.
@@ -136,7 +137,7 @@ def binary_search_insertion(sorted_list, item, nc):
     ----------
     sorted_list: :class:`list`
         A sorted list.
-    item: object
+    item: int
         The item to insert.
     nc: :class:`list`
         A one-element list with the number of comparisons (to update).
@@ -148,10 +149,10 @@ def binary_search_insertion(sorted_list, item, nc):
 
     Examples
     --------
-        >>> nc = [0]
-        >>> binary_search_insertion([1, 12, 45, 51, 69, 99], 42, nc)
+        >>> my_nc = [0]
+        >>> binary_search_insertion([1, 12, 45, 51, 69, 99], 42, my_nc)
         [1, 12, 42, 45, 51, 69, 99]
-        >>> nc[0]
+        >>> my_nc[0]
         3
     """
     left = 0
@@ -173,7 +174,7 @@ def binary_search_insertion(sorted_list, item, nc):
     return sorted_list
 
 
-def sortlist_2d(list_2d, nc):
+def sort_list_2d(list_2d, nc):
     """Sort a list of pairs according to their first elements.
 
     Parameters
@@ -191,17 +192,17 @@ def sortlist_2d(list_2d, nc):
     Examples
     --------
         >>> my_lst = [[1, 43], [3, 35], [4, 11], [0, 12], [2, 28], [5, 18]]
-        >>> nc = [0]
-        >>> sortlist_2d(my_lst, nc)
+        >>> my_nc = [0]
+        >>> sort_list_2d(my_lst, my_nc)
         [[0, 12], [1, 43], [2, 28], [3, 35], [4, 11], [5, 18]]
-        >>> nc[0]
+        >>> my_nc[0]
         9
     """
     length = len(list_2d)
     if length <= 1:
         return list_2d
     middle = length // 2
-    return merge(sortlist_2d(list_2d[:middle], nc), sortlist_2d(list_2d[middle:], nc), nc)
+    return merge(sort_list_2d(list_2d[:middle], nc), sort_list_2d(list_2d[middle:], nc), nc)
 
 
 def merge(left, right, nc):
@@ -226,10 +227,10 @@ def merge(left, right, nc):
     --------
         >>> my_left = [[1, 43], [3, 35], [4, 11]]
         >>> my_right = [[0, 12], [2, 28], [5, 18]]
-        >>> nc = [0]
-        >>> merge(my_left, my_right, nc)
+        >>> my_nc = [0]
+        >>> merge(my_left, my_right, my_nc)
         [[0, 12], [1, 43], [2, 28], [3, 35], [4, 11], [5, 18]]
-        >>> nc[0]
+        >>> my_nc[0]
         5
     """
     result = []

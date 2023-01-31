@@ -2,7 +2,7 @@ import numpy as np
 from corsort.distance_to_sorted_array import distance_to_sorted_array
 
 
-def quicksort(xs, i=0, j=None, nc=None, history_distance=None):
+def quicksort(xs, i=0, j=None, nc=None, history_distance=None, compute_history=False):
     """
     Inspired by https://codereview.stackexchange.com/questions/272639/in-place-quicksort-algorithm-in-python
 
@@ -20,6 +20,8 @@ def quicksort(xs, i=0, j=None, nc=None, history_distance=None):
         A one-element list with the number of comparisons (to update in recursive calls).
     history_distance: :class:`list`
         History of the distance between the list and the sorted list (to update in recursive calls).
+    compute_history: :class:`bool`
+        If True, then compute the history of the distance to the sorted array.
 
     Returns
     -------
@@ -31,7 +33,7 @@ def quicksort(xs, i=0, j=None, nc=None, history_distance=None):
     Examples
     --------
         >>> my_xs = np.array([4, 1, 7, 6, 0, 8, 2, 3, 5])
-        >>> my_nc, my_history_distance = quicksort(my_xs)
+        >>> my_nc, my_history_distance = quicksort(my_xs, compute_history=True)
         >>> my_xs
         array([0, 1, 2, 3, 4, 5, 6, 7, 8])
         >>> my_nc
@@ -59,15 +61,17 @@ def quicksort(xs, i=0, j=None, nc=None, history_distance=None):
     # Partition the sequence to enforce the quicksort invariant:
     # "small values" < pivot value <= "large values". The function
     # returns the index of the pivot value.
-    pivot_index = partition(xs, i, j, nc, history_distance)
+    pivot_index = partition(xs, i, j, nc, history_distance, compute_history)
 
     # Sort left side and right side.
-    quicksort(xs, i=i, j=pivot_index - 1, nc=nc, history_distance=history_distance)
-    quicksort(xs, i=pivot_index + 1, j=j, nc=nc, history_distance=history_distance)
+    quicksort(xs, i=i, j=pivot_index - 1, nc=nc, history_distance=history_distance,
+              compute_history=compute_history)
+    quicksort(xs, i=pivot_index + 1, j=j, nc=nc, history_distance=history_distance,
+              compute_history=compute_history)
     return nc[0], history_distance
 
 
-def partition(xs, i, j, nc, history_distance):
+def partition(xs, i, j, nc, history_distance, compute_history=False):
     """
 
     Parameters
@@ -82,6 +86,8 @@ def partition(xs, i, j, nc, history_distance):
         A one-element list with the number of comparisons (to update).
     history_distance: :class:`list`
         History of the distance between the list and the sorted list (to update).
+    compute_history: :class:`bool`
+        If True, then compute the history of the distance to the sorted array.
 
     Returns
     -------
@@ -106,5 +112,6 @@ def partition(xs, i, j, nc, history_distance):
             else:
                 xs[pivot_index], xs[k] = xs[k], pivot_value
             pivot_index += 1
-        history_distance.append(distance_to_sorted_array(xs))
+        if compute_history:
+            history_distance.append(distance_to_sorted_array(xs))
     return pivot_index
