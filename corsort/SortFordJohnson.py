@@ -1,3 +1,34 @@
+import numpy as np
+from corsort.Sort import Sort
+
+
+class SortFordJohnson(Sort):
+    """
+    Ford-Johnson sorting algorithm.
+
+    Examples
+    --------
+        >>> fj_sort = SortFordJohnson(compute_history=False)
+        >>> L = [14,2,0,10,13,5,18,19,7,12,6,15,16,1,3,4,8,17,11,9]
+        >>> fj_sort(L)
+        (60, [])
+        >>> fj_sort.perm_  # doctest: +NORMALIZE_WHITESPACE
+        array([14,  2,  0, 10, 13,  5, 18, 19,  7, 12,  6, 15, 16,  1,  3,  4,  8,  17, 11,  9])
+        >>> fj_sort.sorted_list_  # doctest: +NORMALIZE_WHITESPACE
+        array([ 0,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19])
+        >>> fj_sort.n_comparisons_
+        60
+    """
+
+    def __init__(self, compute_history=False):
+        super().__init__(compute_history=compute_history)
+        self.sorted_list_ = None
+
+    def _call_aux(self):
+        nc = [0]
+        self.sorted_list_ = np.array(ford_johnson_sorting(self.perm_, nc=nc))
+        self.n_comparisons_ = nc[0]
+        self.history_distances_ = []  # TODO: implement history of distance
 
 
 def binary_search_insertion(sorted_list, item, nc):
