@@ -7,7 +7,7 @@ __version__ = '0.1.0'
 
 from corsort.corsort_borda_fast import corsort_borda_fast
 from corsort.entropy_bound import entropy_bound
-from corsort.quicksort import quicksort
+from corsort.SortQuick import _quicksort, SortQuick
 from corsort.montecarlo import evaluate_convergence, evaluate_comparisons
 from corsort.distance_to_sorted_array import distance_to_sorted_array
 from corsort.sub_package_1.my_class_1 import MyClass1

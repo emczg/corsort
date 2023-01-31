@@ -1,8 +1,48 @@
+import copy
 import numpy as np
 from corsort.distance_to_sorted_array import distance_to_sorted_array
 
 
-def quicksort(xs, i=0, j=None, nc=None, history_distance=None, compute_history=False):
+class SortQuick:
+    """
+    Quicksort.
+
+    Examples
+    --------
+        >>> quicksort = SortQuick(compute_history=True)
+        >>> my_xs = np.array([4, 1, 7, 6, 0, 8, 2, 3, 5])
+        >>> quicksort(my_xs)
+        (17, [16, 16, 16, 12, 12, 10, 6, 6, 5, 5, 5, 5, 4, 3, 2, 2, 0])
+        >>> quicksort.sorted_list_
+        array([0, 1, 2, 3, 4, 5, 6, 7, 8])
+        >>> quicksort.n_comparisons_
+        17
+        >>> quicksort.history_distances_
+        [16, 16, 16, 12, 12, 10, 6, 6, 5, 5, 5, 5, 4, 3, 2, 2, 0]
+    """
+
+    def __init__(self, compute_history=False):
+        # Parameters
+        self.compute_history = compute_history
+        # Computed values
+        self.n_ = None
+        self.perm_ = None
+        self.n_comparisons_ = None
+        self.history_distances_ = None
+        self.sorted_list_ = None
+
+    def __call__(self, perm):
+        if isinstance(perm, list):
+            perm = np.array(perm)
+        self.n_ = len(perm)
+        self.perm_ = perm
+        self.sorted_list_ = copy.copy(perm)
+        self.n_comparisons_, self.history_distances_ = _quicksort(
+            self.sorted_list_, compute_history=self.compute_history)
+        return self.n_comparisons_, self.history_distances_
+
+
+def _quicksort(xs, i=0, j=None, nc=None, history_distance=None, compute_history=False):
     """
     Inspired by https://codereview.stackexchange.com/questions/272639/in-place-quicksort-algorithm-in-python
 
@@ -33,7 +73,7 @@ def quicksort(xs, i=0, j=None, nc=None, history_distance=None, compute_history=F
     Examples
     --------
         >>> my_xs = np.array([4, 1, 7, 6, 0, 8, 2, 3, 5])
-        >>> my_nc, my_history_distance = quicksort(my_xs, compute_history=True)
+        >>> my_nc, my_history_distance = _quicksort(my_xs, compute_history=True)
         >>> my_xs
         array([0, 1, 2, 3, 4, 5, 6, 7, 8])
         >>> my_nc
@@ -42,7 +82,7 @@ def quicksort(xs, i=0, j=None, nc=None, history_distance=None, compute_history=F
         [16, 16, 16, 12, 12, 10, 6, 6, 5, 5, 5, 5, 4, 3, 2, 2, 0]
 
         >>> np.random.seed(42)
-        >>> my_nc, my_history_distance = quicksort(np.random.permutation(100))
+        >>> my_nc, my_history_distance = _quicksort(np.random.permutation(100))
         >>> my_nc
         659
     """
@@ -61,17 +101,17 @@ def quicksort(xs, i=0, j=None, nc=None, history_distance=None, compute_history=F
     # Partition the sequence to enforce the quicksort invariant:
     # "small values" < pivot value <= "large values". The function
     # returns the index of the pivot value.
-    pivot_index = partition(xs, i, j, nc, history_distance, compute_history)
+    pivot_index = _partition(xs, i, j, nc, history_distance, compute_history)
 
     # Sort left side and right side.
-    quicksort(xs, i=i, j=pivot_index - 1, nc=nc, history_distance=history_distance,
-              compute_history=compute_history)
-    quicksort(xs, i=pivot_index + 1, j=j, nc=nc, history_distance=history_distance,
-              compute_history=compute_history)
+    _quicksort(xs, i=i, j=pivot_index - 1, nc=nc, history_distance=history_distance,
+               compute_history=compute_history)
+    _quicksort(xs, i=pivot_index + 1, j=j, nc=nc, history_distance=history_distance,
+               compute_history=compute_history)
     return nc[0], history_distance
 
 
-def partition(xs, i, j, nc, history_distance, compute_history=False):
+def _partition(xs, i, j, nc, history_distance, compute_history=False):
     """
 
     Parameters
@@ -97,7 +137,7 @@ def partition(xs, i, j, nc, history_distance, compute_history=False):
     Examples
     --------
         >>> my_xs = np.array([4, 1, 7, 6, 0, 8, 2, 3, 5])
-        >>> partition(my_xs, i=0, j=len(my_xs) - 1, nc=[0], history_distance=[])
+        >>> _partition(my_xs, i=0, j=len(my_xs) - 1, nc=[0], history_distance=[])
         4
         >>> my_xs
         array([1, 0, 2, 3, 4, 8, 6, 7, 5])
