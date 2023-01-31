@@ -25,18 +25,15 @@ class CorSortBorda(CorSort):
 
     def next_compare(self):
         while True:
-            # TODO: remove the `for` loops in there
             gain_matrix = -np.abs(self.position_estimates_[np.newaxis, :] - self.position_estimates_[:, np.newaxis])
-            arg = None
-            gain = None
-            for i in range(self.n_):
-                for j in range(i + 1, self.n_):
-                    if self.leq_[i, j] == 0:
-                        ng = gain_matrix[i, j]
-                        if gain is None or ng > gain:
-                            arg = (i, j)
-                            gain = ng
-            if arg is not None:
-                yield arg
-            else:
+            # (i, j): argmax of the gain, with i < j and leq_[i, j] == 0.
+            i, j = np.unravel_index(
+                np.argmax(
+                    np.where(np.triu(self.leq_ == 0), gain_matrix, -1)
+                ),
+                gain_matrix.shape
+            )
+            if i == j == 0:
                 break
+            else:
+                yield i, j
