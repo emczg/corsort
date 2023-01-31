@@ -18,12 +18,11 @@ class CorSort:
         Number of items in the list.
     perm_: :class:`~numpy.ndarray`
         Input permutation.
-    sets_ancestors_: :class:`list` of :class:`set`
-        For each index (in the original list), set of its ancestors including itself, i.e. items for which we
-        know they are greater or equal.
-    sets_descendants: :class:`list` of :class:`set`
-        For each index (in the original list), set of its descendants including itself, i.e. items for which we
-        know they are lower or equal.
+    leq_: :class:`~numpy.ndarray`.
+        Matrix of size `(n_, n_)`. Coefficient (i, j) is
+        +1 if we know perm_[i] <= perm_[j],
+        -1 if we know perm_[i] > perm_[j],
+        0 if we do not know the comparison between them.
     history_distances_: :class:`list` of :class:`int`
         History of the kendall-tau distance to the sorted list.
     n_comparisons_: :class:`int`
@@ -41,8 +40,7 @@ class CorSort:
         # Computed attributes
         self.n_ = None
         self.perm_ = None
-        self.sets_ancestors_ = None
-        self.sets_descendants = None
+        self.leq_ = None
         self.history_distances_ = None
         self.n_comparisons_ = None
         self.position_estimates_ = None
@@ -55,16 +53,17 @@ class CorSort:
         --------
             >>> corsort = CorSort()
             >>> corsort.n_ = 4
-            >>> corsort.sets_ancestors_ = [{0, 1, 2, 3}, {1}, {2}, {1, 3}]
-            >>> corsort.sets_descendants = [{0}, {0, 1, 2, 3}, {2}, {2, 3}]
+            >>> corsort.leq_ = np.array([
+            ...     [ 1,  1,  1,  1],
+            ...     [-1,  1, -1, -1],
+            ...     [-1,  1,  1,  0],
+            ...     [-1,  1,  0,  1],
+            ... ])
             >>> corsort.update_position_estimates()
             >>> corsort.position_estimates_
             array([0. , 3. , 1.5, 1.5])
         """
-        self.position_estimates_ = np.array([
-            (len(self.sets_descendants[i]) - 1 + self.n_ - len(self.sets_ancestors_[i])) / 2
-            for i in range(self.n_)
-        ])
+        self.position_estimates_ = (np.sum(self.leq_, axis=0) + self.n_) / 2 - 1
 
     def test_i_lt_j(self, i, j):
         """
@@ -109,23 +108,28 @@ class CorSort:
 
         Assume that we know perm[0] < perm[1], and perm[2] < perm[3]:
 
-            >>> corsort.sets_ancestors_ = [{0, 1}, {1}, {2, 3}, {3}]
-            >>> corsort.sets_descendants = [{0}, {0, 1}, {2}, {2, 3}]
+            >>> corsort.leq_ = np.array([
+            ...     [ 1,  1,  0,  0],
+            ...     [-1,  1,  0,  0],
+            ...     [ 0,  0,  1,  1],
+            ...     [ 0,  0, -1,  1],
+            ... ])
 
         Assume we learn that perm[1] < perm[2]:
 
             >>> corsort.apply_i_lt_j(1, 2)
-            >>> corsort.sets_ancestors_
-            [{0, 1, 2, 3}, {1, 2, 3}, {2, 3}, {3}]
-            >>> corsort.sets_descendants
-            [{0}, {0, 1}, {0, 1, 2}, {0, 1, 2, 3}]
+            >>> corsort.leq_
+            array([[ 1,  1,  1,  1],
+                   [-1,  1,  1,  1],
+                   [-1, -1,  1,  1],
+                   [-1, -1, -1,  1]])
 
         Now we know the full order by transitivity.
         """
-        for ancestor_of_j in self.sets_ancestors_[j]:
-            self.sets_descendants[ancestor_of_j] |= self.sets_descendants[i]
-        for descendant_of_i in self.sets_descendants[i]:
-            self.sets_ancestors_[descendant_of_i] |= self.sets_ancestors_[j]
+        mask_i_and_smaller = self.leq_[:, i] > 0
+        mask_j_and_greater = self.leq_[j, :] > 0
+        self.leq_[np.ix_(mask_i_and_smaller, mask_j_and_greater)] = 1
+        self.leq_[np.ix_(mask_j_and_greater, mask_i_and_smaller)] = -1
         self.update_position_estimates()
 
     def compare(self, i, j):
@@ -173,8 +177,7 @@ class CorSort:
             perm = np.array(perm)
         self.n_ = len(perm)
         self.perm_ = perm
-        self.sets_ancestors_ = [{i} for i in range(self.n_)]
-        self.sets_descendants = [{i} for i in range(self.n_)]
+        self.leq_ = np.eye(self.n_, dtype=int)
         self.n_comparisons_ = 0
         self.history_distances_ = [distance_to_sorted_array(self.perm_)] if self.compute_history else []
         self.update_position_estimates()

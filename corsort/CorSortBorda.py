@@ -31,7 +31,7 @@ class CorSortBorda(CorSort):
             gain = None
             for i in range(self.n_):
                 for j in range(i + 1, self.n_):
-                    if i not in self.sets_descendants[j] and i not in self.sets_ancestors_[j]:
+                    if self.leq_[i, j] == 0:
                         ng = gain_matrix[i, j]
                         if gain is None or ng > gain:
                             arg = (i, j)
