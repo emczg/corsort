@@ -157,8 +157,8 @@ def insert_y(M, result, nc):
         (new_list, pos) = binary_search_insertion(result[position[i]+1:], M[order[i]][1], nc)  # insert y in the
         # appropriate sublist, and extract its sub-position
         result = result[:position[i]+1] + new_list  # concatenate the two lists
-        update_indices(pos+1+position[i],cpt,position) # update the new positions of insertion (don't forget to
-        # update according to position in result, and not sub-position of y)
+        update_indices(pos+1+position[i],cpt,position) # update the new positions of insertion, don't forget to
+        # update according to position in result, and not sub-position of y
         cpt += 1  # update the number of inserted elements
     return result
 
