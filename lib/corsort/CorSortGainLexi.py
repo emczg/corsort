@@ -37,12 +37,12 @@ class CorSortGainLexi(CorSortGain):
             Potential gain if we compare i and j and find that i<j
         """
         gain = 0
-        if j in self.sets_ancestors_[i]:
+        if self.leq_[i, j] == 1:
             return 0, 0
-        for jj in self.sets_ancestors_[j]:
-            gain += len(self.sets_descendants[i] - self.sets_descendants[jj])
-        for ii in self.sets_descendants[i]:
-            gain += len(self.sets_ancestors_[j] - self.sets_ancestors_[ii])
+        for jj in np.where(self.leq_[j, :] == 1)[0]:
+            gain += np.sum((self.leq_[:, i] == 1) & np.logical_not(self.leq_[:, jj] == 1))
+        for ii in np.where(self.leq_[:, i] == 1)[0]:
+            gain += np.sum((self.leq_[j, :] == 1) & np.logical_not(self.leq_[ii, :] == 1))
         return gain, -abs(self.position_estimates_[i] - self.position_estimates_[j])
 
     def gain(self, i, j):
