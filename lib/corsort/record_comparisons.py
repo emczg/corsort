@@ -1,5 +1,5 @@
 from functools import total_ordering
-from corsort.quicksort import quicksort
+from corsort.SortQuick import SortQuick
 
 
 @total_ordering
@@ -90,6 +90,7 @@ def record_comparisons(sort, history_comparisons):
 
     Wrap the sorting function:
 
+        >>> quicksort = SortQuick(compute_history=False)
         >>> quicksort_and_record = record_comparisons(quicksort, my_history_comparisons)
 
     Now use the wrapped function, and the history of comparisons will update automatically:
