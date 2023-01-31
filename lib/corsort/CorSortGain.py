@@ -2,23 +2,41 @@ from corsort.CorSort import CorSort
 
 
 class CorSortGain(CorSort):
+    """
+    CorSort based on a `gain` function.
+    """
 
     def gain(self, i, j):
-        # TODO: in fact this should be only in a sub-class that uses the `gain` method.
-        # (For the moment, it is not used in CorSortBorda for example).
+        """
+        Gain to be expected when comparing perm[i] and perm[j].
+
+        Notes
+        -----
+        The gain function must be minimal for all pairs (i, j) whose comparison is already known,
+        including pairs of the form (i, i).
+
+        Parameters
+        ----------
+        i: :class:`int`
+            Index of the first item.
+        j: :class:`int`
+            Index of the second item.
+
+        Returns
+        -------
+        comparable
+            A comparable object, e.g. a number.
+        """
         raise NotImplementedError
 
     def next_compare(self):
         while True:
-            gain = self.gain(0, 0)
-            arg = None
-            for i in range(self.n_):
-                for j in range(i + 1, self.n_):
-                    ng = self.gain(i, j)
-                    if ng > gain:
-                        arg = (i, j)
-                        gain = ng
-            if arg is not None:
-                yield arg
+            # Find pair (i, j) with maximal gain.
+            max_gain, argmax_i, argmax_j = max(
+                [(self.gain(i, j), i, j) for i in range(self.n_) for j in range(i + 1, self.n_)],
+                key=lambda x: x[0]
+            )
+            if max_gain > self.gain(0, 0):
+                yield argmax_i, argmax_j
             else:
                 break
