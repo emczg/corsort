@@ -5,7 +5,7 @@ from corsort.distance_to_sorted_array import distance_to_sorted_array
 
 
 @njit
-def jit_corsort(perm):
+def _jit_corsort(perm):
     n = len(perm)
     leq = np.eye(n, dtype=np.int8)
     pos = np.zeros(n, dtype=np.int_)
@@ -112,7 +112,7 @@ class JitSortBorda:
         """
         if isinstance(perm, list):
             perm = np.array(perm)
-        states, comparisons = jit_corsort(perm)
+        states, comparisons = _jit_corsort(perm)
         self.n_ = len(perm)
         self.perm_ = perm
         self.n_comparisons_ = len(states) - 1
