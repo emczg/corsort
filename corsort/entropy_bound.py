@@ -29,4 +29,5 @@ def entropy_bound(n):
     >>> print(f"{entropy_bound(1000):.1f}")
     8533.1
     """
+    # TODO: discuss about this bound
     return n * (np.log2(n) - 1 / np.log(2)) + np.log2(n)

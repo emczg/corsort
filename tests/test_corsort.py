@@ -5,7 +5,7 @@
 import pytest
 
 
-from corsort import corsort_borda_fast
+from corsort import JitSortBorda
 
 
 @pytest.fixture

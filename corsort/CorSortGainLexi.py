@@ -12,14 +12,14 @@ class CorSortGainLexi(CorSortGain):
         >>> np.random.seed(22)
         >>> n_ = 15
         >>> p = np.random.permutation(n_)
-        >>> c = CorSortGainLexi(compute_history=True)
-        >>> c(p)
+        >>> corsort = CorSortGainLexi(compute_history=True)
+        >>> corsort(p).n_comparisons_
         39
         >>> entropy_bound(n_) # doctest: +ELLIPSIS
         40.869...
-        >>> c.history_distances_ # doctest: +NORMALIZE_WHITESPACE
+        >>> corsort.history_distances_ # doctest: +NORMALIZE_WHITESPACE
         [55, 42, 51, 49, 49, 43, 39, 38, 37, 36, 28, 27, 22, 21, 20, 19, 13, 14, 13, 15,
-        12, 13, 13, 11, 10, 6, 5, 5, 4, 2, 2, 1, 2, 2, 2, 1, 2, 1, 1, 0]
+        12, 13, 13, 11, 10, 6, 5, 5, 4, 2, 2, 1, 2, 2, 2, 1, 2, 1, 1, 0, 0]
     """
 
     def gain_i_lt_j(self, i, j):

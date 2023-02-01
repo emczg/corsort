@@ -5,7 +5,7 @@ __email__ = 'emma.caizergues@gmail.com'
 __version__ = '0.1.0'
 
 
-from corsort.corsort_borda_fast import corsort_borda_fast
+from corsort.JitSortBorda import JitSortBorda
 from corsort.entropy_bound import entropy_bound
 from corsort.SortQuick import _quicksort, SortQuick
 from corsort.montecarlo import evaluate_convergence, evaluate_comparisons

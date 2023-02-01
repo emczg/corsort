@@ -1,9 +1,10 @@
 import numpy as np
 
-from corsort import distance_to_sorted_array
+from corsort.distance_to_sorted_array import distance_to_sorted_array
+from corsort.Sort import Sort
 
 
-class CorSort:
+class CorSort(Sort):
     """
     CorSort.
 
@@ -14,35 +15,23 @@ class CorSort:
 
     Attributes
     ----------
-    n_: :class:`int`:
-        Number of items in the list.
-    perm_: :class:`~numpy.ndarray`
-        Input permutation.
     leq_: :class:`~numpy.ndarray`.
         Matrix of size `(n_, n_)`. Coefficient (i, j) is
         +1 if we know perm_[i] <= perm_[j],
         -1 if we know perm_[i] > perm_[j],
         0 if we do not know the comparison between them.
-    history_distances_: :class:`list` of :class:`int`
-        History of the kendall-tau distance to the sorted list.
-    n_comparisons_: :class:`int`
-        Number of comparison performed.
     position_estimates_: :class:`list` of :class:`float`
         For each index (in the original list), its position estimate in the sorted list.
         Note that a position of 0 means the start of the sorted list, i.e. smallest element, whereas
         a position of `n - 1` means the end of the sorted list, i.e. the greatest element. In other
         words, the position estimates are the Borda scores.
+    Cf. also the attributes defined in the parent class :class:`Sort`.
     """
 
     def __init__(self, compute_history=False):
-        # Options
-        self.compute_history = compute_history
+        super().__init__(compute_history=compute_history)
         # Computed attributes
-        self.n_ = None
-        self.perm_ = None
         self.leq_ = None
-        self.history_distances_ = None
-        self.n_comparisons_ = None
         self.position_estimates_ = None
 
     def update_position_estimates(self):
@@ -65,30 +54,16 @@ class CorSort:
         """
         self.position_estimates_ = (np.sum(self.leq_, axis=0) + self.n_) / 2 - 1
 
-    def test_i_lt_j(self, i, j):
+    def distance_to_sorted_array(self):
         """
-        Test whether perm[i] < perm[j].
-
-        Parameters
-        ----------
-        i: :class:`int`
-            First index.
-        j: :class:`int`
-            Second index.
+        Distance to sorted array.
 
         Returns
         -------
-        :class:`bool`
-            True if item of index `i` is lower than item of index `j`.
-
-        Examples
-        --------
-            >>> corsort = CorSort()
-            >>> corsort.perm_ = ['b', 'a']
-            >>> corsort.test_i_lt_j(0, 1)
-            False
+        int
+            Distance between the current estimation and the sorted array.
         """
-        return self.perm_[i] < self.perm_[j]
+        return distance_to_sorted_array(self.perm_[np.argsort(self.position_estimates_)])
 
     def apply_i_lt_j(self, i, j):
         """
@@ -132,7 +107,7 @@ class CorSort:
         self.leq_[np.ix_(mask_j_and_greater, mask_i_and_smaller)] = -1
         self.update_position_estimates()
 
-    def compare(self, i, j):
+    def compare_and_update_poset(self, i, j):
         """
         Perform a comparison between perm[i] and perm[j], and update the poset accordingly.
 
@@ -159,32 +134,27 @@ class CorSort:
         """
         raise NotImplementedError
 
-    def __call__(self, perm):
+    def _initialize_algo_aux(self):
         """
-        Sort.
-
-        Parameters
-        ----------
-        perm: :class:`numpy.ndarray`
-            Input permutation to sort. Typically the output of :meth`~numpy.random.permutation`.
-
-        Returns
-        -------
-        :class:`int`
-            Number of comparisons to sort the permutation.
+        Examples
+        --------
+            >>> my_sort = CorSort(compute_history=True)
+            >>> my_sort._initialize_algo(perm=np.array(['b', 'a']))
+            >>> my_sort.test_i_lt_j(0, 1)
+            False
+            >>> my_sort.n_comparisons_
+            1
+            >>> my_sort.history_distances_
+            [1]
         """
-        if isinstance(perm, list):
-            perm = np.array(perm)
-        self.n_ = len(perm)
-        self.perm_ = perm
         self.leq_ = np.eye(self.n_, dtype=int)
-        self.n_comparisons_ = 0
-        self.history_distances_ = [distance_to_sorted_array(self.perm_)] if self.compute_history else []
         self.update_position_estimates()
+
+    def _call_aux(self):
         for c in self.next_compare():
-            self.compare(*c)
-            self.n_comparisons_ += 1
-            if self.compute_history:
-                self.history_distances_.append(
-                    distance_to_sorted_array(self.perm_[np.argsort(self.position_estimates_)]))
-        return self.n_comparisons_
+            self.compare_and_update_poset(*c)
+        # Final update of history_distance
+        if self.compute_history:
+            self.history_distances_.append(
+                distance_to_sorted_array(self.perm_[np.argsort(self.position_estimates_)]))
+        return self
