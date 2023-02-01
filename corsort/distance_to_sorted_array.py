@@ -2,7 +2,7 @@ import numpy as np
 import scipy
 
 
-def distance_to_sorted_array_old(xs):
+def _distance_to_sorted_array_old(xs):
     """
     Kendall-tau distance to the sorted array.
 
@@ -18,9 +18,9 @@ def distance_to_sorted_array_old(xs):
 
     Examples
     --------
-        >>> distance_to_sorted_array_old(np.array([2, 1, 3]))
+        >>> _distance_to_sorted_array_old(np.array([2, 1, 3]))
         1
-        >>> distance_to_sorted_array_old(np.array([4, 1, 7, 6, 0, 8, 2, 3, 5]))
+        >>> _distance_to_sorted_array_old(np.array([4, 1, 7, 6, 0, 8, 2, 3, 5]))
         17
     """
     return np.sum(np.tril(xs[:, np.newaxis] < xs[np.newaxis, :]))

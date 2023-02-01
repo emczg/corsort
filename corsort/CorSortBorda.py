@@ -1,6 +1,5 @@
 import numpy as np
-from corsort import entropy_bound
-
+from corsort.entropy_bound import entropy_bound
 from corsort.CorSort import CorSort
 
 
