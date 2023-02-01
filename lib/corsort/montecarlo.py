@@ -1,7 +1,6 @@
 import numpy as np
 from multiprocess.pool import Pool
 from collections import defaultdict
-from functools import partial
 from tqdm import tqdm
 
 
@@ -34,12 +33,14 @@ def evaluate(sort_list, n_list, nt, pool=None):
     Examples
     --------
 
-    >>> from corsort import SortQuick, corsort_borda_fast, entropy_bound
+    >>> from corsort import SortQuick, JitSortBorda, entropy_bound
     >>> my_nt = 100
     >>> my_n = 10
     >>> np.random.seed(42)
-    >>> quicksort = SortQuick(compute_history=False)
+    >>> quicksort = SortQuick()
     >>> quicksort.__name__ = 'quicksort'
+    >>> corsort_borda_fast = JitSortBorda()
+    >>> corsort_borda_fast.__name__ = 'corsort_borda_fast'
     >>> my_sort_list = [quicksort, corsort_borda_fast]
     >>> my_n_list = [10, 15]
 
@@ -84,16 +85,16 @@ def evaluate(sort_list, n_list, nt, pool=None):
             convergence_times = np.zeros(nt, dtype=int)
             distances = []
             if pool is not None:
-                for k, cd in enumerate(pool.imap_unordered(sort,
-                                                           tqdm([np.random.permutation(n)
-                                                                 for _ in range(nt)]))):
-                    convergence_times[k] = cd[0]
-                    distances.append(cd[1])
+                for k, the_sort in enumerate(pool.imap_unordered(sort,
+                                                                 tqdm([np.random.permutation(n)
+                                                                       for _ in range(nt)]))):
+                    convergence_times[k] = the_sort.n_comparisons_
+                    distances.append(the_sort.history_distances_)
             else:
                 for k in tqdm(range(nt)):
-                    cd = sort(np.random.permutation(n))
-                    convergence_times[k] = cd[0]
-                    distances.append(cd[1])
+                    _ = sort(np.random.permutation(n))
+                    convergence_times[k] = sort.n_comparisons_
+                    distances.append(sort.history_distances_)
             max_d = max(len(d) for d in distances)
             dist_array = np.zeros((nt, max_d), dtype=int)
             for i, dist in enumerate(distances):
@@ -104,20 +105,20 @@ def evaluate(sort_list, n_list, nt, pool=None):
 
 def evaluate_convergence(sort_list, n, nt, pool=None):
     res = dict()
-    for raw_sort in sort_list:
-        name = raw_sort.__name__
-        sort = partial(raw_sort, compute_history=True)
+    for sort in sort_list:
+        name = sort.__name__
+        sort.compute_history = True
         print(f"Evaluate convergence of {name} for n = {n}")
         distances = []
         if pool is not None:
-            for k, cd in enumerate(pool.imap_unordered(sort,
-                                                       tqdm([np.random.permutation(n)
-                                                             for _ in range(nt)]))):
-                distances.append(cd[1])
+            for _ in enumerate(pool.imap_unordered(sort,
+                                                   tqdm([np.random.permutation(n)
+                                                         for _ in range(nt)]))):
+                distances.append(sort.history_distances_)
         else:
             for _ in tqdm(range(nt)):
-                cd = sort(np.random.permutation(n))
-                distances.append(cd[1])
+                sort(np.random.permutation(n))
+                distances.append(sort.history_distances_)
         max_d = max(len(d) for d in distances)
         dist_array = np.zeros((nt, max_d), dtype=int)
         for i, dist in enumerate(distances):
@@ -133,13 +134,13 @@ def evaluate_comparisons(sort_list, n_list, nt, pool=None):
             print(f"Evaluate comparisons of {sort.__name__} for n = {n}")
             convergence_times = np.zeros(nt, dtype=int)
             if pool is not None:
-                for k, cd in enumerate(pool.imap_unordered(sort,
-                                                           tqdm([np.random.permutation(n)
-                                                                 for _ in range(nt)]))):
-                    convergence_times[k] = cd[0]
+                for k, _ in enumerate(pool.imap_unordered(sort,
+                                                          tqdm([np.random.permutation(n)
+                                                                for _ in range(nt)]))):
+                    convergence_times[k] = sort.n_comparisons_
             else:
                 for k in tqdm(range(nt)):
-                    cd = sort(np.random.permutation(n))
-                    convergence_times[k] = cd[0]
+                    sort(np.random.permutation(n))
+                    convergence_times[k] = sort.n_comparisons_
             res[sort.__name__][n] = convergence_times
     return res

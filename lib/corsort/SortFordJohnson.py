@@ -10,28 +10,33 @@ class SortFordJohnson(Sort):
     --------
         >>> fj_sort = SortFordJohnson(compute_history=False)
         >>> L = [14,2,0,10,13,5,18,19,7,12,6,15,16,1,3,4,8,17,11,9]
-        >>> fj_sort(L)
-        (60, [])
+        >>> fj_sort(L).n_comparisons_
+        60
         >>> fj_sort.perm_  # doctest: +NORMALIZE_WHITESPACE
         array([14,  2,  0, 10, 13,  5, 18, 19,  7, 12,  6, 15, 16,  1,  3,  4,  8,  17, 11,  9])
         >>> fj_sort.sorted_list_  # doctest: +NORMALIZE_WHITESPACE
         array([ 0,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19])
-        >>> fj_sort.n_comparisons_
-        60
     """
 
     def __init__(self, compute_history=False):
         super().__init__(compute_history=compute_history)
-        self.sorted_list_ = None
+        self.sorted_indices_ = None
+
+    def _initialize_algo_aux(self):
+        pass
 
     def _call_aux(self):
-        nc = [0]
-        self.sorted_list_ = np.array(ford_johnson_sorting(self.perm_, nc=nc))
-        self.n_comparisons_ = nc[0]
-        self.history_distances_ = []  # TODO: implement history of distance
+        self.sorted_indices_ = np.array(ford_johnson_sorting(np.arange(self.n_), lt=self.test_i_lt_j))
+
+    def distance_to_sorted_array(self):
+        return None  # TODO: implement distance to sorted array
+
+    @property
+    def sorted_list_(self):
+        return self.perm_[self.sorted_indices_]
 
 
-def binary_search_insertion(sorted_list, item, nc):
+def binary_search_insertion(sorted_list, item, lt):
     """
 
     Parameters
@@ -40,8 +45,8 @@ def binary_search_insertion(sorted_list, item, nc):
                  A sorted list
     item: class: `int`
                  An element to insert in the sorted list
-    nc: class: `list`
-                 A list of one element with the current number of comparisons
+    lt: callable
+        lt(x, y) is the test used to determine whether element x is lower than y.
 
     Returns
     -------
@@ -50,10 +55,14 @@ def binary_search_insertion(sorted_list, item, nc):
 
     Examples
     --------
-        >>> nc = [0]
-        >>> binary_search_insertion([1, 12, 45, 51, 69, 99], 42, nc)
+        >>> nc = 0
+        >>> def lt(x, y):
+        ...     global nc
+        ...     nc += 1
+        ...     return x < y
+        >>> binary_search_insertion([1, 12, 45, 51, 69, 99], 42, lt)
         ([1, 12, 42, 45, 51, 69, 99], 2)
-        >>> nc[0]
+        >>> nc
         3
     """
     left = 0
@@ -61,13 +70,11 @@ def binary_search_insertion(sorted_list, item, nc):
     while left <= right:
         middle = (left + right) // 2
         if left == right:
-            nc[0] += 1
-            if sorted_list[middle] < item:
+            if lt(sorted_list[middle], item):
                 left = middle + 1
             break
         else:
-            nc[0] += 1
-            if sorted_list[middle] < item:
+            if lt(sorted_list[middle], item):
                 left = middle + 1
             else:
                 right = middle - 1
@@ -89,8 +96,7 @@ def give_the_right_order(n):  # In ford_johnson_sorting, always need to put len(
 
     Examples
     --------
-        >>> n = 7
-        >>> give_the_right_order(n)
+        >>> give_the_right_order(7)
         [5, 6, 3, 4, 0, 1, 2]
     """
     if n == 0:
@@ -149,7 +155,7 @@ def update_indices(position, nb_iter, L):
     return L
 
 
-def insert_y(M, result, nc):
+def insert_y(M, result, lt):
     """
 
     Parameters
@@ -158,8 +164,8 @@ def insert_y(M, result, nc):
             The list of sorted pairs
     result: class: `list`
             The sorted list associated to the first items
-    nc: class `list`
-               A list of one element with the current number of comparisons
+    lt: callable
+        lt(x, y) is the test used to determine whether element x is lower than y.
 
     Returns
     -------
@@ -169,12 +175,16 @@ def insert_y(M, result, nc):
     Examples
     --------
 
+        >>> nc = 0
+        >>> def lt(x, y):
+        ...     global nc
+        ...     nc += 1
+        ...     return x < y
         >>> res=[40,100,200,459,600,999,1000,2000]
         >>> MM=[[40,75],[100,343],[200,201],[459,568],[600,3000],[1000,2000]]
-        >>> nc=[0]
-        >>> insert_y(MM,res,nc)
+        >>> insert_y(MM,res,lt)
         [40, 75, 100, 200, 201, 343, 459, 568, 600, 999, 1000, 2000, 3000]
-        >>> nc[0]
+        >>> nc
         13
 
     """
@@ -183,9 +193,8 @@ def insert_y(M, result, nc):
 
     order = give_the_right_order(n-1)  # this list will never move
     position = give_the_right_order(n-1)  # this list will be updated after each insertion of y
-    pos = position[0]
     for i in range(len(order)):
-        (new_list, pos) = binary_search_insertion(result[position[i]+1:], M[order[i]][1], nc)  # insert y in the
+        (new_list, pos) = binary_search_insertion(result[position[i]+1:], M[order[i]][1], lt)  # insert y in the
         # appropriate sublist, and extract its sub-position
         result = result[:position[i]+1] + new_list  # concatenate the two lists
         update_indices(pos+1+position[i],cpt,position) # update the new positions of insertion, don't forget to
@@ -194,15 +203,15 @@ def insert_y(M, result, nc):
     return result
 
 
-def create_pairs(L, nc):
+def create_pairs(L, lt):
     """
 
     Parameters
     ----------
     L: class `list`
               The list of elements to sort
-    nc: class `list`
-              A list of one element with the current number of comparisons
+    lt: callable
+        lt(x, y) is the test used to determine whether element x is lower than y.
 
     Returns
     -------
@@ -212,7 +221,7 @@ def create_pairs(L, nc):
     Examples
     --------
         >>> L = [1,0,3,4,5,6]
-        >>> create_pairs(L,[0])
+        >>> create_pairs(L, lt=lambda x, y: x < y)
         ([[0, 1], [3, 4], [5, 6]], -1)
     """
     two_paired_list = []
@@ -222,8 +231,7 @@ def create_pairs(L, nc):
             has_last_odd_item = True
             last_item = L[len(L)-1]
         else:
-            nc[0] += 1
-            if L[i] < L[i + 1]:
+            if lt(L[i], L[i + 1]):
                 two_paired_list.append([L[i], L[i + 1]])
             else:
                 two_paired_list.append([L[i + 1], L[i]])
@@ -233,7 +241,7 @@ def create_pairs(L, nc):
         return two_paired_list, -1
 
 
-def ford_johnson_sorting(collection, nc):
+def ford_johnson_sorting(collection, lt=None):
     """
     Ford-Johnson sorting algorithm
 
@@ -241,8 +249,9 @@ def ford_johnson_sorting(collection, nc):
     ----------
     collection: class: `list`
                 A list to sort
-    nc: class: `list`
-                A list of one element with the current number of comparisons
+    lt: callable
+        lt(x, y) is the test used to determine whether element x is lower than y.
+        Default: operator "<".
 
     Returns
     -------
@@ -252,39 +261,45 @@ def ford_johnson_sorting(collection, nc):
     Examples
     --------
 
+        >>> nc = 0
+        >>> def lt(x, y):
+        ...     global nc
+        ...     nc += 1
+        ...     return x < y
         >>> L = [14,2,0,10,13,5,18,19,7,12,6,15,16,1,3,4,8,17,11,9]
-        >>> nc=[0]
-        >>> ford_johnson_sorting(L, nc)
+        >>> ford_johnson_sorting(L, lt)
         [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19]
-        >>> nc[0]
+        >>> nc
         60
 
     """
-    L = []
+    if lt is None:
+        def lt(x, y):
+            return x < y
+
     if len(collection) == 1:
         L = collection
     elif len(collection) == 2:
-        nc[0] += 1
-        if collection[0] < collection[1]:
+        if lt(collection[0], collection[1]):
             L = [collection[0], collection[1]]
         else:
             L = [collection[1], collection[0]]
     elif len(collection) == 3:
-        (M, last_elt) = create_pairs(collection, nc)
+        (M, last_elt) = create_pairs(collection, lt)
         L = [M[0][0], M[0][1]]
-        L, pos = binary_search_insertion(L, last_elt, nc)
+        L, pos = binary_search_insertion(L, last_elt, lt)
     else:
-        (M, last_elt) = create_pairs(collection, nc)
+        (M, last_elt) = create_pairs(collection, lt)
         m = len(M)
         M_x = [M[i][0] for i in range(m)]
         M_y = [M[i][1] for i in range(m)]
-        new_M_x = ford_johnson_sorting(M_x, nc)
+        new_M_x = ford_johnson_sorting(M_x, lt)
         new_M_y = [M_y[M_x.index(new_M_x[i])] for i in range(m)]
         M = [[new_M_x[i], new_M_y[i]] for i in range(m)]
         L = new_M_x
         L.append(M[m-1][1])
         if last_elt >= 0:
-            (L, pos) = binary_search_insertion(L, last_elt, nc)
-        L = insert_y(M, L, nc)
+            (L, pos) = binary_search_insertion(L, last_elt, lt)
+        L = insert_y(M, L, lt)
     return L
 
