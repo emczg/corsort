@@ -110,10 +110,10 @@ def evaluate_convergence(sort_list, n, nt, pool=None):
         print(f"Evaluate convergence of {name} for n = {n}")
         distances = []
         if pool is not None:
-            for _ in enumerate(pool.imap_unordered(sort,
-                                                   tqdm([np.random.permutation(n)
-                                                         for _ in range(nt)]))):
-                distances.append(sort.history_distances_)
+            for instant in pool.imap_unordered(sort,
+                                               tqdm([np.random.permutation(n)
+                                                     for _ in range(nt)])):
+                distances.append(instant.history_distances_)
         else:
             for _ in tqdm(range(nt)):
                 sort(np.random.permutation(n))
