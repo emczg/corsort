@@ -133,10 +133,10 @@ def evaluate_comparisons(sort_list, n_list, nt, pool=None):
             print(f"Evaluate comparisons of {sort.__name__} for n = {n}")
             convergence_times = np.zeros(nt, dtype=int)
             if pool is not None:
-                for k, _ in enumerate(pool.imap_unordered(sort,
+                for k, instant in enumerate(pool.imap_unordered(sort,
                                                           tqdm([np.random.permutation(n)
                                                                 for _ in range(nt)]))):
-                    convergence_times[k] = sort.n_comparisons_
+                    convergence_times[k] = instant.n_comparisons_
             else:
                 for k in tqdm(range(nt)):
                     sort(np.random.permutation(n))
