@@ -18,11 +18,14 @@ class CorSortDelegate(CorSort):
         8
         >>> corsort.history_comparisons_
         [(1, 0), (2, 0), (3, 0), (4, 0), (2, 1), (1, 3), (1, 4), (3, 4)]
+        >>> corsort.__name__
+        'corsort_delegate_quicksort'
     """
 
     def __init__(self, sort):
         super().__init__()
         self.sort = sort
+        self.__name__ = "corsort_delegate_" + self.sort.__name__
 
     def next_compare(self):
         self.sort(self.perm_)

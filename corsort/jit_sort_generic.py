@@ -13,6 +13,8 @@ class JitSortGeneric:
         >>> my_xs = np.array([4, 1, 7, 6, 0, 8, 2, 3, 5])
         >>> jit_sort(my_xs).n_comparisons_
         17
+        >>> jit_sort.__name__
+        'quicksort_scorer_spaced'
     """
 
     def __init__(self, scorer, sort, compute_history=False):
@@ -20,6 +22,7 @@ class JitSortGeneric:
         self.scorer = scorer
         self.sort = sort
         self.compute_history = compute_history
+        self.__name__ = self.sort.__name__ + '_' + self.scorer.__name__
         # Computed values
         self.n_ = None
         self.perm_ = None
