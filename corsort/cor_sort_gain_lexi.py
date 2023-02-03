@@ -1,6 +1,6 @@
 import numpy as np
 from corsort.entropy_bound import entropy_bound
-from corsort.CorSortGain import CorSortGain
+from corsort.cor_sort_gain import CorSortGain
 
 
 class CorSortGainLexi(CorSortGain):

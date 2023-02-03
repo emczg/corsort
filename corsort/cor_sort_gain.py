@@ -1,4 +1,4 @@
-from corsort.CorSort import CorSort
+from corsort.cor_sort import CorSort
 
 
 class CorSortGain(CorSort):

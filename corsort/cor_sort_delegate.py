@@ -1,5 +1,5 @@
-from corsort.CorSort import CorSort
-from corsort.SortQuick import SortQuick
+from corsort.cor_sort import CorSort
+from corsort.sort_quick import SortQuick
 
 
 class CorSortDelegate(CorSort):
