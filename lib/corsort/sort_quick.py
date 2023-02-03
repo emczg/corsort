@@ -51,7 +51,7 @@ def _quicksort(xs, i=0, j=None, lt=None):
     """
     Inspired by https://codereview.stackexchange.com/questions/272639/in-place-quicksort-algorithm-in-python
 
-    Sort the array in place. Return the number of comparisons, and the history of the distance to the sorted list.
+    Sort the array in place.
 
     Parameters
     ----------
