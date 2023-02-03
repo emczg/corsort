@@ -18,6 +18,7 @@ from corsort.montecarlo import print_res, evaluate, evaluate_convergence, evalua
 from corsort.scorer_spaced import scorer_spaced
 from corsort.sort import Sort
 from corsort.sort_ford_johnson import SortFordJohnson
+from corsort.sort_merge_dfs import SortMergeDfs
 from corsort.sort_quick import SortQuick
 from corsort.wrap_full_jit import WrapFullJit
 from corsort.wrap_sort_scorer import WrapSortScorer
