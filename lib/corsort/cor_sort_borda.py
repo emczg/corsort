@@ -1,6 +1,6 @@
 import numpy as np
 from corsort.entropy_bound import entropy_bound
-from corsort.CorSort import CorSort
+from corsort.cor_sort import CorSort
 
 
 class CorSortBorda(CorSort):

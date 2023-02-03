@@ -1,5 +1,5 @@
 import numpy as np
-from corsort.Sort import Sort
+from corsort.sort import Sort
 
 
 class SortFordJohnson(Sort):

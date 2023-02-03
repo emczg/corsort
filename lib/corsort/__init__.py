@@ -5,18 +5,20 @@ __email__ = 'emma.caizergues@gmail.com'
 __version__ = '0.1.0'
 
 
-from corsort.CorSort import CorSort
-from corsort.CorSortBorda import CorSortBorda
-from corsort.CorSortDelegate import CorSortDelegate
-from corsort.CorSortGain import CorSortGain
-from corsort.CorSortGainLexi import CorSortGainLexi
+from corsort.cor_sort import CorSort
+from corsort.cor_sort_borda import CorSortBorda
+from corsort.cor_sort_delegate import CorSortDelegate
+from corsort.cor_sort_gain import CorSortGain
+from corsort.cor_sort_gain_lexi import CorSortGainLexi
 from corsort.distance_to_sorted_array import distance_to_sorted_array
 from corsort.entropy_bound import entropy_bound
-from corsort.JitSortBorda import JitSortBorda
+from corsort.jit_sort_borda import JitSortBorda
+from corsort.jit_sort_generic import JitSortGeneric
 from corsort.montecarlo import print_res, evaluate, evaluate_convergence, evaluate_comparisons
-from corsort.Sort import Sort
-from corsort.SortFordJohnson import SortFordJohnson
-from corsort.SortQuick import SortQuick
+from corsort.scorer_spaced import scorer_spaced
+from corsort.sort import Sort
+from corsort.sort_ford_johnson import SortFordJohnson
+from corsort.sort_quick import SortQuick
 
 from corsort.sub_package_1.my_class_1 import MyClass1
 from corsort.sub_package_2.my_class_2 import MyClass2

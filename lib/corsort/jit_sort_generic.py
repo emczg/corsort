@@ -1,6 +1,6 @@
 import numpy as np
 from corsort.distance_to_sorted_array import distance_to_sorted_array
-from corsort.SortQuick import SortQuick
+from corsort.sort_quick import SortQuick
 from corsort.scorer_spaced import scorer_spaced
 
 

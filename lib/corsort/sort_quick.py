@@ -1,5 +1,5 @@
 import numpy as np
-from corsort.Sort import Sort
+from corsort.sort import Sort
 from corsort.distance_to_sorted_array import distance_to_sorted_array
 
 
