@@ -3,7 +3,7 @@ import numpy as np
 
 
 @njit
-def spaced_scores(n, downs, ups):
+def scorer_spaced(n, downs, ups):
     ncp = len(ups) + 1
     leq = np.eye(n, dtype=np.int8)
     down = np.zeros(n, dtype=np.int_) + 1
@@ -23,10 +23,3 @@ def spaced_scores(n, downs, ups):
                         down[jj] += 1
         res[(k+1), :] = down/tot
     return res
-
-
-def jit_scorer(sorter, scorer):
-    n = sorter.n_
-    downs = np.array([c[0] for c in sorter.history_comparisons_])
-    ups = np.array([c[1] for c in sorter.history_comparisons_])
-    return scorer(n, downs, ups)

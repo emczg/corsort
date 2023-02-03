@@ -13,6 +13,9 @@ class SortQuick(Sort):
         >>> my_xs = np.array([4, 1, 7, 6, 0, 8, 2, 3, 5])
         >>> quicksort(my_xs).n_comparisons_
         17
+        >>> quicksort.history_comparisons_  # doctest: +NORMALIZE_WHITESPACE
+        [(1, 0), (0, 2), (0, 3), (4, 0), (0, 5), (6, 0), (7, 0), (0, 8), (4, 1),
+        (1, 6), (1, 7), (6, 7), (3, 5), (2, 5), (8, 5), (3, 2), (8, 3)]
         >>> quicksort.history_distances_
         [17, 16, 16, 16, 12, 12, 10, 6, 6, 5, 5, 5, 5, 4, 3, 2, 2, 0]
         >>> quicksort.sorted_list_
