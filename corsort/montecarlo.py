@@ -74,8 +74,8 @@ def evaluate(sort_list, n_list, nt, pool=None):
     Bound (loose, not exact):
 
     >>> print("\\n".join(f"Bound for n={my_n}: {entropy_bound(my_n):.2f}" for my_n in my_n_list))
-    Bound for n=10: 22.11
-    Bound for n=15: 40.87
+    Bound for n=10: 18.79
+    Bound for n=15: 36.96
     """
     res = defaultdict(dict)
     for n in n_list:
