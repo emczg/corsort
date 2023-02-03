@@ -33,13 +33,12 @@ def evaluate(sort_list, n_list, nt, pool=None):
     Examples
     --------
 
-    >>> from corsort import SortQuick, JitSortBorda, entropy_bound
+    >>> from corsort import SortQuick, WrapFullJit, entropy_bound, jit_corsort_borda
     >>> my_nt = 100
     >>> my_n = 10
     >>> np.random.seed(42)
     >>> quicksort = SortQuick()
-    >>> quicksort.__name__ = 'quicksort'
-    >>> corsort_borda_fast = JitSortBorda()
+    >>> corsort_borda_fast = WrapFullJit(jit_corsort_borda)
     >>> corsort_borda_fast.__name__ = 'corsort_borda_fast'
     >>> my_sort_list = [quicksort, corsort_borda_fast]
     >>> my_n_list = [10, 15]

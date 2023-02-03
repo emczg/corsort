@@ -4,17 +4,17 @@ from corsort.sort_quick import SortQuick
 from corsort.scorer_spaced import scorer_spaced
 
 
-class JitSortGeneric:
+class WrapSortScorer:
     """
     Examples
     --------
         >>> my_sort = SortQuick(compute_history=False)
-        >>> jit_sort = JitSortGeneric(scorer=scorer_spaced, sort=my_sort, compute_history=False)
+        >>> jit_sort = WrapSortScorer(scorer=scorer_spaced, sort=my_sort, compute_history=False)
         >>> my_xs = np.array([4, 1, 7, 6, 0, 8, 2, 3, 5])
         >>> jit_sort(my_xs).n_comparisons_
         17
         >>> jit_sort.__name__
-        'quicksort_scorer_spaced'
+        'quicksort_spaced'
     """
 
     def __init__(self, scorer, sort, compute_history=False):
@@ -22,7 +22,11 @@ class JitSortGeneric:
         self.scorer = scorer
         self.sort = sort
         self.compute_history = compute_history
-        self.__name__ = self.sort.__name__ + '_' + self.scorer.__name__
+        name_scorer = scorer.__name__
+        i = name_scorer.find('scorer_')
+        if i >= 0:
+            name_scorer = name_scorer[i + 7:]
+        self.__name__ = self.sort.__name__ + '_' + name_scorer
         # Computed values
         self.n_ = None
         self.perm_ = None
