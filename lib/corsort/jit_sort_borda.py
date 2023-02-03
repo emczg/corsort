@@ -29,11 +29,9 @@ def _jit_corsort(perm):
                         i, j = ii, jj
         if diff == n:
             break
-        if perm[i] < perm[j]:
-            comparisons.append((i, j))
-        else:
+        if perm[i] > perm[j]:
             i, j = j, i
-            comparisons.append((j, i))
+        comparisons.append((i, j))
         for ii in range(n):
             if leq[ii, i] > 0:
                 for jj in range(n):
