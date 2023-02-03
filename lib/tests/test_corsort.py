@@ -5,9 +5,6 @@
 import pytest
 
 
-from corsort import JitSortBorda
-
-
 @pytest.fixture
 def response():
     """Sample pytest fixture.
