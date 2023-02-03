@@ -13,6 +13,7 @@ from corsort.cor_sort_gain_lexi import CorSortGainLexi
 from corsort.distance_to_sorted_array import distance_to_sorted_array
 from corsort.entropy_bound import entropy_bound
 from corsort.jit_sorts import jit_corsort_borda
+from corsort.merge import merge
 from corsort.montecarlo import print_res, evaluate, evaluate_convergence, evaluate_comparisons
 from corsort.scorer_spaced import scorer_spaced
 from corsort.sort import Sort
