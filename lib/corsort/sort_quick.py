@@ -27,6 +27,8 @@ class SortQuick(Sort):
         659
     """
 
+    __name__ = 'quicksort'
+
     def __init__(self, compute_history=False):
         super().__init__(compute_history=compute_history)
         self.sorted_indices_ = None
