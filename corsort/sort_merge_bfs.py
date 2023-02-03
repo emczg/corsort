@@ -23,6 +23,8 @@ class SortMergeBfs(Sort):
         array([0, 1, 2, 3, 4, 5, 6, 7, 8])
     """
 
+    __name__ = 'mergesort_bfs'
+
     def __init__(self, compute_history=False):
         super().__init__(compute_history=compute_history)
         self.sorted_indices_ = None
