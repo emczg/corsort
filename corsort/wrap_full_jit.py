@@ -38,7 +38,7 @@ class WrapFullJit:
         >>> corsort(p).n_comparisons_
         43
         >>> entropy_bound(n)  # doctest: +ELLIPSIS
-        36.96293...
+        40.24212...
         >>> corsort.history_distances_  # doctest: +NORMALIZE_WHITESPACE
         [55, 42, 51, 49, 49, 48, 40, 39, 33, 29, 29, 29, 28, 28, 28, 26, 26, 21, 20, 16, 14, 11, 10, 9, 8, 10,
         8, 7, 6, 7, 5, 4, 4, 5, 4, 3, 4, 3, 3, 2, 2, 0, 1, 0]

@@ -1,4 +1,5 @@
 import numpy as np
+from math import factorial
 
 
 def entropy_bound(n):
@@ -23,11 +24,11 @@ def entropy_bound(n):
     Examples
     --------
     >>> print(f"{entropy_bound(10):.1f}")
-    18.8
+    21.8
     >>> print(f"{entropy_bound(100):.1f}")
-    520.1
+    524.8
     >>> print(f"{entropy_bound(1000):.1f}")
-    8523.1
+    8529.4
     """
     # TODO: discuss about this bound
-    return n * (np.log2(n) - 1 / np.log(2))
+    return n * (np.log2(n) - 1 / np.log(2)) + .5 * np.log2(2 * np.pi * n)
