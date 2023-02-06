@@ -12,7 +12,7 @@ from corsort.jit_sorts import jit_corsort_borda, jit_corsort_drift_max_spaced
 colors = plt.rcParams['axes.prop_cycle'].by_key()['color']
 
 sorts = ['corsort_drift_max_spaced', 'mergesort_bfs', 'ford_johnson_spaced',
-         'mergesort_dfs_spaced', 'mergesort_dfs', 'mergesort_bfs_spaced', 'corsort_borda',
+         'mergesort_dfs_spaced', 'mergesort_dfs', 'mergesort_bfs_spaced',
          'quicksort', 'heapsort']
 
 color_dict = {k: v for k, v in zip(sorts, colors)}
