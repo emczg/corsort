@@ -19,6 +19,7 @@ from corsort.jit_scorers import scorer_spaced
 from corsort.sort import Sort
 from corsort.sort_asort_quickselect import SortAsortQuickselect
 from corsort.sort_ford_johnson import SortFordJohnson
+from corsort.sort_largest_interval import SortLargestInterval
 from corsort.sort_merge_bfs import SortMergeBfs
 from corsort.sort_merge_dfs import SortMergeDfs
 from corsort.sort_quick import SortQuick
