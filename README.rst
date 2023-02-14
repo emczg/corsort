@@ -33,7 +33,8 @@ Comparison-Oriented Sort.
 Features
 --------
 
-* TODO
+* Implement Corsort, an efficient anytime sorting algorithm.
+* Compare Corsort with classical algorithms through Monte-Carlo simulations.
 
 -------
 Credits

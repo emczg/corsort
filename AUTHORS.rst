@@ -10,4 +10,5 @@ Development Lead
 Contributors
 ------------
 
-None yet. Why not be the first?
+* François Durand <fradurand@gmail.com>
+* Fabien Mathieu <fabien.mathieu@normalesup.org>
