@@ -25,7 +25,10 @@ class CorSort(Sort):
         Note that a position of 0 means the start of the sorted list, i.e. smallest element, whereas
         a position of `n - 1` means the end of the sorted list, i.e. the greatest element. In other
         words, the position estimates are the Borda scores.
-    Cf. also the attributes defined in the parent class :class:`Sort`.
+
+    Notes
+    -----
+    Cf. also the attributes defined in the parent class :class:`~corsort.Sort`.
     """
 
     def __init__(self, compute_history=False):
