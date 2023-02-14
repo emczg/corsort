@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CorSortGainLexi &mdash; Corsort 0.1.0 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="distance_to_sorted_array" href="distance_to_sorted_array.html" />
+    <link rel="prev" title="CorSortGain" href="cor_sort_gain.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Corsort
+          </a>
+              <div class="version">
+                0.1.0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../readme.html">Corsort</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../usage.html">Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks/index.html">Algotel</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="cor_sort.html">CorSort</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cor_sort_borda.html">CorSortBorda</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cor_sort_delegate.html">CorSortDelegate</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cor_sort_gain.html">CorSortGain</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">CorSortGainLexi</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#corsort.CorSortGainLexi"><code class="docutils literal notranslate"><span class="pre">CorSortGainLexi</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#corsort.CorSortGainLexi.apply_i_lt_j"><code class="docutils literal notranslate"><span class="pre">CorSortGainLexi.apply_i_lt_j()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#corsort.CorSortGainLexi.compare_and_update_poset"><code class="docutils literal notranslate"><span class="pre">CorSortGainLexi.compare_and_update_poset()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#corsort.CorSortGainLexi.distance_to_sorted_array"><code class="docutils literal notranslate"><span class="pre">CorSortGainLexi.distance_to_sorted_array()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#corsort.CorSortGainLexi.gain"><code class="docutils literal notranslate"><span class="pre">CorSortGainLexi.gain()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#corsort.CorSortGainLexi.gain_i_lt_j"><code class="docutils literal notranslate"><span class="pre">CorSortGainLexi.gain_i_lt_j()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#corsort.CorSortGainLexi.next_compare"><code class="docutils literal notranslate"><span class="pre">CorSortGainLexi.next_compare()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#corsort.CorSortGainLexi.test_i_lt_j"><code class="docutils literal notranslate"><span class="pre">CorSortGainLexi.test_i_lt_j()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#corsort.CorSortGainLexi.update_position_estimates"><code class="docutils literal notranslate"><span class="pre">CorSortGainLexi.update_position_estimates()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="distance_to_sorted_array.html">distance_to_sorted_array</a></li>
+<li class="toctree-l2"><a class="reference internal" href="entropy_bound.html">entropy_bound</a></li>
+<li class="toctree-l2"><a class="reference internal" href="jit_scorers.html">jit_scorers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="jit_sorts.html">jit_sorts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="merge.html">merge</a></li>
+<li class="toctree-l2"><a class="reference internal" href="montecarlo.html">montecarlo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="partition.html">partition</a></li>
+<li class="toctree-l2"><a class="reference internal" href="presets.html">presets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sort.html">Sort</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sort_asort_quickselect.html">SortAsortQuickselect</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sort_ford_johnson.html">SortFordJohnson</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sort_largest_interval.html">SortLargestInterval</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sort_merge_bfs.html">SortMergeBfs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sort_merge_dfs.html">SortMergeDfs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sort_quick.html">SortQuick</a></li>
+<li class="toctree-l2"><a class="reference internal" href="wrap_full_jit.html">WrapFullJit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="wrap_sort_scorer.html">WrapSortScorer</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../authors.html">Credits</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../history.html">History</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Corsort</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Reference</a></li>
+      <li class="breadcrumb-item active">CorSortGainLexi</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/reference/cor_sort_gain_lexi.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<section id="corsortgainlexi">
+<h1>CorSortGainLexi<a class="headerlink" href="#corsortgainlexi" title="Permalink to this heading"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="corsort.CorSortGainLexi">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">corsort.</span></span><span class="sig-name descname"><span class="pre">CorSortGainLexi</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">compute_history</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/corsort/cor_sort_gain_lexi.html#CorSortGainLexi"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#corsort.CorSortGainLexi" title="Permalink to this definition"></a></dt>
+<dd><p>CorSort with lexicographic gain (information gain, difference of position estimates).</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">22</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">n_</span> <span class="o">=</span> <span class="mi">15</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">permutation</span><span class="p">(</span><span class="n">n_</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">corsort</span> <span class="o">=</span> <span class="n">CorSortGainLexi</span><span class="p">(</span><span class="n">compute_history</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">corsort</span><span class="p">(</span><span class="n">p</span><span class="p">)</span><span class="o">.</span><span class="n">n_comparisons_</span>
+<span class="go">39</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">entropy_bound</span><span class="p">(</span><span class="n">n_</span><span class="p">)</span> 
+<span class="go">40.24212...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">corsort</span><span class="o">.</span><span class="n">history_distances_</span> 
+<span class="go">[55, 42, 51, 49, 49, 43, 39, 38, 37, 36, 28, 27, 22, 21, 20, 19, 13, 14, 13, 15,</span>
+<span class="go">12, 13, 13, 11, 10, 6, 5, 5, 4, 2, 2, 1, 2, 2, 2, 1, 2, 1, 1, 0, 0]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">corsort</span><span class="o">.</span><span class="vm">__name__</span>
+<span class="go">&#39;corsort_lexi&#39;</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="corsort.CorSortGainLexi.apply_i_lt_j">
+<span class="sig-name descname"><span class="pre">apply_i_lt_j</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">i</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">j</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#corsort.CorSortGainLexi.apply_i_lt_j" title="Permalink to this definition"></a></dt>
+<dd><p>Assuming perm[i] &lt; perm[j], update the poset accordingly.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>i</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>) – Index of the small item.</p></li>
+<li><p><strong>j</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>) – Index of the big item.</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">corsort</span> <span class="o">=</span> <span class="n">CorSort</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">corsort</span><span class="o">.</span><span class="n">n_</span> <span class="o">=</span> <span class="mi">4</span>
+</pre></div>
+</div>
+<p>Assume that we know perm[0] &lt; perm[1], and perm[2] &lt; perm[3]:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">corsort</span><span class="o">.</span><span class="n">leq_</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
+<span class="gp">... </span>    <span class="p">[</span> <span class="mi">1</span><span class="p">,</span>  <span class="mi">1</span><span class="p">,</span>  <span class="mi">0</span><span class="p">,</span>  <span class="mi">0</span><span class="p">],</span>
+<span class="gp">... </span>    <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span>  <span class="mi">1</span><span class="p">,</span>  <span class="mi">0</span><span class="p">,</span>  <span class="mi">0</span><span class="p">],</span>
+<span class="gp">... </span>    <span class="p">[</span> <span class="mi">0</span><span class="p">,</span>  <span class="mi">0</span><span class="p">,</span>  <span class="mi">1</span><span class="p">,</span>  <span class="mi">1</span><span class="p">],</span>
+<span class="gp">... </span>    <span class="p">[</span> <span class="mi">0</span><span class="p">,</span>  <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span>  <span class="mi">1</span><span class="p">],</span>
+<span class="gp">... </span><span class="p">])</span>
+</pre></div>
+</div>
+<p>Assume we learn that perm[1] &lt; perm[2]:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">corsort</span><span class="o">.</span><span class="n">apply_i_lt_j</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">corsort</span><span class="o">.</span><span class="n">leq_</span>
+<span class="go">array([[ 1,  1,  1,  1],</span>
+<span class="go">       [-1,  1,  1,  1],</span>
+<span class="go">       [-1, -1,  1,  1],</span>
+<span class="go">       [-1, -1, -1,  1]])</span>
+</pre></div>
+</div>
+<p>Now we know the full order by transitivity.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="corsort.CorSortGainLexi.compare_and_update_poset">
+<span class="sig-name descname"><span class="pre">compare_and_update_poset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">i</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">j</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#corsort.CorSortGainLexi.compare_and_update_poset" title="Permalink to this definition"></a></dt>
+<dd><p>Perform a comparison between perm[i] and perm[j], and update the poset accordingly.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>i</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>) – First index.</p></li>
+<li><p><strong>j</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>) – Second index.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="corsort.CorSortGainLexi.distance_to_sorted_array">
+<span class="sig-name descname"><span class="pre">distance_to_sorted_array</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#corsort.CorSortGainLexi.distance_to_sorted_array" title="Permalink to this definition"></a></dt>
+<dd><p>Distance to sorted array.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Distance between the current estimation and the sorted array.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="corsort.CorSortGainLexi.gain">
+<span class="sig-name descname"><span class="pre">gain</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">i</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">j</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/corsort/cor_sort_gain_lexi.html#CorSortGainLexi.gain"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#corsort.CorSortGainLexi.gain" title="Permalink to this definition"></a></dt>
+<dd><p>Ensured gain when comparing perm[i] and perm[j].</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>i</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>) – First index.</p></li>
+<li><p><strong>j</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>) – Second index.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Ensured gain if i and j are compared. Cf. <a class="reference internal" href="#corsort.CorSortGainLexi.gain_i_lt_j" title="corsort.CorSortGainLexi.gain_i_lt_j"><code class="xref py py-meth docutils literal notranslate"><span class="pre">gain_i_lt_j()</span></code></a>.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="corsort.CorSortGainLexi.gain_i_lt_j">
+<span class="sig-name descname"><span class="pre">gain_i_lt_j</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">i</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">j</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/corsort/cor_sort_gain_lexi.html#CorSortGainLexi.gain_i_lt_j"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#corsort.CorSortGainLexi.gain_i_lt_j" title="Permalink to this definition"></a></dt>
+<dd><p>Gain if we learn that perm[i] &lt; perm[j].</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>i</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>) – Index of the small element.</p></li>
+<li><p><strong>j</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>) – Index of the big element.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Potential gain if we compare i and j and find that perm[i] &lt; perm[j].
+First element: number of pairs for which we will learn their comparison if it is the case.
+Second element: difference of position estimate between i and j (currently, i.e. before comparing them).</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="corsort.CorSortGainLexi.next_compare">
+<span class="sig-name descname"><span class="pre">next_compare</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#corsort.CorSortGainLexi.next_compare" title="Permalink to this definition"></a></dt>
+<dd><p>Iterator of pairwise comparisons to make.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>An iterator of pairwise comparisons to make.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>iterable</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="corsort.CorSortGainLexi.test_i_lt_j">
+<span class="sig-name descname"><span class="pre">test_i_lt_j</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">i</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">j</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#corsort.CorSortGainLexi.test_i_lt_j" title="Permalink to this definition"></a></dt>
+<dd><p>Test whether perm[i] &lt; perm[j].</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>i</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>) – First index.</p></li>
+<li><p><strong>j</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>) – Second index.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>True if item of index <cite>i</cite> is lower than item of index <cite>j</cite>.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>The history of distance is computed just <em>before</em> the comparison. Hence it should
+be computed a last time at the end of the algorithm.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="corsort.CorSortGainLexi.update_position_estimates">
+<span class="sig-name descname"><span class="pre">update_position_estimates</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#corsort.CorSortGainLexi.update_position_estimates" title="Permalink to this definition"></a></dt>
+<dd><p>Update position estimate of each item.</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">corsort</span> <span class="o">=</span> <span class="n">CorSort</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">corsort</span><span class="o">.</span><span class="n">n_</span> <span class="o">=</span> <span class="mi">4</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">corsort</span><span class="o">.</span><span class="n">leq_</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
+<span class="gp">... </span>    <span class="p">[</span> <span class="mi">1</span><span class="p">,</span>  <span class="mi">1</span><span class="p">,</span>  <span class="mi">1</span><span class="p">,</span>  <span class="mi">1</span><span class="p">],</span>
+<span class="gp">... </span>    <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span>  <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">],</span>
+<span class="gp">... </span>    <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span>  <span class="mi">1</span><span class="p">,</span>  <span class="mi">1</span><span class="p">,</span>  <span class="mi">0</span><span class="p">],</span>
+<span class="gp">... </span>    <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span>  <span class="mi">1</span><span class="p">,</span>  <span class="mi">0</span><span class="p">,</span>  <span class="mi">1</span><span class="p">],</span>
+<span class="gp">... </span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">corsort</span><span class="o">.</span><span class="n">update_position_estimates</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">corsort</span><span class="o">.</span><span class="n">position_estimates_</span>
+<span class="go">array([0. , 3. , 1.5, 1.5])</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="cor_sort_gain.html" class="btn btn-neutral float-left" title="CorSortGain" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="distance_to_sorted_array.html" class="btn btn-neutral float-right" title="distance_to_sorted_array" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Emma Caizergues.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

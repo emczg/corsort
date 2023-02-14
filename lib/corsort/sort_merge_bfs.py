@@ -33,7 +33,7 @@ class SortMergeBfs(Sort):
         self.sorted_indices_ = np.arange(self.n_)
 
     def _call_aux(self):
-        merge_sort_bfs(self.sorted_indices_, lt=self.test_i_lt_j)
+        _merge_sort_bfs(self.sorted_indices_, lt=self.test_i_lt_j)
 
     def distance_to_sorted_array(self):
         return distance_to_sorted_array(self.perm_[self.sorted_indices_])
@@ -43,7 +43,7 @@ class SortMergeBfs(Sort):
         return self.perm_[self.sorted_indices_]
 
 
-def sub_step(list_indices):
+def _sub_step(list_indices):
     """
     Compute the indices of the boundaries for the next sub-step of BFS merge sort.
 
@@ -60,16 +60,16 @@ def sub_step(list_indices):
     Examples
     --------
         >>> my_indices = np.array([0, 9])
-        >>> my_indices = sub_step(my_indices)
+        >>> my_indices = _sub_step(my_indices)
         >>> my_indices
         array([0, 4, 9])
-        >>> my_indices = sub_step(my_indices)
+        >>> my_indices = _sub_step(my_indices)
         >>> my_indices
         array([0, 2, 4, 6, 9])
-        >>> my_indices = sub_step(my_indices)
+        >>> my_indices = _sub_step(my_indices)
         >>> my_indices
         array([0, 1, 2, 3, 4, 5, 6, 7, 9])
-        >>> my_indices = sub_step(my_indices)
+        >>> my_indices = _sub_step(my_indices)
         >>> my_indices
         array([0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 8, 9])
     """
@@ -81,7 +81,7 @@ def sub_step(list_indices):
     return np.array(list_indices_sub_step)
 
 
-def lists_indices_steps(n):
+def _lists_indices_steps(n):
     """
     Compute the indices of the boundaries for all the steps of BFS merge sort.
 
@@ -97,7 +97,7 @@ def lists_indices_steps(n):
 
     Examples
     --------
-        >>> lists_indices_steps(n=9)  # doctest: +NORMALIZE_WHITESPACE
+        >>> _lists_indices_steps(n=9)  # doctest: +NORMALIZE_WHITESPACE
         [array([0, 4, 9]),
         array([0, 2, 4, 6, 9]),
         array([0, 1, 2, 3, 4, 5, 6, 7, 9]),
@@ -106,12 +106,12 @@ def lists_indices_steps(n):
     list_indices = np.array([0, n])
     result = []
     while np.max(list_indices[1:] - list_indices[:-1]) > 1:
-        list_indices = sub_step(list_indices)
+        list_indices = _sub_step(list_indices)
         result.append(list_indices)
     return result
 
 
-def merge_sort_bfs(collection, lt=None):
+def _merge_sort_bfs(collection, lt=None):
     """
 
     Parameters
@@ -125,12 +125,12 @@ def merge_sort_bfs(collection, lt=None):
     Examples
     --------
         >>> my_xs = [7, 3, 2, 1, 4, 6, 0, 5]
-        >>> merge_sort_bfs(my_xs)
+        >>> _merge_sort_bfs(my_xs)
         >>> my_xs
         [0, 1, 2, 3, 4, 5, 6, 7]
 
         >>> my_xs = [4, 1, 7, 6, 0, 8, 2, 3, 5]
-        >>> merge_sort_bfs(my_xs)
+        >>> _merge_sort_bfs(my_xs)
         >>> my_xs
         [0, 1, 2, 3, 4, 5, 6, 7, 8]
 
@@ -138,12 +138,12 @@ def merge_sort_bfs(collection, lt=None):
         >>> indices = np.arange(9)
         >>> def my_lt(my_i, my_j):
         ...     return my_xs[my_i] < my_xs[my_j]
-        >>> merge_sort_bfs(indices, my_lt)
+        >>> _merge_sort_bfs(indices, my_lt)
         >>> my_xs[indices]
         array([0, 1, 2, 3, 4, 5, 6, 7, 8])
     """
     n = len(collection)
-    lists_indices = lists_indices_steps(n)
+    lists_indices = _lists_indices_steps(n)
     for list_indices in lists_indices[::-1]:
         for i in range(0, len(list_indices) - 1, 2):
             merge(collection, list_indices[i], list_indices[i+1], list_indices[i+2], lt=lt)

@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>corsort.cor_sort &mdash; Corsort 0.1.0 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/sphinx_highlight.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            Corsort
+          </a>
+              <div class="version">
+                0.1.0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../readme.html">Corsort</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../usage.html">Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../notebooks/index.html">Algotel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../reference/index.html">Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../authors.html">Credits</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../history.html">History</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Corsort</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">corsort.cor_sort</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for corsort.cor_sort</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="kn">from</span> <span class="nn">corsort.distance_to_sorted_array</span> <span class="kn">import</span> <span class="n">distance_to_sorted_array</span>
+<span class="kn">from</span> <span class="nn">corsort.sort</span> <span class="kn">import</span> <span class="n">Sort</span>
+
+
+<div class="viewcode-block" id="CorSort"><a class="viewcode-back" href="../../reference/cor_sort.html#corsort.CorSort">[docs]</a><span class="k">class</span> <span class="nc">CorSort</span><span class="p">(</span><span class="n">Sort</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    CorSort.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    compute_history: :class:`bool`</span>
+<span class="sd">        If True, then compute the history of the distance to the sorted array.</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    leq_: :class:`~numpy.ndarray`.</span>
+<span class="sd">        Matrix of size `(n_, n_)`. Coefficient (i, j) is</span>
+<span class="sd">        +1 if we know perm_[i] &lt;= perm_[j],</span>
+<span class="sd">        -1 if we know perm_[i] &gt; perm_[j],</span>
+<span class="sd">        0 if we do not know the comparison between them.</span>
+<span class="sd">    position_estimates_: :class:`list` of :class:`float`</span>
+<span class="sd">        For each index (in the original list), its position estimate in the sorted list.</span>
+<span class="sd">        Note that a position of 0 means the start of the sorted list, i.e. smallest element, whereas</span>
+<span class="sd">        a position of `n - 1` means the end of the sorted list, i.e. the greatest element. In other</span>
+<span class="sd">        words, the position estimates are the Borda scores.</span>
+<span class="sd">    Cf. also the attributes defined in the parent class :class:`Sort`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">compute_history</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">compute_history</span><span class="o">=</span><span class="n">compute_history</span><span class="p">)</span>
+        <span class="c1"># Computed attributes</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">leq_</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">position_estimates_</span> <span class="o">=</span> <span class="kc">None</span>
+
+<div class="viewcode-block" id="CorSort.update_position_estimates"><a class="viewcode-back" href="../../reference/cor_sort.html#corsort.CorSort.update_position_estimates">[docs]</a>    <span class="k">def</span> <span class="nf">update_position_estimates</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Update position estimate of each item.</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">            &gt;&gt;&gt; corsort = CorSort()</span>
+<span class="sd">            &gt;&gt;&gt; corsort.n_ = 4</span>
+<span class="sd">            &gt;&gt;&gt; corsort.leq_ = np.array([</span>
+<span class="sd">            ...     [ 1,  1,  1,  1],</span>
+<span class="sd">            ...     [-1,  1, -1, -1],</span>
+<span class="sd">            ...     [-1,  1,  1,  0],</span>
+<span class="sd">            ...     [-1,  1,  0,  1],</span>
+<span class="sd">            ... ])</span>
+<span class="sd">            &gt;&gt;&gt; corsort.update_position_estimates()</span>
+<span class="sd">            &gt;&gt;&gt; corsort.position_estimates_</span>
+<span class="sd">            array([0. , 3. , 1.5, 1.5])</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">position_estimates_</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">leq_</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">-</span> <span class="mi">1</span></div>
+
+<div class="viewcode-block" id="CorSort.distance_to_sorted_array"><a class="viewcode-back" href="../../reference/cor_sort.html#corsort.CorSort.distance_to_sorted_array">[docs]</a>    <span class="k">def</span> <span class="nf">distance_to_sorted_array</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Distance to sorted array.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        int</span>
+<span class="sd">            Distance between the current estimation and the sorted array.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">distance_to_sorted_array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">perm_</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">position_estimates_</span><span class="p">)])</span></div>
+
+<div class="viewcode-block" id="CorSort.apply_i_lt_j"><a class="viewcode-back" href="../../reference/cor_sort.html#corsort.CorSort.apply_i_lt_j">[docs]</a>    <span class="k">def</span> <span class="nf">apply_i_lt_j</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Assuming perm[i] &lt; perm[j], update the poset accordingly.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        i: :class:`int`</span>
+<span class="sd">            Index of the small item.</span>
+<span class="sd">        j: :class:`int`</span>
+<span class="sd">            Index of the big item.</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">            &gt;&gt;&gt; corsort = CorSort()</span>
+<span class="sd">            &gt;&gt;&gt; corsort.n_ = 4</span>
+
+<span class="sd">        Assume that we know perm[0] &lt; perm[1], and perm[2] &lt; perm[3]:</span>
+
+<span class="sd">            &gt;&gt;&gt; corsort.leq_ = np.array([</span>
+<span class="sd">            ...     [ 1,  1,  0,  0],</span>
+<span class="sd">            ...     [-1,  1,  0,  0],</span>
+<span class="sd">            ...     [ 0,  0,  1,  1],</span>
+<span class="sd">            ...     [ 0,  0, -1,  1],</span>
+<span class="sd">            ... ])</span>
+
+<span class="sd">        Assume we learn that perm[1] &lt; perm[2]:</span>
+
+<span class="sd">            &gt;&gt;&gt; corsort.apply_i_lt_j(1, 2)</span>
+<span class="sd">            &gt;&gt;&gt; corsort.leq_</span>
+<span class="sd">            array([[ 1,  1,  1,  1],</span>
+<span class="sd">                   [-1,  1,  1,  1],</span>
+<span class="sd">                   [-1, -1,  1,  1],</span>
+<span class="sd">                   [-1, -1, -1,  1]])</span>
+
+<span class="sd">        Now we know the full order by transitivity.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">mask_i_and_smaller</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">leq_</span><span class="p">[:,</span> <span class="n">i</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span>
+        <span class="n">mask_j_and_greater</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">leq_</span><span class="p">[</span><span class="n">j</span><span class="p">,</span> <span class="p">:]</span> <span class="o">&gt;</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">leq_</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ix_</span><span class="p">(</span><span class="n">mask_i_and_smaller</span><span class="p">,</span> <span class="n">mask_j_and_greater</span><span class="p">)]</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">leq_</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ix_</span><span class="p">(</span><span class="n">mask_j_and_greater</span><span class="p">,</span> <span class="n">mask_i_and_smaller</span><span class="p">)]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">update_position_estimates</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="CorSort.compare_and_update_poset"><a class="viewcode-back" href="../../reference/cor_sort.html#corsort.CorSort.compare_and_update_poset">[docs]</a>    <span class="k">def</span> <span class="nf">compare_and_update_poset</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Perform a comparison between perm[i] and perm[j], and update the poset accordingly.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        i: :class:`int`</span>
+<span class="sd">            First index.</span>
+<span class="sd">        j: :class:`int`</span>
+<span class="sd">            Second index.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">test_i_lt_j</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">apply_i_lt_j</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">apply_i_lt_j</span><span class="p">(</span><span class="n">j</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="CorSort.next_compare"><a class="viewcode-back" href="../../reference/cor_sort.html#corsort.CorSort.next_compare">[docs]</a>    <span class="k">def</span> <span class="nf">next_compare</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Iterator of pairwise comparisons to make.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        iterable</span>
+<span class="sd">            An iterator of pairwise comparisons to make.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
+
+    <span class="k">def</span> <span class="nf">_initialize_algo_aux</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">            &gt;&gt;&gt; my_sort = CorSort(compute_history=True)</span>
+<span class="sd">            &gt;&gt;&gt; my_sort._initialize_algo(perm=np.array([&#39;b&#39;, &#39;a&#39;]))</span>
+<span class="sd">            &gt;&gt;&gt; my_sort.test_i_lt_j(0, 1)</span>
+<span class="sd">            False</span>
+<span class="sd">            &gt;&gt;&gt; my_sort.n_comparisons_</span>
+<span class="sd">            1</span>
+<span class="sd">            &gt;&gt;&gt; my_sort.history_distances_</span>
+<span class="sd">            [1]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">leq_</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">update_position_estimates</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">_call_aux</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">next_compare</span><span class="p">():</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">compare_and_update_poset</span><span class="p">(</span><span class="o">*</span><span class="n">c</span><span class="p">)</span>
+        <span class="c1"># Final update of history_distance</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">compute_history</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">history_distances_</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                <span class="n">distance_to_sorted_array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">perm_</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">position_estimates_</span><span class="p">)]))</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Emma Caizergues.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

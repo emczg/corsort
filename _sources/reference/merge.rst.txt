@@ -1,0 +1,3 @@
+merge
+-----
+.. autofunction:: corsort.merge

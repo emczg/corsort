@@ -1,0 +1,984 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>corsort.jit_sorts &mdash; Corsort 0.1.0 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/sphinx_highlight.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            Corsort
+          </a>
+              <div class="version">
+                0.1.0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../readme.html">Corsort</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../usage.html">Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../notebooks/index.html">Algotel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../reference/index.html">Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../authors.html">Credits</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../history.html">History</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Corsort</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">corsort.jit_sorts</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for corsort.jit_sorts</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">numba</span> <span class="kn">import</span> <span class="n">njit</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+
+<div class="viewcode-block" id="jit_corsort_borda"><a class="viewcode-back" href="../../reference/jit_sorts.html#corsort.jit_sorts.jit_corsort_borda">[docs]</a><span class="nd">@njit</span>
+<span class="k">def</span> <span class="nf">jit_corsort_borda</span><span class="p">(</span><span class="n">perm</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Corsort designed for low total number of comparison.</span>
+<span class="sd">    Not efficient in terms of convergence trajectory.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    perm: :class:`~numpy.ndarray`</span>
+<span class="sd">        A random permutation.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    states: :class:`list` of :class:`~numpy.ndarray`</span>
+<span class="sd">        List of estimates of the sorted result.</span>
+<span class="sd">    scores: :class:`list` of :class:`~numpy.ndarray`</span>
+<span class="sd">        List of estimates of the importance of each item.</span>
+<span class="sd">    comparisons: :class:`list` of :class:`tuple`</span>
+<span class="sd">        List of performed comparison. Each element is a tuple (index of lower item, index of higher item).</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    &gt;&gt;&gt; np.random.seed(42)</span>
+<span class="sd">    &gt;&gt;&gt; p = np.random.permutation(10)</span>
+<span class="sd">    &gt;&gt;&gt; st, sc, co = jit_corsort_borda(p)</span>
+<span class="sd">    &gt;&gt;&gt; st[0]</span>
+<span class="sd">    array([8, 1, 5, 0, 7, 2, 9, 4, 3, 6])</span>
+<span class="sd">    &gt;&gt;&gt; st[10]</span>
+<span class="sd">    array([0, 2, 1, 4, 5, 3, 6, 7, 8, 9])</span>
+<span class="sd">    &gt;&gt;&gt; st[-1]</span>
+<span class="sd">    array([0, 1, 2, 3, 4, 5, 6, 7, 8, 9])</span>
+<span class="sd">    &gt;&gt;&gt; p[:5]</span>
+<span class="sd">    array([8, 1, 5, 0, 7])</span>
+<span class="sd">    &gt;&gt;&gt; sc[0][:5]</span>
+<span class="sd">    array([0, 0, 0, 0, 0])</span>
+<span class="sd">    &gt;&gt;&gt; sc[10][:5]</span>
+<span class="sd">    array([ 5, -3,  0, -5,  3])</span>
+<span class="sd">    &gt;&gt;&gt; sc[-1][:5]</span>
+<span class="sd">    array([ 7, -7,  1, -9,  5])</span>
+<span class="sd">    &gt;&gt;&gt; len(co)</span>
+<span class="sd">    22</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">perm</span><span class="p">)</span>
+    <span class="n">leq</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int8</span><span class="p">)</span>
+    <span class="n">pos</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int_</span><span class="p">)</span>
+    <span class="n">info</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int_</span><span class="p">)</span>
+    <span class="n">states</span> <span class="o">=</span> <span class="p">[</span><span class="n">perm</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">pos</span><span class="p">)]]</span>
+    <span class="n">scores</span> <span class="o">=</span> <span class="p">[</span><span class="n">pos</span><span class="o">.</span><span class="n">copy</span><span class="p">()]</span>
+    <span class="n">comparisons</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span>
+    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="n">diff</span> <span class="o">=</span> <span class="n">n</span>
+        <span class="n">xp</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">ii</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">jj</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">ii</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">leq</span><span class="p">[</span><span class="n">ii</span><span class="p">,</span> <span class="n">jj</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">diff_ij</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">pos</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span> <span class="o">-</span> <span class="n">pos</span><span class="p">[</span><span class="n">jj</span><span class="p">])</span>
+                    <span class="k">if</span> <span class="n">diff_ij</span> <span class="o">&gt;</span> <span class="n">diff</span><span class="p">:</span>
+                        <span class="k">continue</span>
+                    <span class="n">xp_ij</span> <span class="o">=</span> <span class="n">info</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span> <span class="o">+</span> <span class="n">info</span><span class="p">[</span><span class="n">jj</span><span class="p">]</span>
+                    <span class="k">if</span> <span class="n">diff_ij</span> <span class="o">&lt;</span> <span class="n">diff</span> <span class="ow">or</span> <span class="p">(</span><span class="n">diff_ij</span> <span class="o">==</span> <span class="n">diff</span> <span class="ow">and</span> <span class="n">xp_ij</span> <span class="o">&gt;</span> <span class="n">xp</span><span class="p">):</span>
+                        <span class="n">diff</span> <span class="o">=</span> <span class="n">diff_ij</span>
+                        <span class="n">xp</span> <span class="o">=</span> <span class="n">xp_ij</span>
+                        <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="o">=</span> <span class="n">ii</span><span class="p">,</span> <span class="n">jj</span>
+        <span class="k">if</span> <span class="n">diff</span> <span class="o">==</span> <span class="n">n</span><span class="p">:</span>
+            <span class="k">break</span>
+        <span class="k">if</span> <span class="n">perm</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">perm</span><span class="p">[</span><span class="n">j</span><span class="p">]:</span>
+            <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="o">=</span> <span class="n">j</span><span class="p">,</span> <span class="n">i</span>
+        <span class="n">comparisons</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">ii</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">leq</span><span class="p">[</span><span class="n">ii</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">jj</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+                    <span class="k">if</span> <span class="n">leq</span><span class="p">[</span><span class="n">j</span><span class="p">,</span> <span class="n">jj</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">leq</span><span class="p">[</span><span class="n">ii</span><span class="p">,</span> <span class="n">jj</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                        <span class="n">leq</span><span class="p">[</span><span class="n">ii</span><span class="p">,</span> <span class="n">jj</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+                        <span class="n">leq</span><span class="p">[</span><span class="n">jj</span><span class="p">,</span> <span class="n">ii</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+                        <span class="n">info</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+                        <span class="n">info</span><span class="p">[</span><span class="n">jj</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+                        <span class="n">pos</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span> <span class="o">-=</span> <span class="mi">1</span>
+                        <span class="n">pos</span><span class="p">[</span><span class="n">jj</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="n">scores</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pos</span><span class="o">.</span><span class="n">copy</span><span class="p">())</span>
+        <span class="n">states</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">perm</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">pos</span><span class="p">)])</span>
+    <span class="k">return</span> <span class="n">states</span><span class="p">,</span> <span class="n">scores</span><span class="p">,</span> <span class="n">comparisons</span></div>
+
+
+<div class="viewcode-block" id="jit_corsort_drift_max_spaced"><a class="viewcode-back" href="../../reference/jit_sorts.html#corsort.jit_sorts.jit_corsort_drift_max_spaced">[docs]</a><span class="nd">@njit</span>
+<span class="k">def</span> <span class="nf">jit_corsort_drift_max_spaced</span><span class="p">(</span><span class="n">perm</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Corsort with drift core scorer, max-knowledge tie-break, and spaced outpus scorer.</span>
+<span class="sd">    Currently, the best corsort for trajectory.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    perm: :class:`~numpy.ndarray`</span>
+<span class="sd">        A random permutation.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    states: :class:`list` of :class:`~numpy.ndarray`</span>
+<span class="sd">        List of estimates of the sorted result.</span>
+<span class="sd">    scores: :class:`list` of :class:`~numpy.ndarray`</span>
+<span class="sd">        List of estimates of the importance of each item.</span>
+<span class="sd">    comparisons: :class:`list` of :class:`tuple`</span>
+<span class="sd">        List of performed comparison. Each element is a tuple (index of lower item, index of higher item).</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    &gt;&gt;&gt; np.random.seed(42)</span>
+<span class="sd">    &gt;&gt;&gt; p = np.random.permutation(10)</span>
+<span class="sd">    &gt;&gt;&gt; st, sc, co = jit_corsort_drift_max_spaced(p)</span>
+<span class="sd">    &gt;&gt;&gt; st[0]</span>
+<span class="sd">    array([8, 1, 5, 0, 7, 2, 9, 4, 3, 6])</span>
+<span class="sd">    &gt;&gt;&gt; st[10]</span>
+<span class="sd">    array([0, 1, 2, 4, 3, 6, 5, 7, 8, 9])</span>
+<span class="sd">    &gt;&gt;&gt; st[-1]</span>
+<span class="sd">    array([0, 1, 2, 3, 4, 5, 6, 7, 8, 9])</span>
+<span class="sd">    &gt;&gt;&gt; p[:5]</span>
+<span class="sd">    array([8, 1, 5, 0, 7])</span>
+<span class="sd">    &gt;&gt;&gt; sc[0][:5]</span>
+<span class="sd">    array([0.5, 0.5, 0.5, 0.5, 0.5])</span>
+<span class="sd">    &gt;&gt;&gt; sc[10][:5]</span>
+<span class="sd">    array([0.83333333, 0.16666667, 0.66666667, 0.14285714, 0.75      ])</span>
+<span class="sd">    &gt;&gt;&gt; sc[-1][:5]</span>
+<span class="sd">    array([0.81818182, 0.18181818, 0.54545455, 0.09090909, 0.72727273])</span>
+<span class="sd">    &gt;&gt;&gt; len(co)</span>
+<span class="sd">    22</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">perm</span><span class="p">)</span>
+    <span class="n">leq</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int8</span><span class="p">)</span>
+    <span class="n">pos</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int_</span><span class="p">)</span>
+    <span class="n">down</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int_</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span>
+    <span class="n">info</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int_</span><span class="p">)</span><span class="o">+</span><span class="mi">2</span>
+    <span class="n">score</span> <span class="o">=</span> <span class="n">down</span><span class="o">/</span><span class="n">info</span>
+    <span class="n">scores</span> <span class="o">=</span> <span class="p">[</span><span class="n">score</span><span class="p">]</span>
+    <span class="n">states</span> <span class="o">=</span> <span class="p">[</span><span class="n">perm</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">score</span><span class="p">)]]</span>
+    <span class="n">comparisons</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span>
+    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="n">diff</span> <span class="o">=</span> <span class="n">n</span>
+        <span class="n">xp</span> <span class="o">=</span> <span class="n">n</span><span class="o">+</span><span class="mi">1</span>
+        <span class="k">for</span> <span class="n">ii</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">jj</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">ii</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">leq</span><span class="p">[</span><span class="n">ii</span><span class="p">,</span> <span class="n">jj</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">diff_ij</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">pos</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span> <span class="o">-</span> <span class="n">pos</span><span class="p">[</span><span class="n">jj</span><span class="p">])</span>
+                    <span class="k">if</span> <span class="n">diff_ij</span> <span class="o">&gt;</span> <span class="n">diff</span><span class="p">:</span>
+                        <span class="k">continue</span>
+                    <span class="n">xp_ij</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">info</span><span class="p">[</span><span class="n">ii</span><span class="p">],</span> <span class="n">info</span><span class="p">[</span><span class="n">jj</span><span class="p">])</span>
+                    <span class="k">if</span> <span class="n">diff_ij</span> <span class="o">&lt;</span> <span class="n">diff</span> <span class="ow">or</span> <span class="p">(</span><span class="n">diff_ij</span> <span class="o">==</span> <span class="n">diff</span> <span class="ow">and</span> <span class="n">xp_ij</span> <span class="o">&lt;</span> <span class="n">xp</span><span class="p">):</span>
+                        <span class="n">diff</span> <span class="o">=</span> <span class="n">diff_ij</span>
+                        <span class="n">xp</span> <span class="o">=</span> <span class="n">xp_ij</span>
+                        <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="o">=</span> <span class="n">ii</span><span class="p">,</span> <span class="n">jj</span>
+        <span class="k">if</span> <span class="n">diff</span> <span class="o">==</span> <span class="n">n</span><span class="p">:</span>
+            <span class="k">break</span>
+        <span class="k">if</span> <span class="n">perm</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">perm</span><span class="p">[</span><span class="n">j</span><span class="p">]:</span>
+            <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="o">=</span> <span class="n">j</span><span class="p">,</span> <span class="n">i</span>
+        <span class="n">comparisons</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">ii</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">leq</span><span class="p">[</span><span class="n">ii</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">jj</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+                    <span class="k">if</span> <span class="n">leq</span><span class="p">[</span><span class="n">j</span><span class="p">,</span> <span class="n">jj</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">leq</span><span class="p">[</span><span class="n">ii</span><span class="p">,</span> <span class="n">jj</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                        <span class="n">leq</span><span class="p">[</span><span class="n">ii</span><span class="p">,</span> <span class="n">jj</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+                        <span class="n">leq</span><span class="p">[</span><span class="n">jj</span><span class="p">,</span> <span class="n">ii</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+                        <span class="n">info</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+                        <span class="n">info</span><span class="p">[</span><span class="n">jj</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+                        <span class="n">down</span><span class="p">[</span><span class="n">jj</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+                        <span class="n">pos</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span> <span class="o">-=</span> <span class="mi">1</span>
+                        <span class="n">pos</span><span class="p">[</span><span class="n">jj</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="n">score</span> <span class="o">=</span> <span class="n">down</span><span class="o">/</span><span class="n">info</span>
+        <span class="n">scores</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">score</span><span class="p">)</span>
+        <span class="n">states</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">perm</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">score</span><span class="p">)])</span>
+    <span class="k">return</span> <span class="n">states</span><span class="p">,</span> <span class="n">scores</span><span class="p">,</span> <span class="n">comparisons</span></div>
+
+
+<div class="viewcode-block" id="jit_corsort_drift_plus_spaced"><a class="viewcode-back" href="../../reference/jit_sorts.html#corsort.jit_sorts.jit_corsort_drift_plus_spaced">[docs]</a><span class="nd">@njit</span>
+<span class="k">def</span> <span class="nf">jit_corsort_drift_plus_spaced</span><span class="p">(</span><span class="n">perm</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Corsort with drift core scorer, plus-knowledge tie-break, and spaced outpus scorer.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    perm: :class:`~numpy.ndarray`</span>
+<span class="sd">        A random permutation.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    states: :class:`list` of :class:`~numpy.ndarray`</span>
+<span class="sd">        List of estimates of the sorted result.</span>
+<span class="sd">    scores: :class:`list` of :class:`~numpy.ndarray`</span>
+<span class="sd">        List of estimates of the importance of each item.</span>
+<span class="sd">    comparisons: :class:`list` of :class:`tuple`</span>
+<span class="sd">        List of performed comparison. Each element is a tuple (index of lower item, index of higher item).</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    &gt;&gt;&gt; np.random.seed(42)</span>
+<span class="sd">    &gt;&gt;&gt; p = np.random.permutation(10)</span>
+<span class="sd">    &gt;&gt;&gt; st, sc, co = jit_corsort_drift_plus_spaced(p)</span>
+<span class="sd">    &gt;&gt;&gt; st[0]</span>
+<span class="sd">    array([8, 1, 5, 0, 7, 2, 9, 4, 3, 6])</span>
+<span class="sd">    &gt;&gt;&gt; st[10]</span>
+<span class="sd">    array([0, 1, 2, 4, 3, 6, 5, 7, 8, 9])</span>
+<span class="sd">    &gt;&gt;&gt; st[-1]</span>
+<span class="sd">    array([0, 1, 2, 3, 4, 5, 6, 7, 8, 9])</span>
+<span class="sd">    &gt;&gt;&gt; p[:5]</span>
+<span class="sd">    array([8, 1, 5, 0, 7])</span>
+<span class="sd">    &gt;&gt;&gt; sc[0][:5]</span>
+<span class="sd">    array([0.5, 0.5, 0.5, 0.5, 0.5])</span>
+<span class="sd">    &gt;&gt;&gt; sc[10][:5]</span>
+<span class="sd">    array([0.83333333, 0.16666667, 0.66666667, 0.14285714, 0.75      ])</span>
+<span class="sd">    &gt;&gt;&gt; sc[-1][:5]</span>
+<span class="sd">    array([0.81818182, 0.18181818, 0.54545455, 0.09090909, 0.72727273])</span>
+<span class="sd">    &gt;&gt;&gt; len(co)</span>
+<span class="sd">    21</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">perm</span><span class="p">)</span>
+    <span class="n">leq</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int8</span><span class="p">)</span>
+    <span class="n">pos</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int_</span><span class="p">)</span>
+    <span class="n">down</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int_</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span>
+    <span class="n">info</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int_</span><span class="p">)</span><span class="o">+</span><span class="mi">2</span>
+    <span class="n">score</span> <span class="o">=</span> <span class="n">down</span><span class="o">/</span><span class="n">info</span>
+    <span class="n">scores</span> <span class="o">=</span> <span class="p">[</span><span class="n">score</span><span class="p">]</span>
+    <span class="n">states</span> <span class="o">=</span> <span class="p">[</span><span class="n">perm</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">score</span><span class="p">)]]</span>
+    <span class="n">comparisons</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span>
+    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="n">diff</span> <span class="o">=</span> <span class="n">n</span>
+        <span class="n">xp</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">n</span>
+        <span class="k">for</span> <span class="n">ii</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">jj</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">ii</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">leq</span><span class="p">[</span><span class="n">ii</span><span class="p">,</span> <span class="n">jj</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">diff_ij</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">pos</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span> <span class="o">-</span> <span class="n">pos</span><span class="p">[</span><span class="n">jj</span><span class="p">])</span>
+                    <span class="k">if</span> <span class="n">diff_ij</span> <span class="o">&gt;</span> <span class="n">diff</span><span class="p">:</span>
+                        <span class="k">continue</span>
+                    <span class="n">xp_ij</span> <span class="o">=</span> <span class="n">info</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span> <span class="o">+</span> <span class="n">info</span><span class="p">[</span><span class="n">jj</span><span class="p">]</span>
+                    <span class="k">if</span> <span class="n">diff_ij</span> <span class="o">&lt;</span> <span class="n">diff</span> <span class="ow">or</span> <span class="p">(</span><span class="n">diff_ij</span> <span class="o">==</span> <span class="n">diff</span> <span class="ow">and</span> <span class="n">xp_ij</span> <span class="o">&lt;</span> <span class="n">xp</span><span class="p">):</span>
+                        <span class="n">diff</span> <span class="o">=</span> <span class="n">diff_ij</span>
+                        <span class="n">xp</span> <span class="o">=</span> <span class="n">xp_ij</span>
+                        <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="o">=</span> <span class="n">ii</span><span class="p">,</span> <span class="n">jj</span>
+        <span class="k">if</span> <span class="n">diff</span> <span class="o">==</span> <span class="n">n</span><span class="p">:</span>
+            <span class="k">break</span>
+        <span class="k">if</span> <span class="n">perm</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">perm</span><span class="p">[</span><span class="n">j</span><span class="p">]:</span>
+            <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="o">=</span> <span class="n">j</span><span class="p">,</span> <span class="n">i</span>
+        <span class="n">comparisons</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">ii</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">leq</span><span class="p">[</span><span class="n">ii</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">jj</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+                    <span class="k">if</span> <span class="n">leq</span><span class="p">[</span><span class="n">j</span><span class="p">,</span> <span class="n">jj</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">leq</span><span class="p">[</span><span class="n">ii</span><span class="p">,</span> <span class="n">jj</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                        <span class="n">leq</span><span class="p">[</span><span class="n">ii</span><span class="p">,</span> <span class="n">jj</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+                        <span class="n">leq</span><span class="p">[</span><span class="n">jj</span><span class="p">,</span> <span class="n">ii</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+                        <span class="n">info</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+                        <span class="n">info</span><span class="p">[</span><span class="n">jj</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+                        <span class="n">down</span><span class="p">[</span><span class="n">jj</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+                        <span class="n">pos</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span> <span class="o">-=</span> <span class="mi">1</span>
+                        <span class="n">pos</span><span class="p">[</span><span class="n">jj</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="n">score</span> <span class="o">=</span> <span class="n">down</span><span class="o">/</span><span class="n">info</span>
+        <span class="n">scores</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">score</span><span class="p">)</span>
+        <span class="n">states</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">perm</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">score</span><span class="p">)])</span>
+    <span class="k">return</span> <span class="n">states</span><span class="p">,</span> <span class="n">scores</span><span class="p">,</span> <span class="n">comparisons</span></div>
+
+
+<div class="viewcode-block" id="jit_corsort_drift_max_drift"><a class="viewcode-back" href="../../reference/jit_sorts.html#corsort.jit_sorts.jit_corsort_drift_max_drift">[docs]</a><span class="nd">@njit</span>
+<span class="k">def</span> <span class="nf">jit_corsort_drift_max_drift</span><span class="p">(</span><span class="n">perm</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Corsort with drift core scorer, max-knowledge tie-break, and drift outpus scorer.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    perm: :class:`~numpy.ndarray`</span>
+<span class="sd">        A random permutation.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    states: :class:`list` of :class:`~numpy.ndarray`</span>
+<span class="sd">        List of estimates of the sorted result.</span>
+<span class="sd">    scores: :class:`list` of :class:`~numpy.ndarray`</span>
+<span class="sd">        List of estimates of the importance of each item.</span>
+<span class="sd">    comparisons: :class:`list` of :class:`tuple`</span>
+<span class="sd">        List of performed comparison. Each element is a tuple (index of lower item, index of higher item).</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    &gt;&gt;&gt; np.random.seed(42)</span>
+<span class="sd">    &gt;&gt;&gt; p = np.random.permutation(10)</span>
+<span class="sd">    &gt;&gt;&gt; st, sc, co = jit_corsort_drift_max_drift(p)</span>
+<span class="sd">    &gt;&gt;&gt; st[0]</span>
+<span class="sd">    array([8, 1, 5, 0, 7, 2, 9, 4, 3, 6])</span>
+<span class="sd">    &gt;&gt;&gt; st[10]</span>
+<span class="sd">    array([0, 1, 2, 4, 3, 6, 5, 7, 8, 9])</span>
+<span class="sd">    &gt;&gt;&gt; st[-1]</span>
+<span class="sd">    array([0, 1, 2, 3, 4, 5, 6, 7, 8, 9])</span>
+<span class="sd">    &gt;&gt;&gt; p[:5]</span>
+<span class="sd">    array([8, 1, 5, 0, 7])</span>
+<span class="sd">    &gt;&gt;&gt; sc[0][:5]</span>
+<span class="sd">    array([0, 0, 0, 0, 0])</span>
+<span class="sd">    &gt;&gt;&gt; sc[10][:5]</span>
+<span class="sd">    array([ 4, -4,  2, -5,  2])</span>
+<span class="sd">    &gt;&gt;&gt; sc[-1][:5]</span>
+<span class="sd">    array([ 7, -7,  1, -9,  5])</span>
+<span class="sd">    &gt;&gt;&gt; len(co)</span>
+<span class="sd">    22</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">perm</span><span class="p">)</span>
+    <span class="n">leq</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int8</span><span class="p">)</span>
+    <span class="n">pos</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int_</span><span class="p">)</span>
+    <span class="n">info</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int_</span><span class="p">)</span>
+    <span class="n">score</span> <span class="o">=</span> <span class="n">pos</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">scores</span> <span class="o">=</span> <span class="p">[</span><span class="n">score</span><span class="p">]</span>
+    <span class="n">states</span> <span class="o">=</span> <span class="p">[</span><span class="n">perm</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">score</span><span class="p">)]]</span>
+    <span class="n">comparisons</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span>
+    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="n">diff</span> <span class="o">=</span> <span class="n">n</span>
+        <span class="n">xp</span> <span class="o">=</span> <span class="n">n</span><span class="o">+</span><span class="mi">1</span>
+        <span class="k">for</span> <span class="n">ii</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">jj</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">ii</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">leq</span><span class="p">[</span><span class="n">ii</span><span class="p">,</span> <span class="n">jj</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">diff_ij</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">pos</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span> <span class="o">-</span> <span class="n">pos</span><span class="p">[</span><span class="n">jj</span><span class="p">])</span>
+                    <span class="k">if</span> <span class="n">diff_ij</span> <span class="o">&gt;</span> <span class="n">diff</span><span class="p">:</span>
+                        <span class="k">continue</span>
+                    <span class="n">xp_ij</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">info</span><span class="p">[</span><span class="n">ii</span><span class="p">],</span> <span class="n">info</span><span class="p">[</span><span class="n">jj</span><span class="p">])</span>
+                    <span class="k">if</span> <span class="n">diff_ij</span> <span class="o">&lt;</span> <span class="n">diff</span> <span class="ow">or</span> <span class="p">(</span><span class="n">diff_ij</span> <span class="o">==</span> <span class="n">diff</span> <span class="ow">and</span> <span class="n">xp_ij</span> <span class="o">&lt;</span> <span class="n">xp</span><span class="p">):</span>
+                        <span class="n">diff</span> <span class="o">=</span> <span class="n">diff_ij</span>
+                        <span class="n">xp</span> <span class="o">=</span> <span class="n">xp_ij</span>
+                        <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="o">=</span> <span class="n">ii</span><span class="p">,</span> <span class="n">jj</span>
+        <span class="k">if</span> <span class="n">diff</span> <span class="o">==</span> <span class="n">n</span><span class="p">:</span>
+            <span class="k">break</span>
+        <span class="k">if</span> <span class="n">perm</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">perm</span><span class="p">[</span><span class="n">j</span><span class="p">]:</span>
+            <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="o">=</span> <span class="n">j</span><span class="p">,</span> <span class="n">i</span>
+        <span class="n">comparisons</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">ii</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">leq</span><span class="p">[</span><span class="n">ii</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">jj</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+                    <span class="k">if</span> <span class="n">leq</span><span class="p">[</span><span class="n">j</span><span class="p">,</span> <span class="n">jj</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">leq</span><span class="p">[</span><span class="n">ii</span><span class="p">,</span> <span class="n">jj</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                        <span class="n">leq</span><span class="p">[</span><span class="n">ii</span><span class="p">,</span> <span class="n">jj</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+                        <span class="n">leq</span><span class="p">[</span><span class="n">jj</span><span class="p">,</span> <span class="n">ii</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+                        <span class="n">info</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+                        <span class="n">info</span><span class="p">[</span><span class="n">jj</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+                        <span class="n">pos</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span> <span class="o">-=</span> <span class="mi">1</span>
+                        <span class="n">pos</span><span class="p">[</span><span class="n">jj</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="n">score</span> <span class="o">=</span> <span class="n">pos</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="n">scores</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">score</span><span class="p">)</span>
+        <span class="n">states</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">perm</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">score</span><span class="p">)])</span>
+    <span class="k">return</span> <span class="n">states</span><span class="p">,</span> <span class="n">scores</span><span class="p">,</span> <span class="n">comparisons</span></div>
+
+
+<div class="viewcode-block" id="jit_corsort_drift_plus_drift"><a class="viewcode-back" href="../../reference/jit_sorts.html#corsort.jit_sorts.jit_corsort_drift_plus_drift">[docs]</a><span class="nd">@njit</span>
+<span class="k">def</span> <span class="nf">jit_corsort_drift_plus_drift</span><span class="p">(</span><span class="n">perm</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Corsort with drift core scorer, plus-knowledge tie-break, and drift outpus scorer.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    perm: :class:`~numpy.ndarray`</span>
+<span class="sd">        A random permutation.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    states: :class:`list` of :class:`~numpy.ndarray`</span>
+<span class="sd">        List of estimates of the sorted result.</span>
+<span class="sd">    scores: :class:`list` of :class:`~numpy.ndarray`</span>
+<span class="sd">        List of estimates of the importance of each item.</span>
+<span class="sd">    comparisons: :class:`list` of :class:`tuple`</span>
+<span class="sd">        List of performed comparison. Each element is a tuple (index of lower item, index of higher item).</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    &gt;&gt;&gt; np.random.seed(42)</span>
+<span class="sd">    &gt;&gt;&gt; p = np.random.permutation(10)</span>
+<span class="sd">    &gt;&gt;&gt; st, sc, co = jit_corsort_drift_plus_drift(p)</span>
+<span class="sd">    &gt;&gt;&gt; st[0]</span>
+<span class="sd">    array([8, 1, 5, 0, 7, 2, 9, 4, 3, 6])</span>
+<span class="sd">    &gt;&gt;&gt; st[10]</span>
+<span class="sd">    array([0, 1, 2, 4, 3, 6, 5, 7, 8, 9])</span>
+<span class="sd">    &gt;&gt;&gt; st[-1]</span>
+<span class="sd">    array([0, 1, 2, 3, 4, 5, 6, 7, 8, 9])</span>
+<span class="sd">    &gt;&gt;&gt; p[:5]</span>
+<span class="sd">    array([8, 1, 5, 0, 7])</span>
+<span class="sd">    &gt;&gt;&gt; sc[0][:5]</span>
+<span class="sd">    array([0, 0, 0, 0, 0])</span>
+<span class="sd">    &gt;&gt;&gt; sc[10][:5]</span>
+<span class="sd">    array([ 4, -4,  2, -5,  2])</span>
+<span class="sd">    &gt;&gt;&gt; sc[-1][:5]</span>
+<span class="sd">    array([ 7, -7,  1, -9,  5])</span>
+<span class="sd">    &gt;&gt;&gt; len(co)</span>
+<span class="sd">    21</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">perm</span><span class="p">)</span>
+    <span class="n">leq</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int8</span><span class="p">)</span>
+    <span class="n">pos</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int_</span><span class="p">)</span>
+    <span class="n">info</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int_</span><span class="p">)</span>
+    <span class="n">score</span> <span class="o">=</span> <span class="n">pos</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">scores</span> <span class="o">=</span> <span class="p">[</span><span class="n">score</span><span class="p">]</span>
+    <span class="n">states</span> <span class="o">=</span> <span class="p">[</span><span class="n">perm</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">score</span><span class="p">)]]</span>
+    <span class="n">comparisons</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span>
+    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="n">diff</span> <span class="o">=</span> <span class="n">n</span>
+        <span class="n">xp</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">n</span>
+        <span class="k">for</span> <span class="n">ii</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">jj</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">ii</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">leq</span><span class="p">[</span><span class="n">ii</span><span class="p">,</span> <span class="n">jj</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">diff_ij</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">pos</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span> <span class="o">-</span> <span class="n">pos</span><span class="p">[</span><span class="n">jj</span><span class="p">])</span>
+                    <span class="k">if</span> <span class="n">diff_ij</span> <span class="o">&gt;</span> <span class="n">diff</span><span class="p">:</span>
+                        <span class="k">continue</span>
+                    <span class="n">xp_ij</span> <span class="o">=</span> <span class="n">info</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span> <span class="o">+</span> <span class="n">info</span><span class="p">[</span><span class="n">jj</span><span class="p">]</span>
+                    <span class="k">if</span> <span class="n">diff_ij</span> <span class="o">&lt;</span> <span class="n">diff</span> <span class="ow">or</span> <span class="p">(</span><span class="n">diff_ij</span> <span class="o">==</span> <span class="n">diff</span> <span class="ow">and</span> <span class="n">xp_ij</span> <span class="o">&lt;</span> <span class="n">xp</span><span class="p">):</span>
+                        <span class="n">diff</span> <span class="o">=</span> <span class="n">diff_ij</span>
+                        <span class="n">xp</span> <span class="o">=</span> <span class="n">xp_ij</span>
+                        <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="o">=</span> <span class="n">ii</span><span class="p">,</span> <span class="n">jj</span>
+        <span class="k">if</span> <span class="n">diff</span> <span class="o">==</span> <span class="n">n</span><span class="p">:</span>
+            <span class="k">break</span>
+        <span class="k">if</span> <span class="n">perm</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">perm</span><span class="p">[</span><span class="n">j</span><span class="p">]:</span>
+            <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="o">=</span> <span class="n">j</span><span class="p">,</span> <span class="n">i</span>
+        <span class="n">comparisons</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">ii</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">leq</span><span class="p">[</span><span class="n">ii</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">jj</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+                    <span class="k">if</span> <span class="n">leq</span><span class="p">[</span><span class="n">j</span><span class="p">,</span> <span class="n">jj</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">leq</span><span class="p">[</span><span class="n">ii</span><span class="p">,</span> <span class="n">jj</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                        <span class="n">leq</span><span class="p">[</span><span class="n">ii</span><span class="p">,</span> <span class="n">jj</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+                        <span class="n">leq</span><span class="p">[</span><span class="n">jj</span><span class="p">,</span> <span class="n">ii</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+                        <span class="n">info</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+                        <span class="n">info</span><span class="p">[</span><span class="n">jj</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+                        <span class="n">pos</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span> <span class="o">-=</span> <span class="mi">1</span>
+                        <span class="n">pos</span><span class="p">[</span><span class="n">jj</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="n">score</span> <span class="o">=</span> <span class="n">pos</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="n">scores</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">score</span><span class="p">)</span>
+        <span class="n">states</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">perm</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">score</span><span class="p">)])</span>
+    <span class="k">return</span> <span class="n">states</span><span class="p">,</span> <span class="n">scores</span><span class="p">,</span> <span class="n">comparisons</span></div>
+
+
+<div class="viewcode-block" id="jit_corsort_spaced_max_spaced"><a class="viewcode-back" href="../../reference/jit_sorts.html#corsort.jit_sorts.jit_corsort_spaced_max_spaced">[docs]</a><span class="nd">@njit</span>
+<span class="k">def</span> <span class="nf">jit_corsort_spaced_max_spaced</span><span class="p">(</span><span class="n">perm</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Corsort with spaced core scorer, max-knowledge tie-break, and spaced outpus scorer.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    perm: :class:`~numpy.ndarray`</span>
+<span class="sd">        A random permutation.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    states: :class:`list` of :class:`~numpy.ndarray`</span>
+<span class="sd">        List of estimates of the sorted result.</span>
+<span class="sd">    scores: :class:`list` of :class:`~numpy.ndarray`</span>
+<span class="sd">        List of estimates of the importance of each item.</span>
+<span class="sd">    comparisons: :class:`list` of :class:`tuple`</span>
+<span class="sd">        List of performed comparison. Each element is a tuple (index of lower item, index of higher item).</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    &gt;&gt;&gt; np.random.seed(42)</span>
+<span class="sd">    &gt;&gt;&gt; p = np.random.permutation(10)</span>
+<span class="sd">    &gt;&gt;&gt; st, sc, co = jit_corsort_spaced_max_spaced(p)</span>
+<span class="sd">    &gt;&gt;&gt; st[0]</span>
+<span class="sd">    array([8, 1, 5, 0, 7, 2, 9, 4, 3, 6])</span>
+<span class="sd">    &gt;&gt;&gt; st[10]</span>
+<span class="sd">    array([0, 1, 2, 4, 3, 6, 5, 7, 8, 9])</span>
+<span class="sd">    &gt;&gt;&gt; st[-1]</span>
+<span class="sd">    array([0, 1, 2, 3, 4, 5, 6, 7, 8, 9])</span>
+<span class="sd">    &gt;&gt;&gt; p[:5]</span>
+<span class="sd">    array([8, 1, 5, 0, 7])</span>
+<span class="sd">    &gt;&gt;&gt; sc[0][:5]</span>
+<span class="sd">    array([0.5, 0.5, 0.5, 0.5, 0.5])</span>
+<span class="sd">    &gt;&gt;&gt; sc[10][:5]</span>
+<span class="sd">    array([0.83333333, 0.16666667, 0.66666667, 0.14285714, 0.75      ])</span>
+<span class="sd">    &gt;&gt;&gt; sc[-1][:5]</span>
+<span class="sd">    array([0.81818182, 0.18181818, 0.54545455, 0.09090909, 0.72727273])</span>
+<span class="sd">    &gt;&gt;&gt; len(co)</span>
+<span class="sd">    23</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">perm</span><span class="p">)</span>
+    <span class="n">leq</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int8</span><span class="p">)</span>
+    <span class="n">down</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int_</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span>
+    <span class="n">info</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int_</span><span class="p">)</span><span class="o">+</span><span class="mi">2</span>
+    <span class="n">score</span> <span class="o">=</span> <span class="n">down</span><span class="o">/</span><span class="n">info</span>
+    <span class="n">scores</span> <span class="o">=</span> <span class="p">[</span><span class="n">score</span><span class="p">]</span>
+    <span class="n">states</span> <span class="o">=</span> <span class="p">[</span><span class="n">perm</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">score</span><span class="p">)]]</span>
+    <span class="n">comparisons</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span>
+    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="n">diff</span> <span class="o">=</span> <span class="n">n</span>
+        <span class="n">xp</span> <span class="o">=</span> <span class="n">n</span><span class="o">+</span><span class="mi">1</span>
+        <span class="k">for</span> <span class="n">ii</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">jj</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">ii</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">leq</span><span class="p">[</span><span class="n">ii</span><span class="p">,</span> <span class="n">jj</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">diff_ij</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">score</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span> <span class="o">-</span> <span class="n">score</span><span class="p">[</span><span class="n">jj</span><span class="p">])</span>
+                    <span class="k">if</span> <span class="n">diff_ij</span> <span class="o">&gt;</span> <span class="n">diff</span><span class="p">:</span>
+                        <span class="k">continue</span>
+                    <span class="n">xp_ij</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">info</span><span class="p">[</span><span class="n">ii</span><span class="p">],</span> <span class="n">info</span><span class="p">[</span><span class="n">jj</span><span class="p">])</span>
+                    <span class="k">if</span> <span class="n">diff_ij</span> <span class="o">&lt;</span> <span class="n">diff</span> <span class="ow">or</span> <span class="p">(</span><span class="n">diff_ij</span> <span class="o">==</span> <span class="n">diff</span> <span class="ow">and</span> <span class="n">xp_ij</span> <span class="o">&lt;</span> <span class="n">xp</span><span class="p">):</span>
+                        <span class="n">diff</span> <span class="o">=</span> <span class="n">diff_ij</span>
+                        <span class="n">xp</span> <span class="o">=</span> <span class="n">xp_ij</span>
+                        <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="o">=</span> <span class="n">ii</span><span class="p">,</span> <span class="n">jj</span>
+        <span class="k">if</span> <span class="n">diff</span> <span class="o">==</span> <span class="n">n</span><span class="p">:</span>
+            <span class="k">break</span>
+        <span class="k">if</span> <span class="n">perm</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">perm</span><span class="p">[</span><span class="n">j</span><span class="p">]:</span>
+            <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="o">=</span> <span class="n">j</span><span class="p">,</span> <span class="n">i</span>
+        <span class="n">comparisons</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">ii</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">leq</span><span class="p">[</span><span class="n">ii</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">jj</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+                    <span class="k">if</span> <span class="n">leq</span><span class="p">[</span><span class="n">j</span><span class="p">,</span> <span class="n">jj</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">leq</span><span class="p">[</span><span class="n">ii</span><span class="p">,</span> <span class="n">jj</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                        <span class="n">leq</span><span class="p">[</span><span class="n">ii</span><span class="p">,</span> <span class="n">jj</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+                        <span class="n">leq</span><span class="p">[</span><span class="n">jj</span><span class="p">,</span> <span class="n">ii</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+                        <span class="n">info</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+                        <span class="n">info</span><span class="p">[</span><span class="n">jj</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+                        <span class="n">down</span><span class="p">[</span><span class="n">jj</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="n">score</span> <span class="o">=</span> <span class="n">down</span><span class="o">/</span><span class="n">info</span>
+        <span class="n">scores</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">score</span><span class="p">)</span>
+        <span class="n">states</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">perm</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">score</span><span class="p">)])</span>
+    <span class="k">return</span> <span class="n">states</span><span class="p">,</span> <span class="n">scores</span><span class="p">,</span> <span class="n">comparisons</span></div>
+
+
+<div class="viewcode-block" id="jit_corsort_spaced_plus_spaced"><a class="viewcode-back" href="../../reference/jit_sorts.html#corsort.jit_sorts.jit_corsort_spaced_plus_spaced">[docs]</a><span class="nd">@njit</span>
+<span class="k">def</span> <span class="nf">jit_corsort_spaced_plus_spaced</span><span class="p">(</span><span class="n">perm</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Corsort with spaced core scorer, plus-knowledge tie-break, and spaced outpus scorer.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    perm: :class:`~numpy.ndarray`</span>
+<span class="sd">        A random permutation.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    states: :class:`list` of :class:`~numpy.ndarray`</span>
+<span class="sd">        List of estimates of the sorted result.</span>
+<span class="sd">    scores: :class:`list` of :class:`~numpy.ndarray`</span>
+<span class="sd">        List of estimates of the importance of each item.</span>
+<span class="sd">    comparisons: :class:`list` of :class:`tuple`</span>
+<span class="sd">        List of performed comparison. Each element is a tuple (index of lower item, index of higher item).</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    &gt;&gt;&gt; np.random.seed(42)</span>
+<span class="sd">    &gt;&gt;&gt; p = np.random.permutation(10)</span>
+<span class="sd">    &gt;&gt;&gt; st, sc, co = jit_corsort_spaced_plus_spaced(p)</span>
+<span class="sd">    &gt;&gt;&gt; st[0]</span>
+<span class="sd">    array([8, 1, 5, 0, 7, 2, 9, 4, 3, 6])</span>
+<span class="sd">    &gt;&gt;&gt; st[10]</span>
+<span class="sd">    array([0, 1, 2, 4, 3, 6, 5, 7, 8, 9])</span>
+<span class="sd">    &gt;&gt;&gt; st[-1]</span>
+<span class="sd">    array([0, 1, 2, 3, 4, 5, 6, 7, 8, 9])</span>
+<span class="sd">    &gt;&gt;&gt; p[:5]</span>
+<span class="sd">    array([8, 1, 5, 0, 7])</span>
+<span class="sd">    &gt;&gt;&gt; sc[0][:5]</span>
+<span class="sd">    array([0.5, 0.5, 0.5, 0.5, 0.5])</span>
+<span class="sd">    &gt;&gt;&gt; sc[10][:5]</span>
+<span class="sd">    array([0.83333333, 0.16666667, 0.66666667, 0.14285714, 0.75      ])</span>
+<span class="sd">    &gt;&gt;&gt; sc[-1][:5]</span>
+<span class="sd">    array([0.81818182, 0.18181818, 0.54545455, 0.09090909, 0.72727273])</span>
+<span class="sd">    &gt;&gt;&gt; len(co)</span>
+<span class="sd">    21</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">perm</span><span class="p">)</span>
+    <span class="n">leq</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int8</span><span class="p">)</span>
+    <span class="n">down</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int_</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span>
+    <span class="n">info</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int_</span><span class="p">)</span><span class="o">+</span><span class="mi">2</span>
+    <span class="n">score</span> <span class="o">=</span> <span class="n">down</span><span class="o">/</span><span class="n">info</span>
+    <span class="n">scores</span> <span class="o">=</span> <span class="p">[</span><span class="n">score</span><span class="p">]</span>
+    <span class="n">states</span> <span class="o">=</span> <span class="p">[</span><span class="n">perm</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">score</span><span class="p">)]]</span>
+    <span class="n">comparisons</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span>
+    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="n">diff</span> <span class="o">=</span> <span class="n">n</span>
+        <span class="n">xp</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">n</span>
+        <span class="k">for</span> <span class="n">ii</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">jj</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">ii</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">leq</span><span class="p">[</span><span class="n">ii</span><span class="p">,</span> <span class="n">jj</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">diff_ij</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">score</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span> <span class="o">-</span> <span class="n">score</span><span class="p">[</span><span class="n">jj</span><span class="p">])</span>
+                    <span class="k">if</span> <span class="n">diff_ij</span> <span class="o">&gt;</span> <span class="n">diff</span><span class="p">:</span>
+                        <span class="k">continue</span>
+                    <span class="n">xp_ij</span> <span class="o">=</span> <span class="n">info</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span> <span class="o">+</span> <span class="n">info</span><span class="p">[</span><span class="n">jj</span><span class="p">]</span>
+                    <span class="k">if</span> <span class="n">diff_ij</span> <span class="o">&lt;</span> <span class="n">diff</span> <span class="ow">or</span> <span class="p">(</span><span class="n">diff_ij</span> <span class="o">==</span> <span class="n">diff</span> <span class="ow">and</span> <span class="n">xp_ij</span> <span class="o">&lt;</span> <span class="n">xp</span><span class="p">):</span>
+                        <span class="n">diff</span> <span class="o">=</span> <span class="n">diff_ij</span>
+                        <span class="n">xp</span> <span class="o">=</span> <span class="n">xp_ij</span>
+                        <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="o">=</span> <span class="n">ii</span><span class="p">,</span> <span class="n">jj</span>
+        <span class="k">if</span> <span class="n">diff</span> <span class="o">==</span> <span class="n">n</span><span class="p">:</span>
+            <span class="k">break</span>
+        <span class="k">if</span> <span class="n">perm</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">perm</span><span class="p">[</span><span class="n">j</span><span class="p">]:</span>
+            <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="o">=</span> <span class="n">j</span><span class="p">,</span> <span class="n">i</span>
+        <span class="n">comparisons</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">ii</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">leq</span><span class="p">[</span><span class="n">ii</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">jj</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+                    <span class="k">if</span> <span class="n">leq</span><span class="p">[</span><span class="n">j</span><span class="p">,</span> <span class="n">jj</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">leq</span><span class="p">[</span><span class="n">ii</span><span class="p">,</span> <span class="n">jj</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                        <span class="n">leq</span><span class="p">[</span><span class="n">ii</span><span class="p">,</span> <span class="n">jj</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+                        <span class="n">leq</span><span class="p">[</span><span class="n">jj</span><span class="p">,</span> <span class="n">ii</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+                        <span class="n">info</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+                        <span class="n">info</span><span class="p">[</span><span class="n">jj</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+                        <span class="n">down</span><span class="p">[</span><span class="n">jj</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="n">score</span> <span class="o">=</span> <span class="n">down</span><span class="o">/</span><span class="n">info</span>
+        <span class="n">scores</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">score</span><span class="p">)</span>
+        <span class="n">states</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">perm</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">score</span><span class="p">)])</span>
+    <span class="k">return</span> <span class="n">states</span><span class="p">,</span> <span class="n">scores</span><span class="p">,</span> <span class="n">comparisons</span></div>
+
+
+<div class="viewcode-block" id="jit_corsort_spaced_max_drift"><a class="viewcode-back" href="../../reference/jit_sorts.html#corsort.jit_sorts.jit_corsort_spaced_max_drift">[docs]</a><span class="nd">@njit</span>
+<span class="k">def</span> <span class="nf">jit_corsort_spaced_max_drift</span><span class="p">(</span><span class="n">perm</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Corsort with spaced core scorer, max-knowledge tie-break, and drift outpus scorer.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    perm: :class:`~numpy.ndarray`</span>
+<span class="sd">        A random permutation.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    states: :class:`list` of :class:`~numpy.ndarray`</span>
+<span class="sd">        List of estimates of the sorted result.</span>
+<span class="sd">    scores: :class:`list` of :class:`~numpy.ndarray`</span>
+<span class="sd">        List of estimates of the importance of each item.</span>
+<span class="sd">    comparisons: :class:`list` of :class:`tuple`</span>
+<span class="sd">        List of performed comparison. Each element is a tuple (index of lower item, index of higher item).</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    &gt;&gt;&gt; np.random.seed(42)</span>
+<span class="sd">    &gt;&gt;&gt; p = np.random.permutation(10)</span>
+<span class="sd">    &gt;&gt;&gt; st, sc, co = jit_corsort_spaced_max_drift(p)</span>
+<span class="sd">    &gt;&gt;&gt; st[0]</span>
+<span class="sd">    array([8, 1, 5, 0, 7, 2, 9, 4, 3, 6])</span>
+<span class="sd">    &gt;&gt;&gt; st[10]</span>
+<span class="sd">    array([0, 1, 2, 4, 3, 6, 5, 7, 8, 9])</span>
+<span class="sd">    &gt;&gt;&gt; st[-1]</span>
+<span class="sd">    array([0, 1, 2, 3, 4, 5, 6, 7, 8, 9])</span>
+<span class="sd">    &gt;&gt;&gt; p[:5]</span>
+<span class="sd">    array([8, 1, 5, 0, 7])</span>
+<span class="sd">    &gt;&gt;&gt; sc[0][:5]</span>
+<span class="sd">    array([0, 0, 0, 0, 0])</span>
+<span class="sd">    &gt;&gt;&gt; sc[10][:5]</span>
+<span class="sd">    array([ 4, -4,  2, -5,  2])</span>
+<span class="sd">    &gt;&gt;&gt; sc[-1][:5]</span>
+<span class="sd">    array([ 7, -7,  1, -9,  5])</span>
+<span class="sd">    &gt;&gt;&gt; len(co)</span>
+<span class="sd">    23</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">perm</span><span class="p">)</span>
+    <span class="n">leq</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int8</span><span class="p">)</span>
+    <span class="n">pos</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int_</span><span class="p">)</span>
+    <span class="n">down</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int_</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span>
+    <span class="n">info</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int_</span><span class="p">)</span><span class="o">+</span><span class="mi">2</span>
+    <span class="n">est</span> <span class="o">=</span> <span class="n">down</span><span class="o">/</span><span class="n">info</span>
+    <span class="n">score</span> <span class="o">=</span> <span class="n">pos</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">scores</span> <span class="o">=</span> <span class="p">[</span><span class="n">score</span><span class="p">]</span>
+    <span class="n">states</span> <span class="o">=</span> <span class="p">[</span><span class="n">perm</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">score</span><span class="p">)]]</span>
+    <span class="n">comparisons</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span>
+    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="n">diff</span> <span class="o">=</span> <span class="n">n</span>
+        <span class="n">xp</span> <span class="o">=</span> <span class="n">n</span><span class="o">+</span><span class="mi">1</span>
+        <span class="k">for</span> <span class="n">ii</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">jj</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">ii</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">leq</span><span class="p">[</span><span class="n">ii</span><span class="p">,</span> <span class="n">jj</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">diff_ij</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">est</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span> <span class="o">-</span> <span class="n">est</span><span class="p">[</span><span class="n">jj</span><span class="p">])</span>
+                    <span class="k">if</span> <span class="n">diff_ij</span> <span class="o">&gt;</span> <span class="n">diff</span><span class="p">:</span>
+                        <span class="k">continue</span>
+                    <span class="n">xp_ij</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">info</span><span class="p">[</span><span class="n">ii</span><span class="p">],</span> <span class="n">info</span><span class="p">[</span><span class="n">jj</span><span class="p">])</span>
+                    <span class="k">if</span> <span class="n">diff_ij</span> <span class="o">&lt;</span> <span class="n">diff</span> <span class="ow">or</span> <span class="p">(</span><span class="n">diff_ij</span> <span class="o">==</span> <span class="n">diff</span> <span class="ow">and</span> <span class="n">xp_ij</span> <span class="o">&lt;</span> <span class="n">xp</span><span class="p">):</span>
+                        <span class="n">diff</span> <span class="o">=</span> <span class="n">diff_ij</span>
+                        <span class="n">xp</span> <span class="o">=</span> <span class="n">xp_ij</span>
+                        <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="o">=</span> <span class="n">ii</span><span class="p">,</span> <span class="n">jj</span>
+        <span class="k">if</span> <span class="n">diff</span> <span class="o">==</span> <span class="n">n</span><span class="p">:</span>
+            <span class="k">break</span>
+        <span class="k">if</span> <span class="n">perm</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">perm</span><span class="p">[</span><span class="n">j</span><span class="p">]:</span>
+            <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="o">=</span> <span class="n">j</span><span class="p">,</span> <span class="n">i</span>
+        <span class="n">comparisons</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">ii</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">leq</span><span class="p">[</span><span class="n">ii</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">jj</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+                    <span class="k">if</span> <span class="n">leq</span><span class="p">[</span><span class="n">j</span><span class="p">,</span> <span class="n">jj</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">leq</span><span class="p">[</span><span class="n">ii</span><span class="p">,</span> <span class="n">jj</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                        <span class="n">leq</span><span class="p">[</span><span class="n">ii</span><span class="p">,</span> <span class="n">jj</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+                        <span class="n">leq</span><span class="p">[</span><span class="n">jj</span><span class="p">,</span> <span class="n">ii</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+                        <span class="n">info</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+                        <span class="n">info</span><span class="p">[</span><span class="n">jj</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+                        <span class="n">down</span><span class="p">[</span><span class="n">jj</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+                        <span class="n">pos</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span> <span class="o">-=</span> <span class="mi">1</span>
+                        <span class="n">pos</span><span class="p">[</span><span class="n">jj</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="n">est</span> <span class="o">=</span> <span class="n">down</span><span class="o">/</span><span class="n">info</span>
+        <span class="n">score</span> <span class="o">=</span> <span class="n">pos</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="n">scores</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">score</span><span class="p">)</span>
+        <span class="n">states</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">perm</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">score</span><span class="p">)])</span>
+    <span class="k">return</span> <span class="n">states</span><span class="p">,</span> <span class="n">scores</span><span class="p">,</span> <span class="n">comparisons</span></div>
+
+
+<div class="viewcode-block" id="jit_corsort_spaced_plus_drift"><a class="viewcode-back" href="../../reference/jit_sorts.html#corsort.jit_sorts.jit_corsort_spaced_plus_drift">[docs]</a><span class="nd">@njit</span>
+<span class="k">def</span> <span class="nf">jit_corsort_spaced_plus_drift</span><span class="p">(</span><span class="n">perm</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Corsort with spaced core scorer, plus-knowledge tie-break, and drift outpus scorer.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    perm: :class:`~numpy.ndarray`</span>
+<span class="sd">        A random permutation.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    states: :class:`list` of :class:`~numpy.ndarray`</span>
+<span class="sd">        List of estimates of the sorted result.</span>
+<span class="sd">    scores: :class:`list` of :class:`~numpy.ndarray`</span>
+<span class="sd">        List of estimates of the importance of each item.</span>
+<span class="sd">    comparisons: :class:`list` of :class:`tuple`</span>
+<span class="sd">        List of performed comparison. Each element is a tuple (index of lower item, index of higher item).</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    &gt;&gt;&gt; np.random.seed(42)</span>
+<span class="sd">    &gt;&gt;&gt; p = np.random.permutation(10)</span>
+<span class="sd">    &gt;&gt;&gt; st, sc, co = jit_corsort_spaced_plus_drift(p)</span>
+<span class="sd">    &gt;&gt;&gt; st[0]</span>
+<span class="sd">    array([8, 1, 5, 0, 7, 2, 9, 4, 3, 6])</span>
+<span class="sd">    &gt;&gt;&gt; st[10]</span>
+<span class="sd">    array([0, 1, 2, 4, 3, 6, 5, 7, 8, 9])</span>
+<span class="sd">    &gt;&gt;&gt; st[-1]</span>
+<span class="sd">    array([0, 1, 2, 3, 4, 5, 6, 7, 8, 9])</span>
+<span class="sd">    &gt;&gt;&gt; p[:5]</span>
+<span class="sd">    array([8, 1, 5, 0, 7])</span>
+<span class="sd">    &gt;&gt;&gt; sc[0][:5]</span>
+<span class="sd">    array([0, 0, 0, 0, 0])</span>
+<span class="sd">    &gt;&gt;&gt; sc[10][:5]</span>
+<span class="sd">    array([ 4, -4,  2, -5,  2])</span>
+<span class="sd">    &gt;&gt;&gt; sc[-1][:5]</span>
+<span class="sd">    array([ 7, -7,  1, -9,  5])</span>
+<span class="sd">    &gt;&gt;&gt; len(co)</span>
+<span class="sd">    21</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">perm</span><span class="p">)</span>
+    <span class="n">leq</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int8</span><span class="p">)</span>
+    <span class="n">pos</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int_</span><span class="p">)</span>
+    <span class="n">down</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int_</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span>
+    <span class="n">info</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int_</span><span class="p">)</span><span class="o">+</span><span class="mi">2</span>
+    <span class="n">est</span> <span class="o">=</span> <span class="n">down</span><span class="o">/</span><span class="n">info</span>
+    <span class="n">score</span> <span class="o">=</span> <span class="n">pos</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">scores</span> <span class="o">=</span> <span class="p">[</span><span class="n">score</span><span class="p">]</span>
+    <span class="n">states</span> <span class="o">=</span> <span class="p">[</span><span class="n">perm</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">score</span><span class="p">)]]</span>
+    <span class="n">comparisons</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span>
+    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="n">diff</span> <span class="o">=</span> <span class="n">n</span>
+        <span class="n">xp</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">n</span>
+        <span class="k">for</span> <span class="n">ii</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">jj</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">ii</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">leq</span><span class="p">[</span><span class="n">ii</span><span class="p">,</span> <span class="n">jj</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">diff_ij</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">est</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span> <span class="o">-</span> <span class="n">est</span><span class="p">[</span><span class="n">jj</span><span class="p">])</span>
+                    <span class="k">if</span> <span class="n">diff_ij</span> <span class="o">&gt;</span> <span class="n">diff</span><span class="p">:</span>
+                        <span class="k">continue</span>
+                    <span class="n">xp_ij</span> <span class="o">=</span> <span class="n">info</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span> <span class="o">+</span> <span class="n">info</span><span class="p">[</span><span class="n">jj</span><span class="p">]</span>
+                    <span class="k">if</span> <span class="n">diff_ij</span> <span class="o">&lt;</span> <span class="n">diff</span> <span class="ow">or</span> <span class="p">(</span><span class="n">diff_ij</span> <span class="o">==</span> <span class="n">diff</span> <span class="ow">and</span> <span class="n">xp_ij</span> <span class="o">&lt;</span> <span class="n">xp</span><span class="p">):</span>
+                        <span class="n">diff</span> <span class="o">=</span> <span class="n">diff_ij</span>
+                        <span class="n">xp</span> <span class="o">=</span> <span class="n">xp_ij</span>
+                        <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="o">=</span> <span class="n">ii</span><span class="p">,</span> <span class="n">jj</span>
+        <span class="k">if</span> <span class="n">diff</span> <span class="o">==</span> <span class="n">n</span><span class="p">:</span>
+            <span class="k">break</span>
+        <span class="k">if</span> <span class="n">perm</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">perm</span><span class="p">[</span><span class="n">j</span><span class="p">]:</span>
+            <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="o">=</span> <span class="n">j</span><span class="p">,</span> <span class="n">i</span>
+        <span class="n">comparisons</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">ii</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">leq</span><span class="p">[</span><span class="n">ii</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">jj</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+                    <span class="k">if</span> <span class="n">leq</span><span class="p">[</span><span class="n">j</span><span class="p">,</span> <span class="n">jj</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">leq</span><span class="p">[</span><span class="n">ii</span><span class="p">,</span> <span class="n">jj</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                        <span class="n">leq</span><span class="p">[</span><span class="n">ii</span><span class="p">,</span> <span class="n">jj</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+                        <span class="n">leq</span><span class="p">[</span><span class="n">jj</span><span class="p">,</span> <span class="n">ii</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+                        <span class="n">info</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+                        <span class="n">info</span><span class="p">[</span><span class="n">jj</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+                        <span class="n">down</span><span class="p">[</span><span class="n">jj</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+                        <span class="n">pos</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span> <span class="o">-=</span> <span class="mi">1</span>
+                        <span class="n">pos</span><span class="p">[</span><span class="n">jj</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="n">est</span> <span class="o">=</span> <span class="n">down</span><span class="o">/</span><span class="n">info</span>
+        <span class="n">score</span> <span class="o">=</span> <span class="n">pos</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="n">scores</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">score</span><span class="p">)</span>
+        <span class="n">states</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">perm</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">score</span><span class="p">)])</span>
+    <span class="k">return</span> <span class="n">states</span><span class="p">,</span> <span class="n">scores</span><span class="p">,</span> <span class="n">comparisons</span></div>
+
+
+<div class="viewcode-block" id="heapify"><a class="viewcode-back" href="../../reference/jit_sorts.html#corsort.jit_sorts.heapify">[docs]</a><span class="nd">@njit</span>
+<span class="k">def</span> <span class="nf">heapify</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">states</span><span class="p">,</span> <span class="n">scores</span><span class="p">,</span> <span class="n">comparisons</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Based on a code by Mohit Kumra:</span>
+<span class="sd">    https://www.geeksforgeeks.org/python-program-for-heap-sort/</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">largest</span> <span class="o">=</span> <span class="n">i</span>  <span class="c1"># Initialize largest as root</span>
+    <span class="n">left</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span>  <span class="c1"># left = 2*i + 1</span>
+    <span class="n">right</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">2</span>  <span class="c1"># right = 2*i + 2</span>
+
+    <span class="c1"># See if left child of root exists and is</span>
+    <span class="c1"># greater than root</span>
+
+    <span class="k">if</span> <span class="n">left</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">arr</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">arr</span><span class="p">[</span><span class="n">left</span><span class="p">]:</span>
+            <span class="n">largest</span> <span class="o">=</span> <span class="n">left</span>
+            <span class="n">comparisons</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">i</span><span class="p">,</span> <span class="n">left</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">comparisons</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">left</span><span class="p">,</span> <span class="n">i</span><span class="p">))</span>
+        <span class="n">scores</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">states</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">arr</span><span class="o">.</span><span class="n">copy</span><span class="p">())</span>
+
+    <span class="c1"># See if right child of root exists and is</span>
+    <span class="c1"># greater than root</span>
+
+    <span class="k">if</span> <span class="n">right</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">arr</span><span class="p">[</span><span class="n">largest</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">arr</span><span class="p">[</span><span class="n">right</span><span class="p">]:</span>
+            <span class="n">largest</span> <span class="o">=</span> <span class="n">right</span>
+            <span class="n">comparisons</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">largest</span><span class="p">,</span> <span class="n">right</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">comparisons</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">right</span><span class="p">,</span> <span class="n">largest</span><span class="p">))</span>
+        <span class="n">scores</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">states</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">arr</span><span class="o">.</span><span class="n">copy</span><span class="p">())</span>
+
+    <span class="c1"># Change root, if needed</span>
+    <span class="k">if</span> <span class="n">largest</span> <span class="o">!=</span> <span class="n">i</span><span class="p">:</span>
+        <span class="p">(</span><span class="n">arr</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">arr</span><span class="p">[</span><span class="n">largest</span><span class="p">])</span> <span class="o">=</span> <span class="p">(</span><span class="n">arr</span><span class="p">[</span><span class="n">largest</span><span class="p">],</span> <span class="n">arr</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>  <span class="c1"># swap</span>
+
+        <span class="c1"># Heapify the root.</span>
+        <span class="n">heapify</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">largest</span><span class="p">,</span> <span class="n">states</span><span class="p">,</span> <span class="n">scores</span><span class="p">,</span> <span class="n">comparisons</span><span class="p">)</span></div>
+
+
+<span class="c1"># The main function to sort an array of given size</span>
+<div class="viewcode-block" id="jit_heapsort"><a class="viewcode-back" href="../../reference/jit_sorts.html#corsort.jit_sorts.jit_heapsort">[docs]</a><span class="nd">@njit</span>
+<span class="k">def</span> <span class="nf">jit_heapsort</span><span class="p">(</span><span class="n">arr</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Heap sort.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    arr:class:`~numpy.ndarray`</span>
+<span class="sd">        A random permutation.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    states: :class:`list` of :class:`~numpy.ndarray`</span>
+<span class="sd">        List of estimates of the sorted result.</span>
+<span class="sd">    scores: :class:`list` of :class:`~numpy.ndarray`</span>
+<span class="sd">        List of estimates of the importance of each item.</span>
+<span class="sd">    comparisons: :class:`list` of :class:`tuple`</span>
+<span class="sd">        List of performed comparison. Each element is a tuple (index of lower item, index of higher item).</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; np.random.seed(42)</span>
+<span class="sd">    &gt;&gt;&gt; p = np.random.permutation(10)</span>
+<span class="sd">    &gt;&gt;&gt; st, sc, co = jit_heapsort(p)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span>
+    <span class="n">states</span> <span class="o">=</span> <span class="p">[</span><span class="n">arr</span><span class="o">.</span><span class="n">copy</span><span class="p">()]</span>
+    <span class="n">scores</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">comparisons</span> <span class="o">=</span> <span class="p">[(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">)]</span>
+
+    <span class="c1"># Build a max-heap.</span>
+    <span class="c1"># Since last parent will be at ((n//2)-1) we can start at that location.</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span> <span class="o">//</span> <span class="mi">2</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+        <span class="n">heapify</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">states</span><span class="p">,</span> <span class="n">scores</span><span class="p">,</span> <span class="n">comparisons</span><span class="p">)</span>
+
+    <span class="c1"># One by one extract elements</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+        <span class="p">(</span><span class="n">arr</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">arr</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">=</span> <span class="p">(</span><span class="n">arr</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">arr</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>  <span class="c1"># swap</span>
+        <span class="n">heapify</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">states</span><span class="p">,</span> <span class="n">scores</span><span class="p">,</span> <span class="n">comparisons</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">states</span><span class="p">,</span> <span class="n">scores</span><span class="p">,</span> <span class="n">comparisons</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Emma Caizergues.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

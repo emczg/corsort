@@ -1,0 +1,3 @@
+partition
+---------
+.. autofunction:: corsort.partition

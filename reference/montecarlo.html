@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>montecarlo &mdash; Corsort 0.1.0 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="partition" href="partition.html" />
+    <link rel="prev" title="merge" href="merge.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Corsort
+          </a>
+              <div class="version">
+                0.1.0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../readme.html">Corsort</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../usage.html">Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks/index.html">Algotel</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="cor_sort.html">CorSort</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cor_sort_borda.html">CorSortBorda</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cor_sort_delegate.html">CorSortDelegate</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cor_sort_gain.html">CorSortGain</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cor_sort_gain_lexi.html">CorSortGainLexi</a></li>
+<li class="toctree-l2"><a class="reference internal" href="distance_to_sorted_array.html">distance_to_sorted_array</a></li>
+<li class="toctree-l2"><a class="reference internal" href="entropy_bound.html">entropy_bound</a></li>
+<li class="toctree-l2"><a class="reference internal" href="jit_scorers.html">jit_scorers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="jit_sorts.html">jit_sorts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="merge.html">merge</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">montecarlo</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#corsort.montecarlo.evaluate"><code class="docutils literal notranslate"><span class="pre">evaluate()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#corsort.montecarlo.evaluate_comparisons"><code class="docutils literal notranslate"><span class="pre">evaluate_comparisons()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#corsort.montecarlo.evaluate_convergence"><code class="docutils literal notranslate"><span class="pre">evaluate_convergence()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="partition.html">partition</a></li>
+<li class="toctree-l2"><a class="reference internal" href="presets.html">presets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sort.html">Sort</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sort_asort_quickselect.html">SortAsortQuickselect</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sort_ford_johnson.html">SortFordJohnson</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sort_largest_interval.html">SortLargestInterval</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sort_merge_bfs.html">SortMergeBfs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sort_merge_dfs.html">SortMergeDfs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sort_quick.html">SortQuick</a></li>
+<li class="toctree-l2"><a class="reference internal" href="wrap_full_jit.html">WrapFullJit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="wrap_sort_scorer.html">WrapSortScorer</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../authors.html">Credits</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../history.html">History</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Corsort</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Reference</a></li>
+      <li class="breadcrumb-item active">montecarlo</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/reference/montecarlo.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<section id="module-corsort.montecarlo">
+<span id="montecarlo"></span><h1>montecarlo<a class="headerlink" href="#module-corsort.montecarlo" title="Permalink to this heading"></a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="corsort.montecarlo.evaluate">
+<span class="sig-prename descclassname"><span class="pre">corsort.montecarlo.</span></span><span class="sig-name descname"><span class="pre">evaluate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sort_list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nt</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pool</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/corsort/montecarlo.html#evaluate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#corsort.montecarlo.evaluate" title="Permalink to this definition"></a></dt>
+<dd><p>Run a sim.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sort_list</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code>) – List of sorting algorithms (cf. examples).</p></li>
+<li><p><strong>n_list</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code>) – List of sizes for the tested lists.</p></li>
+<li><p><strong>nt</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>) – Number of samples.</p></li>
+<li><p><strong>pool</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">Pool</span></code>, optional.) – Use parallelism.</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">corsort</span> <span class="kn">import</span> <span class="n">SortQuick</span><span class="p">,</span> <span class="n">WrapFullJit</span><span class="p">,</span> <span class="n">entropy_bound</span><span class="p">,</span> <span class="n">jit_corsort_borda</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">my_nt</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">my_sort_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">SortQuick</span><span class="p">(),</span> <span class="n">WrapFullJit</span><span class="p">(</span><span class="n">jit_corsort_borda</span><span class="p">)]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">my_n_list</span> <span class="o">=</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">15</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>Evaluate corsort and quicksort using a Pool:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">with</span> <span class="n">Pool</span><span class="p">()</span> <span class="k">as</span> <span class="n">p</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="n">my_res</span> <span class="o">=</span> <span class="n">evaluate</span><span class="p">(</span><span class="n">my_sort_list</span><span class="p">,</span> <span class="n">my_n_list</span><span class="p">,</span> <span class="n">nt</span><span class="o">=</span><span class="n">my_nt</span><span class="p">,</span> <span class="n">pool</span><span class="o">=</span><span class="n">p</span><span class="p">)</span>
+<span class="go">Evaluate quicksort for n = 10</span>
+<span class="go">Evaluate corsort_borda for n = 10</span>
+<span class="go">Evaluate quicksort for n = 15</span>
+<span class="go">Evaluate corsort_borda for n = 15</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">print_res</span><span class="p">(</span><span class="n">my_res</span><span class="p">)</span>
+<span class="go">n=10, quicksort: mean=24.05, std=3.52</span>
+<span class="go">n=15, quicksort: mean=46.72, std=6.90</span>
+<span class="go">n=10, corsort_borda: mean=22.11, std=0.87</span>
+<span class="go">n=15, corsort_borda: mean=40.59, std=1.33</span>
+</pre></div>
+</div>
+<p>Same without the pool:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">my_res</span> <span class="o">=</span> <span class="n">evaluate</span><span class="p">(</span><span class="n">my_sort_list</span><span class="p">,</span> <span class="n">my_n_list</span><span class="p">,</span> <span class="n">nt</span><span class="o">=</span><span class="n">my_nt</span><span class="p">)</span>
+<span class="go">Evaluate quicksort for n = 10</span>
+<span class="go">Evaluate corsort_borda for n = 10</span>
+<span class="go">Evaluate quicksort for n = 15</span>
+<span class="go">Evaluate corsort_borda for n = 15</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">print_res</span><span class="p">(</span><span class="n">my_res</span><span class="p">)</span>
+<span class="go">n=10, quicksort: mean=24.05, std=3.52</span>
+<span class="go">n=15, quicksort: mean=46.72, std=6.90</span>
+<span class="go">n=10, corsort_borda: mean=22.11, std=0.87</span>
+<span class="go">n=15, corsort_borda: mean=40.59, std=1.33</span>
+</pre></div>
+</div>
+<p>Bound (loose, not exact):</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Bound for n=</span><span class="si">{</span><span class="n">my_n</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">entropy_bound</span><span class="p">(</span><span class="n">my_n</span><span class="p">)</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">my_n</span> <span class="ow">in</span> <span class="n">my_n_list</span><span class="p">))</span>
+<span class="go">Bound for n=10: 21.78</span>
+<span class="go">Bound for n=15: 40.24</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="corsort.montecarlo.evaluate_comparisons">
+<span class="sig-prename descclassname"><span class="pre">corsort.montecarlo.</span></span><span class="sig-name descname"><span class="pre">evaluate_comparisons</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sort_list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nt</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pool</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/corsort/montecarlo.html#evaluate_comparisons"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#corsort.montecarlo.evaluate_comparisons" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sort_list</strong> – </p></li>
+<li><p><strong>n_list</strong> – </p></li>
+<li><p><strong>nt</strong> – </p></li>
+<li><p><strong>pool</strong> – </p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">corsort</span> <span class="kn">import</span> <span class="n">SortQuick</span><span class="p">,</span> <span class="n">WrapFullJit</span><span class="p">,</span> <span class="n">entropy_bound</span><span class="p">,</span> <span class="n">jit_corsort_borda</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">my_nt</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">my_sort_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">SortQuick</span><span class="p">(),</span> <span class="n">WrapFullJit</span><span class="p">(</span><span class="n">jit_corsort_borda</span><span class="p">)]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">my_n_list</span> <span class="o">=</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">15</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>Evaluate corsort and quicksort using a Pool:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">with</span> <span class="n">Pool</span><span class="p">()</span> <span class="k">as</span> <span class="n">p</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="n">my_res</span> <span class="o">=</span> <span class="n">evaluate_comparisons</span><span class="p">(</span><span class="n">my_sort_list</span><span class="p">,</span> <span class="n">my_n_list</span><span class="p">,</span> <span class="n">nt</span><span class="o">=</span><span class="n">my_nt</span><span class="p">,</span> <span class="n">pool</span><span class="o">=</span><span class="n">p</span><span class="p">)</span>
+<span class="go">Evaluate comparisons of quicksort for n = 10</span>
+<span class="go">Evaluate comparisons of corsort_borda for n = 10</span>
+<span class="go">Evaluate comparisons of quicksort for n = 15</span>
+<span class="go">Evaluate comparisons of corsort_borda for n = 15</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">my_res</span><span class="p">[</span><span class="s1">&#39;quicksort&#39;</span><span class="p">][</span><span class="mi">10</span><span class="p">]),</span> <span class="mi">1</span><span class="p">)</span>
+<span class="go">24.0</span>
+</pre></div>
+</div>
+<p>Same without the pool:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">my_res</span> <span class="o">=</span> <span class="n">evaluate_comparisons</span><span class="p">(</span><span class="n">my_sort_list</span><span class="p">,</span> <span class="n">my_n_list</span><span class="p">,</span> <span class="n">nt</span><span class="o">=</span><span class="n">my_nt</span><span class="p">)</span>
+<span class="go">Evaluate comparisons of quicksort for n = 10</span>
+<span class="go">Evaluate comparisons of corsort_borda for n = 10</span>
+<span class="go">Evaluate comparisons of quicksort for n = 15</span>
+<span class="go">Evaluate comparisons of corsort_borda for n = 15</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">my_res</span><span class="p">[</span><span class="s1">&#39;quicksort&#39;</span><span class="p">][</span><span class="mi">10</span><span class="p">]),</span> <span class="mi">1</span><span class="p">)</span>
+<span class="go">24.0</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="corsort.montecarlo.evaluate_convergence">
+<span class="sig-prename descclassname"><span class="pre">corsort.montecarlo.</span></span><span class="sig-name descname"><span class="pre">evaluate_convergence</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sort_list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nt</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pool</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/corsort/montecarlo.html#evaluate_convergence"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#corsort.montecarlo.evaluate_convergence" title="Permalink to this definition"></a></dt>
+<dd><p>Performance profile.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sort_list</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code>) – List of sorting algorithms (cf. examples).</p></li>
+<li><p><strong>n</strong> (<em>int</em>) – Size for the tested lists.</p></li>
+<li><p><strong>nt</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>) – Number of samples.</p></li>
+<li><p><strong>pool</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">Pool</span></code>, optional.) – Use parallelism.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Key: name of the sorting algorithm. Value: a ndarray of <cite>nt</cite> rows. Each row gives
+the history of distance to the sorted list.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">corsort</span> <span class="kn">import</span> <span class="n">SortQuick</span><span class="p">,</span> <span class="n">WrapFullJit</span><span class="p">,</span> <span class="n">entropy_bound</span><span class="p">,</span> <span class="n">jit_corsort_borda</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">my_nt</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">my_sort_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">SortQuick</span><span class="p">(),</span> <span class="n">WrapFullJit</span><span class="p">(</span><span class="n">jit_corsort_borda</span><span class="p">)]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">my_n</span> <span class="o">=</span> <span class="mi">10</span>
+</pre></div>
+</div>
+<p>Evaluate corsort and quicksort using a Pool:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">with</span> <span class="n">Pool</span><span class="p">()</span> <span class="k">as</span> <span class="n">p</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="n">my_res</span> <span class="o">=</span> <span class="n">evaluate_convergence</span><span class="p">(</span><span class="n">my_sort_list</span><span class="p">,</span> <span class="n">my_n</span><span class="p">,</span> <span class="n">nt</span><span class="o">=</span><span class="n">my_nt</span><span class="p">,</span> <span class="n">pool</span><span class="o">=</span><span class="n">p</span><span class="p">)</span>
+<span class="go">Evaluate convergence of quicksort for n = 10</span>
+<span class="go">Evaluate convergence of corsort_borda for n = 10</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">my_res</span><span class="p">[</span><span class="s1">&#39;quicksort&#39;</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span> <span class="mi">1</span><span class="p">)</span>  
+<span class="go">array([22.7, 22.1, 21.5, 20.6, 19.9, 18.8, 17.4, 16.1, 14.1, 12. , 11.6,</span>
+<span class="go">       11. , 10.3,  9.3,  8.3,  7.2,  6.2,  5.4,  4.6,  3.8,  3.1,  2.5,</span>
+<span class="go">        1.7,  1.3,  1. ,  0.8,  0.6,  0.4,  0.2,  0.2,  0.1,  0. ,  0. ,</span>
+<span class="go">        0. ,  0. ,  0. ,  0. ])</span>
+</pre></div>
+</div>
+<p>Same without the pool:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">my_res</span> <span class="o">=</span> <span class="n">evaluate_convergence</span><span class="p">(</span><span class="n">my_sort_list</span><span class="p">,</span> <span class="n">my_n</span><span class="p">,</span> <span class="n">nt</span><span class="o">=</span><span class="n">my_nt</span><span class="p">)</span>
+<span class="go">Evaluate convergence of quicksort for n = 10</span>
+<span class="go">Evaluate convergence of corsort_borda for n = 10</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">my_res</span><span class="p">[</span><span class="s1">&#39;quicksort&#39;</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span> <span class="mi">1</span><span class="p">)</span>  
+<span class="go">array([22.7, 22.1, 21.5, 20.6, 19.9, 18.8, 17.4, 16.1, 14.1, 12. , 11.6,</span>
+<span class="go">       11. , 10.3,  9.3,  8.3,  7.2,  6.2,  5.4,  4.6,  3.8,  3.1,  2.5,</span>
+<span class="go">        1.7,  1.3,  1. ,  0.8,  0.6,  0.4,  0.2,  0.2,  0.1,  0. ,  0. ,</span>
+<span class="go">        0. ,  0. ,  0. ,  0. ])</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="merge.html" class="btn btn-neutral float-left" title="merge" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="partition.html" class="btn btn-neutral float-right" title="partition" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Emma Caizergues.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
