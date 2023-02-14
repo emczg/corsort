@@ -6,8 +6,6 @@ def entropy_bound(n):
     Gives an approximation of the information theoretical lower bound of the number of comparisons
     required to sort n items.
 
-    An extra offset log2(n) is added.
-
     Cf. https://en.wikipedia.org/wiki/Comparison_sort
 
     Parameters
