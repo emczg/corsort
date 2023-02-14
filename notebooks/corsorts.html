@@ -386,13 +386,15 @@ div.rendered_html tbody tr:hover {
 <span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
 <span class="kn">from</span> <span class="nn">multiprocess.pool</span> <span class="kn">import</span> <span class="n">Pool</span>
 
-<span class="kn">from</span> <span class="nn">corsort</span> <span class="kn">import</span> <span class="n">WrapFullJit</span><span class="p">,</span> <span class="n">WrapSortScorer</span><span class="p">,</span> <span class="n">evaluate_convergence</span>
-<span class="kn">from</span> <span class="nn">corsort.jit_scorers</span> <span class="kn">import</span> <span class="n">scorer_spaced</span><span class="p">,</span> <span class="n">scorer_drift</span>
-<span class="kn">from</span> <span class="nn">corsort.jit_sorts</span> <span class="kn">import</span> <span class="n">jit_corsort_drift_max_drift</span><span class="p">,</span> <span class="n">jit_corsort_drift_max_spaced</span>
-<span class="kn">from</span> <span class="nn">corsort.jit_sorts</span> <span class="kn">import</span> <span class="n">jit_corsort_drift_plus_drift</span><span class="p">,</span> <span class="n">jit_corsort_drift_plus_spaced</span>
-<span class="kn">from</span> <span class="nn">corsort.jit_sorts</span> <span class="kn">import</span> <span class="n">jit_corsort_spaced_max_drift</span><span class="p">,</span> <span class="n">jit_corsort_spaced_max_spaced</span>
-<span class="kn">from</span> <span class="nn">corsort.jit_sorts</span> <span class="kn">import</span> <span class="n">jit_corsort_spaced_plus_drift</span><span class="p">,</span> <span class="n">jit_corsort_spaced_plus_spaced</span>
-<span class="kn">from</span> <span class="nn">corsort.presets</span> <span class="kn">import</span> <span class="n">auto_colors</span>
+<span class="kn">from</span> <span class="nn">corsort</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">evaluate_convergence</span><span class="p">,</span> <span class="n">auto_colors</span><span class="p">,</span>
+    <span class="n">WrapSortScorer</span><span class="p">,</span> <span class="n">scorer_spaced</span><span class="p">,</span> <span class="n">scorer_drift</span><span class="p">,</span>
+    <span class="n">WrapFullJit</span><span class="p">,</span>
+    <span class="n">jit_corsort_drift_max_drift</span><span class="p">,</span> <span class="n">jit_corsort_drift_max_spaced</span><span class="p">,</span>
+    <span class="n">jit_corsort_drift_plus_drift</span><span class="p">,</span> <span class="n">jit_corsort_drift_plus_spaced</span><span class="p">,</span>
+    <span class="n">jit_corsort_spaced_max_drift</span><span class="p">,</span> <span class="n">jit_corsort_spaced_max_spaced</span><span class="p">,</span>
+    <span class="n">jit_corsort_spaced_plus_drift</span><span class="p">,</span> <span class="n">jit_corsort_spaced_plus_spaced</span><span class="p">,</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -446,124 +448,57 @@ Evaluate convergence of corsort_drift_max_drift for n = 666
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-100%|██████████| 100/100 [00:22&lt;00:00,  4.36it/s]
-</pre></div></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-Evaluate convergence of corsort_drift_max_spaced for n = 666
-</pre></div></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area stderr docutils container">
-<div class="highlight"><pre>
-100%|██████████| 100/100 [00:20&lt;00:00,  4.80it/s]
-</pre></div></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-Evaluate convergence of corsort_drift_plus_drift for n = 666
-</pre></div></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area stderr docutils container">
-<div class="highlight"><pre>
-100%|██████████| 100/100 [00:18&lt;00:00,  5.38it/s]
-</pre></div></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-Evaluate convergence of corsort_drift_plus_spaced for n = 666
-</pre></div></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area stderr docutils container">
-<div class="highlight"><pre>
-100%|██████████| 100/100 [00:20&lt;00:00,  4.90it/s]
-</pre></div></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-Evaluate convergence of corsort_spaced_max_drift for n = 666
-</pre></div></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area stderr docutils container">
-<div class="highlight"><pre>
-100%|██████████| 100/100 [00:20&lt;00:00,  4.79it/s]
-</pre></div></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-Evaluate convergence of corsort_spaced_max_spaced for n = 666
-</pre></div></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area stderr docutils container">
-<div class="highlight"><pre>
-100%|██████████| 100/100 [00:22&lt;00:00,  4.38it/s]
-</pre></div></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-Evaluate convergence of corsort_spaced_plus_drift for n = 666
-</pre></div></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area stderr docutils container">
-<div class="highlight"><pre>
-100%|██████████| 100/100 [00:21&lt;00:00,  4.72it/s]
-</pre></div></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-Evaluate convergence of corsort_spaced_plus_spaced for n = 666
+ 18%|██████████████▌                                                                  | 18/100 [00:51&lt;03:53,  2.85s/it]
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
-<div class="output_area stderr docutils container">
+<div class="output_area docutils container">
 <div class="highlight"><pre>
-100%|██████████| 100/100 [00:20&lt;00:00,  4.80it/s]
+<span class="ansi-red-intense-fg ansi-bold">---------------------------------------------------------------------------</span>
+<span class="ansi-red-intense-fg ansi-bold">RemoteTraceback</span>                           Traceback (most recent call last)
+<span class="ansi-red-intense-fg ansi-bold">RemoteTraceback</span>:
+&#34;&#34;&#34;
+Traceback (most recent call last):
+  File &#34;C:\Users\fradu\anaconda3\lib\site-packages\multiprocess\pool.py&#34;, line 125, in worker
+    result = (True, func(*args, **kwds))
+  File &#34;c:\github\corsort\corsort\wrap_full_jit.py&#34;, line 83, in __call__
+    self.history_distances_ = [distance_to_sorted_array(state) for state in states]
+  File &#34;c:\github\corsort\corsort\wrap_full_jit.py&#34;, line 83, in &lt;listcomp&gt;
+    self.history_distances_ = [distance_to_sorted_array(state) for state in states]
+  File &#34;c:\github\corsort\corsort\distance_to_sorted_array.py&#34;, line 51, in distance_to_sorted_array
+    res = scipy.stats.kendalltau(xs, np.arange(n))
+AttributeError: module &#39;scipy&#39; has no attribute &#39;stats&#39;
+&#34;&#34;&#34;
+
+The above exception was the direct cause of the following exception:
+
+<span class="ansi-red-intense-fg ansi-bold">AttributeError</span>                            Traceback (most recent call last)
+<span class="ansi-green-intense-fg ansi-bold">~\AppData\Local\Temp/ipykernel_32096/99950439.py</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
+<span class="ansi-green-fg">      1</span> <span class="ansi-green-intense-fg ansi-bold">with</span> Pool<span class="ansi-yellow-intense-fg ansi-bold">(</span><span class="ansi-yellow-intense-fg ansi-bold">)</span> <span class="ansi-green-intense-fg ansi-bold">as</span> p<span class="ansi-yellow-intense-fg ansi-bold">:</span>
+<span class="ansi-green-intense-fg ansi-bold">----&gt; 2</span><span class="ansi-yellow-intense-fg ansi-bold">     </span>convergence <span class="ansi-yellow-intense-fg ansi-bold">=</span> evaluate_convergence<span class="ansi-yellow-intense-fg ansi-bold">(</span>sort_list<span class="ansi-yellow-intense-fg ansi-bold">=</span>sort_list<span class="ansi-yellow-intense-fg ansi-bold">,</span> n<span class="ansi-yellow-intense-fg ansi-bold">=</span>n<span class="ansi-yellow-intense-fg ansi-bold">,</span> nt<span class="ansi-yellow-intense-fg ansi-bold">=</span>nt<span class="ansi-yellow-intense-fg ansi-bold">,</span> pool<span class="ansi-yellow-intense-fg ansi-bold">=</span>p<span class="ansi-yellow-intense-fg ansi-bold">)</span>
+
+<span class="ansi-green-intense-fg ansi-bold">c:\github\corsort\corsort\montecarlo.py</span> in <span class="ansi-cyan-fg">evaluate_convergence</span><span class="ansi-blue-intense-fg ansi-bold">(sort_list, n, nt, pool)</span>
+<span class="ansi-green-fg">    161</span>         distances <span class="ansi-yellow-intense-fg ansi-bold">=</span> <span class="ansi-yellow-intense-fg ansi-bold">[</span><span class="ansi-yellow-intense-fg ansi-bold">]</span>
+<span class="ansi-green-fg">    162</span>         <span class="ansi-green-intense-fg ansi-bold">if</span> pool <span class="ansi-green-intense-fg ansi-bold">is</span> <span class="ansi-green-intense-fg ansi-bold">not</span> <span class="ansi-green-intense-fg ansi-bold">None</span><span class="ansi-yellow-intense-fg ansi-bold">:</span>
+<span class="ansi-green-intense-fg ansi-bold">--&gt; 163</span><span class="ansi-yellow-intense-fg ansi-bold">             for instant in pool.imap_unordered(sort,
+</span><span class="ansi-green-fg">    164</span>                                                tqdm([np.random.permutation(n)
+<span class="ansi-green-fg">    165</span>                                                      for _ in range(nt)])):
+
+<span class="ansi-green-intense-fg ansi-bold">~\anaconda3\lib\site-packages\multiprocess\pool.py</span> in <span class="ansi-cyan-fg">next</span><span class="ansi-blue-intense-fg ansi-bold">(self, timeout)</span>
+<span class="ansi-green-fg">    868</span>         <span class="ansi-green-intense-fg ansi-bold">if</span> success<span class="ansi-yellow-intense-fg ansi-bold">:</span>
+<span class="ansi-green-fg">    869</span>             <span class="ansi-green-intense-fg ansi-bold">return</span> value
+<span class="ansi-green-intense-fg ansi-bold">--&gt; 870</span><span class="ansi-yellow-intense-fg ansi-bold">         </span><span class="ansi-green-intense-fg ansi-bold">raise</span> value
+<span class="ansi-green-fg">    871</span>
+<span class="ansi-green-fg">    872</span>     __next__ <span class="ansi-yellow-intense-fg ansi-bold">=</span> next                    <span class="ansi-red-intense-fg ansi-bold"># XXX</span>
+
+<span class="ansi-red-intense-fg ansi-bold">AttributeError</span>: module &#39;scipy&#39; has no attribute &#39;stats&#39;
 </pre></div></div>
 </div>
 <p>Then we display the results.</p>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">m</span> <span class="o">=</span> <span class="n">n</span><span class="o">*</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span>
@@ -591,13 +526,6 @@ Evaluate convergence of corsort_spaced_plus_spaced for n = 666
 <span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="kc">None</span><span class="p">])</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
-</div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../_images/notebooks_corsorts_11_0.png" src="../_images/notebooks_corsorts_11_0.png" />
 </div>
 </div>
 <p>Quick interpretation :</p>
