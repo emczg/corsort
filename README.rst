@@ -22,7 +22,7 @@ Corsort
 
 
 
-Comparison-Oriented Sort. Nice!
+Comparison-Oriented Sort.
 
 
 * Free software: GNU General Public License v3

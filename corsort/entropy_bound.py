@@ -3,7 +3,7 @@ import numpy as np
 
 def entropy_bound(n):
     """
-    Gives an_ approximation of the information theoretical lower bound of the number of comparisons
+    Gives an approximation of the information theoretical lower bound of the number of comparisons
     required to sort n items.
 
     An extra offset log2(n) is added.
@@ -29,5 +29,4 @@ def entropy_bound(n):
     >>> print(f"{entropy_bound(1000):.1f}")
     8529.4
     """
-    # TODO: discuss about this bound
     return n * (np.log2(n) - 1 / np.log(2)) + .5 * np.log2(2 * np.pi * n)

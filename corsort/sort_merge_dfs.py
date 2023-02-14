@@ -33,7 +33,7 @@ class SortMergeDfs(Sort):
         self.sorted_indices_ = np.arange(self.n_)
 
     def _call_aux(self):
-        merge_sort_dfs(self.sorted_indices_, lt=self.test_i_lt_j)
+        _merge_sort_dfs(self.sorted_indices_, lt=self.test_i_lt_j)
 
     def distance_to_sorted_array(self):
         return distance_to_sorted_array(self.perm_[self.sorted_indices_])
@@ -43,7 +43,7 @@ class SortMergeDfs(Sort):
         return self.perm_[self.sorted_indices_]
 
 
-def merge_sort_dfs(collection, lt=None, i=0, j=None):
+def _merge_sort_dfs(collection, lt=None, i=0, j=None):
     """
     Merge sort (DFS).
 
@@ -61,12 +61,12 @@ def merge_sort_dfs(collection, lt=None, i=0, j=None):
     Examples
     --------
         >>> my_xs = [7, 3, 2, 1, 4, 6, 0, 5]
-        >>> merge_sort_dfs(my_xs)
+        >>> _merge_sort_dfs(my_xs)
         >>> my_xs
         [0, 1, 2, 3, 4, 5, 6, 7]
 
         >>> my_xs = [4, 1, 7, 6, 0, 8, 2, 3, 5]
-        >>> merge_sort_dfs(my_xs)
+        >>> _merge_sort_dfs(my_xs)
         >>> my_xs
         [0, 1, 2, 3, 4, 5, 6, 7, 8]
 
@@ -74,7 +74,7 @@ def merge_sort_dfs(collection, lt=None, i=0, j=None):
         >>> indices = np.arange(9)
         >>> def my_lt(my_i, my_j):
         ...     return my_xs[my_i] < my_xs[my_j]
-        >>> merge_sort_dfs(indices, my_lt)
+        >>> _merge_sort_dfs(indices, my_lt)
         >>> my_xs[indices]
         array([0, 1, 2, 3, 4, 5, 6, 7, 8])
     """
@@ -85,6 +85,6 @@ def merge_sort_dfs(collection, lt=None, i=0, j=None):
         j = len(collection)
     if j - i > 1:
         middle = (i + j) // 2
-        merge_sort_dfs(collection, lt, i, middle)
-        merge_sort_dfs(collection, lt, middle, j)
+        _merge_sort_dfs(collection, lt, i, middle)
+        _merge_sort_dfs(collection, lt, middle, j)
         merge(collection, i, middle, j, lt=lt)
