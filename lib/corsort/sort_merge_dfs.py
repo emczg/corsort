@@ -72,8 +72,8 @@ def merge_sort_dfs(collection, lt=None, i=0, j=None):
 
         >>> my_xs = np.array([4, 1, 7, 6, 0, 8, 2, 3, 5])
         >>> indices = np.arange(9)
-        >>> def my_lt(i, j):
-        ...     return my_xs[i] < my_xs[j]
+        >>> def my_lt(my_i, my_j):
+        ...     return my_xs[my_i] < my_xs[my_j]
         >>> merge_sort_dfs(indices, my_lt)
         >>> my_xs[indices]
         array([0, 1, 2, 3, 4, 5, 6, 7, 8])

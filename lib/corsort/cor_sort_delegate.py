@@ -1,3 +1,4 @@
+import numpy as np
 from corsort.cor_sort import CorSort
 from corsort.sort_quick import SortQuick
 
@@ -14,7 +15,7 @@ class CorSortDelegate(CorSort):
     Examples
     --------
         >>> corsort = CorSortDelegate(SortQuick())
-        >>> corsort(['e', 'b', 'a', 'c', 'd']).n_comparisons_
+        >>> corsort(np.array(['e', 'b', 'a', 'c', 'd'])).n_comparisons_
         8
         >>> corsort.history_comparisons_
         [(1, 0), (2, 0), (3, 0), (4, 0), (2, 1), (1, 3), (1, 4), (3, 4)]
