@@ -101,8 +101,10 @@ def _give_the_right_order(n):  # In ford_johnson_sorting, always need to put len
         >>> _give_the_right_order(7)
         [5, 6, 3, 4, 0, 1, 2]
     """
+    # TODO: for n == 0, should return [] or [0]?
+    # TODO: shouldn't this function also work for n = -1?
     if n == 0:
-        return[0]
+        return [0]
     my_list = []
     k = 1  # number of the set
     i = 0
@@ -266,6 +268,12 @@ def _ford_johnson_sorting(collection, lt=None):
 
     Examples
     --------
+        >>> my_collection = [14, 2, 0, 10, 13, 5, 18, 19, 7, 12, 6, 15, 16, 1, 3, 4, 8, 17, 11, 9]
+        >>> _ford_johnson_sorting(my_collection)
+        [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19]
+
+    Use the parameter `lt` to add a counter of comparisons:
+
         >>> nc = 0
         >>> def my_lt(my_x, my_y):
         ...     global nc
@@ -276,6 +284,17 @@ def _ford_johnson_sorting(collection, lt=None):
         [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19]
         >>> nc
         60
+
+    Misc particular cases:
+
+        >>> _ford_johnson_sorting([42])
+        [42]
+        >>> _ford_johnson_sorting([42, 51])
+        [42, 51]
+        >>> _ford_johnson_sorting([51, 42])
+        [42, 51]
+        >>> _ford_johnson_sorting([51, 42, 12])
+        [12, 42, 51]
     """
     if lt is None:
         def lt(x, y):

@@ -27,6 +27,7 @@ def evaluate(sort_list, n_list, nt, pool=None):
         Number of samples.
     pool: :class:`~multiprocess.pool.Pool`, optional.
         Use parallelism.
+
     Returns
     -------
 
@@ -35,41 +36,37 @@ def evaluate(sort_list, n_list, nt, pool=None):
 
     >>> from corsort import SortQuick, WrapFullJit, entropy_bound, jit_corsort_borda
     >>> my_nt = 100
-    >>> my_n = 10
     >>> np.random.seed(42)
-    >>> quicksort = SortQuick()
-    >>> corsort_borda_fast = WrapFullJit(jit_corsort_borda)
-    >>> corsort_borda_fast.__name__ = 'corsort_borda_fast'
-    >>> my_sort_list = [quicksort, corsort_borda_fast]
+    >>> my_sort_list = [SortQuick(), WrapFullJit(jit_corsort_borda)]
     >>> my_n_list = [10, 15]
 
-    With evaluate corsort and quicksort using a Pool:
+    Evaluate corsort and quicksort using a Pool:
 
     >>> with Pool() as p:
     ...     my_res = evaluate(my_sort_list, my_n_list, nt=my_nt, pool=p)
     Evaluate quicksort for n = 10
-    Evaluate corsort_borda_fast for n = 10
+    Evaluate corsort_borda for n = 10
     Evaluate quicksort for n = 15
-    Evaluate corsort_borda_fast for n = 15
+    Evaluate corsort_borda for n = 15
     >>> print_res(my_res)
     n=10, quicksort: mean=24.05, std=3.52
     n=15, quicksort: mean=46.72, std=6.90
-    n=10, corsort_borda_fast: mean=22.11, std=0.87
-    n=15, corsort_borda_fast: mean=40.59, std=1.33
+    n=10, corsort_borda: mean=22.11, std=0.87
+    n=15, corsort_borda: mean=40.59, std=1.33
 
     Same without the pool:
 
     >>> np.random.seed(42)
     >>> my_res = evaluate(my_sort_list, my_n_list, nt=my_nt)
     Evaluate quicksort for n = 10
-    Evaluate corsort_borda_fast for n = 10
+    Evaluate corsort_borda for n = 10
     Evaluate quicksort for n = 15
-    Evaluate corsort_borda_fast for n = 15
+    Evaluate corsort_borda for n = 15
     >>> print_res(my_res)
     n=10, quicksort: mean=24.05, std=3.52
     n=15, quicksort: mean=46.72, std=6.90
-    n=10, corsort_borda_fast: mean=22.11, std=0.87
-    n=15, corsort_borda_fast: mean=40.59, std=1.33
+    n=10, corsort_borda: mean=22.11, std=0.87
+    n=15, corsort_borda: mean=40.59, std=1.33
 
     Bound (loose, not exact):
 
@@ -103,9 +100,62 @@ def evaluate(sort_list, n_list, nt, pool=None):
 
 
 def evaluate_convergence(sort_list, n, nt, pool=None):
+    """
+    Performance profile.
+
+    Parameters
+    ----------
+    sort_list: :class:`list`
+        List of sorting algorithms (cf. examples).
+    n: int
+        Size for the tested lists.
+    nt: :class:`int`
+        Number of samples.
+    pool: :class:`~multiprocess.pool.Pool`, optional.
+        Use parallelism.
+
+    Returns
+    -------
+    dict
+        Key: name of the sorting algorithm. Value: a ndarray of `nt` rows. Each row gives
+        the history of distance to the sorted list.
+
+    Examples
+    --------
+    >>> from corsort import SortQuick, WrapFullJit, entropy_bound, jit_corsort_borda
+    >>> my_nt = 100
+    >>> np.random.seed(42)
+    >>> my_sort_list = [SortQuick(), WrapFullJit(jit_corsort_borda)]
+    >>> my_n = 10
+
+    Evaluate corsort and quicksort using a Pool:
+
+    >>> with Pool() as p:
+    ...     my_res = evaluate_convergence(my_sort_list, my_n, nt=my_nt, pool=p)
+    Evaluate convergence of quicksort for n = 10
+    Evaluate convergence of corsort_borda for n = 10
+    >>> np.round(np.mean(my_res['quicksort'], axis=0), 1)  # doctest: +NORMALIZE_WHITESPACE
+    array([22.7, 22.1, 21.5, 20.6, 19.9, 18.8, 17.4, 16.1, 14.1, 12. , 11.6,
+           11. , 10.3,  9.3,  8.3,  7.2,  6.2,  5.4,  4.6,  3.8,  3.1,  2.5,
+            1.7,  1.3,  1. ,  0.8,  0.6,  0.4,  0.2,  0.2,  0.1,  0. ,  0. ,
+            0. ,  0. ,  0. ,  0. ])
+
+    Same without the pool:
+
+    >>> np.random.seed(42)
+    >>> my_res = evaluate_convergence(my_sort_list, my_n, nt=my_nt)
+    Evaluate convergence of quicksort for n = 10
+    Evaluate convergence of corsort_borda for n = 10
+    >>> np.round(np.mean(my_res['quicksort'], axis=0), 1)  # doctest: +NORMALIZE_WHITESPACE
+    array([22.7, 22.1, 21.5, 20.6, 19.9, 18.8, 17.4, 16.1, 14.1, 12. , 11.6,
+           11. , 10.3,  9.3,  8.3,  7.2,  6.2,  5.4,  4.6,  3.8,  3.1,  2.5,
+            1.7,  1.3,  1. ,  0.8,  0.6,  0.4,  0.2,  0.2,  0.1,  0. ,  0. ,
+            0. ,  0. ,  0. ,  0. ])
+    """
     res = dict()
     for sort in sort_list:
         name = sort.__name__
+        compute_history_old = sort.compute_history
         sort.compute_history = True
         print(f"Evaluate convergence of {name} for n = {n}")
         distances = []
@@ -123,10 +173,53 @@ def evaluate_convergence(sort_list, n, nt, pool=None):
         for i, dist in enumerate(distances):
             dist_array[i, :len(dist)] = dist
         res[name] = dist_array
+        sort.compute_history = compute_history_old
     return res
 
 
 def evaluate_comparisons(sort_list, n_list, nt, pool=None):
+    """
+
+    Parameters
+    ----------
+    sort_list
+    n_list
+    nt
+    pool
+
+    Returns
+    -------
+
+    Examples
+    --------
+    >>> from corsort import SortQuick, WrapFullJit, entropy_bound, jit_corsort_borda
+    >>> my_nt = 100
+    >>> np.random.seed(42)
+    >>> my_sort_list = [SortQuick(), WrapFullJit(jit_corsort_borda)]
+    >>> my_n_list = [10, 15]
+
+    Evaluate corsort and quicksort using a Pool:
+
+    >>> with Pool() as p:
+    ...     my_res = evaluate_comparisons(my_sort_list, my_n_list, nt=my_nt, pool=p)
+    Evaluate comparisons of quicksort for n = 10
+    Evaluate comparisons of corsort_borda for n = 10
+    Evaluate comparisons of quicksort for n = 15
+    Evaluate comparisons of corsort_borda for n = 15
+    >>> np.round(np.mean(my_res['quicksort'][10]), 1)
+    24.0
+
+    Same without the pool:
+
+    >>> np.random.seed(42)
+    >>> my_res = evaluate_comparisons(my_sort_list, my_n_list, nt=my_nt)
+    Evaluate comparisons of quicksort for n = 10
+    Evaluate comparisons of corsort_borda for n = 10
+    Evaluate comparisons of quicksort for n = 15
+    Evaluate comparisons of corsort_borda for n = 15
+    >>> np.round(np.mean(my_res['quicksort'][10]), 1)
+    24.0
+    """
     res = defaultdict(dict)
     for n in n_list:
         for sort in sort_list:

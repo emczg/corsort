@@ -38,5 +38,5 @@ class CorSortGain(CorSort):
             )
             if max_gain > self.gain(0, 0):
                 yield argmax_i, argmax_j
-            else:
+            else:  # pragma: no cover
                 break

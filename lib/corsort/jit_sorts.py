@@ -27,7 +27,7 @@ def jit_corsort_borda(perm):
 
     >>> np.random.seed(42)
     >>> p = np.random.permutation(10)
-    >>> st, sc, co = jit_corsort_borda(p)
+    >>> st, sc, co = jit_corsort_borda.py_func(p)
     >>> st[0]
     array([8, 1, 5, 0, 7, 2, 9, 4, 3, 6])
     >>> st[10]
@@ -112,7 +112,7 @@ def jit_corsort_drift_max_spaced(perm):
 
     >>> np.random.seed(42)
     >>> p = np.random.permutation(10)
-    >>> st, sc, co = jit_corsort_drift_max_spaced(p)
+    >>> st, sc, co = jit_corsort_drift_max_spaced.py_func(p)
     >>> st[0]
     array([8, 1, 5, 0, 7, 2, 9, 4, 3, 6])
     >>> st[10]
@@ -200,7 +200,7 @@ def jit_corsort_drift_plus_spaced(perm):
 
     >>> np.random.seed(42)
     >>> p = np.random.permutation(10)
-    >>> st, sc, co = jit_corsort_drift_plus_spaced(p)
+    >>> st, sc, co = jit_corsort_drift_plus_spaced.py_func(p)
     >>> st[0]
     array([8, 1, 5, 0, 7, 2, 9, 4, 3, 6])
     >>> st[10]
@@ -288,7 +288,7 @@ def jit_corsort_drift_max_drift(perm):
 
     >>> np.random.seed(42)
     >>> p = np.random.permutation(10)
-    >>> st, sc, co = jit_corsort_drift_max_drift(p)
+    >>> st, sc, co = jit_corsort_drift_max_drift.py_func(p)
     >>> st[0]
     array([8, 1, 5, 0, 7, 2, 9, 4, 3, 6])
     >>> st[10]
@@ -374,7 +374,7 @@ def jit_corsort_drift_plus_drift(perm):
 
     >>> np.random.seed(42)
     >>> p = np.random.permutation(10)
-    >>> st, sc, co = jit_corsort_drift_plus_drift(p)
+    >>> st, sc, co = jit_corsort_drift_plus_drift.py_func(p)
     >>> st[0]
     array([8, 1, 5, 0, 7, 2, 9, 4, 3, 6])
     >>> st[10]
@@ -460,7 +460,7 @@ def jit_corsort_spaced_max_spaced(perm):
 
     >>> np.random.seed(42)
     >>> p = np.random.permutation(10)
-    >>> st, sc, co = jit_corsort_spaced_max_spaced(p)
+    >>> st, sc, co = jit_corsort_spaced_max_spaced.py_func(p)
     >>> st[0]
     array([8, 1, 5, 0, 7, 2, 9, 4, 3, 6])
     >>> st[10]
@@ -545,7 +545,7 @@ def jit_corsort_spaced_plus_spaced(perm):
 
     >>> np.random.seed(42)
     >>> p = np.random.permutation(10)
-    >>> st, sc, co = jit_corsort_spaced_plus_spaced(p)
+    >>> st, sc, co = jit_corsort_spaced_plus_spaced.py_func(p)
     >>> st[0]
     array([8, 1, 5, 0, 7, 2, 9, 4, 3, 6])
     >>> st[10]
@@ -630,7 +630,7 @@ def jit_corsort_spaced_max_drift(perm):
 
     >>> np.random.seed(42)
     >>> p = np.random.permutation(10)
-    >>> st, sc, co = jit_corsort_spaced_max_drift(p)
+    >>> st, sc, co = jit_corsort_spaced_max_drift.py_func(p)
     >>> st[0]
     array([8, 1, 5, 0, 7, 2, 9, 4, 3, 6])
     >>> st[10]
@@ -720,7 +720,7 @@ def jit_corsort_spaced_plus_drift(perm):
 
     >>> np.random.seed(42)
     >>> p = np.random.permutation(10)
-    >>> st, sc, co = jit_corsort_spaced_plus_drift(p)
+    >>> st, sc, co = jit_corsort_spaced_plus_drift.py_func(p)
     >>> st[0]
     array([8, 1, 5, 0, 7, 2, 9, 4, 3, 6])
     >>> st[10]
@@ -787,7 +787,7 @@ def jit_corsort_spaced_plus_drift(perm):
 
 
 @njit
-def heapify(arr, n, i, states, scores, comparisons):
+def heapify(arr, n, i, states, scores, comparisons):  # pragma: no cover
     """
     Based on a code by Mohit Kumra:
     https://www.geeksforgeeks.org/python-program-for-heap-sort/
@@ -830,7 +830,30 @@ def heapify(arr, n, i, states, scores, comparisons):
 
 # The main function to sort an array of given size
 @njit
-def jit_heapsort(arr):
+def jit_heapsort(arr):  # pragma: no cover
+    """
+    Heap sort.
+
+    Parameters
+    ----------
+    arr:class:`~numpy.ndarray`
+        A random permutation.
+
+    Returns
+    -------
+    states: :class:`list` of :class:`~numpy.ndarray`
+        List of estimates of the sorted result.
+    scores: :class:`list` of :class:`~numpy.ndarray`
+        List of estimates of the importance of each item.
+    comparisons: :class:`list` of :class:`tuple`
+        List of performed comparison. Each element is a tuple (index of lower item, index of higher item).
+
+    Examples
+    --------
+    >>> np.random.seed(42)
+    >>> p = np.random.permutation(10)
+    >>> st, sc, co = jit_heapsort(p)
+    """
     n = len(arr)
     states = [arr.copy()]
     scores = [0]

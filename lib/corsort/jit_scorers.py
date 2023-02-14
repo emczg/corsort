@@ -29,7 +29,7 @@ def scorer_spaced(n, downs, ups):
     >>> my_n = 5
     >>> my_downs = np.array([0, 1, 2])
     >>> my_ups = np.array([2, 2, 3])
-    >>> scorer_spaced(my_n, my_downs, my_ups)
+    >>> scorer_spaced.py_func(my_n, my_downs, my_ups)
     array([[0.5       , 0.5       , 0.5       , 0.5       , 0.5       ],
            [0.33333333, 0.5       , 0.66666667, 0.5       , 0.5       ],
            [0.33333333, 0.33333333, 0.75      , 0.5       , 0.5       ],
@@ -84,7 +84,7 @@ def scorer_drift(n, downs, ups):
     >>> my_n = 5
     >>> my_downs = np.array([0, 1, 2])
     >>> my_ups = np.array([2, 2, 3])
-    >>> scorer_drift(my_n, my_downs, my_ups)
+    >>> scorer_drift.py_func(my_n, my_downs, my_ups)
     array([[ 0,  0,  0,  0,  0],
            [-1,  0,  1,  0,  0],
            [-1, -1,  2,  0,  0],
