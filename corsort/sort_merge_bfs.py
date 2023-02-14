@@ -49,7 +49,7 @@ def sub_step(list_indices):
 
     Parameters
     ----------
-    list_indices: :class:`list`
+    list_indices: :class:`~numpy.ndarray`
         List of indices for the current step.
 
     Returns
@@ -59,7 +59,7 @@ def sub_step(list_indices):
 
     Examples
     --------
-        >>> my_indices = [0, 9]
+        >>> my_indices = np.array([0, 9])
         >>> my_indices = sub_step(my_indices)
         >>> my_indices
         array([0, 4, 9])
@@ -136,8 +136,8 @@ def merge_sort_bfs(collection, lt=None):
 
         >>> my_xs = np.array([4, 1, 7, 6, 0, 8, 2, 3, 5])
         >>> indices = np.arange(9)
-        >>> def my_lt(i, j):
-        ...     return my_xs[i] < my_xs[j]
+        >>> def my_lt(my_i, my_j):
+        ...     return my_xs[my_i] < my_xs[my_j]
         >>> merge_sort_bfs(indices, my_lt)
         >>> my_xs[indices]
         array([0, 1, 2, 3, 4, 5, 6, 7, 8])
