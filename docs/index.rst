@@ -8,6 +8,7 @@ Welcome to Corsort's documentation!
    readme
    installation
    usage
+   notebooks/index
    reference/index
    contributing
    authors
