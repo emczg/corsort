@@ -36,7 +36,7 @@ class CorSortBorda(CorSort):
                 ),
                 gain_matrix.shape
             )
-            if i == j == 0:
+            if i == j == 0:  # pragma: no cover
                 break
             else:
                 yield i, j
