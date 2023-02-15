@@ -1,0 +1,32 @@
+\documentclass[tikz, border=1mm]{standalone}
+\usetikzlibrary{shapes.geometric}
+\usepackage{tikzlings-pigs}
+
+\tikzset{
+	pivot/.style={
+		draw, 
+		regular polygon, 
+		regular polygon sides = 3, 
+		fill = purple!50!black, 
+		node distance = 1cm, 
+		minimum height = 2em,
+		at = {(0,0)}
+	}
+}
+
+\begin{document}
+	\begin{tikzpicture}
+		\node [pivot] (a) {};
+		
+		\begin{scope}[rotate around={5:(a.corner 1)}]
+			\draw (a.corner 1) -| ++(-1.1cm,5mm) node[transform shape,above] (t1) {	\begin{tikzpicture}
+					\pig[body=gray, scale=1]
+			\end{tikzpicture}};
+			\draw (a.corner 1) -| ++(1.1cm,5mm) node[transform shape,above] (t2) {	\begin{tikzpicture}
+					\pig[scale=.8]
+			\end{tikzpicture}};
+			\draw (t1.south east) -- (t1.south west);
+			\draw (t2.south east) -- (t2.south west);
+		\end{scope}
+	\end{tikzpicture}
+\end{document}
