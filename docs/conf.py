@@ -104,6 +104,9 @@ html_theme = 'sphinx_rtd_theme'
 # documentation.
 #
 # html_theme_options = {}
+html_theme_options = {
+    'display_version': False,
+}
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
@@ -120,7 +123,7 @@ htmlhelp_basename = 'corsortdoc'
 html_favicon = 'logo/favicon.ico'
 
 # Logo
-html_logo = "logo/logo.png"
+html_logo = "logo/logo_small.png"
 
 # -- Options for LaTeX output ------------------------------------------
 

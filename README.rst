@@ -2,6 +2,10 @@
 Corsort
 =======
 
+.. image:: https://github.com/emczg/corsort/raw/main/docs/logo/logo.png
+    :alt: CorSort logo
+    :target: https://emczg.github.io/corsort/
+
 
 .. image:: https://img.shields.io/pypi/v/corsort.svg
         :target: https://pypi.python.org/pypi/corsort
