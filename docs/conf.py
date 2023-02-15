@@ -34,6 +34,18 @@ import corsort
 extensions = ['sphinx.ext.autodoc', 'sphinx.ext.viewcode', 'sphinx.ext.napoleon', 'nbsphinx',
               'IPython.sphinxext.ipython_console_highlighting', 'sphinx.ext.intersphinx']
 
+# Add the possibility to access python documentation.
+intersphinx_mapping = {'python':('https://docs.python.org/3', None),
+                       'sklearn':('https://scikit-learn.org/stable', None),
+                       'ipython':('https://ipython.readthedocs.io/en/stable/', None),
+                       'numpy': ('https://docs.scipy.org/doc/numpy/', None),
+                       'scipy': ('https://docs.scipy.org/doc/scipy/reference/', None),
+                       'matplotlib': ('http://matplotlib.sourceforge.net/', None),
+                       'numba': ('https://numba.readthedocs.io/en/stable/', None),
+                       'gismo': ('https://gismo.readthedocs.io/en/latest/', None),
+                       'multiprocess': ('https://multiprocess.readthedocs.io/en/latest/', None)
+                       }
+
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
 
