@@ -90,7 +90,7 @@ def _give_the_right_order(n):  # In ford_johnson_sorting, always need to put len
     Parameters
     ----------
     n: class: `int`
-             The size of the collection + 1
+             The size of the collection + 1. Must be >= 0 (i.e. the collection must have at least one element).
     Returns
     -------
     :class: `list`
@@ -100,11 +100,9 @@ def _give_the_right_order(n):  # In ford_johnson_sorting, always need to put len
     --------
         >>> _give_the_right_order(7)
         [5, 6, 3, 4, 0, 1, 2]
+        >>> _give_the_right_order(0)
+        []
     """
-    # TODO: for n == 0, should return [] or [0]?
-    # TODO: shouldn't this function also work for n = -1?
-    if n == 0:
-        return [0]
     my_list = []
     k = 1  # number of the set
     i = 0
@@ -165,7 +163,7 @@ def _insert_y(sorted_pairs, result, lt):
     Parameters
     ----------
     sorted_pairs: class: `list of lists`
-            The list of sorted pairs
+            The list of sorted pairs. Must be non-empty.
     result: class: `list`
             The sorted list associated to the first items
     lt: callable
@@ -191,12 +189,14 @@ def _insert_y(sorted_pairs, result, lt):
         >>> nc
         13
 
+        >>> res =[40, 75]
+        >>> my_sorted_pairs =[[40, 75]]
+        >>> _insert_y(my_sorted_pairs, res, my_lt)
+        [40, 75]
     """
     n = len(sorted_pairs)
-    cpt = 0
-
     order = _give_the_right_order(n - 1)  # this list will never move
-    position = _give_the_right_order(n - 1)  # this list will be updated after each insertion of y
+    position = order[:]  # this list will be updated after each insertion of y
     for i in range(len(order)):
         # Insert y in the appropriate sublist, and extract its sub-position:
         (new_list, pos) = _binary_search_insertion(result[position[i] + 1:], sorted_pairs[order[i]][1], lt)
@@ -204,9 +204,7 @@ def _insert_y(sorted_pairs, result, lt):
         result = result[:position[i]+1] + new_list
         # Update the new positions of insertion, don't forget to update according to position in result,
         # and not sub-position of y:
-        _update_indices(pos + 1 + position[i], cpt, position)
-        # Update the number of inserted elements:
-        cpt += 1
+        _update_indices(pos + 1 + position[i], i, position)
     return result
 
 
@@ -287,6 +285,8 @@ def _ford_johnson_sorting(collection, lt=None):
 
     Misc particular cases:
 
+        >>> _ford_johnson_sorting([])
+        []
         >>> _ford_johnson_sorting([42])
         [42]
         >>> _ford_johnson_sorting([42, 51])
@@ -300,28 +300,17 @@ def _ford_johnson_sorting(collection, lt=None):
         def lt(x, y):
             return x < y
 
-    if len(collection) == 1:
-        result = collection
-    elif len(collection) == 2:
-        if lt(collection[0], collection[1]):
-            result = [collection[0], collection[1]]
-        else:
-            result = [collection[1], collection[0]]
-    elif len(collection) == 3:
-        (pairs, last_elt) = _create_pairs(collection, lt)
-        result = [pairs[0][0], pairs[0][1]]
-        result, pos = _binary_search_insertion(result, last_elt, lt)
-    else:
-        (pairs, last_elt) = _create_pairs(collection, lt)
-        m = len(pairs)
-        pairs_x = [pairs[i][0] for i in range(m)]
-        pairs_y = [pairs[i][1] for i in range(m)]
-        new_pairs_x = _ford_johnson_sorting(pairs_x, lt)
-        new_pairs_y = [pairs_y[pairs_x.index(new_pairs_x[i])] for i in range(m)]
-        pairs = [[new_pairs_x[i], new_pairs_y[i]] for i in range(m)]
-        result = new_pairs_x
-        result.append(pairs[m-1][1])
-        if last_elt >= 0:
-            (result, pos) = _binary_search_insertion(result, last_elt, lt)
-        result = _insert_y(pairs, result, lt)
-    return result
+    if len(collection) <= 1:
+        return collection
+    (pairs, last_elt) = _create_pairs(collection, lt)
+    m = len(pairs)
+    pairs_x = [pairs[i][0] for i in range(m)]
+    pairs_y = [pairs[i][1] for i in range(m)]
+    new_pairs_x = _ford_johnson_sorting(pairs_x, lt)
+    new_pairs_y = [pairs_y[pairs_x.index(new_pairs_x[i])] for i in range(m)]
+    pairs = [[new_pairs_x[i], new_pairs_y[i]] for i in range(m)]
+    result = new_pairs_x
+    result.append(pairs[m-1][1])
+    if last_elt >= 0:
+        (result, pos) = _binary_search_insertion(result, last_elt, lt)
+    return _insert_y(pairs, result, lt)

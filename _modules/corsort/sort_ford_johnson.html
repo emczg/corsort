@@ -171,7 +171,7 @@
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    n: class: `int`</span>
-<span class="sd">             The size of the collection + 1</span>
+<span class="sd">             The size of the collection + 1. Must be &gt;= 0 (i.e. the collection must have at least one element).</span>
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    :class: `list`</span>
@@ -181,11 +181,9 @@
 <span class="sd">    --------</span>
 <span class="sd">        &gt;&gt;&gt; _give_the_right_order(7)</span>
 <span class="sd">        [5, 6, 3, 4, 0, 1, 2]</span>
+<span class="sd">        &gt;&gt;&gt; _give_the_right_order(0)</span>
+<span class="sd">        []</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="c1"># TODO: for n == 0, should return [] or [0]?</span>
-    <span class="c1"># TODO: shouldn&#39;t this function also work for n = -1?</span>
-    <span class="k">if</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="k">return</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span>
     <span class="n">my_list</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="n">k</span> <span class="o">=</span> <span class="mi">1</span>  <span class="c1"># number of the set</span>
     <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
@@ -246,7 +244,7 @@
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    sorted_pairs: class: `list of lists`</span>
-<span class="sd">            The list of sorted pairs</span>
+<span class="sd">            The list of sorted pairs. Must be non-empty.</span>
 <span class="sd">    result: class: `list`</span>
 <span class="sd">            The sorted list associated to the first items</span>
 <span class="sd">    lt: callable</span>
@@ -272,12 +270,14 @@
 <span class="sd">        &gt;&gt;&gt; nc</span>
 <span class="sd">        13</span>
 
+<span class="sd">        &gt;&gt;&gt; res =[40, 75]</span>
+<span class="sd">        &gt;&gt;&gt; my_sorted_pairs =[[40, 75]]</span>
+<span class="sd">        &gt;&gt;&gt; _insert_y(my_sorted_pairs, res, my_lt)</span>
+<span class="sd">        [40, 75]</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">sorted_pairs</span><span class="p">)</span>
-    <span class="n">cpt</span> <span class="o">=</span> <span class="mi">0</span>
-
     <span class="n">order</span> <span class="o">=</span> <span class="n">_give_the_right_order</span><span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>  <span class="c1"># this list will never move</span>
-    <span class="n">position</span> <span class="o">=</span> <span class="n">_give_the_right_order</span><span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>  <span class="c1"># this list will be updated after each insertion of y</span>
+    <span class="n">position</span> <span class="o">=</span> <span class="n">order</span><span class="p">[:]</span>  <span class="c1"># this list will be updated after each insertion of y</span>
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">order</span><span class="p">)):</span>
         <span class="c1"># Insert y in the appropriate sublist, and extract its sub-position:</span>
         <span class="p">(</span><span class="n">new_list</span><span class="p">,</span> <span class="n">pos</span><span class="p">)</span> <span class="o">=</span> <span class="n">_binary_search_insertion</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="n">position</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">:],</span> <span class="n">sorted_pairs</span><span class="p">[</span><span class="n">order</span><span class="p">[</span><span class="n">i</span><span class="p">]][</span><span class="mi">1</span><span class="p">],</span> <span class="n">lt</span><span class="p">)</span>
@@ -285,9 +285,7 @@
         <span class="n">result</span> <span class="o">=</span> <span class="n">result</span><span class="p">[:</span><span class="n">position</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">new_list</span>
         <span class="c1"># Update the new positions of insertion, don&#39;t forget to update according to position in result,</span>
         <span class="c1"># and not sub-position of y:</span>
-        <span class="n">_update_indices</span><span class="p">(</span><span class="n">pos</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">position</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">cpt</span><span class="p">,</span> <span class="n">position</span><span class="p">)</span>
-        <span class="c1"># Update the number of inserted elements:</span>
-        <span class="n">cpt</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="n">_update_indices</span><span class="p">(</span><span class="n">pos</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">position</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">i</span><span class="p">,</span> <span class="n">position</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">result</span>
 
 
@@ -368,6 +366,8 @@
 
 <span class="sd">    Misc particular cases:</span>
 
+<span class="sd">        &gt;&gt;&gt; _ford_johnson_sorting([])</span>
+<span class="sd">        []</span>
 <span class="sd">        &gt;&gt;&gt; _ford_johnson_sorting([42])</span>
 <span class="sd">        [42]</span>
 <span class="sd">        &gt;&gt;&gt; _ford_johnson_sorting([42, 51])</span>
@@ -381,31 +381,20 @@
         <span class="k">def</span> <span class="nf">lt</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
             <span class="k">return</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="n">y</span>
 
-    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">collection</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
-        <span class="n">result</span> <span class="o">=</span> <span class="n">collection</span>
-    <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">collection</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">lt</span><span class="p">(</span><span class="n">collection</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">collection</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>
-            <span class="n">result</span> <span class="o">=</span> <span class="p">[</span><span class="n">collection</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">collection</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">result</span> <span class="o">=</span> <span class="p">[</span><span class="n">collection</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">collection</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
-    <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">collection</span><span class="p">)</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
-        <span class="p">(</span><span class="n">pairs</span><span class="p">,</span> <span class="n">last_elt</span><span class="p">)</span> <span class="o">=</span> <span class="n">_create_pairs</span><span class="p">(</span><span class="n">collection</span><span class="p">,</span> <span class="n">lt</span><span class="p">)</span>
-        <span class="n">result</span> <span class="o">=</span> <span class="p">[</span><span class="n">pairs</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">pairs</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]]</span>
-        <span class="n">result</span><span class="p">,</span> <span class="n">pos</span> <span class="o">=</span> <span class="n">_binary_search_insertion</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">last_elt</span><span class="p">,</span> <span class="n">lt</span><span class="p">)</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="p">(</span><span class="n">pairs</span><span class="p">,</span> <span class="n">last_elt</span><span class="p">)</span> <span class="o">=</span> <span class="n">_create_pairs</span><span class="p">(</span><span class="n">collection</span><span class="p">,</span> <span class="n">lt</span><span class="p">)</span>
-        <span class="n">m</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">pairs</span><span class="p">)</span>
-        <span class="n">pairs_x</span> <span class="o">=</span> <span class="p">[</span><span class="n">pairs</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">m</span><span class="p">)]</span>
-        <span class="n">pairs_y</span> <span class="o">=</span> <span class="p">[</span><span class="n">pairs</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">m</span><span class="p">)]</span>
-        <span class="n">new_pairs_x</span> <span class="o">=</span> <span class="n">_ford_johnson_sorting</span><span class="p">(</span><span class="n">pairs_x</span><span class="p">,</span> <span class="n">lt</span><span class="p">)</span>
-        <span class="n">new_pairs_y</span> <span class="o">=</span> <span class="p">[</span><span class="n">pairs_y</span><span class="p">[</span><span class="n">pairs_x</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">new_pairs_x</span><span class="p">[</span><span class="n">i</span><span class="p">])]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">m</span><span class="p">)]</span>
-        <span class="n">pairs</span> <span class="o">=</span> <span class="p">[[</span><span class="n">new_pairs_x</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">new_pairs_y</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">m</span><span class="p">)]</span>
-        <span class="n">result</span> <span class="o">=</span> <span class="n">new_pairs_x</span>
-        <span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pairs</span><span class="p">[</span><span class="n">m</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">])</span>
-        <span class="k">if</span> <span class="n">last_elt</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">pos</span><span class="p">)</span> <span class="o">=</span> <span class="n">_binary_search_insertion</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">last_elt</span><span class="p">,</span> <span class="n">lt</span><span class="p">)</span>
-        <span class="n">result</span> <span class="o">=</span> <span class="n">_insert_y</span><span class="p">(</span><span class="n">pairs</span><span class="p">,</span> <span class="n">result</span><span class="p">,</span> <span class="n">lt</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">result</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">collection</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">collection</span>
+    <span class="p">(</span><span class="n">pairs</span><span class="p">,</span> <span class="n">last_elt</span><span class="p">)</span> <span class="o">=</span> <span class="n">_create_pairs</span><span class="p">(</span><span class="n">collection</span><span class="p">,</span> <span class="n">lt</span><span class="p">)</span>
+    <span class="n">m</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">pairs</span><span class="p">)</span>
+    <span class="n">pairs_x</span> <span class="o">=</span> <span class="p">[</span><span class="n">pairs</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">m</span><span class="p">)]</span>
+    <span class="n">pairs_y</span> <span class="o">=</span> <span class="p">[</span><span class="n">pairs</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">m</span><span class="p">)]</span>
+    <span class="n">new_pairs_x</span> <span class="o">=</span> <span class="n">_ford_johnson_sorting</span><span class="p">(</span><span class="n">pairs_x</span><span class="p">,</span> <span class="n">lt</span><span class="p">)</span>
+    <span class="n">new_pairs_y</span> <span class="o">=</span> <span class="p">[</span><span class="n">pairs_y</span><span class="p">[</span><span class="n">pairs_x</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">new_pairs_x</span><span class="p">[</span><span class="n">i</span><span class="p">])]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">m</span><span class="p">)]</span>
+    <span class="n">pairs</span> <span class="o">=</span> <span class="p">[[</span><span class="n">new_pairs_x</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">new_pairs_y</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">m</span><span class="p">)]</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">new_pairs_x</span>
+    <span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pairs</span><span class="p">[</span><span class="n">m</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">])</span>
+    <span class="k">if</span> <span class="n">last_elt</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">pos</span><span class="p">)</span> <span class="o">=</span> <span class="n">_binary_search_insertion</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">last_elt</span><span class="p">,</span> <span class="n">lt</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">_insert_y</span><span class="p">(</span><span class="n">pairs</span><span class="p">,</span> <span class="n">result</span><span class="p">,</span> <span class="n">lt</span><span class="p">)</span>
 </pre></div>
 
            </div>
