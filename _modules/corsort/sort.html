@@ -196,7 +196,9 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_initialize_algo</span><span class="p">(</span><span class="n">perm</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_call_aux</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">history_distances_</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">distance_to_sorted_array</span><span class="p">())</span>
+        <span class="c1"># Final update of history_distance</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">compute_history</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">history_distances_</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">distance_to_sorted_array</span><span class="p">())</span>
         <span class="k">return</span> <span class="bp">self</span>
 
     <span class="k">def</span> <span class="nf">_call_aux</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>

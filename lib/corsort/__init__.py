@@ -28,5 +28,6 @@ from corsort.sort_largest_interval import SortLargestInterval
 from corsort.sort_merge_bfs import SortMergeBfs
 from corsort.sort_merge_dfs import SortMergeDfs
 from corsort.sort_quick import SortQuick
+from corsort.util_latex import print_corsort_execution
 from corsort.wrap_full_jit import WrapFullJit
 from corsort.wrap_sort_scorer import WrapSortScorer

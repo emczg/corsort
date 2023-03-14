@@ -31,11 +31,13 @@ class CorSort(Sort):
     Cf. also the attributes defined in the parent class :class:`~corsort.Sort`.
     """
 
-    def __init__(self, compute_history=False):
+    def __init__(self, compute_history=False, record_leq=False):
         super().__init__(compute_history=compute_history)
+        self.record_leq = record_leq
         # Computed attributes
         self.leq_ = None
         self.position_estimates_ = None
+        self.history_leq_ = None
 
     def update_position_estimates(self):
         """
@@ -108,6 +110,8 @@ class CorSort(Sort):
         mask_j_and_greater = self.leq_[j, :] > 0
         self.leq_[np.ix_(mask_i_and_smaller, mask_j_and_greater)] = 1
         self.leq_[np.ix_(mask_j_and_greater, mask_i_and_smaller)] = -1
+        if self.record_leq:
+            self.history_leq_.append(self.leq_.copy())
         self.update_position_estimates()
 
     def compare_and_update_poset(self, i, j):
@@ -151,13 +155,12 @@ class CorSort(Sort):
             [1]
         """
         self.leq_ = np.eye(self.n_, dtype=int)
+        self.history_leq_ = []
+        if self.record_leq:
+            self.history_leq_.append(self.leq_.copy())
         self.update_position_estimates()
 
     def _call_aux(self):
         for c in self.next_compare():
             self.compare_and_update_poset(*c)
-        # Final update of history_distance
-        if self.compute_history:
-            self.history_distances_.append(
-                distance_to_sorted_array(self.perm_[np.argsort(self.position_estimates_)]))
         return self

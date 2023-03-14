@@ -118,35 +118,11 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  
-<style>
-/* CSS overrides for sphinx_rtd_theme */
-
-/* 24px margin */
-.nbinput.nblast.container,
-.nboutput.nblast.container {
-    margin-bottom: 19px;  /* padding has already 5px */
-}
-
-/* ... except between code cells! */
-.nblast.container + .nbinput.container {
-    margin-top: -19px;
-}
-
-.admonition > p:before {
-    margin-right: 4px;  /* make room for the exclamation icon */
-}
-
-/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
-.math {
-    text-align: unset;
-}
-</style>
-<section id="corsortgainlexi">
+  <section id="corsortgainlexi">
 <h1>CorSortGainLexi<a class="headerlink" href="#corsortgainlexi" title="Permalink to this heading"></a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="corsort.CorSortGainLexi">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">corsort.</span></span><span class="sig-name descname"><span class="pre">CorSortGainLexi</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">compute_history</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/corsort/cor_sort_gain_lexi.html#CorSortGainLexi"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#corsort.CorSortGainLexi" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">corsort.</span></span><span class="sig-name descname"><span class="pre">CorSortGainLexi</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">compute_history</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">record_leq</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/corsort/cor_sort_gain_lexi.html#CorSortGainLexi"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#corsort.CorSortGainLexi" title="Permalink to this definition"></a></dt>
 <dd><p>CorSort with lexicographic gain (information gain, difference of position estimates).</p>
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">22</span><span class="p">)</span>
@@ -159,7 +135,7 @@
 <span class="go">40.24212...</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">corsort</span><span class="o">.</span><span class="n">history_distances_</span> 
 <span class="go">[55, 42, 51, 49, 49, 43, 39, 38, 37, 36, 28, 27, 22, 21, 20, 19, 13, 14, 13, 15,</span>
-<span class="go">12, 13, 13, 11, 10, 6, 5, 5, 4, 2, 2, 1, 2, 2, 2, 1, 2, 1, 1, 0, 0]</span>
+<span class="go">12, 13, 13, 11, 10, 6, 5, 5, 4, 2, 2, 1, 2, 2, 2, 1, 2, 1, 1, 0]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">corsort</span><span class="o">.</span><span class="vm">__name__</span>
 <span class="go">&#39;corsort_lexi&#39;</span>
 </pre></div>

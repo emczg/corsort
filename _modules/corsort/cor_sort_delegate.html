@@ -94,17 +94,19 @@
 
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
-<span class="sd">        &gt;&gt;&gt; corsort = CorSortDelegate(SortQuick())</span>
+<span class="sd">        &gt;&gt;&gt; corsort = CorSortDelegate(SortQuick(), compute_history=True)</span>
 <span class="sd">        &gt;&gt;&gt; corsort(np.array([&#39;e&#39;, &#39;b&#39;, &#39;a&#39;, &#39;c&#39;, &#39;d&#39;])).n_comparisons_</span>
 <span class="sd">        8</span>
 <span class="sd">        &gt;&gt;&gt; corsort.history_comparisons_</span>
 <span class="sd">        [(1, 0), (2, 0), (3, 0), (4, 0), (2, 1), (1, 3), (1, 4), (3, 4)]</span>
+<span class="sd">        &gt;&gt;&gt; corsort.history_distances_</span>
+<span class="sd">        [5, 1, 1, 1, 1, 2, 1, 0, 0]</span>
 <span class="sd">        &gt;&gt;&gt; corsort.__name__</span>
 <span class="sd">        &#39;corsort_delegate_quicksort&#39;</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sort</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sort</span><span class="p">,</span> <span class="n">compute_history</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">record_leq</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">compute_history</span><span class="o">=</span><span class="n">compute_history</span><span class="p">,</span> <span class="n">record_leq</span><span class="o">=</span><span class="n">record_leq</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">sort</span> <span class="o">=</span> <span class="n">sort</span>
         <span class="bp">self</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">=</span> <span class="s2">&quot;corsort_delegate_&quot;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">sort</span><span class="o">.</span><span class="vm">__name__</span>
 

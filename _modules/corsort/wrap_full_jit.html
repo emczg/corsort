@@ -106,6 +106,8 @@
 <span class="sd">    history_comparisons_: :class:`list` of :class:`tuple`</span>
 <span class="sd">        History of the pairwise comparisons. Tuple (i, j) means that items of indices i and j were compared, and</span>
 <span class="sd">        that perm[i] &lt; perm[j].</span>
+<span class="sd">    history_states_: :class:`list` of :class:`tuple`</span>
+<span class="sd">        History of the state of the list.</span>
 
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
@@ -122,6 +124,10 @@
 <span class="sd">        &gt;&gt;&gt; corsort.history_distances_  # doctest: +NORMALIZE_WHITESPACE</span>
 <span class="sd">        [55, 42, 51, 49, 49, 48, 40, 39, 33, 29, 29, 29, 28, 28, 28, 26, 26, 21, 20, 16, 14, 11, 10, 9, 8, 10,</span>
 <span class="sd">        8, 7, 6, 7, 5, 4, 4, 5, 4, 3, 4, 3, 3, 2, 2, 0, 1, 0]</span>
+
+<span class="sd">        &gt;&gt;&gt; p = [2, 1, 3, 0]</span>
+<span class="sd">        &gt;&gt;&gt; corsort(p).history_states_</span>
+<span class="sd">        [[2, 1, 3, 0], [1, 3, 0, 2], [1, 0, 2, 3], [1, 0, 2, 3], [1, 0, 2, 3], [0, 1, 2, 3]]</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">jit_sort</span><span class="p">,</span> <span class="n">compute_history</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
@@ -139,6 +145,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">n_comparisons_</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">history_distances_</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">history_comparisons_</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">history_states_</span> <span class="o">=</span> <span class="kc">None</span>
 
     <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">perm</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -164,6 +171,7 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">history_distances_</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">history_comparisons_</span> <span class="o">=</span> <span class="n">comparisons</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">history_states_</span> <span class="o">=</span> <span class="p">[</span><span class="nb">list</span><span class="p">(</span><span class="n">state</span><span class="p">)</span> <span class="k">for</span> <span class="n">state</span> <span class="ow">in</span> <span class="n">states</span><span class="p">]</span>
         <span class="k">return</span> <span class="bp">self</span></div>
 </pre></div>
 

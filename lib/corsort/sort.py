@@ -116,7 +116,9 @@ class Sort:
         """
         self._initialize_algo(perm)
         self._call_aux()
-        self.history_distances_.append(self.distance_to_sorted_array())
+        # Final update of history_distance
+        if self.compute_history:
+            self.history_distances_.append(self.distance_to_sorted_array())
         return self
 
     def _call_aux(self):

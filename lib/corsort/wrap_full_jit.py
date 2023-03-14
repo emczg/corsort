@@ -26,6 +26,8 @@ class WrapFullJit:
     history_comparisons_: :class:`list` of :class:`tuple`
         History of the pairwise comparisons. Tuple (i, j) means that items of indices i and j were compared, and
         that perm[i] < perm[j].
+    history_states_: :class:`list` of :class:`tuple`
+        History of the state of the list.
 
     Examples
     --------
@@ -42,6 +44,10 @@ class WrapFullJit:
         >>> corsort.history_distances_  # doctest: +NORMALIZE_WHITESPACE
         [55, 42, 51, 49, 49, 48, 40, 39, 33, 29, 29, 29, 28, 28, 28, 26, 26, 21, 20, 16, 14, 11, 10, 9, 8, 10,
         8, 7, 6, 7, 5, 4, 4, 5, 4, 3, 4, 3, 3, 2, 2, 0, 1, 0]
+
+        >>> p = [2, 1, 3, 0]
+        >>> corsort(p).history_states_
+        [[2, 1, 3, 0], [1, 3, 0, 2], [1, 0, 2, 3], [1, 0, 2, 3], [1, 0, 2, 3], [0, 1, 2, 3]]
     """
 
     def __init__(self, jit_sort, compute_history=False):
@@ -59,6 +65,7 @@ class WrapFullJit:
         self.n_comparisons_ = None
         self.history_distances_ = None
         self.history_comparisons_ = None
+        self.history_states_ = None
 
     def __call__(self, perm):
         """
@@ -84,4 +91,5 @@ class WrapFullJit:
         else:
             self.history_distances_ = []
         self.history_comparisons_ = comparisons
+        self.history_states_ = [list(state) for state in states]
         return self
