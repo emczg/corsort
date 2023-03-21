@@ -12,7 +12,6 @@
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
         <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
         <script src="../_static/doctools.js"></script>
         <script src="../_static/sphinx_highlight.js"></script>
@@ -72,6 +71,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#corsort.Sort.history_distances_"><code class="docutils literal notranslate"><span class="pre">Sort.history_distances_</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#corsort.Sort.history_comparisons_"><code class="docutils literal notranslate"><span class="pre">Sort.history_comparisons_</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#corsort.Sort.distance_to_sorted_array"><code class="docutils literal notranslate"><span class="pre">Sort.distance_to_sorted_array()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#corsort.Sort.history_comparisons_values_"><code class="docutils literal notranslate"><span class="pre">Sort.history_comparisons_values_</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#corsort.Sort.test_i_lt_j"><code class="docutils literal notranslate"><span class="pre">Sort.test_i_lt_j()</span></code></a></li>
 </ul>
 </li>
@@ -194,6 +194,18 @@ that perm[i] &lt; perm[j].</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)">int</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="corsort.Sort.history_comparisons_values_">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">history_comparisons_values_</span></span><a class="headerlink" href="#corsort.Sort.history_comparisons_values_" title="Permalink to this definition"></a></dt>
+<dd><p>History of the pairwise comparisons, in terms of compared values.
+Tuple (x, y) means that items of values x and y were compared, and that x &lt; y.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a> of <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code></a></p>
 </dd>
 </dl>
 </dd></dl>

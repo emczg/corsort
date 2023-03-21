@@ -12,7 +12,6 @@
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
         <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
         <script src="../_static/doctools.js"></script>
         <script src="../_static/sphinx_highlight.js"></script>
@@ -73,7 +72,10 @@
 <li class="toctree-l2"><a class="reference internal" href="sort_quick.html">SortQuick</a></li>
 <li class="toctree-l2"><a class="reference internal" href="wrap_full_jit.html">WrapFullJit</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">WrapSortScorer</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#corsort.WrapSortScorer"><code class="docutils literal notranslate"><span class="pre">WrapSortScorer</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#corsort.WrapSortScorer"><code class="docutils literal notranslate"><span class="pre">WrapSortScorer</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#corsort.WrapSortScorer.history_comparisons_values_"><code class="docutils literal notranslate"><span class="pre">WrapSortScorer.history_comparisons_values_</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -118,11 +120,23 @@
 <span class="gp">&gt;&gt;&gt; </span><span class="n">jit_sort</span> <span class="o">=</span> <span class="n">WrapSortScorer</span><span class="p">(</span><span class="n">scorer</span><span class="o">=</span><span class="n">scorer_spaced</span><span class="p">,</span> <span class="n">sort</span><span class="o">=</span><span class="n">my_sort</span><span class="p">,</span> <span class="n">compute_history</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">my_xs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">jit_sort</span><span class="p">(</span><span class="n">my_xs</span><span class="p">)</span><span class="o">.</span><span class="n">n_comparisons_</span>
-<span class="go">17</span>
+<span class="go">16</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">jit_sort</span><span class="o">.</span><span class="vm">__name__</span>
 <span class="go">&#39;quicksort_spaced&#39;</span>
 </pre></div>
 </div>
+<dl class="py property">
+<dt class="sig sig-object py" id="corsort.WrapSortScorer.history_comparisons_values_">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">history_comparisons_values_</span></span><a class="headerlink" href="#corsort.WrapSortScorer.history_comparisons_values_" title="Permalink to this definition"></a></dt>
+<dd><p>History of the pairwise comparisons, in terms of compared values.
+Tuple (x, y) means that items of values x and y were compared, and that x &lt; y.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a> of <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
 </dd></dl>
 
 </section>

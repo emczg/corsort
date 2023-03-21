@@ -11,7 +11,6 @@
     <script src="../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
         <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
         <script src="../../_static/doctools.js"></script>
         <script src="../../_static/sphinx_highlight.js"></script>
@@ -93,19 +92,19 @@
 <span class="sd">        &gt;&gt;&gt; quicksort = SortQuick(compute_history=True)</span>
 <span class="sd">        &gt;&gt;&gt; my_xs = np.array([4, 1, 7, 6, 0, 8, 2, 3, 5])</span>
 <span class="sd">        &gt;&gt;&gt; quicksort(my_xs).n_comparisons_</span>
-<span class="sd">        17</span>
+<span class="sd">        16</span>
 <span class="sd">        &gt;&gt;&gt; quicksort.history_comparisons_  # doctest: +NORMALIZE_WHITESPACE</span>
-<span class="sd">        [(1, 0), (0, 2), (0, 3), (4, 0), (0, 5), (6, 0), (7, 0), (0, 8), (4, 1),</span>
-<span class="sd">        (1, 6), (1, 7), (6, 7), (3, 5), (2, 5), (8, 5), (3, 2), (8, 3)]</span>
+<span class="sd">        [(1, 0), (0, 2), (0, 3), (4, 0), (0, 5), (6, 0), (7, 0), (0, 8),</span>
+<span class="sd">        (4, 1), (1, 6), (1, 7), (6, 7), (3, 2), (2, 5), (8, 2), (8, 3)]</span>
 <span class="sd">        &gt;&gt;&gt; quicksort.history_distances_</span>
-<span class="sd">        [17, 16, 16, 16, 12, 12, 10, 6, 6, 5, 5, 5, 5, 4, 3, 2, 2, 0]</span>
+<span class="sd">        [17, 16, 16, 16, 13, 13, 9, 5, 5, 4, 4, 4, 4, 3, 3, 1, 0]</span>
 <span class="sd">        &gt;&gt;&gt; quicksort.sorted_list_</span>
 <span class="sd">        array([0, 1, 2, 3, 4, 5, 6, 7, 8])</span>
 
 <span class="sd">        &gt;&gt;&gt; np.random.seed(42)</span>
 <span class="sd">        &gt;&gt;&gt; quicksort = SortQuick(compute_history=False)</span>
 <span class="sd">        &gt;&gt;&gt; quicksort(np.random.permutation(100)).n_comparisons_</span>
-<span class="sd">        659</span>
+<span class="sd">        662</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="vm">__name__</span> <span class="o">=</span> <span class="s1">&#39;quicksort&#39;</span>

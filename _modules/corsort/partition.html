@@ -11,7 +11,6 @@
     <script src="../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
         <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
         <script src="../../_static/doctools.js"></script>
         <script src="../../_static/sphinx_highlight.js"></script>
@@ -107,16 +106,15 @@
 <span class="sd">        &gt;&gt;&gt; partition(my_xs, i=0, j=len(my_xs) - 1, lt=lambda x, y: x &lt; y)</span>
 <span class="sd">        4</span>
 <span class="sd">        &gt;&gt;&gt; my_xs</span>
-<span class="sd">        array([1, 0, 2, 3, 4, 8, 6, 7, 5])</span>
+<span class="sd">        array([1, 0, 2, 3, 4, 7, 6, 8, 5])</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">pivot_value</span> <span class="o">=</span> <span class="n">xs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
     <span class="n">pivot_index</span> <span class="o">=</span> <span class="n">i</span>
     <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">j</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">lt</span><span class="p">(</span><span class="n">xs</span><span class="p">[</span><span class="n">k</span><span class="p">],</span> <span class="n">pivot_value</span><span class="p">):</span>
-            <span class="k">if</span> <span class="n">k</span> <span class="o">&gt;</span> <span class="n">pivot_index</span> <span class="o">+</span> <span class="mi">1</span><span class="p">:</span>
-                <span class="n">xs</span><span class="p">[</span><span class="n">pivot_index</span><span class="p">],</span> <span class="n">xs</span><span class="p">[</span><span class="n">pivot_index</span> <span class="o">+</span> <span class="mi">1</span><span class="p">],</span> <span class="n">xs</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">xs</span><span class="p">[</span><span class="n">k</span><span class="p">],</span> <span class="n">pivot_value</span><span class="p">,</span> <span class="n">xs</span><span class="p">[</span><span class="n">pivot_index</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="n">xs</span><span class="p">[</span><span class="n">pivot_index</span><span class="p">],</span> <span class="n">xs</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">xs</span><span class="p">[</span><span class="n">k</span><span class="p">],</span> <span class="n">pivot_value</span>
+            <span class="n">xs</span><span class="p">[</span><span class="n">pivot_index</span><span class="p">]</span> <span class="o">=</span> <span class="n">xs</span><span class="p">[</span><span class="n">k</span><span class="p">]</span>
+            <span class="n">xs</span><span class="p">[</span><span class="n">pivot_index</span> <span class="o">+</span> <span class="mi">2</span><span class="p">:</span><span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">xs</span><span class="p">[</span><span class="n">pivot_index</span> <span class="o">+</span> <span class="mi">1</span><span class="p">:</span> <span class="n">k</span><span class="p">]</span>
+            <span class="n">xs</span><span class="p">[</span><span class="n">pivot_index</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">pivot_value</span>
             <span class="n">pivot_index</span> <span class="o">+=</span> <span class="mi">1</span>
     <span class="k">return</span> <span class="n">pivot_index</span></div>
 </pre></div>

@@ -12,7 +12,6 @@
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
         <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
         <script src="../_static/doctools.js"></script>
         <script src="../_static/sphinx_highlight.js"></script>
@@ -73,6 +72,7 @@
 <li class="toctree-l2 current"><a class="current reference internal" href="#">SortQuick</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#corsort.SortQuick"><code class="docutils literal notranslate"><span class="pre">SortQuick</span></code></a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#corsort.SortQuick.distance_to_sorted_array"><code class="docutils literal notranslate"><span class="pre">SortQuick.distance_to_sorted_array()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#corsort.SortQuick.history_comparisons_values_"><code class="docutils literal notranslate"><span class="pre">SortQuick.history_comparisons_values_</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#corsort.SortQuick.test_i_lt_j"><code class="docutils literal notranslate"><span class="pre">SortQuick.test_i_lt_j()</span></code></a></li>
 </ul>
 </li>
@@ -122,12 +122,12 @@
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">quicksort</span> <span class="o">=</span> <span class="n">SortQuick</span><span class="p">(</span><span class="n">compute_history</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">my_xs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">quicksort</span><span class="p">(</span><span class="n">my_xs</span><span class="p">)</span><span class="o">.</span><span class="n">n_comparisons_</span>
-<span class="go">17</span>
+<span class="go">16</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">quicksort</span><span class="o">.</span><span class="n">history_comparisons_</span>  
-<span class="go">[(1, 0), (0, 2), (0, 3), (4, 0), (0, 5), (6, 0), (7, 0), (0, 8), (4, 1),</span>
-<span class="go">(1, 6), (1, 7), (6, 7), (3, 5), (2, 5), (8, 5), (3, 2), (8, 3)]</span>
+<span class="go">[(1, 0), (0, 2), (0, 3), (4, 0), (0, 5), (6, 0), (7, 0), (0, 8),</span>
+<span class="go">(4, 1), (1, 6), (1, 7), (6, 7), (3, 2), (2, 5), (8, 2), (8, 3)]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">quicksort</span><span class="o">.</span><span class="n">history_distances_</span>
-<span class="go">[17, 16, 16, 16, 12, 12, 10, 6, 6, 5, 5, 5, 5, 4, 3, 2, 2, 0]</span>
+<span class="go">[17, 16, 16, 16, 13, 13, 9, 5, 5, 4, 4, 4, 4, 3, 3, 1, 0]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">quicksort</span><span class="o">.</span><span class="n">sorted_list_</span>
 <span class="go">array([0, 1, 2, 3, 4, 5, 6, 7, 8])</span>
 </pre></div>
@@ -135,7 +135,7 @@
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">quicksort</span> <span class="o">=</span> <span class="n">SortQuick</span><span class="p">(</span><span class="n">compute_history</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">quicksort</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">permutation</span><span class="p">(</span><span class="mi">100</span><span class="p">))</span><span class="o">.</span><span class="n">n_comparisons_</span>
-<span class="go">659</span>
+<span class="go">662</span>
 </pre></div>
 </div>
 <dl class="py method">
@@ -148,6 +148,18 @@
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)">int</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="corsort.SortQuick.history_comparisons_values_">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">history_comparisons_values_</span></span><a class="headerlink" href="#corsort.SortQuick.history_comparisons_values_" title="Permalink to this definition"></a></dt>
+<dd><p>History of the pairwise comparisons, in terms of compared values.
+Tuple (x, y) means that items of values x and y were compared, and that x &lt; y.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a> of <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code></a></p>
 </dd>
 </dl>
 </dd></dl>

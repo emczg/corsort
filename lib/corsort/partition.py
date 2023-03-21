@@ -27,15 +27,14 @@ def partition(xs, i, j, lt):
         >>> partition(my_xs, i=0, j=len(my_xs) - 1, lt=lambda x, y: x < y)
         4
         >>> my_xs
-        array([1, 0, 2, 3, 4, 8, 6, 7, 5])
+        array([1, 0, 2, 3, 4, 7, 6, 8, 5])
     """
     pivot_value = xs[i]
     pivot_index = i
     for k in range(i + 1, j + 1):
         if lt(xs[k], pivot_value):
-            if k > pivot_index + 1:
-                xs[pivot_index], xs[pivot_index + 1], xs[k] = xs[k], pivot_value, xs[pivot_index + 1]
-            else:
-                xs[pivot_index], xs[k] = xs[k], pivot_value
+            xs[pivot_index] = xs[k]
+            xs[pivot_index + 2:k + 1] = xs[pivot_index + 1: k]
+            xs[pivot_index + 1] = pivot_value
             pivot_index += 1
     return pivot_index

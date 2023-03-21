@@ -12,7 +12,6 @@
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
         <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
         <script src="../_static/doctools.js"></script>
         <script src="../_static/sphinx_highlight.js"></script>
@@ -57,6 +56,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#corsort.CorSortBorda.apply_i_lt_j"><code class="docutils literal notranslate"><span class="pre">CorSortBorda.apply_i_lt_j()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#corsort.CorSortBorda.compare_and_update_poset"><code class="docutils literal notranslate"><span class="pre">CorSortBorda.compare_and_update_poset()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#corsort.CorSortBorda.distance_to_sorted_array"><code class="docutils literal notranslate"><span class="pre">CorSortBorda.distance_to_sorted_array()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#corsort.CorSortBorda.history_comparisons_values_"><code class="docutils literal notranslate"><span class="pre">CorSortBorda.history_comparisons_values_</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#corsort.CorSortBorda.next_compare"><code class="docutils literal notranslate"><span class="pre">CorSortBorda.next_compare()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#corsort.CorSortBorda.test_i_lt_j"><code class="docutils literal notranslate"><span class="pre">CorSortBorda.test_i_lt_j()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#corsort.CorSortBorda.update_position_estimates"><code class="docutils literal notranslate"><span class="pre">CorSortBorda.update_position_estimates()</span></code></a></li>
@@ -200,6 +200,18 @@
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)">int</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="corsort.CorSortBorda.history_comparisons_values_">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">history_comparisons_values_</span></span><a class="headerlink" href="#corsort.CorSortBorda.history_comparisons_values_" title="Permalink to this definition"></a></dt>
+<dd><p>History of the pairwise comparisons, in terms of compared values.
+Tuple (x, y) means that items of values x and y were compared, and that x &lt; y.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a> of <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code></a></p>
 </dd>
 </dl>
 </dd></dl>

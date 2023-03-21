@@ -12,7 +12,7 @@ class WrapSortScorer:
         >>> jit_sort = WrapSortScorer(scorer=scorer_spaced, sort=my_sort, compute_history=False)
         >>> my_xs = np.array([4, 1, 7, 6, 0, 8, 2, 3, 5])
         >>> jit_sort(my_xs).n_comparisons_
-        17
+        16
         >>> jit_sort.__name__
         'quicksort_spaced'
     """
@@ -51,3 +51,12 @@ class WrapSortScorer:
         else:
             self.history_distances_ = []
         return self
+
+    @property
+    def history_comparisons_values_(self):
+        """:class:`list` of :class:`tuple`: History of the pairwise comparisons, in terms of compared values.
+        Tuple (x, y) means that items of values x and y were compared, and that x < y.
+        """
+        if self.history_comparisons_ is None:
+            return None
+        return [(self.perm_[i], self.perm_[j]) for (i, j) in self.history_comparisons_]
