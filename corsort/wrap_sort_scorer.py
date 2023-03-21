@@ -51,3 +51,12 @@ class WrapSortScorer:
         else:
             self.history_distances_ = []
         return self
+
+    @property
+    def history_comparisons_values_(self):
+        """:class:`list` of :class:`tuple`: History of the pairwise comparisons, in terms of compared values.
+        Tuple (x, y) means that items of values x and y were compared, and that x < y.
+        """
+        if self.history_comparisons_ is None:
+            return None
+        return [(self.perm_[i], self.perm_[j]) for (i, j) in self.history_comparisons_]
