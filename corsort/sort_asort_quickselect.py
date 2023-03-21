@@ -13,12 +13,12 @@ class SortAsortQuickselect(Sort):
         >>> asort = SortAsortQuickselect(compute_history=True)
         >>> my_xs = np.array([4, 1, 7, 6, 0, 8, 2, 3, 5])
         >>> asort(my_xs).n_comparisons_
-        17
+        16
         >>> asort.history_comparisons_  # doctest: +NORMALIZE_WHITESPACE
         [(1, 0), (0, 2), (0, 3), (4, 0), (0, 5), (6, 0), (7, 0), (0, 8),
-        (4, 1), (1, 6), (1, 7), (3, 5), (2, 5), (8, 5), (3, 2), (8, 3), (6, 7)]
+        (4, 1), (1, 6), (1, 7), (3, 2), (2, 5), (8, 2), (8, 3), (6, 7)]
         >>> asort.history_distances_
-        [17, 16, 16, 16, 12, 12, 10, 6, 6, 5, 5, 5, 4, 3, 2, 2, 0, 0]
+        [17, 16, 16, 16, 13, 13, 9, 5, 5, 4, 4, 4, 3, 3, 1, 0, 0]
         >>> asort.sorted_list_
         array([0, 1, 2, 3, 4, 5, 6, 7, 8])
     """

@@ -12,7 +12,7 @@ class WrapSortScorer:
         >>> jit_sort = WrapSortScorer(scorer=scorer_spaced, sort=my_sort, compute_history=False)
         >>> my_xs = np.array([4, 1, 7, 6, 0, 8, 2, 3, 5])
         >>> jit_sort(my_xs).n_comparisons_
-        17
+        16
         >>> jit_sort.__name__
         'quicksort_spaced'
     """
