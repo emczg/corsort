@@ -83,7 +83,6 @@ def print_corsort_execution(perm):
 
     Examples
     --------
-        >>> perm =
         >>> print_corsort_execution([4, 2, 3, 1, 5])  # doctest: +NORMALIZE_WHITESPACE
         <BLANKLINE>
         \begin{tikzpicture}
