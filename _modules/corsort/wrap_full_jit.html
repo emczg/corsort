@@ -142,6 +142,17 @@
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">jit_sort</span><span class="p">,</span> <span class="n">compute_history</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        Before using the algorithm, both `history_comparisons_` and `history_comparisons_values_` are None:</span>
+
+<span class="sd">            &gt;&gt;&gt; corsort = WrapFullJit(jit_sort=jit_corsort_borda, compute_history=False)</span>
+<span class="sd">            &gt;&gt;&gt; print(corsort.history_comparisons_)</span>
+<span class="sd">            None</span>
+<span class="sd">            &gt;&gt;&gt; print(corsort.history_comparisons_values_)</span>
+<span class="sd">            None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># Parameters</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">jit_sort</span> <span class="o">=</span> <span class="n">jit_sort</span>
         <span class="n">name_jit_sort</span> <span class="o">=</span> <span class="n">jit_sort</span><span class="o">.</span><span class="vm">__name__</span>
