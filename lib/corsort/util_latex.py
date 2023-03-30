@@ -71,6 +71,102 @@ def print_end():
 
 
 def print_corsort_execution(perm):
+    r"""
+    Print an execution of corsort in LaTeX.
+
+    Parameters
+    ----------
+    perm
+
+    Returns
+    -------
+
+    Examples
+    --------
+        >>> perm =
+        >>> print_corsort_execution([4, 2, 3, 1, 5])  # doctest: +NORMALIZE_WHITESPACE
+        <BLANKLINE>
+        \begin{tikzpicture}
+        \def\interspace{3cm}
+        \def\intraspace{.1cm}
+        \def\lrgap{1.5cm}
+        \newcommand{\execution}[2]{%
+            \begin{tikzpicture}[scale=.7, transform shape]
+                \foreach \i/\d/\an/\to/\s [count=\x] in {#1}
+                {
+                    \node[obj] (\i) at (\x, 4*\an/\to) {$\i$};
+                    \node[above = .0cm of \i, \s] {$\d$};
+                }
+                \foreach \i/\j in {#2}{\draw[<-] (\i) -- (\j) ;}
+            \end{tikzpicture}%
+        }
+        <BLANKLINE>
+        \node[draw] (x0) {$X_0=(42315), \tau_0=5$};
+        \node[above = \intraspace of x0] (x0p) {\execution{
+            4/0/1/2/select,
+            2/0/1/2/select,
+            3/0/1/2/,
+            1/0/1/2/,
+            5/0/1/2/%
+        }{}};
+        \node[draw, right = \lrgap of x0] (x1) {$X_1=(23154), \tau_1=3$};
+        \node[above = \intraspace of x1] (x1p) {\execution{
+            4/1/2/3/,
+            2/-1/1/3/,
+            3/0/1/2/select,
+            1/0/1/2/select,
+            5/0/1/2/%
+        }{2/4}};
+        \node[draw, below = \interspace of x0] (x2) {$X_2=(21543), \tau_2=4$};
+        \node[above = \intraspace of x2] (x2p) {\execution{
+            4/1/2/3/select,
+            2/-1/1/3/,
+            3/1/2/3/select,
+            1/-1/1/3/,
+            5/0/1/2/%
+        }{2/4, 1/3}};
+        \node[draw, right = \lrgap of x2] (x3) {$X_3=(12354), \tau_3=1$};
+        \node[above = \intraspace of x3] (x3p) {\execution{
+            4/3/4/5/,
+            2/-1/1/3/,
+            3/0/2/4/select,
+            1/-2/1/4/,
+            5/0/1/2/select%
+        }{2/4, 3/4, 1/3}};
+        \node[draw, below = \interspace of x2] (x4) {$X_4=(12354), \tau_4=1$};
+        \node[above = \intraspace of x4] (x4p) {\execution{
+            4/3/4/5/,
+            2/-1/1/3/select,
+            3/-1/2/5/select,
+            1/-3/1/5/,
+            5/2/3/4/%
+        }{2/4, 3/4, 3/5, 1/3}};
+        \node[draw, right = \lrgap of x4] (x5) {$X_5=(21345), \tau_5=1$};
+        \node[above = \intraspace of x5] (x5p) {\execution{
+            4/3/4/5/select,
+            2/-3/1/5/,
+            3/0/3/6/,
+            1/-3/1/5/,
+            5/3/4/5/select%
+        }{2/3, 3/4, 3/5, 1/3}};
+        \node[draw, below = \interspace of x4] (x6) {$X_6=(21345), \tau_6=1$};
+        \node[above = \intraspace of x6] (x6p) {\execution{
+            4/2/4/6/,
+            2/-3/1/5/select,
+            3/0/3/6/,
+            1/-3/1/5/select,
+            5/4/5/6/%
+        }{4/5, 2/3, 3/4, 1/3}};
+        \node[draw, right = \lrgap of x6] (x7) {$X_7=(12345), \tau_7=0$};
+        \node[above = \intraspace of x7] (x7p) {\execution{
+            4/2/4/6/,
+            2/-2/2/6/,
+            3/0/3/6/,
+            1/-4/1/6/,
+            5/4/5/6/%
+        }{4/5, 2/3, 3/4, 1/2}};
+        \end{tikzpicture}
+    """
     corsort = CorSortDelegate(
         sort=WrapFullJit(jit_sort=jit_corsort_drift_max_spaced),
         compute_history=True,
