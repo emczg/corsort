@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>corsort.chain_and_y &mdash; Corsort 0.1.0 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+    <link rel="shortcut icon" href="../../_static/favicon.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/sphinx_highlight.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            Corsort
+              <img src="../../_static/logo_small.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../readme.html">Corsort</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../usage.html">Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../notebooks/index.html">Algotel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../reference/index.html">Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../authors.html">Credits</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../history.html">History</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Corsort</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">corsort.chain_and_y</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for corsort.chain_and_y</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">string</span>
+<span class="kn">from</span> <span class="nn">fractions</span> <span class="kn">import</span> <span class="n">Fraction</span>
+<span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">combinations</span>
+<span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="n">comb</span>
+
+<span class="kn">import</span> <span class="nn">networkx</span> <span class="k">as</span> <span class="nn">nx</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">svvamp</span>
+
+
+<div class="viewcode-block" id="ChainAndY"><a class="viewcode-back" href="../../reference/chain_and_y.html#corsort.ChainAndY">[docs]</a><span class="k">class</span> <span class="nc">ChainAndY</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A poset consisting of a chain and a Y-shape.</span>
+
+<span class="sd">    Use :meth:`draw` to visualize an example.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    a: int</span>
+<span class="sd">        Number of nodes in the isolated chain.</span>
+<span class="sd">    b: int</span>
+<span class="sd">        Number of nodes in the trunk of the Y.</span>
+<span class="sd">    c, d: int</span>
+<span class="sd">        Number of nodes in each branch of the Y.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">d</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">a</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">b</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">c</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">d</span> <span class="o">=</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">d</span>
+        <span class="c1"># Cached variables</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_cache_average_height_c</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_cache_average_height_d</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_cache_profile_linear_extensions</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_cache_profile_linear_extensions_svvamp</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">n_nodes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Number of nodes</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        int</span>
+<span class="sd">            Number of nodes</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">            &gt;&gt;&gt; ChainAndY(2, 1, 1, 2).n_nodes</span>
+<span class="sd">            6</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">a</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">b</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">c</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">d</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">graph</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The poset as an networkx graph.</span>
+
+<span class="sd">        The main purpose of the property is to be used by :meth:`draw`.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        class:`~networkx.DiGraph`</span>
+<span class="sd">            The graph.</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">            &gt;&gt;&gt; print(ChainAndY(10, 4, 5, 7).graph)</span>
+<span class="sd">            DiGraph with 26 nodes and 24 edges</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">g</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">DiGraph</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">a</span><span class="p">):</span>
+            <span class="n">g</span><span class="o">.</span><span class="n">add_node</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">pos</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">i</span><span class="p">))</span>
+            <span class="k">if</span> <span class="n">i</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">g</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">b</span><span class="p">):</span>
+            <span class="n">g</span><span class="o">.</span><span class="n">add_node</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">a</span> <span class="o">+</span> <span class="n">i</span><span class="p">,</span> <span class="n">pos</span><span class="o">=</span><span class="p">(</span><span class="mf">1.5</span><span class="p">,</span> <span class="n">i</span><span class="p">))</span>
+            <span class="k">if</span> <span class="n">i</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">g</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">a</span> <span class="o">+</span> <span class="n">i</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">a</span> <span class="o">+</span> <span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">c</span><span class="p">):</span>
+            <span class="n">g</span><span class="o">.</span><span class="n">add_node</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">a</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">b</span> <span class="o">+</span> <span class="n">i</span><span class="p">,</span> <span class="n">pos</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">b</span> <span class="o">+</span> <span class="n">i</span><span class="p">))</span>
+            <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">g</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">a</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">b</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">a</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">b</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">g</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">a</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">b</span> <span class="o">+</span> <span class="n">i</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">a</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">b</span> <span class="o">+</span> <span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">d</span><span class="p">):</span>
+            <span class="n">g</span><span class="o">.</span><span class="n">add_node</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">a</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">b</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">c</span> <span class="o">+</span> <span class="n">i</span><span class="p">,</span> <span class="n">pos</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">b</span> <span class="o">+</span> <span class="n">i</span><span class="p">))</span>
+            <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">g</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">a</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">b</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">c</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">a</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">b</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">g</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">a</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">b</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">c</span> <span class="o">+</span> <span class="n">i</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">a</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">b</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">c</span> <span class="o">+</span> <span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">g</span>
+
+<div class="viewcode-block" id="ChainAndY.draw"><a class="viewcode-back" href="../../reference/chain_and_y.html#corsort.ChainAndY.draw">[docs]</a>    <span class="k">def</span> <span class="nf">draw</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">with_labels</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">alpha_labels</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Draw the poset.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        with_labels: bool</span>
+<span class="sd">            If True, nodes are labeled.</span>
+<span class="sd">        alpha_labels: bool</span>
+<span class="sd">            If True, nodes are labeled with letters (there must be 26 nodes at most). In that case, the input</span>
+<span class="sd">            parameter `with_labels` is ignored and automatically set to True.</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">            &gt;&gt;&gt; ChainAndY(10, 4, 5, 7).draw()</span>
+
+<span class="sd">            &gt;&gt;&gt; ChainAndY(10, 4, 5, 7).draw(alpha_labels=True)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">graph</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">graph</span>
+        <span class="n">pos</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">get_node_attributes</span><span class="p">(</span><span class="n">graph</span><span class="p">,</span> <span class="s1">&#39;pos&#39;</span><span class="p">)</span>
+        <span class="n">kwargs</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">if</span> <span class="n">alpha_labels</span><span class="p">:</span>
+            <span class="n">with_labels</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;labels&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">graph</span><span class="p">,</span> <span class="n">string</span><span class="o">.</span><span class="n">ascii_lowercase</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">with_labels</span><span class="p">:</span>
+            <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;node_color&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;white&#39;</span>
+            <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;edgecolors&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;black&#39;</span>
+        <span class="n">nx</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">graph</span><span class="p">,</span> <span class="n">pos</span><span class="p">,</span> <span class="n">with_labels</span><span class="o">=</span><span class="n">with_labels</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">nb_linear_extensions</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Number of linear extensions.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        int</span>
+<span class="sd">            Number of linear extensions of the poset.</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">            &gt;&gt;&gt; ChainAndY(10, 4, 5, 7).nb_linear_extensions</span>
+<span class="sd">            4206894120</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">comb</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">c</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">d</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">c</span><span class="p">)</span> <span class="o">*</span> <span class="n">comb</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_nodes</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">a</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">nb_ancestors</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Number of ancestors for each node.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        :class:`~numpy.ndarray`</span>
+<span class="sd">            Size `a + b + c + d`. Number of ancestors for each node.</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">            &gt;&gt;&gt; ChainAndY(10, 4, 5, 7).nb_ancestors  # doctest: +NORMALIZE_WHITESPACE</span>
+<span class="sd">            array([10,  9,  8,  7,  6,  5,  4,  3,  2,  1, 16, 15, 14, 13,  5,  4,  3,</span>
+<span class="sd">            2,  1,  7,  6,  5,  4,  3,  2,  1])</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">a</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">),</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">b</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">c</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">d</span><span class="p">,</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">c</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">),</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">d</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">),</span>
+        <span class="p">))</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">nb_descendants</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Number of ancestors for each node.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        :class:`~numpy.ndarray`</span>
+<span class="sd">            Size `a + b + c + d`. Number of descendants for each node.</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">            &gt;&gt;&gt; ChainAndY(10, 4, 5, 7).nb_descendants  # doctest: +NORMALIZE_WHITESPACE</span>
+<span class="sd">            array([ 1,  2,  3,  4,  5,  6,  7,  8,  9, 10,  1,  2,  3,  4,  5,  6,  7,</span>
+<span class="sd">                    8,  9,  5,  6,  7,  8,  9, 10, 11])</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">a</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">),</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">b</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">),</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">c</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">b</span><span class="p">,</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">d</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">b</span><span class="p">,</span>
+        <span class="p">))</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">delta</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Estimator of position &quot;delta&quot; for each node.</span>
+
+<span class="sd">        It is the number of descendants, minus the number of ancestors. Up to an affine transformation,</span>
+<span class="sd">        it is the average between the worst and the best possible positions of the node in the sorted list.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        :class:`~numpy.ndarray`</span>
+<span class="sd">            Size `a + b + c + d`. Estimator delta for each node.</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">            &gt;&gt;&gt; ChainAndY(10, 4, 5, 7).delta  # doctest: +NORMALIZE_WHITESPACE</span>
+<span class="sd">            array([ -9,  -7,  -5,  -3,  -1,   1,   3,   5,   7,   9, -15, -13, -11,</span>
+<span class="sd">                    -9,   0,   2,   4,   6,   8,  -2,   0,   2,   4,   6,   8,  10])</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">nb_descendants</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">nb_ancestors</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">rho</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Estimator of position &quot;rho&quot; for each node.</span>
+
+<span class="sd">        It is `de / (de + an)`, where `de` denotes the number of descendants and `an` the number of ancestors.</span>
+<span class="sd">        Up to an affine transformation, it would be the average position of the node if its descendants and ancestors</span>
+<span class="sd">        were forming a chain and if no information was known about the other elements.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        :class:`~numpy.ndarray`</span>
+<span class="sd">            Size `a + b + c + d`. Estimator rho for each node.</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">            &gt;&gt;&gt; ChainAndY(10, 4, 5, 7).rho  # doctest: +NORMALIZE_WHITESPACE</span>
+<span class="sd">            array([Fraction(1, 11), Fraction(2, 11), Fraction(3, 11), Fraction(4, 11),</span>
+<span class="sd">                   Fraction(5, 11), Fraction(6, 11), Fraction(7, 11), Fraction(8, 11),</span>
+<span class="sd">                   Fraction(9, 11), Fraction(10, 11), Fraction(1, 17),</span>
+<span class="sd">                   Fraction(2, 17), Fraction(3, 17), Fraction(4, 17), Fraction(1, 2),</span>
+<span class="sd">                   Fraction(3, 5), Fraction(7, 10), Fraction(4, 5), Fraction(9, 10),</span>
+<span class="sd">                   Fraction(5, 12), Fraction(1, 2), Fraction(7, 12), Fraction(2, 3),</span>
+<span class="sd">                   Fraction(3, 4), Fraction(5, 6), Fraction(11, 12)], dtype=object)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">nb_desc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">nb_descendants</span>
+        <span class="n">nb_anc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">nb_ancestors</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
+            <span class="n">Fraction</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">descendants</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="n">descendants</span> <span class="o">+</span> <span class="n">ancestors</span><span class="p">))</span>
+            <span class="k">for</span> <span class="n">descendants</span><span class="p">,</span> <span class="n">ancestors</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">nb_desc</span><span class="p">,</span> <span class="n">nb_anc</span><span class="p">)</span>
+        <span class="p">])</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">_average_normalized_height_a</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Average normalized height for chain `a`.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        :class:`~numpy.ndarray`</span>
+<span class="sd">            Size `a`. Average normalized height for each node.</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        Since it depends only on `a`, it is not necessary to give the other parameters:</span>
+
+<span class="sd">            &gt;&gt;&gt; ChainAndY(6, -1, -1, -1)._average_normalized_height_a  # doctest: +NORMALIZE_WHITESPACE</span>
+<span class="sd">            array([Fraction(1, 7), Fraction(2, 7), Fraction(3, 7), Fraction(4, 7),</span>
+<span class="sd">                   Fraction(5, 7), Fraction(6, 7)], dtype=object)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">Fraction</span><span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">a</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">a</span><span class="p">)])</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">_average_normalized_height_b</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Average normalized height for trunk `b`.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        :class:`~numpy.ndarray`</span>
+<span class="sd">            Size `b`. Average normalized height for each node.</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        Since it does not depend on `a`, it is not necessary to give this parameter:</span>
+
+<span class="sd">            &gt;&gt;&gt; ChainAndY(-1, 6, 2, 2)._average_normalized_height_b  # doctest: +NORMALIZE_WHITESPACE</span>
+<span class="sd">            array([Fraction(1, 11), Fraction(2, 11), Fraction(3, 11), Fraction(4, 11),</span>
+<span class="sd">                   Fraction(5, 11), Fraction(6, 11)], dtype=object)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Note that it would be the same with a chain of c + d above b.</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">Fraction</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">b</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">c</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">d</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">b</span><span class="p">)])</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">_average_height_c</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Average height for branch `c`.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        :class:`~numpy.ndarray`</span>
+<span class="sd">            Size `c`. Average height for each node.</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">            &gt;&gt;&gt; ChainAndY(2, 0, 7, 0)._average_height_c  # doctest: +NORMALIZE_WHITESPACE</span>
+<span class="sd">            array([Fraction(5, 4), Fraction(5, 2), Fraction(15, 4), Fraction(5, 1),</span>
+<span class="sd">                   Fraction(25, 4), Fraction(15, 2), Fraction(35, 4)], dtype=object)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cache_average_height_c</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_cache_average_height_c</span> <span class="o">=</span> <span class="n">_average_height_c</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">a</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">b</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">c</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">d</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cache_average_height_c</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">_average_height_d</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Average height for branch `d`.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        :class:`~numpy.ndarray`</span>
+<span class="sd">            Size `d`. Average height for each node.</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">            &gt;&gt;&gt; ChainAndY(2, 0, 0, 7)._average_height_d  # doctest: +NORMALIZE_WHITESPACE</span>
+<span class="sd">            array([Fraction(5, 4), Fraction(5, 2), Fraction(15, 4), Fraction(5, 1),</span>
+<span class="sd">                   Fraction(25, 4), Fraction(15, 2), Fraction(35, 4)], dtype=object)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cache_average_height_d</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_cache_average_height_d</span> <span class="o">=</span> <span class="n">_average_height_c</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">a</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">b</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">d</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">c</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cache_average_height_d</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">average_normalized_height</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Average normalized height.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        :class:`~numpy.ndarray`</span>
+<span class="sd">            Size `c`. Average normalized height for each node.</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">            &gt;&gt;&gt; ChainAndY(2, 1, 7, 3).average_normalized_height  # doctest: +NORMALIZE_WHITESPACE</span>
+<span class="sd">            array([Fraction(1, 3), Fraction(2, 3), Fraction(1, 12), Fraction(19, 96),</span>
+<span class="sd">                   Fraction(5, 16), Fraction(41, 96), Fraction(13, 24),</span>
+<span class="sd">                   Fraction(21, 32), Fraction(37, 48), Fraction(85, 96),</span>
+<span class="sd">                   Fraction(5, 16), Fraction(13, 24), Fraction(37, 48)], dtype=object)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_average_normalized_height_a</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_average_normalized_height_b</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_average_height_c</span> <span class="o">/</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_nodes</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_average_height_d</span> <span class="o">/</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_nodes</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span>
+        <span class="p">))</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">average_height</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Average height.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        :class:`~numpy.ndarray`</span>
+<span class="sd">            Size `c`. Average height for each node.</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">            &gt;&gt;&gt; ChainAndY(2, 1, 7, 3).average_height  # doctest: +NORMALIZE_WHITESPACE</span>
+<span class="sd">            array([Fraction(14, 3), Fraction(28, 3), Fraction(7, 6),</span>
+<span class="sd">                   Fraction(133, 48), Fraction(35, 8), Fraction(287, 48),</span>
+<span class="sd">                   Fraction(91, 12), Fraction(147, 16), Fraction(259, 24),</span>
+<span class="sd">                   Fraction(595, 48), Fraction(35, 8), Fraction(91, 12),</span>
+<span class="sd">                   Fraction(259, 24)], dtype=object)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_average_normalized_height_a</span> <span class="o">*</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_nodes</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_average_normalized_height_b</span> <span class="o">*</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_nodes</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_average_height_c</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_average_height_d</span><span class="p">,</span>
+        <span class="p">))</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">profile_linear_extensions</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Profile consisting of all linear extensions.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        :class:`~numpy.ndarray`</span>
+<span class="sd">            One row for each linear extension, `a + b + c + d` columns. Each coefficient is the label of a node.</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">            &gt;&gt;&gt; ChainAndY(1, 2, 1, 2).profile_linear_extensions</span>
+<span class="sd">            array([[0, 1, 2, 3, 4, 5],</span>
+<span class="sd">                   [1, 0, 2, 3, 4, 5],</span>
+<span class="sd">                   [1, 2, 0, 3, 4, 5],</span>
+<span class="sd">                   [1, 2, 3, 0, 4, 5],</span>
+<span class="sd">                   [1, 2, 3, 4, 0, 5],</span>
+<span class="sd">                   [1, 2, 3, 4, 5, 0],</span>
+<span class="sd">                   [0, 1, 2, 4, 3, 5],</span>
+<span class="sd">                   [1, 0, 2, 4, 3, 5],</span>
+<span class="sd">                   [1, 2, 0, 4, 3, 5],</span>
+<span class="sd">                   [1, 2, 4, 0, 3, 5],</span>
+<span class="sd">                   [1, 2, 4, 3, 0, 5],</span>
+<span class="sd">                   [1, 2, 4, 3, 5, 0],</span>
+<span class="sd">                   [0, 1, 2, 4, 5, 3],</span>
+<span class="sd">                   [1, 0, 2, 4, 5, 3],</span>
+<span class="sd">                   [1, 2, 0, 4, 5, 3],</span>
+<span class="sd">                   [1, 2, 4, 0, 5, 3],</span>
+<span class="sd">                   [1, 2, 4, 5, 0, 3],</span>
+<span class="sd">                   [1, 2, 4, 5, 3, 0]])</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cache_profile_linear_extensions</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">profile</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">elements_a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">a</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+            <span class="n">elements_b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">a</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">a</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">b</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+            <span class="n">elements_c</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">a</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">b</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">a</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">b</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">c</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+            <span class="n">elements_d</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">a</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">b</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">c</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">a</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">b</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">c</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">d</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">extension_c_d</span> <span class="ow">in</span> <span class="n">linear_extensions</span><span class="p">(</span><span class="n">chain_1</span><span class="o">=</span><span class="n">elements_c</span><span class="p">,</span> <span class="n">chain_2</span><span class="o">=</span><span class="n">elements_d</span><span class="p">):</span>
+                <span class="n">extension_b_c_d</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">elements_b</span><span class="p">,</span> <span class="n">extension_c_d</span><span class="p">))</span>
+                <span class="k">for</span> <span class="n">extension</span> <span class="ow">in</span> <span class="n">linear_extensions</span><span class="p">(</span><span class="n">chain_1</span><span class="o">=</span><span class="n">elements_a</span><span class="p">,</span> <span class="n">chain_2</span><span class="o">=</span><span class="n">extension_b_c_d</span><span class="p">):</span>
+                    <span class="n">profile</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">extension</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_cache_profile_linear_extensions</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">profile</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cache_profile_linear_extensions</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">profile_linear_extensions_svvamp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Profile consisting of all linear extensions, as a svvamp profile.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        :class:`~svvamp.Profile`</span>
+<span class="sd">            Each voter represents a linear extension of the poset.</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        The attribute `preferences_rk` of the svvamp profile is equal to the attribute</span>
+<span class="sd">        :meth:`profile_linear_extensions` of the poset:</span>
+
+<span class="sd">            &gt;&gt;&gt; ChainAndY(1, 2, 1, 2).profile_linear_extensions_svvamp.preferences_rk</span>
+<span class="sd">            array([[0, 1, 2, 3, 4, 5],</span>
+<span class="sd">                   [1, 0, 2, 3, 4, 5],</span>
+<span class="sd">                   [1, 2, 0, 3, 4, 5],</span>
+<span class="sd">                   [1, 2, 3, 0, 4, 5],</span>
+<span class="sd">                   [1, 2, 3, 4, 0, 5],</span>
+<span class="sd">                   [1, 2, 3, 4, 5, 0],</span>
+<span class="sd">                   [0, 1, 2, 4, 3, 5],</span>
+<span class="sd">                   [1, 0, 2, 4, 3, 5],</span>
+<span class="sd">                   [1, 2, 0, 4, 3, 5],</span>
+<span class="sd">                   [1, 2, 4, 0, 3, 5],</span>
+<span class="sd">                   [1, 2, 4, 3, 0, 5],</span>
+<span class="sd">                   [1, 2, 4, 3, 5, 0],</span>
+<span class="sd">                   [0, 1, 2, 4, 5, 3],</span>
+<span class="sd">                   [1, 0, 2, 4, 5, 3],</span>
+<span class="sd">                   [1, 2, 0, 4, 5, 3],</span>
+<span class="sd">                   [1, 2, 4, 0, 5, 3],</span>
+<span class="sd">                   [1, 2, 4, 5, 0, 3],</span>
+<span class="sd">                   [1, 2, 4, 5, 3, 0]])</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cache_profile_linear_extensions_svvamp</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_cache_profile_linear_extensions_svvamp</span> <span class="o">=</span> <span class="n">svvamp</span><span class="o">.</span><span class="n">Profile</span><span class="p">(</span><span class="n">preferences_rk</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">profile_linear_extensions</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cache_profile_linear_extensions_svvamp</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">order_kemeny</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Kemeny order of the nodes in the profile of linear extensions.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        :class:`~numpy.ndarray`</span>
+<span class="sd">            The candidates, in their Kemeny order.</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">            &gt;&gt;&gt; ChainAndY(0, 1, 2, 7).order_kemeny</span>
+<span class="sd">            array([0, 3, 4, 1, 5, 6, 7, 2, 8, 9])</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">election</span> <span class="o">=</span> <span class="n">svvamp</span><span class="o">.</span><span class="n">RuleKemeny</span><span class="p">()(</span><span class="bp">self</span><span class="o">.</span><span class="n">profile_linear_extensions_svvamp</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">election</span><span class="o">.</span><span class="n">candidates_by_scores_best_to_worst_</span>
+
+<div class="viewcode-block" id="ChainAndY.kemeny_score"><a class="viewcode-back" href="../../reference/chain_and_y.html#corsort.ChainAndY.kemeny_score">[docs]</a>    <span class="k">def</span> <span class="nf">kemeny_score</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">order</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Kemeny score of an order over the candidates.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        order: :class:`list`</span>
+<span class="sd">            An order over the candidates.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        float</span>
+<span class="sd">            The Kemeny score (average kendall-tau distance with a linear extension of the poset).</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">            &gt;&gt;&gt; poset = ChainAndY(2, 2, 1, 3)</span>
+<span class="sd">            &gt;&gt;&gt; poset.kemeny_score([0, 4, 7, 2, 6, 3, 5, 1])</span>
+<span class="sd">            13.5</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">profile</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">profile_linear_extensions_svvamp</span>
+        <span class="n">n_extensions</span> <span class="o">=</span> <span class="n">profile</span><span class="o">.</span><span class="n">n_v</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">tril</span><span class="p">(</span><span class="n">profile</span><span class="o">.</span><span class="n">matrix_duels_rk</span><span class="p">[</span><span class="n">order</span><span class="p">,</span> <span class="p">:][:,</span> <span class="n">order</span><span class="p">],</span> <span class="o">-</span><span class="mi">1</span><span class="p">))</span> <span class="o">/</span> <span class="n">n_extensions</span></div>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">order_delta</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Order of the nodes, according to estimator delta.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        :class:`~numpy.ndarray`</span>
+<span class="sd">            Estimated order of the nodes.</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">            &gt;&gt;&gt; ChainAndY(2, 2, 1, 3).order_delta</span>
+<span class="sd">            array([2, 3, 0, 5, 1, 4, 6, 7], dtype=int64)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">delta</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">order_rho</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Order of the nodes, according to estimator rho.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        :class:`~numpy.ndarray`</span>
+<span class="sd">            Estimated order of the nodes.</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">            &gt;&gt;&gt; ChainAndY(2, 2, 1, 3).order_rho</span>
+<span class="sd">            array([2, 3, 0, 5, 1, 6, 4, 7], dtype=int64)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rho</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">order_average_height</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Order of the nodes, according to average height.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        :class:`~numpy.ndarray`</span>
+<span class="sd">            Estimated order of the nodes.</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">            &gt;&gt;&gt; ChainAndY(2, 2, 1, 3).order_average_height</span>
+<span class="sd">            array([2, 3, 0, 5, 4, 6, 1, 7], dtype=int64)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">average_height</span><span class="p">)</span></div>
+
+
+<span class="k">def</span> <span class="nf">_average_height_c</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">d</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Average height for branch `c`.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    a: int</span>
+<span class="sd">        Number of nodes in the isolated chain.</span>
+<span class="sd">    b: int</span>
+<span class="sd">        Number of nodes in the trunk of the Y.</span>
+<span class="sd">    c, d: int</span>
+<span class="sd">        Number of nodes in each branch of the Y.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    :class:`~numpy.ndarray`</span>
+<span class="sd">        Size `c`. Average height for each node.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">        &gt;&gt;&gt; _average_height_c(2, 0, 7, 0)  # doctest: +NORMALIZE_WHITESPACE</span>
+<span class="sd">        array([Fraction(5, 4), Fraction(5, 2), Fraction(15, 4), Fraction(5, 1),</span>
+<span class="sd">               Fraction(25, 4), Fraction(15, 2), Fraction(35, 4)], dtype=object)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">c</span><span class="p">):</span>
+        <span class="c1"># Elements of c are: 0 ... (k-1) k (k+1) .. (c-1)</span>
+        <span class="n">smaller_from_c</span> <span class="o">=</span> <span class="n">k</span>
+        <span class="n">greater_from_c</span> <span class="o">=</span> <span class="n">c</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">k</span>
+        <span class="k">for</span> <span class="n">smaller_from_a</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">a</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="n">greater_from_a</span> <span class="o">=</span> <span class="n">a</span> <span class="o">-</span> <span class="n">smaller_from_a</span>
+            <span class="k">for</span> <span class="n">smaller_from_d</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">d</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+                <span class="n">greater_from_d</span> <span class="o">=</span> <span class="n">d</span> <span class="o">-</span> <span class="n">smaller_from_d</span>
+                <span class="n">height</span> <span class="o">=</span> <span class="n">smaller_from_a</span> <span class="o">+</span> <span class="n">b</span> <span class="o">+</span> <span class="n">smaller_from_c</span> <span class="o">+</span> <span class="n">smaller_from_d</span> <span class="o">+</span> <span class="mi">1</span>
+                <span class="n">n_lin_ext</span> <span class="o">=</span> <span class="p">(</span>
+                    <span class="n">ChainAndY</span><span class="p">(</span><span class="n">smaller_from_a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">smaller_from_c</span><span class="p">,</span> <span class="n">smaller_from_d</span><span class="p">)</span><span class="o">.</span><span class="n">nb_linear_extensions</span>
+                    <span class="o">*</span> <span class="n">ChainAndY</span><span class="p">(</span><span class="n">greater_from_a</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">greater_from_c</span><span class="p">,</span> <span class="n">greater_from_d</span><span class="p">)</span><span class="o">.</span><span class="n">nb_linear_extensions</span>
+                <span class="p">)</span>
+                <span class="n">result</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">+=</span> <span class="n">n_lin_ext</span> <span class="o">*</span> <span class="n">height</span>
+    <span class="n">nb_lin_ext</span> <span class="o">=</span> <span class="n">ChainAndY</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span><span class="o">.</span><span class="n">nb_linear_extensions</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">Fraction</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">nb_lin_ext</span><span class="p">)</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">result</span><span class="p">])</span>
+
+
+<span class="k">def</span> <span class="nf">linear_extensions</span><span class="p">(</span><span class="n">chain_1</span><span class="p">,</span> <span class="n">chain_2</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Linear extensions for two independent chains (separate connected components).</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    chain_1: class:`list`</span>
+<span class="sd">    chain_2: class:`list`</span>
+
+<span class="sd">    Yields</span>
+<span class="sd">    ------</span>
+<span class="sd">    extension: class:`list`</span>
+<span class="sd">        A linear extension of the poset consisting of the two given chains.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">        &gt;&gt;&gt; for linear_extension in linear_extensions([1, 2, 3], [42, 52]):</span>
+<span class="sd">        ...     print(linear_extension)</span>
+<span class="sd">        [ 1  2  3 42 52]</span>
+<span class="sd">        [ 1  2 42  3 52]</span>
+<span class="sd">        [ 1  2 42 52  3]</span>
+<span class="sd">        [ 1 42  2  3 52]</span>
+<span class="sd">        [ 1 42  2 52  3]</span>
+<span class="sd">        [ 1 42 52  2  3]</span>
+<span class="sd">        [42  1  2  3 52]</span>
+<span class="sd">        [42  1  2 52  3]</span>
+<span class="sd">        [42  1 52  2  3]</span>
+<span class="sd">        [42 52  1  2  3]</span>
+
+<span class="sd">        &gt;&gt;&gt; for linear_extension in linear_extensions([1, 2, 3], []):</span>
+<span class="sd">        ...     print(linear_extension)</span>
+<span class="sd">        [1 2 3]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1">#</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">chain_1</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">chain_2</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">x</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">y</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">yield</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">chain_1</span><span class="p">,</span> <span class="n">chain_2</span><span class="p">)),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">places_x</span> <span class="ow">in</span> <span class="n">combinations</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="n">y</span><span class="p">),</span> <span class="n">x</span><span class="p">):</span>
+            <span class="n">extension</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="n">y</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+            <span class="n">extension</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">places_x</span><span class="p">)]</span> <span class="o">=</span> <span class="n">chain_1</span>
+            <span class="n">mask_y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="n">y</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">)</span>
+            <span class="n">mask_y</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">places_x</span><span class="p">)]</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="n">extension</span><span class="p">[</span><span class="n">mask_y</span><span class="p">]</span> <span class="o">=</span> <span class="n">chain_2</span>
+            <span class="k">yield</span> <span class="n">extension</span>
+
+
+<div class="viewcode-block" id="print_order"><a class="viewcode-back" href="../../reference/print_order.html#corsort.print_order">[docs]</a><span class="k">def</span> <span class="nf">print_order</span><span class="p">(</span><span class="n">order</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Print a small list of integers as letters.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    order: :class:`list`</span>
+<span class="sd">        Size should be 26 at most.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    str</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">        &gt;&gt;&gt; print_order([4, 2, 3, 1, 0])</span>
+<span class="sd">        (ecdba)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;(&quot;</span> <span class="o">+</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">string</span><span class="o">.</span><span class="n">ascii_lowercase</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">order</span><span class="p">])</span> <span class="o">+</span> <span class="s2">&quot;)&quot;</span><span class="p">)</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Emma Caizergues.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
