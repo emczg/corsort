@@ -5,6 +5,7 @@ __email__ = 'emma.caizergues@gmail.com'
 __version__ = '0.1.0'
 
 
+from corsort.chain_and_y import ChainAndY, print_order
 from corsort.cor_sort import CorSort
 from corsort.cor_sort_borda import CorSortBorda
 from corsort.cor_sort_delegate import CorSortDelegate
