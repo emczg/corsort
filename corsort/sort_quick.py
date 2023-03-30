@@ -34,6 +34,15 @@ class SortQuick(Sort):
     __name__ = 'quicksort'
 
     def __init__(self, compute_history=False):
+        """
+        Examples
+        --------
+        Before using the algorithm, `history_comparisons_values_` is None:
+
+            >>> quicksort = SortQuick()
+            >>> print(quicksort.history_comparisons_values_)
+            None
+        """
         super().__init__(compute_history=compute_history)
         self.sorted_indices_ = None
 

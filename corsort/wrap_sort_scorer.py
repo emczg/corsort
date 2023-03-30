@@ -24,6 +24,16 @@ class WrapSortScorer:
     """
 
     def __init__(self, scorer, sort, compute_history=False):
+        """
+        Examples
+        --------
+        Before using the algorithm, `history_comparisons_values_` is None:
+
+            >>> my_sort = SortQuick()
+            >>> jit_sort = WrapSortScorer(scorer=scorer_spaced, sort=my_sort)
+            >>> print(jit_sort.history_comparisons_values_)
+            None
+        """
         # Parameters
         self.scorer = scorer
         self.sort = sort

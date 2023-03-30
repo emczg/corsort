@@ -66,11 +66,9 @@ class WrapFullJit:
         """
         Examples
         --------
-        Before using the algorithm, both `history_comparisons_` and `history_comparisons_values_` are None:
+        Before using the algorithm, `history_comparisons_values_` is None:
 
             >>> corsort = WrapFullJit(jit_sort=jit_corsort_borda, compute_history=False)
-            >>> print(corsort.history_comparisons_)
-            None
             >>> print(corsort.history_comparisons_values_)
             None
         """
