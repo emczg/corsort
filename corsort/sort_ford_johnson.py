@@ -30,7 +30,7 @@ class SortFordJohnson(Sort):
     def _call_aux(self):
         self.sorted_indices_ = np.array(_ford_johnson_sorting(np.arange(self.n_), lt=self.test_i_lt_j))
 
-    def distance_to_sorted_array(self):
+    def distance_to_sorted_array(self):  # pragma: no cover
         return None  # TODO: implement distance to sorted array
 
     @property
