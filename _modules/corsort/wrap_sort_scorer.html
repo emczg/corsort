@@ -103,6 +103,16 @@
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scorer</span><span class="p">,</span> <span class="n">sort</span><span class="p">,</span> <span class="n">compute_history</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        Before using the algorithm, `history_comparisons_values_` is None:</span>
+
+<span class="sd">            &gt;&gt;&gt; my_sort = SortQuick()</span>
+<span class="sd">            &gt;&gt;&gt; jit_sort = WrapSortScorer(scorer=scorer_spaced, sort=my_sort)</span>
+<span class="sd">            &gt;&gt;&gt; print(jit_sort.history_comparisons_values_)</span>
+<span class="sd">            None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># Parameters</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">scorer</span> <span class="o">=</span> <span class="n">scorer</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">sort</span> <span class="o">=</span> <span class="n">sort</span>
