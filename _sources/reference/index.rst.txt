@@ -4,6 +4,7 @@ Reference
 
 .. toctree::
 
+   chain_and_y
    cor_sort
    cor_sort_borda
    cor_sort_delegate
@@ -17,6 +18,7 @@ Reference
    montecarlo
    partition
    presets
+   print_order
    sort
    sort_asort_quickselect
    sort_ford_johnson

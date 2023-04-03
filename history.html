@@ -52,6 +52,7 @@
 <li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="authors.html">Credits</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">History</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#next-release">Next release</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#first-release">0.1.0 (2023-02-16): First release</a></li>
 </ul>
 </li>
@@ -83,11 +84,26 @@
              
   <section id="history">
 <h1>History<a class="headerlink" href="#history" title="Permalink to this heading"></a></h1>
+<section id="next-release">
+<h2>Next release<a class="headerlink" href="#next-release" title="Permalink to this heading"></a></h2>
+<ul class="simple">
+<li><p>Add <cite>Sort.history_comparisons_values_</cite>: history of the pairwise comparisons, in terms of compared values
+(whereas <cite>history_comparisons_</cite> gives the original indices). Similarly, add
+<cite>WrapSortScorer.history_comparisons_values_</cite> and <cite>WrapFullJit.history_comparisons_values_</cite>.</p></li>
+<li><p>Add <cite>CorSort.history_leq_</cite>: history of the matrix <cite>leq_</cite> representing the current poset. This is recorded
+if the newly added parameter <cite>record_leq</cite> is True.</p></li>
+<li><p>Add <cite>WrapFullJit.history_states_</cite>: history of the state of the list.</p></li>
+<li><p>Add <cite>ChainAndY</cite>: poset consisting of a chain and a Y-shape.</p></li>
+<li><p>Add <cite>print_corsort_execution</cite>: generate LaTeX code for a CorSort execution.</p></li>
+<li><p><cite>partition</cite> is now stable (in the sense of “stable” sorting), hence also <cite>SortQuick</cite>, <cite>SortAsortQuickselect</cite>,
+and <cite>SortLargestInterval</cite>.</p></li>
+</ul>
+</section>
 <section id="first-release">
 <h2>0.1.0 (2023-02-16): First release<a class="headerlink" href="#first-release" title="Permalink to this heading"></a></h2>
 <ul class="simple">
 <li><p>Corsort (regular Python or with numba acceleration).</p></li>
-<li><p>Classical sorting algorithms: Asort (with quickselect for median seletion), Ford-Johnson, quicksort, quicksort with
+<li><p>Classical sorting algorithms: Asort (with quickselect for median selection), Ford-Johnson, quicksort, quicksort with
 priority on the largest interval, merge sort (DFS or BFS).</p></li>
 <li><p>Entropy bound.</p></li>
 <li><p>Monte-Carlo simulations.</p></li>
