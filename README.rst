@@ -16,7 +16,7 @@ Corsort
 
 
 .. image:: https://codecov.io/gh/emczg/corsort/branch/main/graphs/badge.svg
-        :target: https://codecov.io/gh/emczg/corsort/tree/main
+        :target: https://app.codecov.io/gh/emczg/corsort/tree/main/
         :alt: Code Coverage
 
 |
