@@ -2,9 +2,9 @@
 History
 =======
 
-------------
-Next release
-------------
+------------------------------------------
+0.1.1 (2023-04-7): More history, ChainAndY
+------------------------------------------
 
 * Add `Sort.history_comparisons_values_`: history of the pairwise comparisons, in terms of compared values
   (whereas `history_comparisons_` gives the original indices). Similarly, add
