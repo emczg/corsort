@@ -2,6 +2,7 @@ import numpy as np
 
 from corsort.distance_to_sorted_array import distance_to_sorted_array
 from corsort.sort import Sort
+from corsort.scorers import scorer_delta
 
 
 class CorSort(Sort):
@@ -12,6 +13,8 @@ class CorSort(Sort):
     ----------
     compute_history: :class:`bool`
         If True, then compute the history of the distance to the sorted array.
+    record_leq: :class:`bool`
+        If True, then record all the states of the leq_ matrix.
 
     Attributes
     ----------
@@ -31,9 +34,10 @@ class CorSort(Sort):
     Cf. also the attributes defined in the parent class :class:`~corsort.Sort`.
     """
 
-    def __init__(self, compute_history=False, record_leq=False):
+    def __init__(self, compute_history=False, record_leq=False, final_scorer=scorer_delta):
         super().__init__(compute_history=compute_history)
         self.record_leq = record_leq
+        self.final_scorer = final_scorer
         # Computed attributes
         self.leq_ = None
         self.position_estimates_ = None
@@ -45,7 +49,7 @@ class CorSort(Sort):
 
         Examples
         --------
-            >>> corsort = CorSort()
+            >>> corsort = CorSort(final_scorer=scorer_delta)
             >>> corsort.n_ = 4
             >>> corsort.leq_ = np.array([
             ...     [ 1,  1,  1,  1],
@@ -55,9 +59,9 @@ class CorSort(Sort):
             ... ])
             >>> corsort.update_position_estimates()
             >>> corsort.position_estimates_
-            array([0. , 3. , 1.5, 1.5])
+            array([-3,  3,  0,  0])
         """
-        self.position_estimates_ = (np.sum(self.leq_, axis=0) + self.n_) / 2 - 1
+        self.position_estimates_ = self.final_scorer(self.leq_)
 
     def distance_to_sorted_array(self):
         """

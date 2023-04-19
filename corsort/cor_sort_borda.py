@@ -14,12 +14,12 @@ class CorSortBorda(CorSort):
         >>> perm = np.random.permutation(n)
         >>> corsort = CorSortBorda(compute_history=True)
         >>> corsort(perm).n_comparisons_
-        44
+        38
         >>> entropy_bound(n)  # doctest: +ELLIPSIS
         40.24212...
         >>> corsort.history_distances_ # doctest: +NORMALIZE_WHITESPACE
-        [55, 42, 51, 49, 49, 48, 40, 39, 33, 29, 29, 28, 28, 28, 28, 26, 26, 21, 20, 16, 14, 11, 10, 9, 8, 7,
-         8, 7, 6, 7, 7, 7, 7, 5, 5, 4, 4, 4, 3, 2, 3, 2, 1, 0, 0]
+        [55, 42, 51, 49, 49, 48, 40, 39, 33, 29, 29, 28, 28, 28, 28, 26,
+        26, 21, 20, 16, 14, 11, 10, 9, 8, 7, 8, 7, 6, 7, 7, 7, 7, 5, 5, 4, 4, 4, 3]
         >>> corsort.__name__
         'corsort_borda'
     """
