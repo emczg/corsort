@@ -93,12 +93,12 @@
 <span class="sd">        &gt;&gt;&gt; perm = np.random.permutation(n)</span>
 <span class="sd">        &gt;&gt;&gt; corsort = CorSortBorda(compute_history=True)</span>
 <span class="sd">        &gt;&gt;&gt; corsort(perm).n_comparisons_</span>
-<span class="sd">        44</span>
+<span class="sd">        38</span>
 <span class="sd">        &gt;&gt;&gt; entropy_bound(n)  # doctest: +ELLIPSIS</span>
 <span class="sd">        40.24212...</span>
 <span class="sd">        &gt;&gt;&gt; corsort.history_distances_ # doctest: +NORMALIZE_WHITESPACE</span>
-<span class="sd">        [55, 42, 51, 49, 49, 48, 40, 39, 33, 29, 29, 28, 28, 28, 28, 26, 26, 21, 20, 16, 14, 11, 10, 9, 8, 7,</span>
-<span class="sd">         8, 7, 6, 7, 7, 7, 7, 5, 5, 4, 4, 4, 3, 2, 3, 2, 1, 0, 0]</span>
+<span class="sd">        [55, 42, 51, 49, 49, 48, 40, 39, 33, 29, 29, 28, 28, 28, 28, 26,</span>
+<span class="sd">        26, 21, 20, 16, 14, 11, 10, 9, 8, 7, 8, 7, 6, 7, 7, 7, 7, 5, 5, 4, 4, 4, 3]</span>
 <span class="sd">        &gt;&gt;&gt; corsort.__name__</span>
 <span class="sd">        &#39;corsort_borda&#39;</span>
 <span class="sd">    &quot;&quot;&quot;</span>

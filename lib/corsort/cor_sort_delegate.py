@@ -1,6 +1,7 @@
 import numpy as np
 from corsort.cor_sort import CorSort
 from corsort.sort_quick import SortQuick
+from corsort.scorers import scorer_delta
 
 
 class CorSortDelegate(CorSort):
@@ -25,8 +26,8 @@ class CorSortDelegate(CorSort):
         'corsort_delegate_quicksort'
     """
 
-    def __init__(self, sort, compute_history=False, record_leq=False):
-        super().__init__(compute_history=compute_history, record_leq=record_leq)
+    def __init__(self, sort, compute_history=False, record_leq=False, final_scorer=scorer_delta):
+        super().__init__(compute_history=compute_history, record_leq=record_leq, final_scorer=final_scorer)
         self.sort = sort
         self.__name__ = "corsort_delegate_" + self.sort.__name__
 

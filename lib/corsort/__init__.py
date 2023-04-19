@@ -22,6 +22,7 @@ from corsort.merge import merge
 from corsort.montecarlo import print_res, evaluate, evaluate_convergence, evaluate_comparisons
 from corsort.partition import partition
 from corsort.presets import colors, sorts, color_dict, auto_colors
+from corsort.scorers import scorer_delta, scorer_rho
 from corsort.sort import Sort
 from corsort.sort_asort_quickselect import SortAsortQuickselect
 from corsort.sort_ford_johnson import SortFordJohnson

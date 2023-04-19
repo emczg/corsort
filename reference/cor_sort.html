@@ -124,11 +124,14 @@
 <h1>CorSort<a class="headerlink" href="#corsort" title="Permalink to this heading"></a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="corsort.CorSort">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">corsort.</span></span><span class="sig-name descname"><span class="pre">CorSort</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">compute_history</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">record_leq</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/corsort/cor_sort.html#CorSort"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#corsort.CorSort" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">corsort.</span></span><span class="sig-name descname"><span class="pre">CorSort</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">compute_history=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">record_leq=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">final_scorer=&lt;function</span> <span class="pre">scorer_delta&gt;</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/corsort/cor_sort.html#CorSort"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#corsort.CorSort" title="Permalink to this definition"></a></dt>
 <dd><p>CorSort.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>compute_history</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>) – If True, then compute the history of the distance to the sorted array.</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>compute_history</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>) – If True, then compute the history of the distance to the sorted array.</p></li>
+<li><p><strong>record_leq</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>) – If True, then record all the states of the <a href="#id1"><span class="problematic" id="id2">leq_</span></a> matrix.</p></li>
+</ul>
 </dd>
 </dl>
 <dl class="py attribute">
@@ -281,7 +284,7 @@ be computed a last time at the end of the algorithm.</p>
 <span class="sig-name descname"><span class="pre">update_position_estimates</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/corsort/cor_sort.html#CorSort.update_position_estimates"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#corsort.CorSort.update_position_estimates" title="Permalink to this definition"></a></dt>
 <dd><p>Update position estimate of each item.</p>
 <p class="rubric">Examples</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">corsort</span> <span class="o">=</span> <span class="n">CorSort</span><span class="p">()</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">corsort</span> <span class="o">=</span> <span class="n">CorSort</span><span class="p">(</span><span class="n">final_scorer</span><span class="o">=</span><span class="n">scorer_delta</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">corsort</span><span class="o">.</span><span class="n">n_</span> <span class="o">=</span> <span class="mi">4</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">corsort</span><span class="o">.</span><span class="n">leq_</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
 <span class="gp">... </span>    <span class="p">[</span> <span class="mi">1</span><span class="p">,</span>  <span class="mi">1</span><span class="p">,</span>  <span class="mi">1</span><span class="p">,</span>  <span class="mi">1</span><span class="p">],</span>
@@ -291,7 +294,7 @@ be computed a last time at the end of the algorithm.</p>
 <span class="gp">... </span><span class="p">])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">corsort</span><span class="o">.</span><span class="n">update_position_estimates</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">corsort</span><span class="o">.</span><span class="n">position_estimates_</span>
-<span class="go">array([0. , 3. , 1.5, 1.5])</span>
+<span class="go">array([-3,  3,  0,  0])</span>
 </pre></div>
 </div>
 </dd></dl>

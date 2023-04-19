@@ -81,6 +81,7 @@
 
 <span class="kn">from</span> <span class="nn">corsort.distance_to_sorted_array</span> <span class="kn">import</span> <span class="n">distance_to_sorted_array</span>
 <span class="kn">from</span> <span class="nn">corsort.sort</span> <span class="kn">import</span> <span class="n">Sort</span>
+<span class="kn">from</span> <span class="nn">corsort.scorers</span> <span class="kn">import</span> <span class="n">scorer_delta</span>
 
 
 <div class="viewcode-block" id="CorSort"><a class="viewcode-back" href="../../reference/cor_sort.html#corsort.CorSort">[docs]</a><span class="k">class</span> <span class="nc">CorSort</span><span class="p">(</span><span class="n">Sort</span><span class="p">):</span>
@@ -91,6 +92,8 @@
 <span class="sd">    ----------</span>
 <span class="sd">    compute_history: :class:`bool`</span>
 <span class="sd">        If True, then compute the history of the distance to the sorted array.</span>
+<span class="sd">    record_leq: :class:`bool`</span>
+<span class="sd">        If True, then record all the states of the leq_ matrix.</span>
 
 <span class="sd">    Attributes</span>
 <span class="sd">    ----------</span>
@@ -110,9 +113,10 @@
 <span class="sd">    Cf. also the attributes defined in the parent class :class:`~corsort.Sort`.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">compute_history</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">record_leq</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">compute_history</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">record_leq</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">final_scorer</span><span class="o">=</span><span class="n">scorer_delta</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">compute_history</span><span class="o">=</span><span class="n">compute_history</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">record_leq</span> <span class="o">=</span> <span class="n">record_leq</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">final_scorer</span> <span class="o">=</span> <span class="n">final_scorer</span>
         <span class="c1"># Computed attributes</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">leq_</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">position_estimates_</span> <span class="o">=</span> <span class="kc">None</span>
@@ -124,7 +128,7 @@
 
 <span class="sd">        Examples</span>
 <span class="sd">        --------</span>
-<span class="sd">            &gt;&gt;&gt; corsort = CorSort()</span>
+<span class="sd">            &gt;&gt;&gt; corsort = CorSort(final_scorer=scorer_delta)</span>
 <span class="sd">            &gt;&gt;&gt; corsort.n_ = 4</span>
 <span class="sd">            &gt;&gt;&gt; corsort.leq_ = np.array([</span>
 <span class="sd">            ...     [ 1,  1,  1,  1],</span>
@@ -134,9 +138,9 @@
 <span class="sd">            ... ])</span>
 <span class="sd">            &gt;&gt;&gt; corsort.update_position_estimates()</span>
 <span class="sd">            &gt;&gt;&gt; corsort.position_estimates_</span>
-<span class="sd">            array([0. , 3. , 1.5, 1.5])</span>
+<span class="sd">            array([-3,  3,  0,  0])</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">position_estimates_</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">leq_</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">-</span> <span class="mi">1</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">position_estimates_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">final_scorer</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">leq_</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="CorSort.distance_to_sorted_array"><a class="viewcode-back" href="../../reference/cor_sort.html#corsort.CorSort.distance_to_sorted_array">[docs]</a>    <span class="k">def</span> <span class="nf">distance_to_sorted_array</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
