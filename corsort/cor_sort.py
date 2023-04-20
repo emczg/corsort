@@ -2,7 +2,7 @@ import numpy as np
 
 from corsort.distance_to_sorted_array import distance_to_sorted_array
 from corsort.sort import Sort
-from corsort.scorers import scorer_delta
+from corsort.scorers import scorer_rho, scorer_delta
 
 
 class CorSort(Sort):
@@ -34,7 +34,7 @@ class CorSort(Sort):
     Cf. also the attributes defined in the parent class :class:`~corsort.Sort`.
     """
 
-    def __init__(self, compute_history=False, record_leq=False, final_scorer=scorer_delta):
+    def __init__(self, compute_history=False, record_leq=False, final_scorer=scorer_rho):
         super().__init__(compute_history=compute_history)
         self.record_leq = record_leq
         self.final_scorer = final_scorer
