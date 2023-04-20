@@ -122,7 +122,7 @@
 <h1>CorSortBorda<a class="headerlink" href="#corsortborda" title="Permalink to this heading"></a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="corsort.CorSortBorda">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">corsort.</span></span><span class="sig-name descname"><span class="pre">CorSortBorda</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">compute_history=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">record_leq=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">final_scorer=&lt;function</span> <span class="pre">scorer_delta&gt;</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/corsort/cor_sort_borda.html#CorSortBorda"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#corsort.CorSortBorda" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">corsort.</span></span><span class="sig-name descname"><span class="pre">CorSortBorda</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">compute_history=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">record_leq=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">final_scorer=&lt;function</span> <span class="pre">scorer_rho&gt;</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/corsort/cor_sort_borda.html#CorSortBorda"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#corsort.CorSortBorda" title="Permalink to this definition"></a></dt>
 <dd><p>CorSort based on the Borda score.</p>
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">22</span><span class="p">)</span>
@@ -134,8 +134,8 @@
 <span class="gp">&gt;&gt;&gt; </span><span class="n">entropy_bound</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>  
 <span class="go">40.24212...</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">corsort</span><span class="o">.</span><span class="n">history_distances_</span> 
-<span class="go">[55, 42, 51, 49, 49, 48, 40, 39, 33, 29, 29, 28, 28, 28, 28, 26,</span>
-<span class="go">26, 21, 20, 16, 14, 11, 10, 9, 8, 7, 8, 7, 6, 7, 7, 7, 7, 5, 5, 4, 4, 4, 3]</span>
+<span class="go">[55, 42, 51, 49, 49, 49, 43, 37, 36, 35, 34, 32, 32, 33, 26, 22, 17, 19, 20, 18, 13,</span>
+<span class="go">11, 11, 11, 11, 6, 6, 7, 9, 7, 5, 5, 4, 2, 2, 2, 1, 2, 1]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">corsort</span><span class="o">.</span><span class="vm">__name__</span>
 <span class="go">&#39;corsort_borda&#39;</span>
 </pre></div>
