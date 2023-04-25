@@ -62,7 +62,7 @@ class WrapFullJit:
         [[2, 1, 3, 0], [1, 3, 0, 2], [1, 0, 2, 3], [1, 0, 2, 3], [1, 0, 2, 3], [0, 1, 2, 3]]
     """
 
-    def __init__(self, jit_sort, compute_history=False):
+    def __init__(self, jit_sort, compute_history=False, record_states=False):
         """
         Examples
         --------
@@ -80,6 +80,7 @@ class WrapFullJit:
             name_jit_sort = name_jit_sort[i + 4:]
         self.__name__ = name_jit_sort
         self.compute_history = compute_history
+        self.record_states = False
         # Computed values
         self.n_ = None
         self.perm_ = None
@@ -112,7 +113,8 @@ class WrapFullJit:
         else:
             self.history_distances_ = []
         self.history_comparisons_ = comparisons
-        self.history_states_ = [list(state) for state in states]
+        if self.record_states:
+            self.history_states_ = [list(state) for state in states]
         return self
 
     @property
