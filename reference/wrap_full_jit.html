@@ -197,7 +197,7 @@ that perm[i] &lt; perm[j].</p>
 </dd></dl>
 
 <p class="rubric">Examples</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">corsort</span> <span class="o">=</span> <span class="n">WrapFullJit</span><span class="p">(</span><span class="n">jit_sort</span><span class="o">=</span><span class="n">jit_corsort_borda</span><span class="p">,</span> <span class="n">compute_history</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">corsort</span> <span class="o">=</span> <span class="n">WrapFullJit</span><span class="p">(</span><span class="n">jit_sort</span><span class="o">=</span><span class="n">jit_corsort_borda</span><span class="p">,</span> <span class="n">compute_history</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">record_states</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">corsort</span><span class="o">.</span><span class="vm">__name__</span>
 <span class="go">&#39;corsort_borda&#39;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">22</span><span class="p">)</span>

@@ -110,7 +110,7 @@
 
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
-<span class="sd">        &gt;&gt;&gt; corsort = WrapFullJit(jit_sort=jit_corsort_borda, compute_history=True)</span>
+<span class="sd">        &gt;&gt;&gt; corsort = WrapFullJit(jit_sort=jit_corsort_borda, compute_history=True, record_states=True)</span>
 <span class="sd">        &gt;&gt;&gt; corsort.__name__</span>
 <span class="sd">        &#39;corsort_borda&#39;</span>
 <span class="sd">        &gt;&gt;&gt; np.random.seed(22)</span>
@@ -159,7 +159,7 @@
             <span class="n">name_jit_sort</span> <span class="o">=</span> <span class="n">name_jit_sort</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">4</span><span class="p">:]</span>
         <span class="bp">self</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">=</span> <span class="n">name_jit_sort</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">compute_history</span> <span class="o">=</span> <span class="n">compute_history</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">record_states</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">record_states</span> <span class="o">=</span> <span class="n">record_states</span>
         <span class="c1"># Computed values</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">n_</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">perm_</span> <span class="o">=</span> <span class="kc">None</span>

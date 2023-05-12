@@ -505,7 +505,7 @@ class ChainAndY:
         Examples
         --------
             >>> ChainAndY(2, 2, 1, 3).order_delta
-            array([2, 3, 0, 5, 1, 4, 6, 7])
+            array([2, 3, 0, 5, 1, 4, 6, 7], dtype=int64)
         """
         return np.argsort(self.delta)
 
@@ -522,7 +522,7 @@ class ChainAndY:
         Examples
         --------
             >>> ChainAndY(2, 2, 1, 3).order_rho
-            array([2, 3, 0, 5, 1, 6, 4, 7])
+            array([2, 3, 0, 5, 1, 6, 4, 7], dtype=int64)
         """
         return np.argsort(self.rho)
 
@@ -539,7 +539,7 @@ class ChainAndY:
         Examples
         --------
             >>> ChainAndY(2, 2, 1, 3).order_average_height
-            array([2, 3, 0, 5, 4, 6, 1, 7])
+            array([2, 3, 0, 5, 4, 6, 1, 7], dtype=int64)
         """
         return np.argsort(self.average_height)
 

@@ -167,12 +167,19 @@ def print_corsort_execution(perm):
         \end{tikzpicture}
     """
     corsort = CorSortDelegate(
-        sort=WrapFullJit(jit_sort=jit_corsort_drift_max_spaced),
+        sort=WrapFullJit(jit_sort=jit_corsort_drift_max_spaced, record_states=True),
         compute_history=True,
         record_leq=True
     )
     corsort(perm)
     print_preamble()
+    # raise ValueError(str(corsort.sort.record_states))
+    # if corsort.sort.history_states_ is None:
+    #     raise ValueError("A")
+    # if corsort.history_distances_ is None:
+    #     raise ValueError("B")
+    # if corsort.history_leq_ is None:
+    #     raise ValueError("C")
     for k, (state, distance, leq) in enumerate(zip(corsort.sort.history_states_,
                                                    corsort.history_distances_,
                                                    corsort.history_leq_)):

@@ -31,7 +31,7 @@ class WrapFullJit:
 
     Examples
     --------
-        >>> corsort = WrapFullJit(jit_sort=jit_corsort_borda, compute_history=True)
+        >>> corsort = WrapFullJit(jit_sort=jit_corsort_borda, compute_history=True, record_states=True)
         >>> corsort.__name__
         'corsort_borda'
         >>> np.random.seed(22)
@@ -80,7 +80,7 @@ class WrapFullJit:
             name_jit_sort = name_jit_sort[i + 4:]
         self.__name__ = name_jit_sort
         self.compute_history = compute_history
-        self.record_states = False
+        self.record_states = record_states
         # Computed values
         self.n_ = None
         self.perm_ = None
