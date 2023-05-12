@@ -81,6 +81,7 @@
 <span class="kn">from</span> <span class="nn">corsort.sort</span> <span class="kn">import</span> <span class="n">Sort</span>
 <span class="kn">from</span> <span class="nn">corsort.distance_to_sorted_array</span> <span class="kn">import</span> <span class="n">distance_to_sorted_array</span>
 <span class="kn">from</span> <span class="nn">corsort.merge</span> <span class="kn">import</span> <span class="n">merge</span>
+<span class="kn">from</span> <span class="nn">corsort.split_pointer_lists</span> <span class="kn">import</span> <span class="n">split_pointer_lists</span>
 
 
 <div class="viewcode-block" id="SortMergeBfs"><a class="viewcode-back" href="../../reference/sort_merge_bfs.html#corsort.SortMergeBfs">[docs]</a><span class="k">class</span> <span class="nc">SortMergeBfs</span><span class="p">(</span><span class="n">Sort</span><span class="p">):</span>
@@ -122,74 +123,6 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">perm_</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">sorted_indices_</span><span class="p">]</span></div>
 
 
-<span class="k">def</span> <span class="nf">_sub_step</span><span class="p">(</span><span class="n">list_indices</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Compute the indices of the boundaries for the next sub-step of BFS merge sort.</span>
-
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-<span class="sd">    list_indices: :class:`~numpy.ndarray`</span>
-<span class="sd">        List of indices for the current step.</span>
-
-<span class="sd">    Returns</span>
-<span class="sd">    -------</span>
-<span class="sd">    :class:`~numpy.ndarray`</span>
-<span class="sd">        List of indices for the sub-step.</span>
-
-<span class="sd">    Examples</span>
-<span class="sd">    --------</span>
-<span class="sd">        &gt;&gt;&gt; my_indices = np.array([0, 9])</span>
-<span class="sd">        &gt;&gt;&gt; my_indices = _sub_step(my_indices)</span>
-<span class="sd">        &gt;&gt;&gt; my_indices</span>
-<span class="sd">        array([0, 4, 9])</span>
-<span class="sd">        &gt;&gt;&gt; my_indices = _sub_step(my_indices)</span>
-<span class="sd">        &gt;&gt;&gt; my_indices</span>
-<span class="sd">        array([0, 2, 4, 6, 9])</span>
-<span class="sd">        &gt;&gt;&gt; my_indices = _sub_step(my_indices)</span>
-<span class="sd">        &gt;&gt;&gt; my_indices</span>
-<span class="sd">        array([0, 1, 2, 3, 4, 5, 6, 7, 9])</span>
-<span class="sd">        &gt;&gt;&gt; my_indices = _sub_step(my_indices)</span>
-<span class="sd">        &gt;&gt;&gt; my_indices</span>
-<span class="sd">        array([0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 8, 9])</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">list_indices_sub_step</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">list_indices</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">list_indices</span><span class="p">[</span><span class="mi">1</span><span class="p">:]):</span>
-        <span class="n">list_indices_sub_step</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
-        <span class="n">list_indices_sub_step</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">i</span> <span class="o">+</span> <span class="n">j</span><span class="p">)</span> <span class="o">//</span> <span class="mi">2</span><span class="p">)</span>
-    <span class="n">list_indices_sub_step</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">list_indices</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
-    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">list_indices_sub_step</span><span class="p">)</span>
-
-
-<span class="k">def</span> <span class="nf">_lists_indices_steps</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Compute the indices of the boundaries for all the steps of BFS merge sort.</span>
-
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-<span class="sd">    n: :class:`integer`</span>
-<span class="sd">        Size of the list.</span>
-
-<span class="sd">    Returns</span>
-<span class="sd">    -------</span>
-<span class="sd">    :class:`list` of :class:`~numpy.ndarray`</span>
-<span class="sd">        For each step, list of indices for the step.</span>
-
-<span class="sd">    Examples</span>
-<span class="sd">    --------</span>
-<span class="sd">        &gt;&gt;&gt; _lists_indices_steps(n=9)  # doctest: +NORMALIZE_WHITESPACE</span>
-<span class="sd">        [array([0, 4, 9]),</span>
-<span class="sd">        array([0, 2, 4, 6, 9]),</span>
-<span class="sd">        array([0, 1, 2, 3, 4, 5, 6, 7, 9]),</span>
-<span class="sd">        array([0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 8, 9])]</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">list_indices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="n">n</span><span class="p">])</span>
-    <span class="n">result</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="k">while</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">list_indices</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="o">-</span> <span class="n">list_indices</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
-        <span class="n">list_indices</span> <span class="o">=</span> <span class="n">_sub_step</span><span class="p">(</span><span class="n">list_indices</span><span class="p">)</span>
-        <span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">list_indices</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">result</span>
-
-
 <span class="k">def</span> <span class="nf">_merge_sort_bfs</span><span class="p">(</span><span class="n">collection</span><span class="p">,</span> <span class="n">lt</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 
@@ -222,10 +155,10 @@
 <span class="sd">        array([0, 1, 2, 3, 4, 5, 6, 7, 8])</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">collection</span><span class="p">)</span>
-    <span class="n">lists_indices</span> <span class="o">=</span> <span class="n">_lists_indices_steps</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
-    <span class="k">for</span> <span class="n">list_indices</span> <span class="ow">in</span> <span class="n">lists_indices</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
-        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">list_indices</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">):</span>
-            <span class="n">merge</span><span class="p">(</span><span class="n">collection</span><span class="p">,</span> <span class="n">list_indices</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">list_indices</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">],</span> <span class="n">list_indices</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">2</span><span class="p">],</span> <span class="n">lt</span><span class="o">=</span><span class="n">lt</span><span class="p">)</span>
+    <span class="n">_split_pointer_lists</span> <span class="o">=</span> <span class="n">split_pointer_lists</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">split_pointer_list</span> <span class="ow">in</span> <span class="n">_split_pointer_lists</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">split_pointer_list</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">):</span>
+            <span class="n">merge</span><span class="p">(</span><span class="n">collection</span><span class="p">,</span> <span class="n">split_pointer_list</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">split_pointer_list</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">],</span> <span class="n">split_pointer_list</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">2</span><span class="p">],</span> <span class="n">lt</span><span class="o">=</span><span class="n">lt</span><span class="p">)</span>
 </pre></div>
 
            </div>
