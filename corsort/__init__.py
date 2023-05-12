@@ -22,6 +22,7 @@ from corsort.jit_sorts import jit_corsort_borda, jit_corsort_drift_max_spaced, \
     jit_corsort_spaced_plus_drift, heapify, jit_heapsort
 from corsort.merge import merge
 from corsort.montecarlo import print_res, evaluate, evaluate_convergence, evaluate_comparisons
+from corsort.multi_merge import multi_merge
 from corsort.partition import partition
 from corsort.presets import colors, sorts, color_dict, auto_colors
 from corsort.scorers import scorer_delta, scorer_rho
@@ -31,7 +32,9 @@ from corsort.sort_ford_johnson import SortFordJohnson
 from corsort.sort_largest_interval import SortLargestInterval
 from corsort.sort_merge_bfs import SortMergeBfs
 from corsort.sort_merge_dfs import SortMergeDfs
+from corsort.sort_multizip import SortMultizip
 from corsort.sort_quick import SortQuick
+from corsort.split_pointer_lists import split_pointer_lists
 from corsort.util_latex import print_corsort_execution
 from corsort.wrap_full_jit import WrapFullJit
 from corsort.wrap_sort_scorer import WrapSortScorer
