@@ -8,6 +8,8 @@ __version__ = '0.1.1'
 from corsort.chain_and_y import ChainAndY, print_order
 from corsort.cor_sort import CorSort
 from corsort.cor_sort_borda import CorSortBorda
+from corsort.cor_sort_chain_decomposition_merge_v import CorSortChainDecompositionMergeV
+from corsort.cor_sort_chain_decomposition_merge_x import CorSortChainDecompositionMergeX
 from corsort.cor_sort_delegate import CorSortDelegate
 from corsort.cor_sort_gain import CorSortGain
 from corsort.cor_sort_gain_lexi import CorSortGainLexi
