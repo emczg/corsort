@@ -34,6 +34,7 @@ from corsort.sort_merge_bfs import SortMergeBfs
 from corsort.sort_merge_dfs import SortMergeDfs
 from corsort.sort_multizip import SortMultizip
 from corsort.sort_quick import SortQuick
+from corsort.sort_shell import SortShell
 from corsort.split_pointer_lists import split_pointer_lists
 from corsort.util_latex import print_corsort_execution
 from corsort.wrap_full_jit import WrapFullJit
