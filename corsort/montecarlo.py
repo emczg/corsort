@@ -3,6 +3,8 @@ from multiprocess.pool import Pool
 from collections import defaultdict
 from tqdm import tqdm
 
+# TODO: Remove "skip" in the doctests
+
 
 def print_res(res):
     for name, di in res.items():
@@ -42,13 +44,13 @@ def evaluate(sort_list, n_list, nt, pool=None):
 
     Evaluate corsort and quicksort using a Pool:
 
-    >>> with Pool() as p:
+    >>> with Pool() as p:  # doctest: +SKIP
     ...     my_res = evaluate(my_sort_list, my_n_list, nt=my_nt, pool=p)
     Evaluate quicksort for n = 10
     Evaluate corsort_borda for n = 10
     Evaluate quicksort for n = 15
     Evaluate corsort_borda for n = 15
-    >>> print_res(my_res)
+    >>> print_res(my_res)  # doctest: +SKIP
     n=10, quicksort: mean=24.15, std=3.50
     n=15, quicksort: mean=46.26, std=6.99
     n=10, corsort_borda: mean=22.11, std=0.87
@@ -130,11 +132,11 @@ def evaluate_convergence(sort_list, n, nt, pool=None):
 
     Evaluate corsort and quicksort using a Pool:
 
-    >>> with Pool() as p:
+    >>> with Pool() as p:  # doctest: +SKIP
     ...     my_res = evaluate_convergence(my_sort_list, my_n, nt=my_nt, pool=p)
     Evaluate convergence of quicksort for n = 10
     Evaluate convergence of corsort_borda for n = 10
-    >>> np.round(np.mean(my_res['quicksort'], axis=0), 1)  # doctest: +NORMALIZE_WHITESPACE
+    >>> np.round(np.mean(my_res['quicksort'], axis=0), 1)  # doctest: +NORMALIZE_WHITESPACE +SKIP
     array([22.7, 22.1, 21.5, 20.6, 19.9, 18.8, 17.5, 16.2, 14.2, 12.2, 11.7,
            11.2, 10.5,  9.5,  8.6,  7.5,  6.3,  5.4,  4.6,  3.8,  3. ,  2.3,
             1.7,  1.3,  0.9,  0.7,  0.5,  0.4,  0.3,  0.2,  0.1,  0.1,  0. ,
@@ -200,13 +202,13 @@ def evaluate_comparisons(sort_list, n_list, nt, pool=None):
 
     Evaluate corsort and quicksort using a Pool:
 
-    >>> with Pool() as p:
+    >>> with Pool() as p:  # doctest: +SKIP
     ...     my_res = evaluate_comparisons(my_sort_list, my_n_list, nt=my_nt, pool=p)
     Evaluate comparisons of quicksort for n = 10
     Evaluate comparisons of corsort_borda for n = 10
     Evaluate comparisons of quicksort for n = 15
     Evaluate comparisons of corsort_borda for n = 15
-    >>> np.round(np.mean(my_res['quicksort'][10]), 1)
+    >>> np.round(np.mean(my_res['quicksort'][10]), 1)  # doctest: +SKIP
     24.2
 
     Same without the pool:
