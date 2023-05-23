@@ -5,26 +5,36 @@ Reference
 .. toctree::
 
    chain_and_y
-   cor_sort
-   cor_sort_borda
-   cor_sort_delegate
-   cor_sort_gain
-   cor_sort_gain_lexi
+   corsort
+   corsort_borda
+   corsort_chain_decomposition_merge_v
+   corsort_chain_decomposition_merge_x
+   corsort_delegate
+   corsort_gain
+   corsort_gain_lexi
    distance_to_sorted_array
    entropy_bound
    jit_scorers
    jit_sorts
    merge
    montecarlo
+   multi_merge
    partition
    presets
-   print_order
+   print_order_as_letters
+   scorers
    sort
    sort_asort_quickselect
+   sort_binary_insertion
    sort_ford_johnson
    sort_largest_interval
-   sort_merge_bfs
-   sort_merge_dfs
+   sort_merge_bottom_up
+   sort_merge_top_down
+   sort_multizip
    sort_quick
+   sort_shell
+   split_pointer_lists
+   util_chains
+   util_latex
    wrap_full_jit
    wrap_sort_scorer
