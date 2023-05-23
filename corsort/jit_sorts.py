@@ -88,9 +88,9 @@ def jit_corsort_borda(perm):
 
 
 @njit
-def jit_corsort_drift_max_spaced(perm):
+def jit_corsort_delta_max_rho(perm):
     """
-    Corsort with drift core scorer, max-knowledge tie-break, and spaced outpus scorer.
+    Corsort with delta core scorer, max-knowledge tie-break, and rho output scorer.
     Currently, the best corsort for trajectory.
 
     Parameters
@@ -112,7 +112,7 @@ def jit_corsort_drift_max_spaced(perm):
 
     >>> np.random.seed(42)
     >>> p = np.random.permutation(10)
-    >>> st, sc, co = jit_corsort_drift_max_spaced(p)
+    >>> st, sc, co = jit_corsort_delta_max_rho(p)
     >>> st[0]
     array([8, 1, 5, 0, 7, 2, 9, 4, 3, 6])
     >>> st[10]
@@ -177,9 +177,9 @@ def jit_corsort_drift_max_spaced(perm):
 
 
 @njit
-def jit_corsort_drift_plus_spaced(perm):
+def jit_corsort_delta_sum_rho(perm):
     """
-    Corsort with drift core scorer, plus-knowledge tie-break, and spaced outpus scorer.
+    Corsort with delta core scorer, sum-knowledge tie-break, and rho output scorer.
 
     Parameters
     ----------
@@ -200,7 +200,7 @@ def jit_corsort_drift_plus_spaced(perm):
 
     >>> np.random.seed(42)
     >>> p = np.random.permutation(10)
-    >>> st, sc, co = jit_corsort_drift_plus_spaced(p)
+    >>> st, sc, co = jit_corsort_delta_sum_rho(p)
     >>> st[0]
     array([8, 1, 5, 0, 7, 2, 9, 4, 3, 6])
     >>> st[10]
@@ -265,9 +265,9 @@ def jit_corsort_drift_plus_spaced(perm):
 
 
 @njit
-def jit_corsort_drift_max_drift(perm):
+def jit_corsort_delta_max_delta(perm):
     """
-    Corsort with drift core scorer, max-knowledge tie-break, and drift outpus scorer.
+    Corsort with delta core scorer, max-knowledge tie-break, and delta output scorer.
 
     Parameters
     ----------
@@ -288,7 +288,7 @@ def jit_corsort_drift_max_drift(perm):
 
     >>> np.random.seed(42)
     >>> p = np.random.permutation(10)
-    >>> st, sc, co = jit_corsort_drift_max_drift(p)
+    >>> st, sc, co = jit_corsort_delta_max_delta(p)
     >>> st[0]
     array([8, 1, 5, 0, 7, 2, 9, 4, 3, 6])
     >>> st[10]
@@ -351,9 +351,9 @@ def jit_corsort_drift_max_drift(perm):
 
 
 @njit
-def jit_corsort_drift_plus_drift(perm):
+def jit_corsort_delta_sum_delta(perm):
     """
-    Corsort with drift core scorer, plus-knowledge tie-break, and drift outpus scorer.
+    Corsort with delta core scorer, sum-knowledge tie-break, and delta output scorer.
 
     Parameters
     ----------
@@ -374,7 +374,7 @@ def jit_corsort_drift_plus_drift(perm):
 
     >>> np.random.seed(42)
     >>> p = np.random.permutation(10)
-    >>> st, sc, co = jit_corsort_drift_plus_drift(p)
+    >>> st, sc, co = jit_corsort_delta_sum_delta(p)
     >>> st[0]
     array([8, 1, 5, 0, 7, 2, 9, 4, 3, 6])
     >>> st[10]
@@ -437,9 +437,9 @@ def jit_corsort_drift_plus_drift(perm):
 
 
 @njit
-def jit_corsort_spaced_max_spaced(perm):
+def jit_corsort_rho_max_rho(perm):
     """
-    Corsort with spaced core scorer, max-knowledge tie-break, and spaced outpus scorer.
+    Corsort with rho core scorer, max-knowledge tie-break, and rho output scorer.
 
     Parameters
     ----------
@@ -460,7 +460,7 @@ def jit_corsort_spaced_max_spaced(perm):
 
     >>> np.random.seed(42)
     >>> p = np.random.permutation(10)
-    >>> st, sc, co = jit_corsort_spaced_max_spaced(p)
+    >>> st, sc, co = jit_corsort_rho_max_rho(p)
     >>> st[0]
     array([8, 1, 5, 0, 7, 2, 9, 4, 3, 6])
     >>> st[10]
@@ -522,9 +522,9 @@ def jit_corsort_spaced_max_spaced(perm):
 
 
 @njit
-def jit_corsort_spaced_plus_spaced(perm):
+def jit_corsort_rho_sum_rho(perm):
     """
-    Corsort with spaced core scorer, plus-knowledge tie-break, and spaced outpus scorer.
+    Corsort with rho core scorer, sum-knowledge tie-break, and rho output scorer.
 
     Parameters
     ----------
@@ -545,7 +545,7 @@ def jit_corsort_spaced_plus_spaced(perm):
 
     >>> np.random.seed(42)
     >>> p = np.random.permutation(10)
-    >>> st, sc, co = jit_corsort_spaced_plus_spaced(p)
+    >>> st, sc, co = jit_corsort_rho_sum_rho(p)
     >>> st[0]
     array([8, 1, 5, 0, 7, 2, 9, 4, 3, 6])
     >>> st[10]
@@ -607,9 +607,9 @@ def jit_corsort_spaced_plus_spaced(perm):
 
 
 @njit
-def jit_corsort_spaced_max_drift(perm):
+def jit_corsort_rho_max_delta(perm):
     """
-    Corsort with spaced core scorer, max-knowledge tie-break, and drift outpus scorer.
+    Corsort with rho core scorer, max-knowledge tie-break, and delta output scorer.
 
     Parameters
     ----------
@@ -630,7 +630,7 @@ def jit_corsort_spaced_max_drift(perm):
 
     >>> np.random.seed(42)
     >>> p = np.random.permutation(10)
-    >>> st, sc, co = jit_corsort_spaced_max_drift(p)
+    >>> st, sc, co = jit_corsort_rho_max_delta(p)
     >>> st[0]
     array([8, 1, 5, 0, 7, 2, 9, 4, 3, 6])
     >>> st[10]
@@ -697,9 +697,9 @@ def jit_corsort_spaced_max_drift(perm):
 
 
 @njit
-def jit_corsort_spaced_plus_drift(perm):
+def jit_corsort_rho_sum_delta(perm):
     """
-    Corsort with spaced core scorer, plus-knowledge tie-break, and drift outpus scorer.
+    Corsort with rho core scorer, sum-knowledge tie-break, and delta output scorer.
 
     Parameters
     ----------
@@ -720,7 +720,7 @@ def jit_corsort_spaced_plus_drift(perm):
 
     >>> np.random.seed(42)
     >>> p = np.random.permutation(10)
-    >>> st, sc, co = jit_corsort_spaced_plus_drift(p)
+    >>> st, sc, co = jit_corsort_rho_sum_delta(p)
     >>> st[0]
     array([8, 1, 5, 0, 7, 2, 9, 4, 3, 6])
     >>> st[10]

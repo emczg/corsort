@@ -1,7 +1,7 @@
 import numpy as np
 from corsort.distance_to_sorted_array import distance_to_sorted_array
 from corsort.sort_quick import SortQuick
-from corsort.jit_scorers import scorer_spaced
+from corsort.jit_scorers import jit_scorer_rho
 
 
 class WrapSortScorer:
@@ -9,12 +9,12 @@ class WrapSortScorer:
     Examples
     --------
         >>> my_sort = SortQuick(compute_history=False)
-        >>> jit_sort = WrapSortScorer(scorer=scorer_spaced, sort=my_sort, compute_history=False)
+        >>> jit_sort = WrapSortScorer(scorer=jit_scorer_rho, sort=my_sort, compute_history=False)
         >>> my_xs = np.array([4, 1, 7, 6, 0, 8, 2, 3, 5])
         >>> jit_sort(my_xs).n_comparisons_
         16
         >>> jit_sort.__name__
-        'quicksort_spaced'
+        'quicksort_rho'
         >>> jit_sort.history_comparisons_  # doctest: +NORMALIZE_WHITESPACE
         [(1, 0), (0, 2), (0, 3), (4, 0), (0, 5), (6, 0), (7, 0), (0, 8),
         (4, 1), (1, 6), (1, 7), (6, 7), (3, 2), (2, 5), (8, 2), (8, 3)]
@@ -30,7 +30,7 @@ class WrapSortScorer:
         Before using the algorithm, `history_comparisons_values_` is None:
 
             >>> my_sort = SortQuick()
-            >>> jit_sort = WrapSortScorer(scorer=scorer_spaced, sort=my_sort)
+            >>> jit_sort = WrapSortScorer(scorer=jit_scorer_rho, sort=my_sort)
             >>> print(jit_sort.history_comparisons_values_)
             None
         """

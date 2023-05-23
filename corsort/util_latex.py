@@ -3,7 +3,7 @@ from string import Template
 from itertools import permutations
 from corsort.cor_sort_delegate import CorSortDelegate
 from corsort.wrap_full_jit import WrapFullJit
-from corsort.jit_sorts import jit_corsort_drift_max_spaced
+from corsort.jit_sorts import jit_corsort_delta_max_rho
 
 
 def print_legend(k, state, distance):
@@ -167,7 +167,7 @@ def print_corsort_execution(perm):
         \end{tikzpicture}
     """
     corsort = CorSortDelegate(
-        sort=WrapFullJit(jit_sort=jit_corsort_drift_max_spaced, record_states=True),
+        sort=WrapFullJit(jit_sort=jit_corsort_delta_max_rho, record_states=True),
         compute_history=True,
         record_leq=True
     )

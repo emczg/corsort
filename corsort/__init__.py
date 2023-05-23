@@ -15,11 +15,11 @@ from corsort.cor_sort_gain import CorSortGain
 from corsort.cor_sort_gain_lexi import CorSortGainLexi
 from corsort.distance_to_sorted_array import distance_to_sorted_array
 from corsort.entropy_bound import entropy_bound
-from corsort.jit_scorers import scorer_spaced, scorer_drift
-from corsort.jit_sorts import jit_corsort_borda, jit_corsort_drift_max_spaced, \
-    jit_corsort_drift_plus_spaced, jit_corsort_drift_max_drift, jit_corsort_drift_plus_drift, \
-    jit_corsort_spaced_max_spaced, jit_corsort_spaced_plus_spaced, jit_corsort_spaced_max_drift, \
-    jit_corsort_spaced_plus_drift, heapify, jit_heapsort
+from corsort.jit_scorers import jit_scorer_rho, jit_scorer_delta
+from corsort.jit_sorts import jit_corsort_borda, jit_corsort_delta_max_rho, \
+    jit_corsort_delta_sum_rho, jit_corsort_delta_max_delta, jit_corsort_delta_sum_delta, \
+    jit_corsort_rho_max_rho, jit_corsort_rho_sum_rho, jit_corsort_rho_max_delta, \
+    jit_corsort_rho_sum_delta, heapify, jit_heapsort
 from corsort.merge import merge
 from corsort.montecarlo import print_res, evaluate, evaluate_convergence, evaluate_comparisons
 from corsort.multi_merge import multi_merge
