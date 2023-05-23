@@ -14,7 +14,7 @@ class Corsort(Sort):
     compute_history: :class:`bool`
         If True, then compute the history of the distance to the sorted array.
     record_leq: :class:`bool`
-        If True, then record all the states of the leq_ matrix.
+        If True, then record all the states of the `leq_` matrix.
 
     Attributes
     ----------

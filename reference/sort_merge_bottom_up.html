@@ -19,7 +19,7 @@
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="SortMergeTopDown" href="sort_merge_dfs.html" />
+    <link rel="next" title="SortMergeTopDown" href="sort_merge_top_down.html" />
     <link rel="prev" title="SortLargestInterval" href="sort_largest_interval.html" /> 
 </head>
 
@@ -51,22 +51,27 @@
 <li class="toctree-l1"><a class="reference internal" href="../notebooks/index.html">Notebooks</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">Reference</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="chain_and_y.html">ChainAndY</a></li>
-<li class="toctree-l2"><a class="reference internal" href="cor_sort.html">Corsort</a></li>
-<li class="toctree-l2"><a class="reference internal" href="cor_sort_borda.html">CorsortBorda</a></li>
-<li class="toctree-l2"><a class="reference internal" href="cor_sort_delegate.html">CorsortDelegate</a></li>
-<li class="toctree-l2"><a class="reference internal" href="cor_sort_gain.html">CorsortGain</a></li>
-<li class="toctree-l2"><a class="reference internal" href="cor_sort_gain_lexi.html">CorsortGainLexi</a></li>
+<li class="toctree-l2"><a class="reference internal" href="corsort.html">Corsort</a></li>
+<li class="toctree-l2"><a class="reference internal" href="corsort_borda.html">CorsortBorda</a></li>
+<li class="toctree-l2"><a class="reference internal" href="corsort_chain_decomposition_merge_v.html">CorsortChainDecompositionMergeV</a></li>
+<li class="toctree-l2"><a class="reference internal" href="corsort_chain_decomposition_merge_x.html">CorsortChainDecompositionMergeX</a></li>
+<li class="toctree-l2"><a class="reference internal" href="corsort_delegate.html">CorsortDelegate</a></li>
+<li class="toctree-l2"><a class="reference internal" href="corsort_gain.html">CorsortGain</a></li>
+<li class="toctree-l2"><a class="reference internal" href="corsort_gain_lexi.html">CorsortGainLexi</a></li>
 <li class="toctree-l2"><a class="reference internal" href="distance_to_sorted_array.html">distance_to_sorted_array</a></li>
 <li class="toctree-l2"><a class="reference internal" href="entropy_bound.html">entropy_bound</a></li>
 <li class="toctree-l2"><a class="reference internal" href="jit_scorers.html">jit_scorers</a></li>
 <li class="toctree-l2"><a class="reference internal" href="jit_sorts.html">jit_sorts</a></li>
 <li class="toctree-l2"><a class="reference internal" href="merge.html">merge</a></li>
 <li class="toctree-l2"><a class="reference internal" href="montecarlo.html">montecarlo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="multi_merge.html">multi_merge</a></li>
 <li class="toctree-l2"><a class="reference internal" href="partition.html">partition</a></li>
 <li class="toctree-l2"><a class="reference internal" href="presets.html">presets</a></li>
-<li class="toctree-l2"><a class="reference internal" href="print_order.html">print_order</a></li>
+<li class="toctree-l2"><a class="reference internal" href="print_order_as_letters.html">print_order_as_letters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="scorers.html">scorers</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sort.html">Sort</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sort_asort_quickselect.html">SortAsortQuickselect</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sort_binary_insertion.html">SortBinaryInsertion</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sort_ford_johnson.html">SortFordJohnson</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sort_largest_interval.html">SortLargestInterval</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">SortMergeBottomUp</a><ul>
@@ -78,8 +83,13 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="sort_merge_dfs.html">SortMergeTopDown</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sort_merge_top_down.html">SortMergeTopDown</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sort_multizip.html">SortMultizip</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sort_quick.html">SortQuick</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sort_shell.html">SortShell</a></li>
+<li class="toctree-l2"><a class="reference internal" href="split_pointer_lists.html">split_pointer_lists</a></li>
+<li class="toctree-l2"><a class="reference internal" href="util_chains.html">util_chains</a></li>
+<li class="toctree-l2"><a class="reference internal" href="util_latex.html">util_latex</a></li>
 <li class="toctree-l2"><a class="reference internal" href="wrap_full_jit.html">WrapFullJit</a></li>
 <li class="toctree-l2"><a class="reference internal" href="wrap_sort_scorer.html">WrapSortScorer</a></li>
 </ul>
@@ -106,7 +116,7 @@
           <li class="breadcrumb-item"><a href="index.html">Reference</a></li>
       <li class="breadcrumb-item active">SortMergeBottomUp</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="../_sources/reference/sort_merge_bfs.rst.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/reference/sort_merge_bottom_up.rst.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -192,7 +202,7 @@ be computed a last time at the end of the algorithm.</p>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="sort_largest_interval.html" class="btn btn-neutral float-left" title="SortLargestInterval" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="sort_merge_dfs.html" class="btn btn-neutral float-right" title="SortMergeTopDown" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="sort_merge_top_down.html" class="btn btn-neutral float-right" title="SortMergeTopDown" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

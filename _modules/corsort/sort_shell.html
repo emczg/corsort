@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>corsort.sort_shell &mdash; Corsort 0.1.1 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+    <link rel="shortcut icon" href="../../_static/favicon.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/sphinx_highlight.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            Corsort
+              <img src="../../_static/logo_small.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../readme.html">Corsort</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../usage.html">Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../notebooks/index.html">Notebooks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../reference/index.html">Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../authors.html">Credits</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../history.html">History</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Corsort</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">corsort.sort_shell</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for corsort.sort_shell</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">corsort.sort</span> <span class="kn">import</span> <span class="n">Sort</span>
+<span class="kn">from</span> <span class="nn">corsort.distance_to_sorted_array</span> <span class="kn">import</span> <span class="n">distance_to_sorted_array</span>
+
+
+<div class="viewcode-block" id="SortShell"><a class="viewcode-back" href="../../reference/sort_shell.html#corsort.SortShell">[docs]</a><span class="k">class</span> <span class="nc">SortShell</span><span class="p">(</span><span class="n">Sort</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Shellsort.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">        &gt;&gt;&gt; shellsort = SortShell(compute_history=True)</span>
+<span class="sd">        &gt;&gt;&gt; my_xs = np.array([4, 1, 7, 6, 0, 8, 2, 3, 5])</span>
+<span class="sd">        &gt;&gt;&gt; shellsort(my_xs).n_comparisons_</span>
+<span class="sd">        22</span>
+<span class="sd">        &gt;&gt;&gt; shellsort.history_comparisons_  # doctest: +NORMALIZE_WHITESPACE</span>
+<span class="sd">        [(4, 0), (4, 5), (1, 5), (6, 2), (6, 7), (7, 3), (7, 8), (0, 8), (4, 1), (1, 6),</span>
+<span class="sd">        (6, 7), (7, 0), (0, 5), (2, 5), (0, 2), (3, 5), (3, 2), (0, 3), (8, 5), (8, 2), (8, 3), (0, 8)]</span>
+<span class="sd">        &gt;&gt;&gt; shellsort.history_comparisons_values_  # doctest: +NORMALIZE_WHITESPACE</span>
+<span class="sd">        [(0, 4), (0, 8), (1, 8), (2, 7), (2, 3), (3, 6), (3, 5), (4, 5), (0, 1), (1, 2),</span>
+<span class="sd">        (2, 3), (3, 4), (4, 8), (7, 8), (4, 7), (6, 8), (6, 7), (4, 6), (5, 8), (5, 7), (5, 6), (4, 5)]</span>
+<span class="sd">        &gt;&gt;&gt; shellsort.history_distances_</span>
+<span class="sd">        [17, 22, 14, 13, 9, 8, 7, 6, 6, 6, 6, 6, 3, 5, 3, 3, 3, 2, 0, 0, 0, 0, 0]</span>
+<span class="sd">        &gt;&gt;&gt; shellsort.sorted_list_</span>
+<span class="sd">        array([0, 1, 2, 3, 4, 5, 6, 7, 8])</span>
+
+<span class="sd">        &gt;&gt;&gt; np.random.seed(42)</span>
+<span class="sd">        &gt;&gt;&gt; shellsort = SortShell(compute_history=False)</span>
+<span class="sd">        &gt;&gt;&gt; shellsort(np.random.permutation(100)).n_comparisons_</span>
+<span class="sd">        774</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="vm">__name__</span> <span class="o">=</span> <span class="s1">&#39;shellsort&#39;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">compute_history</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">gap_sequence</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        Before using the algorithm, `history_comparisons_values_` is None:</span>
+
+<span class="sd">            &gt;&gt;&gt; shellsort = SortShell()</span>
+<span class="sd">            &gt;&gt;&gt; print(shellsort.history_comparisons_values_)</span>
+<span class="sd">            None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">compute_history</span><span class="o">=</span><span class="n">compute_history</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">gap_sequence</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">gap_sequence</span> <span class="o">=</span> <span class="p">[</span><span class="mi">701</span><span class="p">,</span> <span class="mi">301</span><span class="p">,</span> <span class="mi">132</span><span class="p">,</span> <span class="mi">57</span><span class="p">,</span> <span class="mi">23</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>  <span class="c1"># Ciura gap sequence</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">gap_sequence</span> <span class="o">=</span> <span class="n">gap_sequence</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sorted_indices_</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">def</span> <span class="nf">_initialize_algo_aux</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sorted_indices_</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_call_aux</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">_shellsort</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sorted_indices_</span><span class="p">,</span> <span class="n">gap_sequence</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">gap_sequence</span><span class="p">,</span> <span class="n">lt</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">test_i_lt_j</span><span class="p">)</span>
+
+<div class="viewcode-block" id="SortShell.distance_to_sorted_array"><a class="viewcode-back" href="../../reference/sort_shell.html#corsort.SortShell.distance_to_sorted_array">[docs]</a>    <span class="k">def</span> <span class="nf">distance_to_sorted_array</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">distance_to_sorted_array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">perm_</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">sorted_indices_</span><span class="p">])</span></div>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">sorted_list_</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">perm_</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">sorted_indices_</span><span class="p">]</span></div>
+
+
+<span class="k">def</span> <span class="nf">_shellsort</span><span class="p">(</span><span class="n">xs</span><span class="p">,</span> <span class="n">gap_sequence</span><span class="p">,</span> <span class="n">lt</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Inspired by https://en.wikipedia.org/wiki/Shellsort</span>
+
+<span class="sd">    Sort the array in place.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    xs: :class:`~numpy.ndarray`</span>
+<span class="sd">        Array to sort.</span>
+<span class="sd">    gap_sequence: list</span>
+<span class="sd">        Gap sequence.</span>
+<span class="sd">    lt: callable</span>
+<span class="sd">        lt(x, y) is the test used to determine whether element x is lower than y.</span>
+<span class="sd">        Default: operator &quot;&lt;&quot;.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">        &gt;&gt;&gt; gap_sequence = [701, 301, 132, 57, 23, 10, 4, 1]</span>
+<span class="sd">        &gt;&gt;&gt; my_xs = np.array([4, 1, 7, 6, 0, 8, 2, 3, 5])</span>
+<span class="sd">        &gt;&gt;&gt; _shellsort(my_xs, gap_sequence)</span>
+<span class="sd">        &gt;&gt;&gt; my_xs</span>
+<span class="sd">        array([0, 1, 2, 3, 4, 5, 6, 7, 8])</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Set optional arguments.</span>
+    <span class="k">if</span> <span class="n">lt</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">def</span> <span class="nf">lt</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="n">y</span>
+
+    <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">xs</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">gap</span> <span class="ow">in</span> <span class="n">gap_sequence</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">gap</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+            <span class="n">temp</span> <span class="o">=</span> <span class="n">xs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="n">gap</span><span class="p">):</span>
+                <span class="n">xs</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">xs</span><span class="p">[</span><span class="n">j</span> <span class="o">-</span> <span class="n">gap</span><span class="p">]</span>
+                <span class="k">if</span> <span class="n">lt</span><span class="p">(</span><span class="n">xs</span><span class="p">[</span><span class="n">j</span> <span class="o">-</span> <span class="n">gap</span><span class="p">],</span> <span class="n">temp</span><span class="p">):</span>
+                    <span class="k">break</span>
+            <span class="n">xs</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">temp</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Emma Caizergues.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

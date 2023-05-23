@@ -83,7 +83,7 @@
 <span class="kn">from</span> <span class="nn">corsort.merge</span> <span class="kn">import</span> <span class="n">merge</span>
 
 
-<div class="viewcode-block" id="SortMergeTopDown"><a class="viewcode-back" href="../../reference/sort_merge_dfs.html#corsort.SortMergeTopDown">[docs]</a><span class="k">class</span> <span class="nc">SortMergeTopDown</span><span class="p">(</span><span class="n">Sort</span><span class="p">):</span>
+<div class="viewcode-block" id="SortMergeTopDown"><a class="viewcode-back" href="../../reference/sort_merge_top_down.html#corsort.SortMergeTopDown">[docs]</a><span class="k">class</span> <span class="nc">SortMergeTopDown</span><span class="p">(</span><span class="n">Sort</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Merge sort, top-down version (DFS, i.e. &quot;natural&quot; recursive version).</span>
 
@@ -114,7 +114,7 @@
     <span class="k">def</span> <span class="nf">_call_aux</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">_merge_sort_top_down</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sorted_indices_</span><span class="p">,</span> <span class="n">lt</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">test_i_lt_j</span><span class="p">)</span>
 
-<div class="viewcode-block" id="SortMergeTopDown.distance_to_sorted_array"><a class="viewcode-back" href="../../reference/sort_merge_dfs.html#corsort.SortMergeTopDown.distance_to_sorted_array">[docs]</a>    <span class="k">def</span> <span class="nf">distance_to_sorted_array</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="SortMergeTopDown.distance_to_sorted_array"><a class="viewcode-back" href="../../reference/sort_merge_top_down.html#corsort.SortMergeTopDown.distance_to_sorted_array">[docs]</a>    <span class="k">def</span> <span class="nf">distance_to_sorted_array</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">distance_to_sorted_array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">perm_</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">sorted_indices_</span><span class="p">])</span></div>
 
     <span class="nd">@property</span>

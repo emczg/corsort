@@ -20,7 +20,7 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="WrapSortScorer" href="wrap_sort_scorer.html" />
-    <link rel="prev" title="SortQuick" href="sort_quick.html" /> 
+    <link rel="prev" title="util_latex" href="util_latex.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -51,36 +51,56 @@
 <li class="toctree-l1"><a class="reference internal" href="../notebooks/index.html">Notebooks</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">Reference</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="chain_and_y.html">ChainAndY</a></li>
-<li class="toctree-l2"><a class="reference internal" href="cor_sort.html">Corsort</a></li>
-<li class="toctree-l2"><a class="reference internal" href="cor_sort_borda.html">CorsortBorda</a></li>
-<li class="toctree-l2"><a class="reference internal" href="cor_sort_delegate.html">CorsortDelegate</a></li>
-<li class="toctree-l2"><a class="reference internal" href="cor_sort_gain.html">CorsortGain</a></li>
-<li class="toctree-l2"><a class="reference internal" href="cor_sort_gain_lexi.html">CorsortGainLexi</a></li>
+<li class="toctree-l2"><a class="reference internal" href="corsort.html">Corsort</a></li>
+<li class="toctree-l2"><a class="reference internal" href="corsort_borda.html">CorsortBorda</a></li>
+<li class="toctree-l2"><a class="reference internal" href="corsort_chain_decomposition_merge_v.html">CorsortChainDecompositionMergeV</a></li>
+<li class="toctree-l2"><a class="reference internal" href="corsort_chain_decomposition_merge_x.html">CorsortChainDecompositionMergeX</a></li>
+<li class="toctree-l2"><a class="reference internal" href="corsort_delegate.html">CorsortDelegate</a></li>
+<li class="toctree-l2"><a class="reference internal" href="corsort_gain.html">CorsortGain</a></li>
+<li class="toctree-l2"><a class="reference internal" href="corsort_gain_lexi.html">CorsortGainLexi</a></li>
 <li class="toctree-l2"><a class="reference internal" href="distance_to_sorted_array.html">distance_to_sorted_array</a></li>
 <li class="toctree-l2"><a class="reference internal" href="entropy_bound.html">entropy_bound</a></li>
 <li class="toctree-l2"><a class="reference internal" href="jit_scorers.html">jit_scorers</a></li>
 <li class="toctree-l2"><a class="reference internal" href="jit_sorts.html">jit_sorts</a></li>
 <li class="toctree-l2"><a class="reference internal" href="merge.html">merge</a></li>
 <li class="toctree-l2"><a class="reference internal" href="montecarlo.html">montecarlo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="multi_merge.html">multi_merge</a></li>
 <li class="toctree-l2"><a class="reference internal" href="partition.html">partition</a></li>
 <li class="toctree-l2"><a class="reference internal" href="presets.html">presets</a></li>
-<li class="toctree-l2"><a class="reference internal" href="print_order.html">print_order</a></li>
+<li class="toctree-l2"><a class="reference internal" href="print_order_as_letters.html">print_order_as_letters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="scorers.html">scorers</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sort.html">Sort</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sort_asort_quickselect.html">SortAsortQuickselect</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sort_binary_insertion.html">SortBinaryInsertion</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sort_ford_johnson.html">SortFordJohnson</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sort_largest_interval.html">SortLargestInterval</a></li>
-<li class="toctree-l2"><a class="reference internal" href="sort_merge_bfs.html">SortMergeBottomUp</a></li>
-<li class="toctree-l2"><a class="reference internal" href="sort_merge_dfs.html">SortMergeTopDown</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sort_merge_bottom_up.html">SortMergeBottomUp</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sort_merge_top_down.html">SortMergeTopDown</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sort_multizip.html">SortMultizip</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sort_quick.html">SortQuick</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sort_shell.html">SortShell</a></li>
+<li class="toctree-l2"><a class="reference internal" href="split_pointer_lists.html">split_pointer_lists</a></li>
+<li class="toctree-l2"><a class="reference internal" href="util_chains.html">util_chains</a></li>
+<li class="toctree-l2"><a class="reference internal" href="util_latex.html">util_latex</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">WrapFullJit</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#corsort.WrapFullJit"><code class="docutils literal notranslate"><span class="pre">WrapFullJit</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#corsort.WrapFullJit.n_"><code class="docutils literal notranslate"><span class="pre">WrapFullJit.n_</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#corsort.WrapFullJit.perm_"><code class="docutils literal notranslate"><span class="pre">WrapFullJit.perm_</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#corsort.WrapFullJit.n_comparisons_"><code class="docutils literal notranslate"><span class="pre">WrapFullJit.n_comparisons_</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#corsort.WrapFullJit.history_distances_"><code class="docutils literal notranslate"><span class="pre">WrapFullJit.history_distances_</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#corsort.WrapFullJit.history_comparisons_"><code class="docutils literal notranslate"><span class="pre">WrapFullJit.history_comparisons_</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#corsort.WrapFullJit.history_states_"><code class="docutils literal notranslate"><span class="pre">WrapFullJit.history_states_</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#corsort.WrapFullJit.history_comparisons_values_"><code class="docutils literal notranslate"><span class="pre">WrapFullJit.history_comparisons_values_</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#corsort.wrap_full_jit.JitCorsortBorda"><code class="docutils literal notranslate"><span class="pre">JitCorsortBorda</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#corsort.wrap_full_jit.JitCorsortDeltaMaxDelta"><code class="docutils literal notranslate"><span class="pre">JitCorsortDeltaMaxDelta</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#corsort.wrap_full_jit.JitCorsortDeltaMaxRho"><code class="docutils literal notranslate"><span class="pre">JitCorsortDeltaMaxRho</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#corsort.wrap_full_jit.JitCorsortDeltaSumDelta"><code class="docutils literal notranslate"><span class="pre">JitCorsortDeltaSumDelta</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#corsort.wrap_full_jit.JitCorsortDeltaSumRho"><code class="docutils literal notranslate"><span class="pre">JitCorsortDeltaSumRho</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#corsort.wrap_full_jit.JitCorsortRhoMaxDelta"><code class="docutils literal notranslate"><span class="pre">JitCorsortRhoMaxDelta</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#corsort.wrap_full_jit.JitCorsortRhoMaxRho"><code class="docutils literal notranslate"><span class="pre">JitCorsortRhoMaxRho</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#corsort.wrap_full_jit.JitCorsortRhoSumDelta"><code class="docutils literal notranslate"><span class="pre">JitCorsortRhoSumDelta</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#corsort.wrap_full_jit.JitCorsortRhoSumRho"><code class="docutils literal notranslate"><span class="pre">JitCorsortRhoSumRho</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#corsort.wrap_full_jit.JitHeapsort"><code class="docutils literal notranslate"><span class="pre">JitHeapsort</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#corsort.wrap_full_jit.WrapFullJit"><code class="docutils literal notranslate"><span class="pre">WrapFullJit</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#corsort.wrap_full_jit.WrapFullJit.n_"><code class="docutils literal notranslate"><span class="pre">WrapFullJit.n_</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#corsort.wrap_full_jit.WrapFullJit.perm_"><code class="docutils literal notranslate"><span class="pre">WrapFullJit.perm_</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#corsort.wrap_full_jit.WrapFullJit.n_comparisons_"><code class="docutils literal notranslate"><span class="pre">WrapFullJit.n_comparisons_</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#corsort.wrap_full_jit.WrapFullJit.history_distances_"><code class="docutils literal notranslate"><span class="pre">WrapFullJit.history_distances_</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#corsort.wrap_full_jit.WrapFullJit.history_comparisons_"><code class="docutils literal notranslate"><span class="pre">WrapFullJit.history_comparisons_</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#corsort.wrap_full_jit.WrapFullJit.history_states_"><code class="docutils literal notranslate"><span class="pre">WrapFullJit.history_states_</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#corsort.wrap_full_jit.WrapFullJit.history_comparisons_values_"><code class="docutils literal notranslate"><span class="pre">WrapFullJit.history_comparisons_values_</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -118,11 +138,71 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="wrapfulljit">
-<h1>WrapFullJit<a class="headerlink" href="#wrapfulljit" title="Permalink to this heading"></a></h1>
+  <section id="module-corsort.wrap_full_jit">
+<span id="wrapfulljit"></span><h1>WrapFullJit<a class="headerlink" href="#module-corsort.wrap_full_jit" title="Permalink to this heading"></a></h1>
 <dl class="py class">
-<dt class="sig sig-object py" id="corsort.WrapFullJit">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">corsort.</span></span><span class="sig-name descname"><span class="pre">WrapFullJit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">jit_sort</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">compute_history</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">record_states</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/corsort/wrap_full_jit.html#WrapFullJit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#corsort.WrapFullJit" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="corsort.wrap_full_jit.JitCorsortBorda">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">corsort.wrap_full_jit.</span></span><span class="sig-name descname"><span class="pre">JitCorsortBorda</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">compute_history</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">record_states</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/corsort/wrap_full_jit.html#JitCorsortBorda"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#corsort.wrap_full_jit.JitCorsortBorda" title="Permalink to this definition"></a></dt>
+<dd><p>Corsort “Borda”. Cf. <a class="reference internal" href="#corsort.wrap_full_jit.WrapFullJit" title="corsort.wrap_full_jit.WrapFullJit"><code class="xref py py-class docutils literal notranslate"><span class="pre">WrapFullJit</span></code></a>.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="corsort.wrap_full_jit.JitCorsortDeltaMaxDelta">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">corsort.wrap_full_jit.</span></span><span class="sig-name descname"><span class="pre">JitCorsortDeltaMaxDelta</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">compute_history</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">record_states</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/corsort/wrap_full_jit.html#JitCorsortDeltaMaxDelta"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#corsort.wrap_full_jit.JitCorsortDeltaMaxDelta" title="Permalink to this definition"></a></dt>
+<dd><p>Corsort with delta core scorer, max-knowledge tie-break, and delta output scorer. Cf. <a class="reference internal" href="#corsort.wrap_full_jit.WrapFullJit" title="corsort.wrap_full_jit.WrapFullJit"><code class="xref py py-class docutils literal notranslate"><span class="pre">WrapFullJit</span></code></a>.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="corsort.wrap_full_jit.JitCorsortDeltaMaxRho">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">corsort.wrap_full_jit.</span></span><span class="sig-name descname"><span class="pre">JitCorsortDeltaMaxRho</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">compute_history</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">record_states</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/corsort/wrap_full_jit.html#JitCorsortDeltaMaxRho"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#corsort.wrap_full_jit.JitCorsortDeltaMaxRho" title="Permalink to this definition"></a></dt>
+<dd><p>Corsort with delta core scorer, max-knowledge tie-break, and rho output scorer. Cf. <a class="reference internal" href="#corsort.wrap_full_jit.WrapFullJit" title="corsort.wrap_full_jit.WrapFullJit"><code class="xref py py-class docutils literal notranslate"><span class="pre">WrapFullJit</span></code></a>.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="corsort.wrap_full_jit.JitCorsortDeltaSumDelta">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">corsort.wrap_full_jit.</span></span><span class="sig-name descname"><span class="pre">JitCorsortDeltaSumDelta</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">compute_history</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">record_states</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/corsort/wrap_full_jit.html#JitCorsortDeltaSumDelta"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#corsort.wrap_full_jit.JitCorsortDeltaSumDelta" title="Permalink to this definition"></a></dt>
+<dd><p>Corsort with delta core scorer, sum-knowledge tie-break, and delta output scorer. Cf. <a class="reference internal" href="#corsort.wrap_full_jit.WrapFullJit" title="corsort.wrap_full_jit.WrapFullJit"><code class="xref py py-class docutils literal notranslate"><span class="pre">WrapFullJit</span></code></a>.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="corsort.wrap_full_jit.JitCorsortDeltaSumRho">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">corsort.wrap_full_jit.</span></span><span class="sig-name descname"><span class="pre">JitCorsortDeltaSumRho</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">compute_history</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">record_states</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/corsort/wrap_full_jit.html#JitCorsortDeltaSumRho"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#corsort.wrap_full_jit.JitCorsortDeltaSumRho" title="Permalink to this definition"></a></dt>
+<dd><p>Corsort with delta core scorer, sum-knowledge tie-break, and rho output scorer. Cf. <a class="reference internal" href="#corsort.wrap_full_jit.WrapFullJit" title="corsort.wrap_full_jit.WrapFullJit"><code class="xref py py-class docutils literal notranslate"><span class="pre">WrapFullJit</span></code></a>.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="corsort.wrap_full_jit.JitCorsortRhoMaxDelta">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">corsort.wrap_full_jit.</span></span><span class="sig-name descname"><span class="pre">JitCorsortRhoMaxDelta</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">compute_history</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">record_states</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/corsort/wrap_full_jit.html#JitCorsortRhoMaxDelta"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#corsort.wrap_full_jit.JitCorsortRhoMaxDelta" title="Permalink to this definition"></a></dt>
+<dd><p>Corsort with rho core scorer, max-knowledge tie-break, and delta output scorer. Cf. <a class="reference internal" href="#corsort.wrap_full_jit.WrapFullJit" title="corsort.wrap_full_jit.WrapFullJit"><code class="xref py py-class docutils literal notranslate"><span class="pre">WrapFullJit</span></code></a>.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="corsort.wrap_full_jit.JitCorsortRhoMaxRho">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">corsort.wrap_full_jit.</span></span><span class="sig-name descname"><span class="pre">JitCorsortRhoMaxRho</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">compute_history</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">record_states</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/corsort/wrap_full_jit.html#JitCorsortRhoMaxRho"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#corsort.wrap_full_jit.JitCorsortRhoMaxRho" title="Permalink to this definition"></a></dt>
+<dd><p>Corsort with rho core scorer, max-knowledge tie-break, and rho output scorer. Cf. <a class="reference internal" href="#corsort.wrap_full_jit.WrapFullJit" title="corsort.wrap_full_jit.WrapFullJit"><code class="xref py py-class docutils literal notranslate"><span class="pre">WrapFullJit</span></code></a>.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="corsort.wrap_full_jit.JitCorsortRhoSumDelta">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">corsort.wrap_full_jit.</span></span><span class="sig-name descname"><span class="pre">JitCorsortRhoSumDelta</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">compute_history</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">record_states</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/corsort/wrap_full_jit.html#JitCorsortRhoSumDelta"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#corsort.wrap_full_jit.JitCorsortRhoSumDelta" title="Permalink to this definition"></a></dt>
+<dd><p>Corsort with rho core scorer, sum-knowledge tie-break, and delta output scorer. Cf. <a class="reference internal" href="#corsort.wrap_full_jit.WrapFullJit" title="corsort.wrap_full_jit.WrapFullJit"><code class="xref py py-class docutils literal notranslate"><span class="pre">WrapFullJit</span></code></a>.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="corsort.wrap_full_jit.JitCorsortRhoSumRho">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">corsort.wrap_full_jit.</span></span><span class="sig-name descname"><span class="pre">JitCorsortRhoSumRho</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">compute_history</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">record_states</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/corsort/wrap_full_jit.html#JitCorsortRhoSumRho"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#corsort.wrap_full_jit.JitCorsortRhoSumRho" title="Permalink to this definition"></a></dt>
+<dd><p>Corsort with rho core scorer, sum-knowledge tie-break, and rho output scorer. Cf. <a class="reference internal" href="#corsort.wrap_full_jit.WrapFullJit" title="corsort.wrap_full_jit.WrapFullJit"><code class="xref py py-class docutils literal notranslate"><span class="pre">WrapFullJit</span></code></a>.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="corsort.wrap_full_jit.JitHeapsort">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">corsort.wrap_full_jit.</span></span><span class="sig-name descname"><span class="pre">JitHeapsort</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">compute_history</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">record_states</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/corsort/wrap_full_jit.html#JitHeapsort"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#corsort.wrap_full_jit.JitHeapsort" title="Permalink to this definition"></a></dt>
+<dd><p>Heapsort. Cf. <a class="reference internal" href="#corsort.wrap_full_jit.WrapFullJit" title="corsort.wrap_full_jit.WrapFullJit"><code class="xref py py-class docutils literal notranslate"><span class="pre">WrapFullJit</span></code></a>.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="corsort.wrap_full_jit.WrapFullJit">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">corsort.wrap_full_jit.</span></span><span class="sig-name descname"><span class="pre">WrapFullJit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">jit_sort</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">compute_history</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">record_states</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/corsort/wrap_full_jit.html#WrapFullJit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#corsort.wrap_full_jit.WrapFullJit" title="Permalink to this definition"></a></dt>
 <dd><p>Delegate everything (sort and scores) to a jit function.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -130,8 +210,8 @@
 </dd>
 </dl>
 <dl class="py attribute">
-<dt class="sig sig-object py" id="corsort.WrapFullJit.n_">
-<span class="sig-name descname"><span class="pre">n_</span></span><a class="headerlink" href="#corsort.WrapFullJit.n_" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="corsort.wrap_full_jit.WrapFullJit.n_">
+<span class="sig-name descname"><span class="pre">n_</span></span><a class="headerlink" href="#corsort.wrap_full_jit.WrapFullJit.n_" title="Permalink to this definition"></a></dt>
 <dd><p>Number of items in the list.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
@@ -141,8 +221,8 @@
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="corsort.WrapFullJit.perm_">
-<span class="sig-name descname"><span class="pre">perm_</span></span><a class="headerlink" href="#corsort.WrapFullJit.perm_" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="corsort.wrap_full_jit.WrapFullJit.perm_">
+<span class="sig-name descname"><span class="pre">perm_</span></span><a class="headerlink" href="#corsort.wrap_full_jit.WrapFullJit.perm_" title="Permalink to this definition"></a></dt>
 <dd><p>Input permutation.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
@@ -152,8 +232,8 @@
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="corsort.WrapFullJit.n_comparisons_">
-<span class="sig-name descname"><span class="pre">n_comparisons_</span></span><a class="headerlink" href="#corsort.WrapFullJit.n_comparisons_" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="corsort.wrap_full_jit.WrapFullJit.n_comparisons_">
+<span class="sig-name descname"><span class="pre">n_comparisons_</span></span><a class="headerlink" href="#corsort.wrap_full_jit.WrapFullJit.n_comparisons_" title="Permalink to this definition"></a></dt>
 <dd><p>Number of comparison performed.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
@@ -163,8 +243,8 @@
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="corsort.WrapFullJit.history_distances_">
-<span class="sig-name descname"><span class="pre">history_distances_</span></span><a class="headerlink" href="#corsort.WrapFullJit.history_distances_" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="corsort.wrap_full_jit.WrapFullJit.history_distances_">
+<span class="sig-name descname"><span class="pre">history_distances_</span></span><a class="headerlink" href="#corsort.wrap_full_jit.WrapFullJit.history_distances_" title="Permalink to this definition"></a></dt>
 <dd><p>History of the kendall-tau distance to the sorted list.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
@@ -174,8 +254,8 @@
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="corsort.WrapFullJit.history_comparisons_">
-<span class="sig-name descname"><span class="pre">history_comparisons_</span></span><a class="headerlink" href="#corsort.WrapFullJit.history_comparisons_" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="corsort.wrap_full_jit.WrapFullJit.history_comparisons_">
+<span class="sig-name descname"><span class="pre">history_comparisons_</span></span><a class="headerlink" href="#corsort.wrap_full_jit.WrapFullJit.history_comparisons_" title="Permalink to this definition"></a></dt>
 <dd><p>History of the pairwise comparisons. Tuple (i, j) means that items of indices i and j were compared, and
 that perm[i] &lt; perm[j].</p>
 <dl class="field-list simple">
@@ -186,8 +266,8 @@ that perm[i] &lt; perm[j].</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="corsort.WrapFullJit.history_states_">
-<span class="sig-name descname"><span class="pre">history_states_</span></span><a class="headerlink" href="#corsort.WrapFullJit.history_states_" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="corsort.wrap_full_jit.WrapFullJit.history_states_">
+<span class="sig-name descname"><span class="pre">history_states_</span></span><a class="headerlink" href="#corsort.wrap_full_jit.WrapFullJit.history_states_" title="Permalink to this definition"></a></dt>
 <dd><p>History of the state of the list.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
@@ -230,8 +310,8 @@ that perm[i] &lt; perm[j].</p>
 </pre></div>
 </div>
 <dl class="py property">
-<dt class="sig sig-object py" id="corsort.WrapFullJit.history_comparisons_values_">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">history_comparisons_values_</span></span><a class="headerlink" href="#corsort.WrapFullJit.history_comparisons_values_" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="corsort.wrap_full_jit.WrapFullJit.history_comparisons_values_">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">history_comparisons_values_</span></span><a class="headerlink" href="#corsort.wrap_full_jit.WrapFullJit.history_comparisons_values_" title="Permalink to this definition"></a></dt>
 <dd><p>History of the pairwise comparisons, in terms of compared values.
 Tuple (x, y) means that items of values x and y were compared, and that x &lt; y.</p>
 <dl class="field-list simple">
@@ -249,7 +329,7 @@ Tuple (x, y) means that items of values x and y were compared, and that x &lt; y
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="sort_quick.html" class="btn btn-neutral float-left" title="SortQuick" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="util_latex.html" class="btn btn-neutral float-left" title="util_latex" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="wrap_sort_scorer.html" class="btn btn-neutral float-right" title="WrapSortScorer" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 

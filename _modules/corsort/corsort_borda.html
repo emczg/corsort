@@ -82,7 +82,7 @@
 <span class="kn">from</span> <span class="nn">corsort.corsort</span> <span class="kn">import</span> <span class="n">Corsort</span>
 
 
-<div class="viewcode-block" id="CorsortBorda"><a class="viewcode-back" href="../../reference/cor_sort_borda.html#corsort.CorsortBorda">[docs]</a><span class="k">class</span> <span class="nc">CorsortBorda</span><span class="p">(</span><span class="n">Corsort</span><span class="p">):</span>
+<div class="viewcode-block" id="CorsortBorda"><a class="viewcode-back" href="../../reference/corsort_borda.html#corsort.CorsortBorda">[docs]</a><span class="k">class</span> <span class="nc">CorsortBorda</span><span class="p">(</span><span class="n">Corsort</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Corsort based on the Borda score.</span>
 
@@ -105,7 +105,7 @@
 
     <span class="vm">__name__</span> <span class="o">=</span> <span class="s1">&#39;corsort_borda&#39;</span>
 
-<div class="viewcode-block" id="CorsortBorda.next_compare"><a class="viewcode-back" href="../../reference/cor_sort_borda.html#corsort.CorsortBorda.next_compare">[docs]</a>    <span class="k">def</span> <span class="nf">next_compare</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="CorsortBorda.next_compare"><a class="viewcode-back" href="../../reference/corsort_borda.html#corsort.CorsortBorda.next_compare">[docs]</a>    <span class="k">def</span> <span class="nf">next_compare</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
             <span class="n">gain_matrix</span> <span class="o">=</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">position_estimates_</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">,</span> <span class="p">:]</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">position_estimates_</span><span class="p">[:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">])</span>
             <span class="c1"># (i, j): argmax of the gain, with i &lt; j and leq_[i, j] == 0.</span>

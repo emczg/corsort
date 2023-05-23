@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>corsort.util_latex &mdash; Corsort 0.1.1 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+    <link rel="shortcut icon" href="../../_static/favicon.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/sphinx_highlight.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            Corsort
+              <img src="../../_static/logo_small.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../readme.html">Corsort</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../usage.html">Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../notebooks/index.html">Notebooks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../reference/index.html">Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../authors.html">Credits</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../history.html">History</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Corsort</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">corsort.util_latex</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for corsort.util_latex</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">string</span> <span class="kn">import</span> <span class="n">Template</span>
+<span class="kn">from</span> <span class="nn">corsort.corsort_delegate</span> <span class="kn">import</span> <span class="n">CorsortDelegate</span>
+<span class="kn">from</span> <span class="nn">corsort.wrap_full_jit</span> <span class="kn">import</span> <span class="n">WrapFullJit</span>
+<span class="kn">from</span> <span class="nn">corsort.jit_sorts</span> <span class="kn">import</span> <span class="n">jit_corsort_delta_max_rho</span>
+<span class="kn">from</span> <span class="nn">corsort.transitive_reduction</span> <span class="kn">import</span> <span class="n">transitive_reduction</span>
+
+
+<span class="k">def</span> <span class="nf">_print_legend</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">state</span><span class="p">,</span> <span class="n">distance</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">k</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">positioning</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+    <span class="k">elif</span> <span class="n">k</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">positioning</span> <span class="o">=</span> <span class="n">Template</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;, right = \lrgap of x$ref&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">safe_substitute</span><span class="p">(</span><span class="n">ref</span><span class="o">=</span><span class="n">k</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">positioning</span> <span class="o">=</span> <span class="n">Template</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;, below = \interspace of x$ref&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">safe_substitute</span><span class="p">(</span><span class="n">ref</span><span class="o">=</span><span class="n">k</span><span class="o">-</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">state_as_str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="nb">str</span><span class="p">(</span><span class="n">element</span><span class="p">)</span> <span class="k">for</span> <span class="n">element</span> <span class="ow">in</span> <span class="n">state</span><span class="p">])</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">Template</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;\node[draw$positioning] (x$k) {$X_$k=($state_as_str), \tau_$k=$distance$};&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">safe_substitute</span><span class="p">(</span>
+        <span class="n">positioning</span><span class="o">=</span><span class="n">positioning</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="n">k</span><span class="p">,</span> <span class="n">distance</span><span class="o">=</span><span class="n">distance</span><span class="p">,</span> <span class="n">state_as_str</span><span class="o">=</span><span class="n">state_as_str</span><span class="p">))</span>
+
+
+<span class="k">def</span> <span class="nf">_print_graph</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">leq</span><span class="p">,</span> <span class="n">history_comparisons</span><span class="p">,</span> <span class="n">state</span><span class="p">,</span> <span class="n">perm</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">Template</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;\node[above = \intraspace of x$k] (x$</span><span class="si">{k}</span><span class="s2">p) {\execution{&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">safe_substitute</span><span class="p">(</span><span class="n">k</span><span class="o">=</span><span class="n">k</span><span class="p">))</span>
+    <span class="n">n_ancestors</span> <span class="o">=</span> <span class="p">(</span><span class="n">leq</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">n_descendants</span> <span class="o">=</span> <span class="p">(</span><span class="n">leq</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">next_comparison</span> <span class="o">=</span> <span class="n">history_comparisons</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">if</span> <span class="n">k</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">history_comparisons</span><span class="p">)</span> <span class="k">else</span> <span class="p">{}</span>
+    <span class="n">rows</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">state</span><span class="p">):</span>
+        <span class="n">n_anc</span> <span class="o">=</span> <span class="n">n_ancestors</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+        <span class="n">n_des</span> <span class="o">=</span> <span class="n">n_descendants</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+        <span class="n">rows</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Template</span><span class="p">(</span><span class="s2">&quot;    $val/$borda/$n_des/$n_tot/$select&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">safe_substitute</span><span class="p">(</span>
+            <span class="n">val</span><span class="o">=</span><span class="n">perm</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">borda</span><span class="o">=</span><span class="n">n_des</span> <span class="o">-</span> <span class="n">n_anc</span><span class="p">,</span> <span class="n">n_des</span><span class="o">=</span><span class="n">n_des</span><span class="p">,</span> <span class="n">n_tot</span><span class="o">=</span><span class="n">n_anc</span> <span class="o">+</span> <span class="n">n_des</span><span class="p">,</span>
+            <span class="n">select</span><span class="o">=</span><span class="s2">&quot;select&quot;</span> <span class="k">if</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">next_comparison</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span>
+        <span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;, </span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">rows</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;%&quot;</span><span class="p">)</span>
+    <span class="n">comparisons</span> <span class="o">=</span> <span class="n">transitive_reduction</span><span class="p">(</span><span class="n">leq</span><span class="p">)</span>
+    <span class="n">comparisons_as_str</span> <span class="o">=</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">perm</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">perm</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">comparisons</span><span class="p">])</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">Template</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;}{$comparisons_as_str}};&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">safe_substitute</span><span class="p">(</span><span class="n">comparisons_as_str</span><span class="o">=</span><span class="n">comparisons_as_str</span><span class="p">))</span>
+
+
+<span class="k">def</span> <span class="nf">_print_preamble</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">\begin</span><span class="si">{tikzpicture}</span>
+<span class="s2">\def\interspace</span><span class="si">{3cm}</span>
+<span class="s2">\def\intraspace{.1cm}</span>
+<span class="s2">\def\lrgap</span><span class="si">{1.5cm}</span>
+<span class="s2">\newcommand{\execution}[2]{%</span>
+<span class="s2">    \begin</span><span class="si">{tikzpicture}</span><span class="s2">[scale=.7, transform shape]</span>
+<span class="s2">        \foreach \i/\d/\an/\to/\s [count=\x] in {#1}</span>
+<span class="s2">        {</span>
+<span class="s2">            \node[obj] (\i) at (\x, 4*\an/\to) {$\i$};</span>
+<span class="s2">            \node[above = .0cm of \i, \s] {$\d$};</span>
+<span class="s2">        }</span>
+<span class="s2">        \foreach \i/\j in {#2}{\draw[&lt;-] (\i) -- (\j) ;}</span>
+<span class="s2">    \end</span><span class="si">{tikzpicture}</span><span class="s2">%</span>
+<span class="s2">}</span>
+<span class="s2">    &quot;&quot;&quot;</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">_print_end</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;\end</span><span class="si">{tikzpicture}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="print_corsort_execution"><a class="viewcode-back" href="../../reference/util_latex.html#corsort.util_latex.print_corsort_execution">[docs]</a><span class="k">def</span> <span class="nf">print_corsort_execution</span><span class="p">(</span><span class="n">perm</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Print an execution of corsort in LaTeX.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    perm</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">        &gt;&gt;&gt; print_corsort_execution([4, 2, 3, 1, 5])  # doctest: +NORMALIZE_WHITESPACE</span>
+<span class="sd">        &lt;BLANKLINE&gt;</span>
+<span class="sd">        \begin{tikzpicture}</span>
+<span class="sd">        \def\interspace{3cm}</span>
+<span class="sd">        \def\intraspace{.1cm}</span>
+<span class="sd">        \def\lrgap{1.5cm}</span>
+<span class="sd">        \newcommand{\execution}[2]{%</span>
+<span class="sd">            \begin{tikzpicture}[scale=.7, transform shape]</span>
+<span class="sd">                \foreach \i/\d/\an/\to/\s [count=\x] in {#1}</span>
+<span class="sd">                {</span>
+<span class="sd">                    \node[obj] (\i) at (\x, 4*\an/\to) {$\i$};</span>
+<span class="sd">                    \node[above = .0cm of \i, \s] {$\d$};</span>
+<span class="sd">                }</span>
+<span class="sd">                \foreach \i/\j in {#2}{\draw[&lt;-] (\i) -- (\j) ;}</span>
+<span class="sd">            \end{tikzpicture}%</span>
+<span class="sd">        }</span>
+<span class="sd">        &lt;BLANKLINE&gt;</span>
+<span class="sd">        \node[draw] (x0) {$X_0=(42315), \tau_0=5$};</span>
+<span class="sd">        \node[above = \intraspace of x0] (x0p) {\execution{</span>
+<span class="sd">            4/0/1/2/select,</span>
+<span class="sd">            2/0/1/2/select,</span>
+<span class="sd">            3/0/1/2/,</span>
+<span class="sd">            1/0/1/2/,</span>
+<span class="sd">            5/0/1/2/%</span>
+<span class="sd">        }{}};</span>
+<span class="sd">        \node[draw, right = \lrgap of x0] (x1) {$X_1=(23154), \tau_1=3$};</span>
+<span class="sd">        \node[above = \intraspace of x1] (x1p) {\execution{</span>
+<span class="sd">            4/1/2/3/,</span>
+<span class="sd">            2/-1/1/3/,</span>
+<span class="sd">            3/0/1/2/select,</span>
+<span class="sd">            1/0/1/2/select,</span>
+<span class="sd">            5/0/1/2/%</span>
+<span class="sd">        }{2/4}};</span>
+<span class="sd">        \node[draw, below = \interspace of x0] (x2) {$X_2=(21543), \tau_2=4$};</span>
+<span class="sd">        \node[above = \intraspace of x2] (x2p) {\execution{</span>
+<span class="sd">            4/1/2/3/select,</span>
+<span class="sd">            2/-1/1/3/,</span>
+<span class="sd">            3/1/2/3/select,</span>
+<span class="sd">            1/-1/1/3/,</span>
+<span class="sd">            5/0/1/2/%</span>
+<span class="sd">        }{2/4, 1/3}};</span>
+<span class="sd">        \node[draw, right = \lrgap of x2] (x3) {$X_3=(12354), \tau_3=1$};</span>
+<span class="sd">        \node[above = \intraspace of x3] (x3p) {\execution{</span>
+<span class="sd">            4/3/4/5/,</span>
+<span class="sd">            2/-1/1/3/,</span>
+<span class="sd">            3/0/2/4/select,</span>
+<span class="sd">            1/-2/1/4/,</span>
+<span class="sd">            5/0/1/2/select%</span>
+<span class="sd">        }{2/4, 3/4, 1/3}};</span>
+<span class="sd">        \node[draw, below = \interspace of x2] (x4) {$X_4=(12354), \tau_4=1$};</span>
+<span class="sd">        \node[above = \intraspace of x4] (x4p) {\execution{</span>
+<span class="sd">            4/3/4/5/,</span>
+<span class="sd">            2/-1/1/3/select,</span>
+<span class="sd">            3/-1/2/5/select,</span>
+<span class="sd">            1/-3/1/5/,</span>
+<span class="sd">            5/2/3/4/%</span>
+<span class="sd">        }{2/4, 3/4, 3/5, 1/3}};</span>
+<span class="sd">        \node[draw, right = \lrgap of x4] (x5) {$X_5=(21345), \tau_5=1$};</span>
+<span class="sd">        \node[above = \intraspace of x5] (x5p) {\execution{</span>
+<span class="sd">            4/3/4/5/select,</span>
+<span class="sd">            2/-3/1/5/,</span>
+<span class="sd">            3/0/3/6/,</span>
+<span class="sd">            1/-3/1/5/,</span>
+<span class="sd">            5/3/4/5/select%</span>
+<span class="sd">        }{2/3, 3/4, 3/5, 1/3}};</span>
+<span class="sd">        \node[draw, below = \interspace of x4] (x6) {$X_6=(21345), \tau_6=1$};</span>
+<span class="sd">        \node[above = \intraspace of x6] (x6p) {\execution{</span>
+<span class="sd">            4/2/4/6/,</span>
+<span class="sd">            2/-3/1/5/select,</span>
+<span class="sd">            3/0/3/6/,</span>
+<span class="sd">            1/-3/1/5/select,</span>
+<span class="sd">            5/4/5/6/%</span>
+<span class="sd">        }{4/5, 2/3, 3/4, 1/3}};</span>
+<span class="sd">        \node[draw, right = \lrgap of x6] (x7) {$X_7=(12345), \tau_7=0$};</span>
+<span class="sd">        \node[above = \intraspace of x7] (x7p) {\execution{</span>
+<span class="sd">            4/2/4/6/,</span>
+<span class="sd">            2/-2/2/6/,</span>
+<span class="sd">            3/0/3/6/,</span>
+<span class="sd">            1/-4/1/6/,</span>
+<span class="sd">            5/4/5/6/%</span>
+<span class="sd">        }{4/5, 2/3, 3/4, 1/2}};</span>
+<span class="sd">        \end{tikzpicture}</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">corsort</span> <span class="o">=</span> <span class="n">CorsortDelegate</span><span class="p">(</span>
+        <span class="n">sort</span><span class="o">=</span><span class="n">WrapFullJit</span><span class="p">(</span><span class="n">jit_sort</span><span class="o">=</span><span class="n">jit_corsort_delta_max_rho</span><span class="p">,</span> <span class="n">record_states</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+        <span class="n">compute_history</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">record_leq</span><span class="o">=</span><span class="kc">True</span>
+    <span class="p">)</span>
+    <span class="n">corsort</span><span class="p">(</span><span class="n">perm</span><span class="p">)</span>
+    <span class="n">_print_preamble</span><span class="p">()</span>
+    <span class="c1"># raise ValueError(str(corsort.sort.record_states))</span>
+    <span class="c1"># if corsort.sort.history_states_ is None:</span>
+    <span class="c1">#     raise ValueError(&quot;A&quot;)</span>
+    <span class="c1"># if corsort.history_distances_ is None:</span>
+    <span class="c1">#     raise ValueError(&quot;B&quot;)</span>
+    <span class="c1"># if corsort.history_leq_ is None:</span>
+    <span class="c1">#     raise ValueError(&quot;C&quot;)</span>
+    <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="p">(</span><span class="n">state</span><span class="p">,</span> <span class="n">distance</span><span class="p">,</span> <span class="n">leq</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">corsort</span><span class="o">.</span><span class="n">sort</span><span class="o">.</span><span class="n">history_states_</span><span class="p">,</span>
+                                                   <span class="n">corsort</span><span class="o">.</span><span class="n">history_distances_</span><span class="p">,</span>
+                                                   <span class="n">corsort</span><span class="o">.</span><span class="n">history_leq_</span><span class="p">)):</span>
+        <span class="n">_print_legend</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">state</span><span class="p">,</span> <span class="n">distance</span><span class="p">)</span>
+        <span class="n">_print_graph</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">leq</span><span class="p">,</span> <span class="n">corsort</span><span class="o">.</span><span class="n">history_comparisons_</span><span class="p">,</span> <span class="n">state</span><span class="p">,</span> <span class="n">perm</span><span class="p">)</span>
+    <span class="n">_print_end</span><span class="p">()</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Emma Caizergues.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

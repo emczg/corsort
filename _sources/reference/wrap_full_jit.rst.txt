@@ -1,5 +1,4 @@
 WrapFullJit
 -----------
-.. autoclass:: corsort.WrapFullJit
+.. automodule:: corsort.wrap_full_jit
     :members:
-    :inherited-members:
