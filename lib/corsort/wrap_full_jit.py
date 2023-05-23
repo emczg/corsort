@@ -133,6 +133,10 @@ class WrapFullJit:
 class JitCorsortBorda(WrapFullJit):
     """
     Corsort "Borda". Cf. :class:`WrapFullJit`.
+
+    Examples
+    --------
+        >>> sort = JitCorsortBorda()
     """
 
     def __init__(self, compute_history=False, record_states=False):
@@ -146,6 +150,10 @@ class JitCorsortBorda(WrapFullJit):
 class JitCorsortDeltaMaxRho(WrapFullJit):
     """
     Corsort with delta core scorer, max-knowledge tie-break, and rho output scorer. Cf. :class:`WrapFullJit`.
+
+    Examples
+    --------
+        >>> sort = JitCorsortDeltaMaxRho()
     """
 
     def __init__(self, compute_history=False, record_states=False):
@@ -159,6 +167,10 @@ class JitCorsortDeltaMaxRho(WrapFullJit):
 class JitCorsortDeltaSumRho(WrapFullJit):
     """
     Corsort with delta core scorer, sum-knowledge tie-break, and rho output scorer. Cf. :class:`WrapFullJit`.
+
+    Examples
+    --------
+        >>> sort = JitCorsortDeltaSumRho()
     """
 
     def __init__(self, compute_history=False, record_states=False):
@@ -172,6 +184,10 @@ class JitCorsortDeltaSumRho(WrapFullJit):
 class JitCorsortDeltaMaxDelta(WrapFullJit):
     """
     Corsort with delta core scorer, max-knowledge tie-break, and delta output scorer. Cf. :class:`WrapFullJit`.
+
+    Examples
+    --------
+        >>> sort = JitCorsortDeltaMaxDelta()
     """
 
     def __init__(self, compute_history=False, record_states=False):
@@ -185,6 +201,10 @@ class JitCorsortDeltaMaxDelta(WrapFullJit):
 class JitCorsortDeltaSumDelta(WrapFullJit):
     """
     Corsort with delta core scorer, sum-knowledge tie-break, and delta output scorer. Cf. :class:`WrapFullJit`.
+
+    Examples
+    --------
+        >>> sort = JitCorsortDeltaSumDelta()
     """
 
     def __init__(self, compute_history=False, record_states=False):
@@ -198,6 +218,10 @@ class JitCorsortDeltaSumDelta(WrapFullJit):
 class JitCorsortRhoMaxRho(WrapFullJit):
     """
     Corsort with rho core scorer, max-knowledge tie-break, and rho output scorer. Cf. :class:`WrapFullJit`.
+
+    Examples
+    --------
+        >>> sort = JitCorsortRhoMaxRho()
     """
 
     def __init__(self, compute_history=False, record_states=False):
@@ -211,6 +235,10 @@ class JitCorsortRhoMaxRho(WrapFullJit):
 class JitCorsortRhoSumRho(WrapFullJit):
     """
     Corsort with rho core scorer, sum-knowledge tie-break, and rho output scorer. Cf. :class:`WrapFullJit`.
+
+    Examples
+    --------
+        >>> sort = JitCorsortRhoSumRho()
     """
 
     def __init__(self, compute_history=False, record_states=False):
@@ -224,6 +252,10 @@ class JitCorsortRhoSumRho(WrapFullJit):
 class JitCorsortRhoMaxDelta(WrapFullJit):
     """
     Corsort with rho core scorer, max-knowledge tie-break, and delta output scorer. Cf. :class:`WrapFullJit`.
+
+    Examples
+    --------
+        >>> sort = JitCorsortRhoMaxDelta()
     """
 
     def __init__(self, compute_history=False, record_states=False):
@@ -237,6 +269,10 @@ class JitCorsortRhoMaxDelta(WrapFullJit):
 class JitCorsortRhoSumDelta(WrapFullJit):
     """
     Corsort with rho core scorer, sum-knowledge tie-break, and delta output scorer. Cf. :class:`WrapFullJit`.
+
+    Examples
+    --------
+        >>> sort = JitCorsortRhoSumDelta()
     """
 
     def __init__(self, compute_history=False, record_states=False):
@@ -250,6 +286,10 @@ class JitCorsortRhoSumDelta(WrapFullJit):
 class JitHeapsort(WrapFullJit):
     """
     Heapsort. Cf. :class:`WrapFullJit`.
+
+    Examples
+    --------
+        >>> sort = JitHeapsort()
     """
 
     def __init__(self, compute_history=False, record_states=False):

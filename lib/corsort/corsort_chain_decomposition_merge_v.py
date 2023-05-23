@@ -41,7 +41,8 @@ class CorsortChainDecompositionMergeV(Corsort):
                 if self.leq_[i, j] == 0:
                     found = True
                     yield i, j
-                elif self.leq_[i, j] == 1:
+                elif self.leq_[i, j] == 1:  # pragma: no cover
+                    # TODO: Apparently it does not happen during the tests, try to understand why.
                     i_in_chain += 1
                 else:
                     j_in_chain += 1

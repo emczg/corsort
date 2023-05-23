@@ -146,60 +146,100 @@
 <dt class="sig sig-object py" id="corsort.wrap_full_jit.JitCorsortBorda">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">corsort.wrap_full_jit.</span></span><span class="sig-name descname"><span class="pre">JitCorsortBorda</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">compute_history</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">record_states</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/corsort/wrap_full_jit.html#JitCorsortBorda"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#corsort.wrap_full_jit.JitCorsortBorda" title="Permalink to this definition"></a></dt>
 <dd><p>Corsort “Borda”. Cf. <a class="reference internal" href="#corsort.wrap_full_jit.WrapFullJit" title="corsort.wrap_full_jit.WrapFullJit"><code class="xref py py-class docutils literal notranslate"><span class="pre">WrapFullJit</span></code></a>.</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">sort</span> <span class="o">=</span> <span class="n">JitCorsortBorda</span><span class="p">()</span>
+</pre></div>
+</div>
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="corsort.wrap_full_jit.JitCorsortDeltaMaxDelta">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">corsort.wrap_full_jit.</span></span><span class="sig-name descname"><span class="pre">JitCorsortDeltaMaxDelta</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">compute_history</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">record_states</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/corsort/wrap_full_jit.html#JitCorsortDeltaMaxDelta"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#corsort.wrap_full_jit.JitCorsortDeltaMaxDelta" title="Permalink to this definition"></a></dt>
 <dd><p>Corsort with delta core scorer, max-knowledge tie-break, and delta output scorer. Cf. <a class="reference internal" href="#corsort.wrap_full_jit.WrapFullJit" title="corsort.wrap_full_jit.WrapFullJit"><code class="xref py py-class docutils literal notranslate"><span class="pre">WrapFullJit</span></code></a>.</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">sort</span> <span class="o">=</span> <span class="n">JitCorsortDeltaMaxDelta</span><span class="p">()</span>
+</pre></div>
+</div>
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="corsort.wrap_full_jit.JitCorsortDeltaMaxRho">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">corsort.wrap_full_jit.</span></span><span class="sig-name descname"><span class="pre">JitCorsortDeltaMaxRho</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">compute_history</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">record_states</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/corsort/wrap_full_jit.html#JitCorsortDeltaMaxRho"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#corsort.wrap_full_jit.JitCorsortDeltaMaxRho" title="Permalink to this definition"></a></dt>
 <dd><p>Corsort with delta core scorer, max-knowledge tie-break, and rho output scorer. Cf. <a class="reference internal" href="#corsort.wrap_full_jit.WrapFullJit" title="corsort.wrap_full_jit.WrapFullJit"><code class="xref py py-class docutils literal notranslate"><span class="pre">WrapFullJit</span></code></a>.</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">sort</span> <span class="o">=</span> <span class="n">JitCorsortDeltaMaxRho</span><span class="p">()</span>
+</pre></div>
+</div>
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="corsort.wrap_full_jit.JitCorsortDeltaSumDelta">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">corsort.wrap_full_jit.</span></span><span class="sig-name descname"><span class="pre">JitCorsortDeltaSumDelta</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">compute_history</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">record_states</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/corsort/wrap_full_jit.html#JitCorsortDeltaSumDelta"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#corsort.wrap_full_jit.JitCorsortDeltaSumDelta" title="Permalink to this definition"></a></dt>
 <dd><p>Corsort with delta core scorer, sum-knowledge tie-break, and delta output scorer. Cf. <a class="reference internal" href="#corsort.wrap_full_jit.WrapFullJit" title="corsort.wrap_full_jit.WrapFullJit"><code class="xref py py-class docutils literal notranslate"><span class="pre">WrapFullJit</span></code></a>.</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">sort</span> <span class="o">=</span> <span class="n">JitCorsortDeltaSumDelta</span><span class="p">()</span>
+</pre></div>
+</div>
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="corsort.wrap_full_jit.JitCorsortDeltaSumRho">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">corsort.wrap_full_jit.</span></span><span class="sig-name descname"><span class="pre">JitCorsortDeltaSumRho</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">compute_history</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">record_states</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/corsort/wrap_full_jit.html#JitCorsortDeltaSumRho"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#corsort.wrap_full_jit.JitCorsortDeltaSumRho" title="Permalink to this definition"></a></dt>
 <dd><p>Corsort with delta core scorer, sum-knowledge tie-break, and rho output scorer. Cf. <a class="reference internal" href="#corsort.wrap_full_jit.WrapFullJit" title="corsort.wrap_full_jit.WrapFullJit"><code class="xref py py-class docutils literal notranslate"><span class="pre">WrapFullJit</span></code></a>.</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">sort</span> <span class="o">=</span> <span class="n">JitCorsortDeltaSumRho</span><span class="p">()</span>
+</pre></div>
+</div>
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="corsort.wrap_full_jit.JitCorsortRhoMaxDelta">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">corsort.wrap_full_jit.</span></span><span class="sig-name descname"><span class="pre">JitCorsortRhoMaxDelta</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">compute_history</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">record_states</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/corsort/wrap_full_jit.html#JitCorsortRhoMaxDelta"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#corsort.wrap_full_jit.JitCorsortRhoMaxDelta" title="Permalink to this definition"></a></dt>
 <dd><p>Corsort with rho core scorer, max-knowledge tie-break, and delta output scorer. Cf. <a class="reference internal" href="#corsort.wrap_full_jit.WrapFullJit" title="corsort.wrap_full_jit.WrapFullJit"><code class="xref py py-class docutils literal notranslate"><span class="pre">WrapFullJit</span></code></a>.</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">sort</span> <span class="o">=</span> <span class="n">JitCorsortRhoMaxDelta</span><span class="p">()</span>
+</pre></div>
+</div>
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="corsort.wrap_full_jit.JitCorsortRhoMaxRho">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">corsort.wrap_full_jit.</span></span><span class="sig-name descname"><span class="pre">JitCorsortRhoMaxRho</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">compute_history</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">record_states</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/corsort/wrap_full_jit.html#JitCorsortRhoMaxRho"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#corsort.wrap_full_jit.JitCorsortRhoMaxRho" title="Permalink to this definition"></a></dt>
 <dd><p>Corsort with rho core scorer, max-knowledge tie-break, and rho output scorer. Cf. <a class="reference internal" href="#corsort.wrap_full_jit.WrapFullJit" title="corsort.wrap_full_jit.WrapFullJit"><code class="xref py py-class docutils literal notranslate"><span class="pre">WrapFullJit</span></code></a>.</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">sort</span> <span class="o">=</span> <span class="n">JitCorsortRhoMaxRho</span><span class="p">()</span>
+</pre></div>
+</div>
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="corsort.wrap_full_jit.JitCorsortRhoSumDelta">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">corsort.wrap_full_jit.</span></span><span class="sig-name descname"><span class="pre">JitCorsortRhoSumDelta</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">compute_history</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">record_states</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/corsort/wrap_full_jit.html#JitCorsortRhoSumDelta"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#corsort.wrap_full_jit.JitCorsortRhoSumDelta" title="Permalink to this definition"></a></dt>
 <dd><p>Corsort with rho core scorer, sum-knowledge tie-break, and delta output scorer. Cf. <a class="reference internal" href="#corsort.wrap_full_jit.WrapFullJit" title="corsort.wrap_full_jit.WrapFullJit"><code class="xref py py-class docutils literal notranslate"><span class="pre">WrapFullJit</span></code></a>.</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">sort</span> <span class="o">=</span> <span class="n">JitCorsortRhoSumDelta</span><span class="p">()</span>
+</pre></div>
+</div>
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="corsort.wrap_full_jit.JitCorsortRhoSumRho">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">corsort.wrap_full_jit.</span></span><span class="sig-name descname"><span class="pre">JitCorsortRhoSumRho</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">compute_history</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">record_states</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/corsort/wrap_full_jit.html#JitCorsortRhoSumRho"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#corsort.wrap_full_jit.JitCorsortRhoSumRho" title="Permalink to this definition"></a></dt>
 <dd><p>Corsort with rho core scorer, sum-knowledge tie-break, and rho output scorer. Cf. <a class="reference internal" href="#corsort.wrap_full_jit.WrapFullJit" title="corsort.wrap_full_jit.WrapFullJit"><code class="xref py py-class docutils literal notranslate"><span class="pre">WrapFullJit</span></code></a>.</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">sort</span> <span class="o">=</span> <span class="n">JitCorsortRhoSumRho</span><span class="p">()</span>
+</pre></div>
+</div>
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="corsort.wrap_full_jit.JitHeapsort">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">corsort.wrap_full_jit.</span></span><span class="sig-name descname"><span class="pre">JitHeapsort</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">compute_history</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">record_states</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/corsort/wrap_full_jit.html#JitHeapsort"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#corsort.wrap_full_jit.JitHeapsort" title="Permalink to this definition"></a></dt>
 <dd><p>Heapsort. Cf. <a class="reference internal" href="#corsort.wrap_full_jit.WrapFullJit" title="corsort.wrap_full_jit.WrapFullJit"><code class="xref py py-class docutils literal notranslate"><span class="pre">WrapFullJit</span></code></a>.</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">sort</span> <span class="o">=</span> <span class="n">JitHeapsort</span><span class="p">()</span>
+</pre></div>
+</div>
 </dd></dl>
 
 <dl class="py class">

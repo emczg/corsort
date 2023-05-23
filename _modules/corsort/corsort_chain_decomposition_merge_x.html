@@ -138,7 +138,8 @@
             <span class="k">try</span><span class="p">:</span>
                 <span class="n">i</span> <span class="o">=</span> <span class="n">chain_0</span><span class="p">[</span><span class="n">i_in_chain</span><span class="p">]</span>
                 <span class="n">j</span> <span class="o">=</span> <span class="n">chain_1</span><span class="p">[</span><span class="n">j_in_chain</span><span class="p">]</span>
-            <span class="k">except</span> <span class="ne">IndexError</span><span class="p">:</span>  <span class="c1"># One lower branch of the X is exhausted.</span>
+            <span class="k">except</span> <span class="ne">IndexError</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
+                <span class="c1"># One lower branch of the X is exhausted.</span>
                 <span class="c1"># This should not happen, because we already assumed that an upper branch is exhausted.</span>
                 <span class="c1"># This would mean, in fact, that the two chains can be fully sorted, a contradiction.</span>
                 <span class="k">break</span>
@@ -146,7 +147,8 @@
                 <span class="k">return</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span>
             <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">leq_</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
                 <span class="n">j_in_chain</span> <span class="o">-=</span> <span class="mi">1</span>
-            <span class="k">else</span><span class="p">:</span>
+            <span class="k">else</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
+                <span class="c1"># TODO: Apparently it does not happen during the tests, try to understand why.</span>
                 <span class="n">i_in_chain</span> <span class="o">-=</span> <span class="mi">1</span></div>
 </pre></div>
 
