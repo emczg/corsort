@@ -14,8 +14,8 @@
    "id": "8b4f287e",
    "metadata": {
     "ExecuteTime": {
-     "end_time": "2023-03-30T13:42:00.970991Z",
-     "start_time": "2023-03-30T13:41:59.957504Z"
+     "end_time": "2023-05-23T09:15:47.684978Z",
+     "start_time": "2023-05-23T09:15:46.025039Z"
     }
    },
    "outputs": [
@@ -46,8 +46,8 @@
    "id": "139b076f",
    "metadata": {
     "ExecuteTime": {
-     "end_time": "2023-03-30T13:42:01.065982Z",
-     "start_time": "2023-03-30T13:42:00.971984Z"
+     "end_time": "2023-05-23T09:15:47.843728Z",
+     "start_time": "2023-05-23T09:15:47.688018Z"
     },
     "scrolled": true
    },
@@ -89,8 +89,8 @@
    "id": "1f58e281",
    "metadata": {
     "ExecuteTime": {
-     "end_time": "2023-03-30T13:42:01.142573Z",
-     "start_time": "2023-03-30T13:42:01.067981Z"
+     "end_time": "2023-05-23T09:15:47.954504Z",
+     "start_time": "2023-05-23T09:15:47.846728Z"
     }
    },
    "outputs": [
@@ -116,8 +116,8 @@
    "id": "f4f1c5c3",
    "metadata": {
     "ExecuteTime": {
-     "end_time": "2023-03-30T13:42:01.157779Z",
-     "start_time": "2023-03-30T13:42:01.143567Z"
+     "end_time": "2023-05-23T09:15:47.970474Z",
+     "start_time": "2023-05-23T09:15:47.955470Z"
     }
    },
    "outputs": [
@@ -142,8 +142,8 @@
    "id": "9289e1f1",
    "metadata": {
     "ExecuteTime": {
-     "end_time": "2023-03-30T13:42:01.173205Z",
-     "start_time": "2023-03-30T13:42:01.158769Z"
+     "end_time": "2023-05-23T09:15:47.986480Z",
+     "start_time": "2023-05-23T09:15:47.972405Z"
     }
    },
    "outputs": [
@@ -169,8 +169,8 @@
    "id": "215b9fd0",
    "metadata": {
     "ExecuteTime": {
-     "end_time": "2023-03-30T13:42:01.189210Z",
-     "start_time": "2023-03-30T13:42:01.174208Z"
+     "end_time": "2023-05-23T09:15:48.002474Z",
+     "start_time": "2023-05-23T09:15:47.988475Z"
     }
    },
    "outputs": [
@@ -196,8 +196,8 @@
    "id": "903277c2",
    "metadata": {
     "ExecuteTime": {
-     "end_time": "2023-03-30T13:42:01.204311Z",
-     "start_time": "2023-03-30T13:42:01.190223Z"
+     "end_time": "2023-05-23T09:15:48.018466Z",
+     "start_time": "2023-05-23T09:15:48.004483Z"
     }
    },
    "outputs": [
@@ -210,7 +210,7 @@
     }
    ],
    "source": [
-    "print_order(poset.order_delta)"
+    "print_order_as_letters(poset.order_delta)"
    ]
   },
   {
@@ -219,8 +219,8 @@
    "id": "330f08e1",
    "metadata": {
     "ExecuteTime": {
-     "end_time": "2023-03-30T13:42:01.219821Z",
-     "start_time": "2023-03-30T13:42:01.205303Z"
+     "end_time": "2023-05-23T09:15:48.035112Z",
+     "start_time": "2023-05-23T09:15:48.020538Z"
     }
    },
    "outputs": [
@@ -233,7 +233,7 @@
     }
    ],
    "source": [
-    "print_order(poset.order_rho)"
+    "print_order_as_letters(poset.order_rho)"
    ]
   },
   {
@@ -242,8 +242,8 @@
    "id": "85ffe1e6",
    "metadata": {
     "ExecuteTime": {
-     "end_time": "2023-03-30T13:42:01.235354Z",
-     "start_time": "2023-03-30T13:42:01.221823Z"
+     "end_time": "2023-05-23T09:15:48.051225Z",
+     "start_time": "2023-05-23T09:15:48.038167Z"
     }
    },
    "outputs": [
@@ -256,7 +256,7 @@
     }
    ],
    "source": [
-    "print_order(poset.order_average_height)"
+    "print_order_as_letters(poset.order_average_height)"
    ]
   },
   {
@@ -265,8 +265,8 @@
    "id": "4b0c077e",
    "metadata": {
     "ExecuteTime": {
-     "end_time": "2023-03-30T13:42:01.250505Z",
-     "start_time": "2023-03-30T13:42:01.236354Z"
+     "end_time": "2023-05-23T09:15:48.066188Z",
+     "start_time": "2023-05-23T09:15:48.053184Z"
     }
    },
    "outputs": [
@@ -279,7 +279,7 @@
     }
    ],
    "source": [
-    "print_order(poset.order_kemeny)"
+    "print_order_as_letters(poset.order_kemeny)"
    ]
   },
   {
@@ -304,8 +304,8 @@
    "id": "6fabb315",
    "metadata": {
     "ExecuteTime": {
-     "end_time": "2023-03-30T13:42:01.265876Z",
-     "start_time": "2023-03-30T13:42:01.251501Z"
+     "end_time": "2023-05-23T09:15:48.081118Z",
+     "start_time": "2023-05-23T09:15:48.069119Z"
     }
    },
    "outputs": [],
@@ -347,8 +347,8 @@
    "id": "64adbad8",
    "metadata": {
     "ExecuteTime": {
-     "end_time": "2023-03-30T13:42:01.280851Z",
-     "start_time": "2023-03-30T13:42:01.266876Z"
+     "end_time": "2023-05-23T09:15:48.097223Z",
+     "start_time": "2023-05-23T09:15:48.083119Z"
     }
    },
    "outputs": [],
@@ -378,8 +378,8 @@
    "id": "b65ce146",
    "metadata": {
     "ExecuteTime": {
-     "end_time": "2023-03-30T13:42:01.764978Z",
-     "start_time": "2023-03-30T13:42:01.281853Z"
+     "end_time": "2023-05-23T09:15:48.870846Z",
+     "start_time": "2023-05-23T09:15:48.099120Z"
     },
     "scrolled": true
    },
@@ -416,8 +416,8 @@
    "id": "c6a3cf8c",
    "metadata": {
     "ExecuteTime": {
-     "end_time": "2023-03-30T13:42:01.780565Z",
-     "start_time": "2023-03-30T13:42:01.765989Z"
+     "end_time": "2023-05-23T09:15:48.886860Z",
+     "start_time": "2023-05-23T09:15:48.871840Z"
     }
    },
    "outputs": [
@@ -442,8 +442,8 @@
    "id": "99e86463",
    "metadata": {
     "ExecuteTime": {
-     "end_time": "2023-03-30T13:42:01.873728Z",
-     "start_time": "2023-03-30T13:42:01.781564Z"
+     "end_time": "2023-05-23T09:15:49.030671Z",
+     "start_time": "2023-05-23T09:15:48.889855Z"
     }
    },
    "outputs": [
@@ -469,8 +469,8 @@
    "id": "f3458f27",
    "metadata": {
     "ExecuteTime": {
-     "end_time": "2023-03-30T13:42:01.920712Z",
-     "start_time": "2023-03-30T13:42:01.874749Z"
+     "end_time": "2023-05-23T09:15:49.110271Z",
+     "start_time": "2023-05-23T09:15:49.031665Z"
     }
    },
    "outputs": [
@@ -501,7 +501,7 @@
     "for criterion in ['delta', 'rho', 'average_height', 'kemeny']:\n",
     "    print(criterion)\n",
     "    order = getattr(poset, f'order_{criterion}')\n",
-    "    print_order(order)\n",
+    "    print_order_as_letters(order)\n",
     "    print(poset.kemeny_score(order))\n",
     "    print()"
    ]
@@ -512,8 +512,8 @@
    "id": "2b5127a9",
    "metadata": {
     "ExecuteTime": {
-     "end_time": "2023-03-30T13:42:01.936238Z",
-     "start_time": "2023-03-30T13:42:01.921716Z"
+     "end_time": "2023-05-23T09:15:49.126336Z",
+     "start_time": "2023-05-23T09:15:49.112281Z"
     }
    },
    "outputs": [
@@ -539,8 +539,8 @@
    "id": "9353b297",
    "metadata": {
     "ExecuteTime": {
-     "end_time": "2023-03-30T13:42:01.952269Z",
-     "start_time": "2023-03-30T13:42:01.937237Z"
+     "end_time": "2023-05-23T09:15:49.141762Z",
+     "start_time": "2023-05-23T09:15:49.128317Z"
     }
    },
    "outputs": [
@@ -568,8 +568,8 @@
    "id": "f87bfb2b",
    "metadata": {
     "ExecuteTime": {
-     "end_time": "2023-03-30T13:42:01.968372Z",
-     "start_time": "2023-03-30T13:42:01.953280Z"
+     "end_time": "2023-05-23T09:15:49.157850Z",
+     "start_time": "2023-05-23T09:15:49.143761Z"
     }
    },
    "outputs": [
@@ -591,6 +591,14 @@
    "source": [
     "poset.average_normalized_height"
    ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "db3ef680",
+   "metadata": {},
+   "outputs": [],
+   "source": []
   }
  ],
  "metadata": {
