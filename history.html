@@ -54,6 +54,7 @@
 <li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="authors.html">Credits</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">History</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#next-release">Next release</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#more-history-chainandy">0.1.1 (2023-04-7): More history, ChainAndY</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#first-release">0.1.0 (2023-02-16): First release</a></li>
 </ul>
@@ -86,6 +87,37 @@
              
   <section id="history">
 <h1>History<a class="headerlink" href="#history" title="Permalink to this heading"></a></h1>
+<section id="next-release">
+<h2>Next release<a class="headerlink" href="#next-release" title="Permalink to this heading"></a></h2>
+<ul class="simple">
+<li><p><cite>Corsort</cite> and subclasses (i.e. non-jit Corsort algorithms):
+* Add parameter <cite>record_leq</cite>. If True, then record all the states of the <cite>leq_</cite> matrix.
+* Add parameter <cite>final_score</cite>. Scorer used to compute the tentative estimate of the sorted list.</p></li>
+<li><p>Add <cite>CorsortChainDecompositionMergeV</cite>: Corsort based on chain decomposition, with “V-shape” merging.</p></li>
+<li><p>Add <cite>CorsortChainDecompositionMergeX</cite>: Corsort based on chain decomposition, with “X-shape” merging.</p></li>
+<li><p>Add <cite>greedy_chain_decomposition</cite>: greedy chain decomposition.</p></li>
+<li><p>Add <cite>longest_chain</cite>: longest chain.</p></li>
+<li><p>Add <cite>longest_chain_starting_at</cite>: longest chain starting at a given item.</p></li>
+<li><p>Add <cite>multi_merge</cite>: merge consecutive sorted portions of a list, two by two, in alternance. Used for multizip sort.</p></li>
+<li><p>Add <cite>scorer_delta</cite> and <cite>scorer_rho</cite>: scorer delta or rho. Mostly used for the <cite>final_score</cite> parameter of <cite>Corsort</cite>.</p></li>
+<li><p>Add <cite>SortBinaryInsertion</cite>: binary insertion sort.</p></li>
+<li><p>Add <cite>SortMultizip</cite>: multizip sort.</p></li>
+<li><p>Add <cite>SortShell</cite>: Shellsort.</p></li>
+<li><p>Add <cite>split_pointer_lists</cite>: compute the indices of the boundaries for all the steps of bottom-up (BFS) merge sort.</p></li>
+<li><p>Add <cite>transitive_reduction</cite>: transitive reduction of a <cite>leq</cite> matrix.</p></li>
+<li><p><cite>WrapFullJit</cite>: add parameter <cite>record_states</cite>. If True, then record the states of the algorithm.</p></li>
+<li><p>Add predefined wrappers using <cite>WrapFullJit</cite>: <cite>JitCorsortBorda</cite>, <cite>JitHeapsort</cite>, <cite>JitCorsortDeltaMaxRho</cite>,
+<cite>JitCorsortDeltaSumRho</cite>, etc.</p></li>
+<li><p>Rename <cite>CorSort</cite> to <cite>Corsort</cite>, and similarly for subclasses.</p></li>
+<li><p>Rename <cite>print_order</cite> to <cite>print_order_as_letters</cite>.</p></li>
+<li><p>Rename <cite>drift</cite> to <cite>delta</cite> and <cite>spaced</cite> to <cite>rho</cite> in all function names in order to match the notations of our papers.</p></li>
+<li><p>Rename <cite>scorer_drift</cite> to <cite>jit_scorer_delta</cite> and <cite>scorer_spaced</cite> to <cite>jit_scorer_rho</cite>.</p></li>
+<li><p>Rename <cite>plus</cite> to <cite>sum</cite> in jit corsort functions. For example, rename <cite>jit_corsort_drift_plus_spaced</cite> to
+<cite>jit_corsort_delta_sum_rho</cite>.</p></li>
+<li><p>Rename <cite>SortMergeBfs</cite> to <cite>SortMergeBottomUp</cite>.</p></li>
+<li><p>Rename <cite>SortMergeDfs</cite> to <cite>SortMergeTopDown</cite>.</p></li>
+</ul>
+</section>
 <section id="more-history-chainandy">
 <h2>0.1.1 (2023-04-7): More history, ChainAndY<a class="headerlink" href="#more-history-chainandy" title="Permalink to this heading"></a></h2>
 <ul class="simple">

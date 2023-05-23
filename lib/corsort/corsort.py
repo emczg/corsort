@@ -15,6 +15,8 @@ class Corsort(Sort):
         If True, then compute the history of the distance to the sorted array.
     record_leq: :class:`bool`
         If True, then record all the states of the `leq_` matrix.
+    final_scorer: callable
+        Scorer used to compute the tentative estimate of the sorted list.
 
     Attributes
     ----------

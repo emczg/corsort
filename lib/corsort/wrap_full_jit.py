@@ -15,6 +15,8 @@ class WrapFullJit:
     ----------
     compute_history: :class:`bool`
         If True, then compute the history of the distance to the sorted array.
+    record_states: :class:`bool`
+        If True, then record the states of the algorithm.
 
     Attributes
     ----------
