@@ -1,8 +1,9 @@
 import numpy as np
 
+
 def _sub_step(split_pointer_list):
     """
-    Compute the indices of the boundaries for the next sub-step of BFS merge sort.
+    Compute the indices of the boundaries for the next sub-step of bottom-up (BFS) merge sort.
 
     Parameters
     ----------
@@ -40,7 +41,7 @@ def _sub_step(split_pointer_list):
 
 def split_pointer_lists(n):
     """
-    Compute the indices of the boundaries for all the steps of BFS merge sort.
+    Compute the indices of the boundaries for all the steps of bottom-up (BFS) merge sort.
 
     Parameters
     ----------

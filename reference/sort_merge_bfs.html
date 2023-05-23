@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>SortMergeBfs &mdash; Corsort 0.1.1 documentation</title>
+  <title>SortMergeBottomUp &mdash; Corsort 0.1.1 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
     <link rel="shortcut icon" href="../_static/favicon.ico"/>
@@ -19,7 +19,7 @@
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="SortMergeDfs" href="sort_merge_dfs.html" />
+    <link rel="next" title="SortMergeTopDown" href="sort_merge_dfs.html" />
     <link rel="prev" title="SortLargestInterval" href="sort_largest_interval.html" /> 
 </head>
 
@@ -51,11 +51,11 @@
 <li class="toctree-l1"><a class="reference internal" href="../notebooks/index.html">Notebooks</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">Reference</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="chain_and_y.html">ChainAndY</a></li>
-<li class="toctree-l2"><a class="reference internal" href="cor_sort.html">CorSort</a></li>
-<li class="toctree-l2"><a class="reference internal" href="cor_sort_borda.html">CorSortBorda</a></li>
-<li class="toctree-l2"><a class="reference internal" href="cor_sort_delegate.html">CorSortDelegate</a></li>
-<li class="toctree-l2"><a class="reference internal" href="cor_sort_gain.html">CorSortGain</a></li>
-<li class="toctree-l2"><a class="reference internal" href="cor_sort_gain_lexi.html">CorSortGainLexi</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cor_sort.html">Corsort</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cor_sort_borda.html">CorsortBorda</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cor_sort_delegate.html">CorsortDelegate</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cor_sort_gain.html">CorsortGain</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cor_sort_gain_lexi.html">CorsortGainLexi</a></li>
 <li class="toctree-l2"><a class="reference internal" href="distance_to_sorted_array.html">distance_to_sorted_array</a></li>
 <li class="toctree-l2"><a class="reference internal" href="entropy_bound.html">entropy_bound</a></li>
 <li class="toctree-l2"><a class="reference internal" href="jit_scorers.html">jit_scorers</a></li>
@@ -69,16 +69,16 @@
 <li class="toctree-l2"><a class="reference internal" href="sort_asort_quickselect.html">SortAsortQuickselect</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sort_ford_johnson.html">SortFordJohnson</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sort_largest_interval.html">SortLargestInterval</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">SortMergeBfs</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#corsort.SortMergeBfs"><code class="docutils literal notranslate"><span class="pre">SortMergeBfs</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#corsort.SortMergeBfs.distance_to_sorted_array"><code class="docutils literal notranslate"><span class="pre">SortMergeBfs.distance_to_sorted_array()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#corsort.SortMergeBfs.history_comparisons_values_"><code class="docutils literal notranslate"><span class="pre">SortMergeBfs.history_comparisons_values_</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#corsort.SortMergeBfs.test_i_lt_j"><code class="docutils literal notranslate"><span class="pre">SortMergeBfs.test_i_lt_j()</span></code></a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">SortMergeBottomUp</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#corsort.SortMergeBottomUp"><code class="docutils literal notranslate"><span class="pre">SortMergeBottomUp</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#corsort.SortMergeBottomUp.distance_to_sorted_array"><code class="docutils literal notranslate"><span class="pre">SortMergeBottomUp.distance_to_sorted_array()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#corsort.SortMergeBottomUp.history_comparisons_values_"><code class="docutils literal notranslate"><span class="pre">SortMergeBottomUp.history_comparisons_values_</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#corsort.SortMergeBottomUp.test_i_lt_j"><code class="docutils literal notranslate"><span class="pre">SortMergeBottomUp.test_i_lt_j()</span></code></a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="sort_merge_dfs.html">SortMergeDfs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sort_merge_dfs.html">SortMergeTopDown</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sort_quick.html">SortQuick</a></li>
 <li class="toctree-l2"><a class="reference internal" href="wrap_full_jit.html">WrapFullJit</a></li>
 <li class="toctree-l2"><a class="reference internal" href="wrap_sort_scorer.html">WrapSortScorer</a></li>
@@ -104,7 +104,7 @@
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="index.html">Reference</a></li>
-      <li class="breadcrumb-item active">SortMergeBfs</li>
+      <li class="breadcrumb-item active">SortMergeBottomUp</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../_sources/reference/sort_merge_bfs.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -114,14 +114,14 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="sortmergebfs">
-<h1>SortMergeBfs<a class="headerlink" href="#sortmergebfs" title="Permalink to this heading"></a></h1>
+  <section id="sortmergebottomup">
+<h1>SortMergeBottomUp<a class="headerlink" href="#sortmergebottomup" title="Permalink to this heading"></a></h1>
 <dl class="py class">
-<dt class="sig sig-object py" id="corsort.SortMergeBfs">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">corsort.</span></span><span class="sig-name descname"><span class="pre">SortMergeBfs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">compute_history</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/corsort/sort_merge_bfs.html#SortMergeBfs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#corsort.SortMergeBfs" title="Permalink to this definition"></a></dt>
-<dd><p>Merge sort, BFS version (i.e. compare pairs first, then quadruples, etc.).</p>
+<dt class="sig sig-object py" id="corsort.SortMergeBottomUp">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">corsort.</span></span><span class="sig-name descname"><span class="pre">SortMergeBottomUp</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">compute_history</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/corsort/sort_merge_bottom_up.html#SortMergeBottomUp"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#corsort.SortMergeBottomUp" title="Permalink to this definition"></a></dt>
+<dd><p>Merge sort, bottom-up version (BFS, i.e. compare pairs first, then quadruples, etc.).</p>
 <p class="rubric">Examples</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">merge_sort</span> <span class="o">=</span> <span class="n">SortMergeBfs</span><span class="p">(</span><span class="n">compute_history</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">merge_sort</span> <span class="o">=</span> <span class="n">SortMergeBottomUp</span><span class="p">(</span><span class="n">compute_history</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">my_xs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">merge_sort</span><span class="p">(</span><span class="n">my_xs</span><span class="p">)</span><span class="o">.</span><span class="n">n_comparisons_</span>
 <span class="go">19</span>
@@ -135,8 +135,8 @@
 </pre></div>
 </div>
 <dl class="py method">
-<dt class="sig sig-object py" id="corsort.SortMergeBfs.distance_to_sorted_array">
-<span class="sig-name descname"><span class="pre">distance_to_sorted_array</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/corsort/sort_merge_bfs.html#SortMergeBfs.distance_to_sorted_array"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#corsort.SortMergeBfs.distance_to_sorted_array" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="corsort.SortMergeBottomUp.distance_to_sorted_array">
+<span class="sig-name descname"><span class="pre">distance_to_sorted_array</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/corsort/sort_merge_bottom_up.html#SortMergeBottomUp.distance_to_sorted_array"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#corsort.SortMergeBottomUp.distance_to_sorted_array" title="Permalink to this definition"></a></dt>
 <dd><p>Distance to sorted array.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
@@ -149,8 +149,8 @@
 </dd></dl>
 
 <dl class="py property">
-<dt class="sig sig-object py" id="corsort.SortMergeBfs.history_comparisons_values_">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">history_comparisons_values_</span></span><a class="headerlink" href="#corsort.SortMergeBfs.history_comparisons_values_" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="corsort.SortMergeBottomUp.history_comparisons_values_">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">history_comparisons_values_</span></span><a class="headerlink" href="#corsort.SortMergeBottomUp.history_comparisons_values_" title="Permalink to this definition"></a></dt>
 <dd><p>History of the pairwise comparisons, in terms of compared values.
 Tuple (x, y) means that items of values x and y were compared, and that x &lt; y.</p>
 <dl class="field-list simple">
@@ -161,8 +161,8 @@ Tuple (x, y) means that items of values x and y were compared, and that x &lt; y
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="corsort.SortMergeBfs.test_i_lt_j">
-<span class="sig-name descname"><span class="pre">test_i_lt_j</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">i</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">j</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#corsort.SortMergeBfs.test_i_lt_j" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="corsort.SortMergeBottomUp.test_i_lt_j">
+<span class="sig-name descname"><span class="pre">test_i_lt_j</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">i</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">j</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#corsort.SortMergeBottomUp.test_i_lt_j" title="Permalink to this definition"></a></dt>
 <dd><p>Test whether perm[i] &lt; perm[j].</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -192,7 +192,7 @@ be computed a last time at the end of the algorithm.</p>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="sort_largest_interval.html" class="btn btn-neutral float-left" title="SortLargestInterval" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="sort_merge_dfs.html" class="btn btn-neutral float-right" title="SortMergeDfs" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="sort_merge_dfs.html" class="btn btn-neutral float-right" title="SortMergeTopDown" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

@@ -81,8 +81,8 @@
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
 
-<div class="viewcode-block" id="scorer_spaced"><a class="viewcode-back" href="../../reference/jit_scorers.html#corsort.jit_scorers.scorer_spaced">[docs]</a><span class="nd">@njit</span>
-<span class="k">def</span> <span class="nf">scorer_spaced</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">downs</span><span class="p">,</span> <span class="n">ups</span><span class="p">):</span>
+<div class="viewcode-block" id="jit_scorer_rho"><a class="viewcode-back" href="../../reference/jit_scorers.html#corsort.jit_scorers.jit_scorer_rho">[docs]</a><span class="nd">@njit</span>
+<span class="k">def</span> <span class="nf">jit_scorer_rho</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">downs</span><span class="p">,</span> <span class="n">ups</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Estimates scores of nodes by dividing the number of the descendants by the size of the family plus one.</span>
 <span class="sd">    The rational is to consider that the family should be in average evenly spaced in the sorted result.</span>
@@ -108,7 +108,7 @@
 <span class="sd">    &gt;&gt;&gt; my_n = 5</span>
 <span class="sd">    &gt;&gt;&gt; my_downs = np.array([0, 1, 2])</span>
 <span class="sd">    &gt;&gt;&gt; my_ups = np.array([2, 2, 3])</span>
-<span class="sd">    &gt;&gt;&gt; scorer_spaced(my_n, my_downs, my_ups)</span>
+<span class="sd">    &gt;&gt;&gt; jit_scorer_rho(my_n, my_downs, my_ups)</span>
 <span class="sd">    array([[0.5       , 0.5       , 0.5       , 0.5       , 0.5       ],</span>
 <span class="sd">           [0.33333333, 0.5       , 0.66666667, 0.5       , 0.5       ],</span>
 <span class="sd">           [0.33333333, 0.33333333, 0.75      , 0.5       , 0.5       ],</span>
@@ -135,8 +135,8 @@
     <span class="k">return</span> <span class="n">res</span></div>
 
 
-<div class="viewcode-block" id="scorer_drift"><a class="viewcode-back" href="../../reference/jit_scorers.html#corsort.jit_scorers.scorer_drift">[docs]</a><span class="nd">@njit</span>
-<span class="k">def</span> <span class="nf">scorer_drift</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">downs</span><span class="p">,</span> <span class="n">ups</span><span class="p">):</span>
+<div class="viewcode-block" id="jit_scorer_delta"><a class="viewcode-back" href="../../reference/jit_scorers.html#corsort.jit_scorers.jit_scorer_delta">[docs]</a><span class="nd">@njit</span>
+<span class="k">def</span> <span class="nf">jit_scorer_delta</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">downs</span><span class="p">,</span> <span class="n">ups</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Estimates scores of nodes by the difference between the numbers of descendants and ascendants.</span>
 <span class="sd">    The rational is to consider that an item should be in average halfway between</span>
@@ -163,7 +163,7 @@
 <span class="sd">    &gt;&gt;&gt; my_n = 5</span>
 <span class="sd">    &gt;&gt;&gt; my_downs = np.array([0, 1, 2])</span>
 <span class="sd">    &gt;&gt;&gt; my_ups = np.array([2, 2, 3])</span>
-<span class="sd">    &gt;&gt;&gt; scorer_drift(my_n, my_downs, my_ups)</span>
+<span class="sd">    &gt;&gt;&gt; jit_scorer_delta(my_n, my_downs, my_ups)</span>
 <span class="sd">    array([[ 0,  0,  0,  0,  0],</span>
 <span class="sd">           [-1,  0,  1,  0,  0],</span>
 <span class="sd">           [-1, -1,  2,  0,  0],</span>

@@ -80,7 +80,7 @@
 <span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">corsort.distance_to_sorted_array</span> <span class="kn">import</span> <span class="n">distance_to_sorted_array</span>
 <span class="kn">from</span> <span class="nn">corsort.sort_quick</span> <span class="kn">import</span> <span class="n">SortQuick</span>
-<span class="kn">from</span> <span class="nn">corsort.jit_scorers</span> <span class="kn">import</span> <span class="n">scorer_spaced</span>
+<span class="kn">from</span> <span class="nn">corsort.jit_scorers</span> <span class="kn">import</span> <span class="n">jit_scorer_rho</span>
 
 
 <div class="viewcode-block" id="WrapSortScorer"><a class="viewcode-back" href="../../reference/wrap_sort_scorer.html#corsort.WrapSortScorer">[docs]</a><span class="k">class</span> <span class="nc">WrapSortScorer</span><span class="p">:</span>
@@ -88,12 +88,12 @@
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
 <span class="sd">        &gt;&gt;&gt; my_sort = SortQuick(compute_history=False)</span>
-<span class="sd">        &gt;&gt;&gt; jit_sort = WrapSortScorer(scorer=scorer_spaced, sort=my_sort, compute_history=False)</span>
+<span class="sd">        &gt;&gt;&gt; jit_sort = WrapSortScorer(scorer=jit_scorer_rho, sort=my_sort, compute_history=False)</span>
 <span class="sd">        &gt;&gt;&gt; my_xs = np.array([4, 1, 7, 6, 0, 8, 2, 3, 5])</span>
 <span class="sd">        &gt;&gt;&gt; jit_sort(my_xs).n_comparisons_</span>
 <span class="sd">        16</span>
 <span class="sd">        &gt;&gt;&gt; jit_sort.__name__</span>
-<span class="sd">        &#39;quicksort_spaced&#39;</span>
+<span class="sd">        &#39;quicksort_rho&#39;</span>
 <span class="sd">        &gt;&gt;&gt; jit_sort.history_comparisons_  # doctest: +NORMALIZE_WHITESPACE</span>
 <span class="sd">        [(1, 0), (0, 2), (0, 3), (4, 0), (0, 5), (6, 0), (7, 0), (0, 8),</span>
 <span class="sd">        (4, 1), (1, 6), (1, 7), (6, 7), (3, 2), (2, 5), (8, 2), (8, 3)]</span>
@@ -109,7 +109,7 @@
 <span class="sd">        Before using the algorithm, `history_comparisons_values_` is None:</span>
 
 <span class="sd">            &gt;&gt;&gt; my_sort = SortQuick()</span>
-<span class="sd">            &gt;&gt;&gt; jit_sort = WrapSortScorer(scorer=scorer_spaced, sort=my_sort)</span>
+<span class="sd">            &gt;&gt;&gt; jit_sort = WrapSortScorer(scorer=jit_scorer_rho, sort=my_sort)</span>
 <span class="sd">            &gt;&gt;&gt; print(jit_sort.history_comparisons_values_)</span>
 <span class="sd">            None</span>
 <span class="sd">        &quot;&quot;&quot;</span>

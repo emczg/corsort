@@ -51,25 +51,25 @@
 <li class="toctree-l1"><a class="reference internal" href="../notebooks/index.html">Notebooks</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">Reference</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="chain_and_y.html">ChainAndY</a></li>
-<li class="toctree-l2"><a class="reference internal" href="cor_sort.html">CorSort</a></li>
-<li class="toctree-l2"><a class="reference internal" href="cor_sort_borda.html">CorSortBorda</a></li>
-<li class="toctree-l2"><a class="reference internal" href="cor_sort_delegate.html">CorSortDelegate</a></li>
-<li class="toctree-l2"><a class="reference internal" href="cor_sort_gain.html">CorSortGain</a></li>
-<li class="toctree-l2"><a class="reference internal" href="cor_sort_gain_lexi.html">CorSortGainLexi</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cor_sort.html">Corsort</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cor_sort_borda.html">CorsortBorda</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cor_sort_delegate.html">CorsortDelegate</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cor_sort_gain.html">CorsortGain</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cor_sort_gain_lexi.html">CorsortGainLexi</a></li>
 <li class="toctree-l2"><a class="reference internal" href="distance_to_sorted_array.html">distance_to_sorted_array</a></li>
 <li class="toctree-l2"><a class="reference internal" href="entropy_bound.html">entropy_bound</a></li>
 <li class="toctree-l2"><a class="reference internal" href="jit_scorers.html">jit_scorers</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">jit_sorts</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#corsort.jit_sorts.heapify"><code class="docutils literal notranslate"><span class="pre">heapify()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#corsort.jit_sorts.jit_corsort_borda"><code class="docutils literal notranslate"><span class="pre">jit_corsort_borda()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#corsort.jit_sorts.jit_corsort_drift_max_drift"><code class="docutils literal notranslate"><span class="pre">jit_corsort_drift_max_drift()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#corsort.jit_sorts.jit_corsort_drift_max_spaced"><code class="docutils literal notranslate"><span class="pre">jit_corsort_drift_max_spaced()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#corsort.jit_sorts.jit_corsort_drift_plus_drift"><code class="docutils literal notranslate"><span class="pre">jit_corsort_drift_plus_drift()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#corsort.jit_sorts.jit_corsort_drift_plus_spaced"><code class="docutils literal notranslate"><span class="pre">jit_corsort_drift_plus_spaced()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#corsort.jit_sorts.jit_corsort_spaced_max_drift"><code class="docutils literal notranslate"><span class="pre">jit_corsort_spaced_max_drift()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#corsort.jit_sorts.jit_corsort_spaced_max_spaced"><code class="docutils literal notranslate"><span class="pre">jit_corsort_spaced_max_spaced()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#corsort.jit_sorts.jit_corsort_spaced_plus_drift"><code class="docutils literal notranslate"><span class="pre">jit_corsort_spaced_plus_drift()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#corsort.jit_sorts.jit_corsort_spaced_plus_spaced"><code class="docutils literal notranslate"><span class="pre">jit_corsort_spaced_plus_spaced()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#corsort.jit_sorts.jit_corsort_delta_max_delta"><code class="docutils literal notranslate"><span class="pre">jit_corsort_delta_max_delta()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#corsort.jit_sorts.jit_corsort_delta_max_rho"><code class="docutils literal notranslate"><span class="pre">jit_corsort_delta_max_rho()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#corsort.jit_sorts.jit_corsort_delta_sum_delta"><code class="docutils literal notranslate"><span class="pre">jit_corsort_delta_sum_delta()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#corsort.jit_sorts.jit_corsort_delta_sum_rho"><code class="docutils literal notranslate"><span class="pre">jit_corsort_delta_sum_rho()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#corsort.jit_sorts.jit_corsort_rho_max_delta"><code class="docutils literal notranslate"><span class="pre">jit_corsort_rho_max_delta()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#corsort.jit_sorts.jit_corsort_rho_max_rho"><code class="docutils literal notranslate"><span class="pre">jit_corsort_rho_max_rho()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#corsort.jit_sorts.jit_corsort_rho_sum_delta"><code class="docutils literal notranslate"><span class="pre">jit_corsort_rho_sum_delta()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#corsort.jit_sorts.jit_corsort_rho_sum_rho"><code class="docutils literal notranslate"><span class="pre">jit_corsort_rho_sum_rho()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#corsort.jit_sorts.jit_heapsort"><code class="docutils literal notranslate"><span class="pre">jit_heapsort()</span></code></a></li>
 </ul>
 </li>
@@ -82,8 +82,8 @@
 <li class="toctree-l2"><a class="reference internal" href="sort_asort_quickselect.html">SortAsortQuickselect</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sort_ford_johnson.html">SortFordJohnson</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sort_largest_interval.html">SortLargestInterval</a></li>
-<li class="toctree-l2"><a class="reference internal" href="sort_merge_bfs.html">SortMergeBfs</a></li>
-<li class="toctree-l2"><a class="reference internal" href="sort_merge_dfs.html">SortMergeDfs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sort_merge_bfs.html">SortMergeBottomUp</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sort_merge_dfs.html">SortMergeTopDown</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sort_quick.html">SortQuick</a></li>
 <li class="toctree-l2"><a class="reference internal" href="wrap_full_jit.html">WrapFullJit</a></li>
 <li class="toctree-l2"><a class="reference internal" href="wrap_sort_scorer.html">WrapSortScorer</a></li>
@@ -171,9 +171,9 @@ Not efficient in terms of convergence trajectory.</p>
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="corsort.jit_sorts.jit_corsort_drift_max_drift">
-<span class="sig-prename descclassname"><span class="pre">corsort.jit_sorts.</span></span><span class="sig-name descname"><span class="pre">jit_corsort_drift_max_drift</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">perm</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/corsort/jit_sorts.html#jit_corsort_drift_max_drift"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#corsort.jit_sorts.jit_corsort_drift_max_drift" title="Permalink to this definition"></a></dt>
-<dd><p>Corsort with drift core scorer, max-knowledge tie-break, and drift outpus scorer.</p>
+<dt class="sig sig-object py" id="corsort.jit_sorts.jit_corsort_delta_max_delta">
+<span class="sig-prename descclassname"><span class="pre">corsort.jit_sorts.</span></span><span class="sig-name descname"><span class="pre">jit_corsort_delta_max_delta</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">perm</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/corsort/jit_sorts.html#jit_corsort_delta_max_delta"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#corsort.jit_sorts.jit_corsort_delta_max_delta" title="Permalink to this definition"></a></dt>
+<dd><p>Corsort with delta core scorer, max-knowledge tie-break, and delta output scorer.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>perm</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.24)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>) – A random permutation.</p>
@@ -190,7 +190,7 @@ Not efficient in terms of convergence trajectory.</p>
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">p</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">permutation</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">st</span><span class="p">,</span> <span class="n">sc</span><span class="p">,</span> <span class="n">co</span> <span class="o">=</span> <span class="n">jit_corsort_drift_max_drift</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">st</span><span class="p">,</span> <span class="n">sc</span><span class="p">,</span> <span class="n">co</span> <span class="o">=</span> <span class="n">jit_corsort_delta_max_delta</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">st</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 <span class="go">array([8, 1, 5, 0, 7, 2, 9, 4, 3, 6])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">st</span><span class="p">[</span><span class="mi">10</span><span class="p">]</span>
@@ -212,9 +212,9 @@ Not efficient in terms of convergence trajectory.</p>
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="corsort.jit_sorts.jit_corsort_drift_max_spaced">
-<span class="sig-prename descclassname"><span class="pre">corsort.jit_sorts.</span></span><span class="sig-name descname"><span class="pre">jit_corsort_drift_max_spaced</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">perm</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/corsort/jit_sorts.html#jit_corsort_drift_max_spaced"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#corsort.jit_sorts.jit_corsort_drift_max_spaced" title="Permalink to this definition"></a></dt>
-<dd><p>Corsort with drift core scorer, max-knowledge tie-break, and spaced outpus scorer.
+<dt class="sig sig-object py" id="corsort.jit_sorts.jit_corsort_delta_max_rho">
+<span class="sig-prename descclassname"><span class="pre">corsort.jit_sorts.</span></span><span class="sig-name descname"><span class="pre">jit_corsort_delta_max_rho</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">perm</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/corsort/jit_sorts.html#jit_corsort_delta_max_rho"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#corsort.jit_sorts.jit_corsort_delta_max_rho" title="Permalink to this definition"></a></dt>
+<dd><p>Corsort with delta core scorer, max-knowledge tie-break, and rho output scorer.
 Currently, the best corsort for trajectory.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -232,7 +232,7 @@ Currently, the best corsort for trajectory.</p>
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">p</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">permutation</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">st</span><span class="p">,</span> <span class="n">sc</span><span class="p">,</span> <span class="n">co</span> <span class="o">=</span> <span class="n">jit_corsort_drift_max_spaced</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">st</span><span class="p">,</span> <span class="n">sc</span><span class="p">,</span> <span class="n">co</span> <span class="o">=</span> <span class="n">jit_corsort_delta_max_rho</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">st</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 <span class="go">array([8, 1, 5, 0, 7, 2, 9, 4, 3, 6])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">st</span><span class="p">[</span><span class="mi">10</span><span class="p">]</span>
@@ -254,9 +254,9 @@ Currently, the best corsort for trajectory.</p>
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="corsort.jit_sorts.jit_corsort_drift_plus_drift">
-<span class="sig-prename descclassname"><span class="pre">corsort.jit_sorts.</span></span><span class="sig-name descname"><span class="pre">jit_corsort_drift_plus_drift</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">perm</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/corsort/jit_sorts.html#jit_corsort_drift_plus_drift"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#corsort.jit_sorts.jit_corsort_drift_plus_drift" title="Permalink to this definition"></a></dt>
-<dd><p>Corsort with drift core scorer, plus-knowledge tie-break, and drift outpus scorer.</p>
+<dt class="sig sig-object py" id="corsort.jit_sorts.jit_corsort_delta_sum_delta">
+<span class="sig-prename descclassname"><span class="pre">corsort.jit_sorts.</span></span><span class="sig-name descname"><span class="pre">jit_corsort_delta_sum_delta</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">perm</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/corsort/jit_sorts.html#jit_corsort_delta_sum_delta"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#corsort.jit_sorts.jit_corsort_delta_sum_delta" title="Permalink to this definition"></a></dt>
+<dd><p>Corsort with delta core scorer, sum-knowledge tie-break, and delta output scorer.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>perm</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.24)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>) – A random permutation.</p>
@@ -273,7 +273,7 @@ Currently, the best corsort for trajectory.</p>
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">p</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">permutation</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">st</span><span class="p">,</span> <span class="n">sc</span><span class="p">,</span> <span class="n">co</span> <span class="o">=</span> <span class="n">jit_corsort_drift_plus_drift</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">st</span><span class="p">,</span> <span class="n">sc</span><span class="p">,</span> <span class="n">co</span> <span class="o">=</span> <span class="n">jit_corsort_delta_sum_delta</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">st</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 <span class="go">array([8, 1, 5, 0, 7, 2, 9, 4, 3, 6])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">st</span><span class="p">[</span><span class="mi">10</span><span class="p">]</span>
@@ -295,9 +295,9 @@ Currently, the best corsort for trajectory.</p>
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="corsort.jit_sorts.jit_corsort_drift_plus_spaced">
-<span class="sig-prename descclassname"><span class="pre">corsort.jit_sorts.</span></span><span class="sig-name descname"><span class="pre">jit_corsort_drift_plus_spaced</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">perm</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/corsort/jit_sorts.html#jit_corsort_drift_plus_spaced"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#corsort.jit_sorts.jit_corsort_drift_plus_spaced" title="Permalink to this definition"></a></dt>
-<dd><p>Corsort with drift core scorer, plus-knowledge tie-break, and spaced outpus scorer.</p>
+<dt class="sig sig-object py" id="corsort.jit_sorts.jit_corsort_delta_sum_rho">
+<span class="sig-prename descclassname"><span class="pre">corsort.jit_sorts.</span></span><span class="sig-name descname"><span class="pre">jit_corsort_delta_sum_rho</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">perm</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/corsort/jit_sorts.html#jit_corsort_delta_sum_rho"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#corsort.jit_sorts.jit_corsort_delta_sum_rho" title="Permalink to this definition"></a></dt>
+<dd><p>Corsort with delta core scorer, sum-knowledge tie-break, and rho output scorer.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>perm</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.24)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>) – A random permutation.</p>
@@ -314,7 +314,7 @@ Currently, the best corsort for trajectory.</p>
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">p</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">permutation</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">st</span><span class="p">,</span> <span class="n">sc</span><span class="p">,</span> <span class="n">co</span> <span class="o">=</span> <span class="n">jit_corsort_drift_plus_spaced</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">st</span><span class="p">,</span> <span class="n">sc</span><span class="p">,</span> <span class="n">co</span> <span class="o">=</span> <span class="n">jit_corsort_delta_sum_rho</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">st</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 <span class="go">array([8, 1, 5, 0, 7, 2, 9, 4, 3, 6])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">st</span><span class="p">[</span><span class="mi">10</span><span class="p">]</span>
@@ -336,9 +336,9 @@ Currently, the best corsort for trajectory.</p>
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="corsort.jit_sorts.jit_corsort_spaced_max_drift">
-<span class="sig-prename descclassname"><span class="pre">corsort.jit_sorts.</span></span><span class="sig-name descname"><span class="pre">jit_corsort_spaced_max_drift</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">perm</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/corsort/jit_sorts.html#jit_corsort_spaced_max_drift"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#corsort.jit_sorts.jit_corsort_spaced_max_drift" title="Permalink to this definition"></a></dt>
-<dd><p>Corsort with spaced core scorer, max-knowledge tie-break, and drift outpus scorer.</p>
+<dt class="sig sig-object py" id="corsort.jit_sorts.jit_corsort_rho_max_delta">
+<span class="sig-prename descclassname"><span class="pre">corsort.jit_sorts.</span></span><span class="sig-name descname"><span class="pre">jit_corsort_rho_max_delta</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">perm</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/corsort/jit_sorts.html#jit_corsort_rho_max_delta"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#corsort.jit_sorts.jit_corsort_rho_max_delta" title="Permalink to this definition"></a></dt>
+<dd><p>Corsort with rho core scorer, max-knowledge tie-break, and delta output scorer.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>perm</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.24)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>) – A random permutation.</p>
@@ -355,7 +355,7 @@ Currently, the best corsort for trajectory.</p>
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">p</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">permutation</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">st</span><span class="p">,</span> <span class="n">sc</span><span class="p">,</span> <span class="n">co</span> <span class="o">=</span> <span class="n">jit_corsort_spaced_max_drift</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">st</span><span class="p">,</span> <span class="n">sc</span><span class="p">,</span> <span class="n">co</span> <span class="o">=</span> <span class="n">jit_corsort_rho_max_delta</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">st</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 <span class="go">array([8, 1, 5, 0, 7, 2, 9, 4, 3, 6])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">st</span><span class="p">[</span><span class="mi">10</span><span class="p">]</span>
@@ -377,9 +377,9 @@ Currently, the best corsort for trajectory.</p>
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="corsort.jit_sorts.jit_corsort_spaced_max_spaced">
-<span class="sig-prename descclassname"><span class="pre">corsort.jit_sorts.</span></span><span class="sig-name descname"><span class="pre">jit_corsort_spaced_max_spaced</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">perm</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/corsort/jit_sorts.html#jit_corsort_spaced_max_spaced"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#corsort.jit_sorts.jit_corsort_spaced_max_spaced" title="Permalink to this definition"></a></dt>
-<dd><p>Corsort with spaced core scorer, max-knowledge tie-break, and spaced outpus scorer.</p>
+<dt class="sig sig-object py" id="corsort.jit_sorts.jit_corsort_rho_max_rho">
+<span class="sig-prename descclassname"><span class="pre">corsort.jit_sorts.</span></span><span class="sig-name descname"><span class="pre">jit_corsort_rho_max_rho</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">perm</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/corsort/jit_sorts.html#jit_corsort_rho_max_rho"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#corsort.jit_sorts.jit_corsort_rho_max_rho" title="Permalink to this definition"></a></dt>
+<dd><p>Corsort with rho core scorer, max-knowledge tie-break, and rho output scorer.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>perm</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.24)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>) – A random permutation.</p>
@@ -396,7 +396,7 @@ Currently, the best corsort for trajectory.</p>
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">p</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">permutation</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">st</span><span class="p">,</span> <span class="n">sc</span><span class="p">,</span> <span class="n">co</span> <span class="o">=</span> <span class="n">jit_corsort_spaced_max_spaced</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">st</span><span class="p">,</span> <span class="n">sc</span><span class="p">,</span> <span class="n">co</span> <span class="o">=</span> <span class="n">jit_corsort_rho_max_rho</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">st</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 <span class="go">array([8, 1, 5, 0, 7, 2, 9, 4, 3, 6])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">st</span><span class="p">[</span><span class="mi">10</span><span class="p">]</span>
@@ -418,9 +418,9 @@ Currently, the best corsort for trajectory.</p>
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="corsort.jit_sorts.jit_corsort_spaced_plus_drift">
-<span class="sig-prename descclassname"><span class="pre">corsort.jit_sorts.</span></span><span class="sig-name descname"><span class="pre">jit_corsort_spaced_plus_drift</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">perm</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/corsort/jit_sorts.html#jit_corsort_spaced_plus_drift"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#corsort.jit_sorts.jit_corsort_spaced_plus_drift" title="Permalink to this definition"></a></dt>
-<dd><p>Corsort with spaced core scorer, plus-knowledge tie-break, and drift outpus scorer.</p>
+<dt class="sig sig-object py" id="corsort.jit_sorts.jit_corsort_rho_sum_delta">
+<span class="sig-prename descclassname"><span class="pre">corsort.jit_sorts.</span></span><span class="sig-name descname"><span class="pre">jit_corsort_rho_sum_delta</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">perm</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/corsort/jit_sorts.html#jit_corsort_rho_sum_delta"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#corsort.jit_sorts.jit_corsort_rho_sum_delta" title="Permalink to this definition"></a></dt>
+<dd><p>Corsort with rho core scorer, sum-knowledge tie-break, and delta output scorer.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>perm</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.24)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>) – A random permutation.</p>
@@ -437,7 +437,7 @@ Currently, the best corsort for trajectory.</p>
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">p</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">permutation</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">st</span><span class="p">,</span> <span class="n">sc</span><span class="p">,</span> <span class="n">co</span> <span class="o">=</span> <span class="n">jit_corsort_spaced_plus_drift</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">st</span><span class="p">,</span> <span class="n">sc</span><span class="p">,</span> <span class="n">co</span> <span class="o">=</span> <span class="n">jit_corsort_rho_sum_delta</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">st</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 <span class="go">array([8, 1, 5, 0, 7, 2, 9, 4, 3, 6])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">st</span><span class="p">[</span><span class="mi">10</span><span class="p">]</span>
@@ -459,9 +459,9 @@ Currently, the best corsort for trajectory.</p>
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="corsort.jit_sorts.jit_corsort_spaced_plus_spaced">
-<span class="sig-prename descclassname"><span class="pre">corsort.jit_sorts.</span></span><span class="sig-name descname"><span class="pre">jit_corsort_spaced_plus_spaced</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">perm</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/corsort/jit_sorts.html#jit_corsort_spaced_plus_spaced"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#corsort.jit_sorts.jit_corsort_spaced_plus_spaced" title="Permalink to this definition"></a></dt>
-<dd><p>Corsort with spaced core scorer, plus-knowledge tie-break, and spaced outpus scorer.</p>
+<dt class="sig sig-object py" id="corsort.jit_sorts.jit_corsort_rho_sum_rho">
+<span class="sig-prename descclassname"><span class="pre">corsort.jit_sorts.</span></span><span class="sig-name descname"><span class="pre">jit_corsort_rho_sum_rho</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">perm</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/corsort/jit_sorts.html#jit_corsort_rho_sum_rho"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#corsort.jit_sorts.jit_corsort_rho_sum_rho" title="Permalink to this definition"></a></dt>
+<dd><p>Corsort with rho core scorer, sum-knowledge tie-break, and rho output scorer.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>perm</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.24)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>) – A random permutation.</p>
@@ -478,7 +478,7 @@ Currently, the best corsort for trajectory.</p>
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">p</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">permutation</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">st</span><span class="p">,</span> <span class="n">sc</span><span class="p">,</span> <span class="n">co</span> <span class="o">=</span> <span class="n">jit_corsort_spaced_plus_spaced</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">st</span><span class="p">,</span> <span class="n">sc</span><span class="p">,</span> <span class="n">co</span> <span class="o">=</span> <span class="n">jit_corsort_rho_sum_rho</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">st</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 <span class="go">array([8, 1, 5, 0, 7, 2, 9, 4, 3, 6])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">st</span><span class="p">[</span><span class="mi">10</span><span class="p">]</span>

@@ -51,11 +51,11 @@
 <li class="toctree-l1"><a class="reference internal" href="../notebooks/index.html">Notebooks</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">Reference</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="chain_and_y.html">ChainAndY</a></li>
-<li class="toctree-l2"><a class="reference internal" href="cor_sort.html">CorSort</a></li>
-<li class="toctree-l2"><a class="reference internal" href="cor_sort_borda.html">CorSortBorda</a></li>
-<li class="toctree-l2"><a class="reference internal" href="cor_sort_delegate.html">CorSortDelegate</a></li>
-<li class="toctree-l2"><a class="reference internal" href="cor_sort_gain.html">CorSortGain</a></li>
-<li class="toctree-l2"><a class="reference internal" href="cor_sort_gain_lexi.html">CorSortGainLexi</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cor_sort.html">Corsort</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cor_sort_borda.html">CorsortBorda</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cor_sort_delegate.html">CorsortDelegate</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cor_sort_gain.html">CorsortGain</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cor_sort_gain_lexi.html">CorsortGainLexi</a></li>
 <li class="toctree-l2"><a class="reference internal" href="distance_to_sorted_array.html">distance_to_sorted_array</a></li>
 <li class="toctree-l2"><a class="reference internal" href="entropy_bound.html">entropy_bound</a></li>
 <li class="toctree-l2"><a class="reference internal" href="jit_scorers.html">jit_scorers</a></li>
@@ -69,8 +69,8 @@
 <li class="toctree-l2"><a class="reference internal" href="sort_asort_quickselect.html">SortAsortQuickselect</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sort_ford_johnson.html">SortFordJohnson</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sort_largest_interval.html">SortLargestInterval</a></li>
-<li class="toctree-l2"><a class="reference internal" href="sort_merge_bfs.html">SortMergeBfs</a></li>
-<li class="toctree-l2"><a class="reference internal" href="sort_merge_dfs.html">SortMergeDfs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sort_merge_bfs.html">SortMergeBottomUp</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sort_merge_dfs.html">SortMergeTopDown</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sort_quick.html">SortQuick</a></li>
 <li class="toctree-l2"><a class="reference internal" href="wrap_full_jit.html">WrapFullJit</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">WrapSortScorer</a><ul>
@@ -119,12 +119,12 @@
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">corsort.</span></span><span class="sig-name descname"><span class="pre">WrapSortScorer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">scorer</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sort</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">compute_history</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/corsort/wrap_sort_scorer.html#WrapSortScorer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#corsort.WrapSortScorer" title="Permalink to this definition"></a></dt>
 <dd><p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">my_sort</span> <span class="o">=</span> <span class="n">SortQuick</span><span class="p">(</span><span class="n">compute_history</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">jit_sort</span> <span class="o">=</span> <span class="n">WrapSortScorer</span><span class="p">(</span><span class="n">scorer</span><span class="o">=</span><span class="n">scorer_spaced</span><span class="p">,</span> <span class="n">sort</span><span class="o">=</span><span class="n">my_sort</span><span class="p">,</span> <span class="n">compute_history</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">jit_sort</span> <span class="o">=</span> <span class="n">WrapSortScorer</span><span class="p">(</span><span class="n">scorer</span><span class="o">=</span><span class="n">jit_scorer_rho</span><span class="p">,</span> <span class="n">sort</span><span class="o">=</span><span class="n">my_sort</span><span class="p">,</span> <span class="n">compute_history</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">my_xs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">jit_sort</span><span class="p">(</span><span class="n">my_xs</span><span class="p">)</span><span class="o">.</span><span class="n">n_comparisons_</span>
 <span class="go">16</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">jit_sort</span><span class="o">.</span><span class="vm">__name__</span>
-<span class="go">&#39;quicksort_spaced&#39;</span>
+<span class="go">&#39;quicksort_rho&#39;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">jit_sort</span><span class="o">.</span><span class="n">history_comparisons_</span>  
 <span class="go">[(1, 0), (0, 2), (0, 3), (4, 0), (0, 5), (6, 0), (7, 0), (0, 8),</span>
 <span class="go">(4, 1), (1, 6), (1, 7), (6, 7), (3, 2), (2, 5), (8, 2), (8, 3)]</span>

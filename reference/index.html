@@ -51,11 +51,11 @@
 <li class="toctree-l1"><a class="reference internal" href="../notebooks/index.html">Notebooks</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Reference</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="chain_and_y.html">ChainAndY</a></li>
-<li class="toctree-l2"><a class="reference internal" href="cor_sort.html">CorSort</a></li>
-<li class="toctree-l2"><a class="reference internal" href="cor_sort_borda.html">CorSortBorda</a></li>
-<li class="toctree-l2"><a class="reference internal" href="cor_sort_delegate.html">CorSortDelegate</a></li>
-<li class="toctree-l2"><a class="reference internal" href="cor_sort_gain.html">CorSortGain</a></li>
-<li class="toctree-l2"><a class="reference internal" href="cor_sort_gain_lexi.html">CorSortGainLexi</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cor_sort.html">Corsort</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cor_sort_borda.html">CorsortBorda</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cor_sort_delegate.html">CorsortDelegate</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cor_sort_gain.html">CorsortGain</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cor_sort_gain_lexi.html">CorsortGainLexi</a></li>
 <li class="toctree-l2"><a class="reference internal" href="distance_to_sorted_array.html">distance_to_sorted_array</a></li>
 <li class="toctree-l2"><a class="reference internal" href="entropy_bound.html">entropy_bound</a></li>
 <li class="toctree-l2"><a class="reference internal" href="jit_scorers.html">jit_scorers</a></li>
@@ -69,8 +69,8 @@
 <li class="toctree-l2"><a class="reference internal" href="sort_asort_quickselect.html">SortAsortQuickselect</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sort_ford_johnson.html">SortFordJohnson</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sort_largest_interval.html">SortLargestInterval</a></li>
-<li class="toctree-l2"><a class="reference internal" href="sort_merge_bfs.html">SortMergeBfs</a></li>
-<li class="toctree-l2"><a class="reference internal" href="sort_merge_dfs.html">SortMergeDfs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sort_merge_bfs.html">SortMergeBottomUp</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sort_merge_dfs.html">SortMergeTopDown</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sort_quick.html">SortQuick</a></li>
 <li class="toctree-l2"><a class="reference internal" href="wrap_full_jit.html">WrapFullJit</a></li>
 <li class="toctree-l2"><a class="reference internal" href="wrap_sort_scorer.html">WrapSortScorer</a></li>
@@ -132,72 +132,72 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="cor_sort.html">CorSort</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="cor_sort.html#corsort.CorSort"><code class="docutils literal notranslate"><span class="pre">CorSort</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="cor_sort.html#corsort.CorSort.leq_"><code class="docutils literal notranslate"><span class="pre">CorSort.leq_</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="cor_sort.html#corsort.CorSort.position_estimates_"><code class="docutils literal notranslate"><span class="pre">CorSort.position_estimates_</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="cor_sort.html#corsort.CorSort.apply_i_lt_j"><code class="docutils literal notranslate"><span class="pre">CorSort.apply_i_lt_j()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="cor_sort.html#corsort.CorSort.compare_and_update_poset"><code class="docutils literal notranslate"><span class="pre">CorSort.compare_and_update_poset()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="cor_sort.html#corsort.CorSort.distance_to_sorted_array"><code class="docutils literal notranslate"><span class="pre">CorSort.distance_to_sorted_array()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="cor_sort.html#corsort.CorSort.history_comparisons_values_"><code class="docutils literal notranslate"><span class="pre">CorSort.history_comparisons_values_</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="cor_sort.html#corsort.CorSort.next_compare"><code class="docutils literal notranslate"><span class="pre">CorSort.next_compare()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="cor_sort.html#corsort.CorSort.test_i_lt_j"><code class="docutils literal notranslate"><span class="pre">CorSort.test_i_lt_j()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="cor_sort.html#corsort.CorSort.update_position_estimates"><code class="docutils literal notranslate"><span class="pre">CorSort.update_position_estimates()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="cor_sort.html">Corsort</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="cor_sort.html#corsort.Corsort"><code class="docutils literal notranslate"><span class="pre">Corsort</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="cor_sort.html#corsort.Corsort.leq_"><code class="docutils literal notranslate"><span class="pre">Corsort.leq_</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="cor_sort.html#corsort.Corsort.position_estimates_"><code class="docutils literal notranslate"><span class="pre">Corsort.position_estimates_</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="cor_sort.html#corsort.Corsort.apply_i_lt_j"><code class="docutils literal notranslate"><span class="pre">Corsort.apply_i_lt_j()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="cor_sort.html#corsort.Corsort.compare_and_update_poset"><code class="docutils literal notranslate"><span class="pre">Corsort.compare_and_update_poset()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="cor_sort.html#corsort.Corsort.distance_to_sorted_array"><code class="docutils literal notranslate"><span class="pre">Corsort.distance_to_sorted_array()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="cor_sort.html#corsort.Corsort.history_comparisons_values_"><code class="docutils literal notranslate"><span class="pre">Corsort.history_comparisons_values_</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="cor_sort.html#corsort.Corsort.next_compare"><code class="docutils literal notranslate"><span class="pre">Corsort.next_compare()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="cor_sort.html#corsort.Corsort.test_i_lt_j"><code class="docutils literal notranslate"><span class="pre">Corsort.test_i_lt_j()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="cor_sort.html#corsort.Corsort.update_position_estimates"><code class="docutils literal notranslate"><span class="pre">Corsort.update_position_estimates()</span></code></a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="cor_sort_borda.html">CorSortBorda</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="cor_sort_borda.html#corsort.CorSortBorda"><code class="docutils literal notranslate"><span class="pre">CorSortBorda</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="cor_sort_borda.html#corsort.CorSortBorda.apply_i_lt_j"><code class="docutils literal notranslate"><span class="pre">CorSortBorda.apply_i_lt_j()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="cor_sort_borda.html#corsort.CorSortBorda.compare_and_update_poset"><code class="docutils literal notranslate"><span class="pre">CorSortBorda.compare_and_update_poset()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="cor_sort_borda.html#corsort.CorSortBorda.distance_to_sorted_array"><code class="docutils literal notranslate"><span class="pre">CorSortBorda.distance_to_sorted_array()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="cor_sort_borda.html#corsort.CorSortBorda.history_comparisons_values_"><code class="docutils literal notranslate"><span class="pre">CorSortBorda.history_comparisons_values_</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="cor_sort_borda.html#corsort.CorSortBorda.next_compare"><code class="docutils literal notranslate"><span class="pre">CorSortBorda.next_compare()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="cor_sort_borda.html#corsort.CorSortBorda.test_i_lt_j"><code class="docutils literal notranslate"><span class="pre">CorSortBorda.test_i_lt_j()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="cor_sort_borda.html#corsort.CorSortBorda.update_position_estimates"><code class="docutils literal notranslate"><span class="pre">CorSortBorda.update_position_estimates()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="cor_sort_borda.html">CorsortBorda</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="cor_sort_borda.html#corsort.CorsortBorda"><code class="docutils literal notranslate"><span class="pre">CorsortBorda</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="cor_sort_borda.html#corsort.CorsortBorda.apply_i_lt_j"><code class="docutils literal notranslate"><span class="pre">CorsortBorda.apply_i_lt_j()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="cor_sort_borda.html#corsort.CorsortBorda.compare_and_update_poset"><code class="docutils literal notranslate"><span class="pre">CorsortBorda.compare_and_update_poset()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="cor_sort_borda.html#corsort.CorsortBorda.distance_to_sorted_array"><code class="docutils literal notranslate"><span class="pre">CorsortBorda.distance_to_sorted_array()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="cor_sort_borda.html#corsort.CorsortBorda.history_comparisons_values_"><code class="docutils literal notranslate"><span class="pre">CorsortBorda.history_comparisons_values_</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="cor_sort_borda.html#corsort.CorsortBorda.next_compare"><code class="docutils literal notranslate"><span class="pre">CorsortBorda.next_compare()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="cor_sort_borda.html#corsort.CorsortBorda.test_i_lt_j"><code class="docutils literal notranslate"><span class="pre">CorsortBorda.test_i_lt_j()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="cor_sort_borda.html#corsort.CorsortBorda.update_position_estimates"><code class="docutils literal notranslate"><span class="pre">CorsortBorda.update_position_estimates()</span></code></a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="cor_sort_delegate.html">CorSortDelegate</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="cor_sort_delegate.html#corsort.CorSortDelegate"><code class="docutils literal notranslate"><span class="pre">CorSortDelegate</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="cor_sort_delegate.html#corsort.CorSortDelegate.apply_i_lt_j"><code class="docutils literal notranslate"><span class="pre">CorSortDelegate.apply_i_lt_j()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="cor_sort_delegate.html#corsort.CorSortDelegate.compare_and_update_poset"><code class="docutils literal notranslate"><span class="pre">CorSortDelegate.compare_and_update_poset()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="cor_sort_delegate.html#corsort.CorSortDelegate.distance_to_sorted_array"><code class="docutils literal notranslate"><span class="pre">CorSortDelegate.distance_to_sorted_array()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="cor_sort_delegate.html#corsort.CorSortDelegate.history_comparisons_values_"><code class="docutils literal notranslate"><span class="pre">CorSortDelegate.history_comparisons_values_</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="cor_sort_delegate.html#corsort.CorSortDelegate.next_compare"><code class="docutils literal notranslate"><span class="pre">CorSortDelegate.next_compare()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="cor_sort_delegate.html#corsort.CorSortDelegate.test_i_lt_j"><code class="docutils literal notranslate"><span class="pre">CorSortDelegate.test_i_lt_j()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="cor_sort_delegate.html#corsort.CorSortDelegate.update_position_estimates"><code class="docutils literal notranslate"><span class="pre">CorSortDelegate.update_position_estimates()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="cor_sort_delegate.html">CorsortDelegate</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="cor_sort_delegate.html#corsort.CorsortDelegate"><code class="docutils literal notranslate"><span class="pre">CorsortDelegate</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="cor_sort_delegate.html#corsort.CorsortDelegate.apply_i_lt_j"><code class="docutils literal notranslate"><span class="pre">CorsortDelegate.apply_i_lt_j()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="cor_sort_delegate.html#corsort.CorsortDelegate.compare_and_update_poset"><code class="docutils literal notranslate"><span class="pre">CorsortDelegate.compare_and_update_poset()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="cor_sort_delegate.html#corsort.CorsortDelegate.distance_to_sorted_array"><code class="docutils literal notranslate"><span class="pre">CorsortDelegate.distance_to_sorted_array()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="cor_sort_delegate.html#corsort.CorsortDelegate.history_comparisons_values_"><code class="docutils literal notranslate"><span class="pre">CorsortDelegate.history_comparisons_values_</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="cor_sort_delegate.html#corsort.CorsortDelegate.next_compare"><code class="docutils literal notranslate"><span class="pre">CorsortDelegate.next_compare()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="cor_sort_delegate.html#corsort.CorsortDelegate.test_i_lt_j"><code class="docutils literal notranslate"><span class="pre">CorsortDelegate.test_i_lt_j()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="cor_sort_delegate.html#corsort.CorsortDelegate.update_position_estimates"><code class="docutils literal notranslate"><span class="pre">CorsortDelegate.update_position_estimates()</span></code></a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="cor_sort_gain.html">CorSortGain</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="cor_sort_gain.html#corsort.CorSortGain"><code class="docutils literal notranslate"><span class="pre">CorSortGain</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="cor_sort_gain.html#corsort.CorSortGain.apply_i_lt_j"><code class="docutils literal notranslate"><span class="pre">CorSortGain.apply_i_lt_j()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="cor_sort_gain.html#corsort.CorSortGain.compare_and_update_poset"><code class="docutils literal notranslate"><span class="pre">CorSortGain.compare_and_update_poset()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="cor_sort_gain.html#corsort.CorSortGain.distance_to_sorted_array"><code class="docutils literal notranslate"><span class="pre">CorSortGain.distance_to_sorted_array()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="cor_sort_gain.html#corsort.CorSortGain.gain"><code class="docutils literal notranslate"><span class="pre">CorSortGain.gain()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="cor_sort_gain.html#corsort.CorSortGain.history_comparisons_values_"><code class="docutils literal notranslate"><span class="pre">CorSortGain.history_comparisons_values_</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="cor_sort_gain.html#corsort.CorSortGain.next_compare"><code class="docutils literal notranslate"><span class="pre">CorSortGain.next_compare()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="cor_sort_gain.html#corsort.CorSortGain.test_i_lt_j"><code class="docutils literal notranslate"><span class="pre">CorSortGain.test_i_lt_j()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="cor_sort_gain.html#corsort.CorSortGain.update_position_estimates"><code class="docutils literal notranslate"><span class="pre">CorSortGain.update_position_estimates()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="cor_sort_gain.html">CorsortGain</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="cor_sort_gain.html#corsort.CorsortGain"><code class="docutils literal notranslate"><span class="pre">CorsortGain</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="cor_sort_gain.html#corsort.CorsortGain.apply_i_lt_j"><code class="docutils literal notranslate"><span class="pre">CorsortGain.apply_i_lt_j()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="cor_sort_gain.html#corsort.CorsortGain.compare_and_update_poset"><code class="docutils literal notranslate"><span class="pre">CorsortGain.compare_and_update_poset()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="cor_sort_gain.html#corsort.CorsortGain.distance_to_sorted_array"><code class="docutils literal notranslate"><span class="pre">CorsortGain.distance_to_sorted_array()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="cor_sort_gain.html#corsort.CorsortGain.gain"><code class="docutils literal notranslate"><span class="pre">CorsortGain.gain()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="cor_sort_gain.html#corsort.CorsortGain.history_comparisons_values_"><code class="docutils literal notranslate"><span class="pre">CorsortGain.history_comparisons_values_</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="cor_sort_gain.html#corsort.CorsortGain.next_compare"><code class="docutils literal notranslate"><span class="pre">CorsortGain.next_compare()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="cor_sort_gain.html#corsort.CorsortGain.test_i_lt_j"><code class="docutils literal notranslate"><span class="pre">CorsortGain.test_i_lt_j()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="cor_sort_gain.html#corsort.CorsortGain.update_position_estimates"><code class="docutils literal notranslate"><span class="pre">CorsortGain.update_position_estimates()</span></code></a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="cor_sort_gain_lexi.html">CorSortGainLexi</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="cor_sort_gain_lexi.html#corsort.CorSortGainLexi"><code class="docutils literal notranslate"><span class="pre">CorSortGainLexi</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="cor_sort_gain_lexi.html#corsort.CorSortGainLexi.apply_i_lt_j"><code class="docutils literal notranslate"><span class="pre">CorSortGainLexi.apply_i_lt_j()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="cor_sort_gain_lexi.html#corsort.CorSortGainLexi.compare_and_update_poset"><code class="docutils literal notranslate"><span class="pre">CorSortGainLexi.compare_and_update_poset()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="cor_sort_gain_lexi.html#corsort.CorSortGainLexi.distance_to_sorted_array"><code class="docutils literal notranslate"><span class="pre">CorSortGainLexi.distance_to_sorted_array()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="cor_sort_gain_lexi.html#corsort.CorSortGainLexi.gain"><code class="docutils literal notranslate"><span class="pre">CorSortGainLexi.gain()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="cor_sort_gain_lexi.html#corsort.CorSortGainLexi.gain_i_lt_j"><code class="docutils literal notranslate"><span class="pre">CorSortGainLexi.gain_i_lt_j()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="cor_sort_gain_lexi.html#corsort.CorSortGainLexi.history_comparisons_values_"><code class="docutils literal notranslate"><span class="pre">CorSortGainLexi.history_comparisons_values_</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="cor_sort_gain_lexi.html#corsort.CorSortGainLexi.next_compare"><code class="docutils literal notranslate"><span class="pre">CorSortGainLexi.next_compare()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="cor_sort_gain_lexi.html#corsort.CorSortGainLexi.test_i_lt_j"><code class="docutils literal notranslate"><span class="pre">CorSortGainLexi.test_i_lt_j()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="cor_sort_gain_lexi.html#corsort.CorSortGainLexi.update_position_estimates"><code class="docutils literal notranslate"><span class="pre">CorSortGainLexi.update_position_estimates()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="cor_sort_gain_lexi.html">CorsortGainLexi</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="cor_sort_gain_lexi.html#corsort.CorsortGainLexi"><code class="docutils literal notranslate"><span class="pre">CorsortGainLexi</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="cor_sort_gain_lexi.html#corsort.CorsortGainLexi.apply_i_lt_j"><code class="docutils literal notranslate"><span class="pre">CorsortGainLexi.apply_i_lt_j()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="cor_sort_gain_lexi.html#corsort.CorsortGainLexi.compare_and_update_poset"><code class="docutils literal notranslate"><span class="pre">CorsortGainLexi.compare_and_update_poset()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="cor_sort_gain_lexi.html#corsort.CorsortGainLexi.distance_to_sorted_array"><code class="docutils literal notranslate"><span class="pre">CorsortGainLexi.distance_to_sorted_array()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="cor_sort_gain_lexi.html#corsort.CorsortGainLexi.gain"><code class="docutils literal notranslate"><span class="pre">CorsortGainLexi.gain()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="cor_sort_gain_lexi.html#corsort.CorsortGainLexi.gain_i_lt_j"><code class="docutils literal notranslate"><span class="pre">CorsortGainLexi.gain_i_lt_j()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="cor_sort_gain_lexi.html#corsort.CorsortGainLexi.history_comparisons_values_"><code class="docutils literal notranslate"><span class="pre">CorsortGainLexi.history_comparisons_values_</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="cor_sort_gain_lexi.html#corsort.CorsortGainLexi.next_compare"><code class="docutils literal notranslate"><span class="pre">CorsortGainLexi.next_compare()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="cor_sort_gain_lexi.html#corsort.CorsortGainLexi.test_i_lt_j"><code class="docutils literal notranslate"><span class="pre">CorsortGainLexi.test_i_lt_j()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="cor_sort_gain_lexi.html#corsort.CorsortGainLexi.update_position_estimates"><code class="docutils literal notranslate"><span class="pre">CorsortGainLexi.update_position_estimates()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -211,21 +211,21 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="jit_scorers.html">jit_scorers</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="jit_scorers.html#corsort.jit_scorers.scorer_drift"><code class="docutils literal notranslate"><span class="pre">scorer_drift()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="jit_scorers.html#corsort.jit_scorers.scorer_spaced"><code class="docutils literal notranslate"><span class="pre">scorer_spaced()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="jit_scorers.html#corsort.jit_scorers.jit_scorer_delta"><code class="docutils literal notranslate"><span class="pre">jit_scorer_delta()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="jit_scorers.html#corsort.jit_scorers.jit_scorer_rho"><code class="docutils literal notranslate"><span class="pre">jit_scorer_rho()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="jit_sorts.html">jit_sorts</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="jit_sorts.html#corsort.jit_sorts.heapify"><code class="docutils literal notranslate"><span class="pre">heapify()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="jit_sorts.html#corsort.jit_sorts.jit_corsort_borda"><code class="docutils literal notranslate"><span class="pre">jit_corsort_borda()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="jit_sorts.html#corsort.jit_sorts.jit_corsort_drift_max_drift"><code class="docutils literal notranslate"><span class="pre">jit_corsort_drift_max_drift()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="jit_sorts.html#corsort.jit_sorts.jit_corsort_drift_max_spaced"><code class="docutils literal notranslate"><span class="pre">jit_corsort_drift_max_spaced()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="jit_sorts.html#corsort.jit_sorts.jit_corsort_drift_plus_drift"><code class="docutils literal notranslate"><span class="pre">jit_corsort_drift_plus_drift()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="jit_sorts.html#corsort.jit_sorts.jit_corsort_drift_plus_spaced"><code class="docutils literal notranslate"><span class="pre">jit_corsort_drift_plus_spaced()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="jit_sorts.html#corsort.jit_sorts.jit_corsort_spaced_max_drift"><code class="docutils literal notranslate"><span class="pre">jit_corsort_spaced_max_drift()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="jit_sorts.html#corsort.jit_sorts.jit_corsort_spaced_max_spaced"><code class="docutils literal notranslate"><span class="pre">jit_corsort_spaced_max_spaced()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="jit_sorts.html#corsort.jit_sorts.jit_corsort_spaced_plus_drift"><code class="docutils literal notranslate"><span class="pre">jit_corsort_spaced_plus_drift()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="jit_sorts.html#corsort.jit_sorts.jit_corsort_spaced_plus_spaced"><code class="docutils literal notranslate"><span class="pre">jit_corsort_spaced_plus_spaced()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="jit_sorts.html#corsort.jit_sorts.jit_corsort_delta_max_delta"><code class="docutils literal notranslate"><span class="pre">jit_corsort_delta_max_delta()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="jit_sorts.html#corsort.jit_sorts.jit_corsort_delta_max_rho"><code class="docutils literal notranslate"><span class="pre">jit_corsort_delta_max_rho()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="jit_sorts.html#corsort.jit_sorts.jit_corsort_delta_sum_delta"><code class="docutils literal notranslate"><span class="pre">jit_corsort_delta_sum_delta()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="jit_sorts.html#corsort.jit_sorts.jit_corsort_delta_sum_rho"><code class="docutils literal notranslate"><span class="pre">jit_corsort_delta_sum_rho()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="jit_sorts.html#corsort.jit_sorts.jit_corsort_rho_max_delta"><code class="docutils literal notranslate"><span class="pre">jit_corsort_rho_max_delta()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="jit_sorts.html#corsort.jit_sorts.jit_corsort_rho_max_rho"><code class="docutils literal notranslate"><span class="pre">jit_corsort_rho_max_rho()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="jit_sorts.html#corsort.jit_sorts.jit_corsort_rho_sum_delta"><code class="docutils literal notranslate"><span class="pre">jit_corsort_rho_sum_delta()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="jit_sorts.html#corsort.jit_sorts.jit_corsort_rho_sum_rho"><code class="docutils literal notranslate"><span class="pre">jit_corsort_rho_sum_rho()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="jit_sorts.html#corsort.jit_sorts.jit_heapsort"><code class="docutils literal notranslate"><span class="pre">jit_heapsort()</span></code></a></li>
 </ul>
 </li>
@@ -292,20 +292,20 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="sort_merge_bfs.html">SortMergeBfs</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="sort_merge_bfs.html#corsort.SortMergeBfs"><code class="docutils literal notranslate"><span class="pre">SortMergeBfs</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="sort_merge_bfs.html#corsort.SortMergeBfs.distance_to_sorted_array"><code class="docutils literal notranslate"><span class="pre">SortMergeBfs.distance_to_sorted_array()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="sort_merge_bfs.html#corsort.SortMergeBfs.history_comparisons_values_"><code class="docutils literal notranslate"><span class="pre">SortMergeBfs.history_comparisons_values_</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="sort_merge_bfs.html#corsort.SortMergeBfs.test_i_lt_j"><code class="docutils literal notranslate"><span class="pre">SortMergeBfs.test_i_lt_j()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="sort_merge_bfs.html">SortMergeBottomUp</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="sort_merge_bfs.html#corsort.SortMergeBottomUp"><code class="docutils literal notranslate"><span class="pre">SortMergeBottomUp</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="sort_merge_bfs.html#corsort.SortMergeBottomUp.distance_to_sorted_array"><code class="docutils literal notranslate"><span class="pre">SortMergeBottomUp.distance_to_sorted_array()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sort_merge_bfs.html#corsort.SortMergeBottomUp.history_comparisons_values_"><code class="docutils literal notranslate"><span class="pre">SortMergeBottomUp.history_comparisons_values_</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sort_merge_bfs.html#corsort.SortMergeBottomUp.test_i_lt_j"><code class="docutils literal notranslate"><span class="pre">SortMergeBottomUp.test_i_lt_j()</span></code></a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="sort_merge_dfs.html">SortMergeDfs</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="sort_merge_dfs.html#corsort.SortMergeDfs"><code class="docutils literal notranslate"><span class="pre">SortMergeDfs</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="sort_merge_dfs.html#corsort.SortMergeDfs.distance_to_sorted_array"><code class="docutils literal notranslate"><span class="pre">SortMergeDfs.distance_to_sorted_array()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="sort_merge_dfs.html#corsort.SortMergeDfs.history_comparisons_values_"><code class="docutils literal notranslate"><span class="pre">SortMergeDfs.history_comparisons_values_</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="sort_merge_dfs.html#corsort.SortMergeDfs.test_i_lt_j"><code class="docutils literal notranslate"><span class="pre">SortMergeDfs.test_i_lt_j()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="sort_merge_dfs.html">SortMergeTopDown</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="sort_merge_dfs.html#corsort.SortMergeTopDown"><code class="docutils literal notranslate"><span class="pre">SortMergeTopDown</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="sort_merge_dfs.html#corsort.SortMergeTopDown.distance_to_sorted_array"><code class="docutils literal notranslate"><span class="pre">SortMergeTopDown.distance_to_sorted_array()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sort_merge_dfs.html#corsort.SortMergeTopDown.history_comparisons_values_"><code class="docutils literal notranslate"><span class="pre">SortMergeTopDown.history_comparisons_values_</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sort_merge_dfs.html#corsort.SortMergeTopDown.test_i_lt_j"><code class="docutils literal notranslate"><span class="pre">SortMergeTopDown.test_i_lt_j()</span></code></a></li>
 </ul>
 </li>
 </ul>

@@ -166,10 +166,10 @@
     <span class="k">return</span> <span class="n">states</span><span class="p">,</span> <span class="n">scores</span><span class="p">,</span> <span class="n">comparisons</span></div>
 
 
-<div class="viewcode-block" id="jit_corsort_drift_max_spaced"><a class="viewcode-back" href="../../reference/jit_sorts.html#corsort.jit_sorts.jit_corsort_drift_max_spaced">[docs]</a><span class="nd">@njit</span>
-<span class="k">def</span> <span class="nf">jit_corsort_drift_max_spaced</span><span class="p">(</span><span class="n">perm</span><span class="p">):</span>
+<div class="viewcode-block" id="jit_corsort_delta_max_rho"><a class="viewcode-back" href="../../reference/jit_sorts.html#corsort.jit_sorts.jit_corsort_delta_max_rho">[docs]</a><span class="nd">@njit</span>
+<span class="k">def</span> <span class="nf">jit_corsort_delta_max_rho</span><span class="p">(</span><span class="n">perm</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Corsort with drift core scorer, max-knowledge tie-break, and spaced outpus scorer.</span>
+<span class="sd">    Corsort with delta core scorer, max-knowledge tie-break, and rho output scorer.</span>
 <span class="sd">    Currently, the best corsort for trajectory.</span>
 
 <span class="sd">    Parameters</span>
@@ -191,7 +191,7 @@
 
 <span class="sd">    &gt;&gt;&gt; np.random.seed(42)</span>
 <span class="sd">    &gt;&gt;&gt; p = np.random.permutation(10)</span>
-<span class="sd">    &gt;&gt;&gt; st, sc, co = jit_corsort_drift_max_spaced(p)</span>
+<span class="sd">    &gt;&gt;&gt; st, sc, co = jit_corsort_delta_max_rho(p)</span>
 <span class="sd">    &gt;&gt;&gt; st[0]</span>
 <span class="sd">    array([8, 1, 5, 0, 7, 2, 9, 4, 3, 6])</span>
 <span class="sd">    &gt;&gt;&gt; st[10]</span>
@@ -255,10 +255,10 @@
     <span class="k">return</span> <span class="n">states</span><span class="p">,</span> <span class="n">scores</span><span class="p">,</span> <span class="n">comparisons</span></div>
 
 
-<div class="viewcode-block" id="jit_corsort_drift_plus_spaced"><a class="viewcode-back" href="../../reference/jit_sorts.html#corsort.jit_sorts.jit_corsort_drift_plus_spaced">[docs]</a><span class="nd">@njit</span>
-<span class="k">def</span> <span class="nf">jit_corsort_drift_plus_spaced</span><span class="p">(</span><span class="n">perm</span><span class="p">):</span>
+<div class="viewcode-block" id="jit_corsort_delta_sum_rho"><a class="viewcode-back" href="../../reference/jit_sorts.html#corsort.jit_sorts.jit_corsort_delta_sum_rho">[docs]</a><span class="nd">@njit</span>
+<span class="k">def</span> <span class="nf">jit_corsort_delta_sum_rho</span><span class="p">(</span><span class="n">perm</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Corsort with drift core scorer, plus-knowledge tie-break, and spaced outpus scorer.</span>
+<span class="sd">    Corsort with delta core scorer, sum-knowledge tie-break, and rho output scorer.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -279,7 +279,7 @@
 
 <span class="sd">    &gt;&gt;&gt; np.random.seed(42)</span>
 <span class="sd">    &gt;&gt;&gt; p = np.random.permutation(10)</span>
-<span class="sd">    &gt;&gt;&gt; st, sc, co = jit_corsort_drift_plus_spaced(p)</span>
+<span class="sd">    &gt;&gt;&gt; st, sc, co = jit_corsort_delta_sum_rho(p)</span>
 <span class="sd">    &gt;&gt;&gt; st[0]</span>
 <span class="sd">    array([8, 1, 5, 0, 7, 2, 9, 4, 3, 6])</span>
 <span class="sd">    &gt;&gt;&gt; st[10]</span>
@@ -343,10 +343,10 @@
     <span class="k">return</span> <span class="n">states</span><span class="p">,</span> <span class="n">scores</span><span class="p">,</span> <span class="n">comparisons</span></div>
 
 
-<div class="viewcode-block" id="jit_corsort_drift_max_drift"><a class="viewcode-back" href="../../reference/jit_sorts.html#corsort.jit_sorts.jit_corsort_drift_max_drift">[docs]</a><span class="nd">@njit</span>
-<span class="k">def</span> <span class="nf">jit_corsort_drift_max_drift</span><span class="p">(</span><span class="n">perm</span><span class="p">):</span>
+<div class="viewcode-block" id="jit_corsort_delta_max_delta"><a class="viewcode-back" href="../../reference/jit_sorts.html#corsort.jit_sorts.jit_corsort_delta_max_delta">[docs]</a><span class="nd">@njit</span>
+<span class="k">def</span> <span class="nf">jit_corsort_delta_max_delta</span><span class="p">(</span><span class="n">perm</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Corsort with drift core scorer, max-knowledge tie-break, and drift outpus scorer.</span>
+<span class="sd">    Corsort with delta core scorer, max-knowledge tie-break, and delta output scorer.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -367,7 +367,7 @@
 
 <span class="sd">    &gt;&gt;&gt; np.random.seed(42)</span>
 <span class="sd">    &gt;&gt;&gt; p = np.random.permutation(10)</span>
-<span class="sd">    &gt;&gt;&gt; st, sc, co = jit_corsort_drift_max_drift(p)</span>
+<span class="sd">    &gt;&gt;&gt; st, sc, co = jit_corsort_delta_max_delta(p)</span>
 <span class="sd">    &gt;&gt;&gt; st[0]</span>
 <span class="sd">    array([8, 1, 5, 0, 7, 2, 9, 4, 3, 6])</span>
 <span class="sd">    &gt;&gt;&gt; st[10]</span>
@@ -429,10 +429,10 @@
     <span class="k">return</span> <span class="n">states</span><span class="p">,</span> <span class="n">scores</span><span class="p">,</span> <span class="n">comparisons</span></div>
 
 
-<div class="viewcode-block" id="jit_corsort_drift_plus_drift"><a class="viewcode-back" href="../../reference/jit_sorts.html#corsort.jit_sorts.jit_corsort_drift_plus_drift">[docs]</a><span class="nd">@njit</span>
-<span class="k">def</span> <span class="nf">jit_corsort_drift_plus_drift</span><span class="p">(</span><span class="n">perm</span><span class="p">):</span>
+<div class="viewcode-block" id="jit_corsort_delta_sum_delta"><a class="viewcode-back" href="../../reference/jit_sorts.html#corsort.jit_sorts.jit_corsort_delta_sum_delta">[docs]</a><span class="nd">@njit</span>
+<span class="k">def</span> <span class="nf">jit_corsort_delta_sum_delta</span><span class="p">(</span><span class="n">perm</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Corsort with drift core scorer, plus-knowledge tie-break, and drift outpus scorer.</span>
+<span class="sd">    Corsort with delta core scorer, sum-knowledge tie-break, and delta output scorer.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -453,7 +453,7 @@
 
 <span class="sd">    &gt;&gt;&gt; np.random.seed(42)</span>
 <span class="sd">    &gt;&gt;&gt; p = np.random.permutation(10)</span>
-<span class="sd">    &gt;&gt;&gt; st, sc, co = jit_corsort_drift_plus_drift(p)</span>
+<span class="sd">    &gt;&gt;&gt; st, sc, co = jit_corsort_delta_sum_delta(p)</span>
 <span class="sd">    &gt;&gt;&gt; st[0]</span>
 <span class="sd">    array([8, 1, 5, 0, 7, 2, 9, 4, 3, 6])</span>
 <span class="sd">    &gt;&gt;&gt; st[10]</span>
@@ -515,10 +515,10 @@
     <span class="k">return</span> <span class="n">states</span><span class="p">,</span> <span class="n">scores</span><span class="p">,</span> <span class="n">comparisons</span></div>
 
 
-<div class="viewcode-block" id="jit_corsort_spaced_max_spaced"><a class="viewcode-back" href="../../reference/jit_sorts.html#corsort.jit_sorts.jit_corsort_spaced_max_spaced">[docs]</a><span class="nd">@njit</span>
-<span class="k">def</span> <span class="nf">jit_corsort_spaced_max_spaced</span><span class="p">(</span><span class="n">perm</span><span class="p">):</span>
+<div class="viewcode-block" id="jit_corsort_rho_max_rho"><a class="viewcode-back" href="../../reference/jit_sorts.html#corsort.jit_sorts.jit_corsort_rho_max_rho">[docs]</a><span class="nd">@njit</span>
+<span class="k">def</span> <span class="nf">jit_corsort_rho_max_rho</span><span class="p">(</span><span class="n">perm</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Corsort with spaced core scorer, max-knowledge tie-break, and spaced outpus scorer.</span>
+<span class="sd">    Corsort with rho core scorer, max-knowledge tie-break, and rho output scorer.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -539,7 +539,7 @@
 
 <span class="sd">    &gt;&gt;&gt; np.random.seed(42)</span>
 <span class="sd">    &gt;&gt;&gt; p = np.random.permutation(10)</span>
-<span class="sd">    &gt;&gt;&gt; st, sc, co = jit_corsort_spaced_max_spaced(p)</span>
+<span class="sd">    &gt;&gt;&gt; st, sc, co = jit_corsort_rho_max_rho(p)</span>
 <span class="sd">    &gt;&gt;&gt; st[0]</span>
 <span class="sd">    array([8, 1, 5, 0, 7, 2, 9, 4, 3, 6])</span>
 <span class="sd">    &gt;&gt;&gt; st[10]</span>
@@ -600,10 +600,10 @@
     <span class="k">return</span> <span class="n">states</span><span class="p">,</span> <span class="n">scores</span><span class="p">,</span> <span class="n">comparisons</span></div>
 
 
-<div class="viewcode-block" id="jit_corsort_spaced_plus_spaced"><a class="viewcode-back" href="../../reference/jit_sorts.html#corsort.jit_sorts.jit_corsort_spaced_plus_spaced">[docs]</a><span class="nd">@njit</span>
-<span class="k">def</span> <span class="nf">jit_corsort_spaced_plus_spaced</span><span class="p">(</span><span class="n">perm</span><span class="p">):</span>
+<div class="viewcode-block" id="jit_corsort_rho_sum_rho"><a class="viewcode-back" href="../../reference/jit_sorts.html#corsort.jit_sorts.jit_corsort_rho_sum_rho">[docs]</a><span class="nd">@njit</span>
+<span class="k">def</span> <span class="nf">jit_corsort_rho_sum_rho</span><span class="p">(</span><span class="n">perm</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Corsort with spaced core scorer, plus-knowledge tie-break, and spaced outpus scorer.</span>
+<span class="sd">    Corsort with rho core scorer, sum-knowledge tie-break, and rho output scorer.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -624,7 +624,7 @@
 
 <span class="sd">    &gt;&gt;&gt; np.random.seed(42)</span>
 <span class="sd">    &gt;&gt;&gt; p = np.random.permutation(10)</span>
-<span class="sd">    &gt;&gt;&gt; st, sc, co = jit_corsort_spaced_plus_spaced(p)</span>
+<span class="sd">    &gt;&gt;&gt; st, sc, co = jit_corsort_rho_sum_rho(p)</span>
 <span class="sd">    &gt;&gt;&gt; st[0]</span>
 <span class="sd">    array([8, 1, 5, 0, 7, 2, 9, 4, 3, 6])</span>
 <span class="sd">    &gt;&gt;&gt; st[10]</span>
@@ -685,10 +685,10 @@
     <span class="k">return</span> <span class="n">states</span><span class="p">,</span> <span class="n">scores</span><span class="p">,</span> <span class="n">comparisons</span></div>
 
 
-<div class="viewcode-block" id="jit_corsort_spaced_max_drift"><a class="viewcode-back" href="../../reference/jit_sorts.html#corsort.jit_sorts.jit_corsort_spaced_max_drift">[docs]</a><span class="nd">@njit</span>
-<span class="k">def</span> <span class="nf">jit_corsort_spaced_max_drift</span><span class="p">(</span><span class="n">perm</span><span class="p">):</span>
+<div class="viewcode-block" id="jit_corsort_rho_max_delta"><a class="viewcode-back" href="../../reference/jit_sorts.html#corsort.jit_sorts.jit_corsort_rho_max_delta">[docs]</a><span class="nd">@njit</span>
+<span class="k">def</span> <span class="nf">jit_corsort_rho_max_delta</span><span class="p">(</span><span class="n">perm</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Corsort with spaced core scorer, max-knowledge tie-break, and drift outpus scorer.</span>
+<span class="sd">    Corsort with rho core scorer, max-knowledge tie-break, and delta output scorer.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -709,7 +709,7 @@
 
 <span class="sd">    &gt;&gt;&gt; np.random.seed(42)</span>
 <span class="sd">    &gt;&gt;&gt; p = np.random.permutation(10)</span>
-<span class="sd">    &gt;&gt;&gt; st, sc, co = jit_corsort_spaced_max_drift(p)</span>
+<span class="sd">    &gt;&gt;&gt; st, sc, co = jit_corsort_rho_max_delta(p)</span>
 <span class="sd">    &gt;&gt;&gt; st[0]</span>
 <span class="sd">    array([8, 1, 5, 0, 7, 2, 9, 4, 3, 6])</span>
 <span class="sd">    &gt;&gt;&gt; st[10]</span>
@@ -775,10 +775,10 @@
     <span class="k">return</span> <span class="n">states</span><span class="p">,</span> <span class="n">scores</span><span class="p">,</span> <span class="n">comparisons</span></div>
 
 
-<div class="viewcode-block" id="jit_corsort_spaced_plus_drift"><a class="viewcode-back" href="../../reference/jit_sorts.html#corsort.jit_sorts.jit_corsort_spaced_plus_drift">[docs]</a><span class="nd">@njit</span>
-<span class="k">def</span> <span class="nf">jit_corsort_spaced_plus_drift</span><span class="p">(</span><span class="n">perm</span><span class="p">):</span>
+<div class="viewcode-block" id="jit_corsort_rho_sum_delta"><a class="viewcode-back" href="../../reference/jit_sorts.html#corsort.jit_sorts.jit_corsort_rho_sum_delta">[docs]</a><span class="nd">@njit</span>
+<span class="k">def</span> <span class="nf">jit_corsort_rho_sum_delta</span><span class="p">(</span><span class="n">perm</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Corsort with spaced core scorer, plus-knowledge tie-break, and drift outpus scorer.</span>
+<span class="sd">    Corsort with rho core scorer, sum-knowledge tie-break, and delta output scorer.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -799,7 +799,7 @@
 
 <span class="sd">    &gt;&gt;&gt; np.random.seed(42)</span>
 <span class="sd">    &gt;&gt;&gt; p = np.random.permutation(10)</span>
-<span class="sd">    &gt;&gt;&gt; st, sc, co = jit_corsort_spaced_plus_drift(p)</span>
+<span class="sd">    &gt;&gt;&gt; st, sc, co = jit_corsort_rho_sum_delta(p)</span>
 <span class="sd">    &gt;&gt;&gt; st[0]</span>
 <span class="sd">    array([8, 1, 5, 0, 7, 2, 9, 4, 3, 6])</span>
 <span class="sd">    &gt;&gt;&gt; st[10]</span>

@@ -51,11 +51,11 @@
 <li class="toctree-l1"><a class="reference internal" href="../notebooks/index.html">Notebooks</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">Reference</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="chain_and_y.html">ChainAndY</a></li>
-<li class="toctree-l2"><a class="reference internal" href="cor_sort.html">CorSort</a></li>
-<li class="toctree-l2"><a class="reference internal" href="cor_sort_borda.html">CorSortBorda</a></li>
-<li class="toctree-l2"><a class="reference internal" href="cor_sort_delegate.html">CorSortDelegate</a></li>
-<li class="toctree-l2"><a class="reference internal" href="cor_sort_gain.html">CorSortGain</a></li>
-<li class="toctree-l2"><a class="reference internal" href="cor_sort_gain_lexi.html">CorSortGainLexi</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cor_sort.html">Corsort</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cor_sort_borda.html">CorsortBorda</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cor_sort_delegate.html">CorsortDelegate</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cor_sort_gain.html">CorsortGain</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cor_sort_gain_lexi.html">CorsortGainLexi</a></li>
 <li class="toctree-l2"><a class="reference internal" href="distance_to_sorted_array.html">distance_to_sorted_array</a></li>
 <li class="toctree-l2"><a class="reference internal" href="entropy_bound.html">entropy_bound</a></li>
 <li class="toctree-l2"><a class="reference internal" href="jit_scorers.html">jit_scorers</a></li>
@@ -72,8 +72,8 @@
 <li class="toctree-l2"><a class="reference internal" href="sort_asort_quickselect.html">SortAsortQuickselect</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sort_ford_johnson.html">SortFordJohnson</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sort_largest_interval.html">SortLargestInterval</a></li>
-<li class="toctree-l2"><a class="reference internal" href="sort_merge_bfs.html">SortMergeBfs</a></li>
-<li class="toctree-l2"><a class="reference internal" href="sort_merge_dfs.html">SortMergeDfs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sort_merge_bfs.html">SortMergeBottomUp</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sort_merge_dfs.html">SortMergeTopDown</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sort_quick.html">SortQuick</a></li>
 <li class="toctree-l2"><a class="reference internal" href="wrap_full_jit.html">WrapFullJit</a></li>
 <li class="toctree-l2"><a class="reference internal" href="wrap_sort_scorer.html">WrapSortScorer</a></li>
@@ -125,12 +125,12 @@
 </dl>
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">corsort.sort_ford_johnson</span> <span class="kn">import</span> <span class="n">SortFordJohnson</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">corsort.sort_merge_bfs</span> <span class="kn">import</span> <span class="n">SortMergeBfs</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">corsort.sort_merge_dfs</span> <span class="kn">import</span> <span class="n">SortMergeDfs</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">corsort.sort_merge_bottom_up</span> <span class="kn">import</span> <span class="n">SortMergeBottomUp</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">corsort.sort_merge_top_down</span> <span class="kn">import</span> <span class="n">SortMergeTopDown</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">corsort.sort_quick</span> <span class="kn">import</span> <span class="n">SortQuick</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">s_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">SortFordJohnson</span><span class="p">(),</span> <span class="n">SortQuick</span><span class="p">,</span> <span class="n">SortMergeBfs</span><span class="p">(),</span> <span class="n">SortMergeDfs</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">SortFordJohnson</span><span class="p">(),</span> <span class="n">SortQuick</span><span class="p">(),</span> <span class="n">SortMergeBottomUp</span><span class="p">(),</span> <span class="n">SortMergeTopDown</span><span class="p">()]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">auto_colors</span><span class="p">(</span><span class="n">s_list</span><span class="p">)</span>
-<span class="go">{&#39;ford_johnson&#39;: &#39;#1f77b4&#39;, &#39;SortQuick&#39;: &#39;#ff7f0e&#39;, &#39;mergesort_bfs&#39;: &#39;#2ca02c&#39;, &#39;SortMergeDfs&#39;: &#39;#d62728&#39;}</span>
+<span class="go">{&#39;ford_johnson&#39;: &#39;#1f77b4&#39;, &#39;quicksort&#39;: &#39;#ff7f0e&#39;, &#39;mergesort_bottom_up&#39;: &#39;#2ca02c&#39;, &#39;mergesort_top_down&#39;: &#39;#d62728&#39;}</span>
 </pre></div>
 </div>
 </dd></dl>

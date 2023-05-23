@@ -1,5 +1,5 @@
-CorSort
+Corsort
 -------
-.. autoclass:: corsort.CorSort
+.. autoclass:: corsort.Corsort
     :members:
     :inherited-members:

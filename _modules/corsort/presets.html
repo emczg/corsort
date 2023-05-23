@@ -81,12 +81,12 @@
 
 <span class="n">colors</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;axes.prop_cycle&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">by_key</span><span class="p">()[</span><span class="s1">&#39;color&#39;</span><span class="p">]</span>
 
-<span class="n">sorts</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;corsort_drift_max_spaced&#39;</span><span class="p">,</span> <span class="s1">&#39;mergesort_bfs&#39;</span><span class="p">,</span> <span class="s1">&#39;ford_johnson_spaced&#39;</span><span class="p">,</span>
-         <span class="s1">&#39;mergesort_dfs_spaced&#39;</span><span class="p">,</span> <span class="s1">&#39;mergesort_dfs&#39;</span><span class="p">,</span> <span class="s1">&#39;mergesort_bfs_spaced&#39;</span><span class="p">,</span>
+<span class="n">sorts</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;corsort_delta_max_rho&#39;</span><span class="p">,</span> <span class="s1">&#39;mergesort_bottom_up&#39;</span><span class="p">,</span> <span class="s1">&#39;ford_johnson_rho&#39;</span><span class="p">,</span>
+         <span class="s1">&#39;mergesort_top_down_rho&#39;</span><span class="p">,</span> <span class="s1">&#39;mergesort_top_down&#39;</span><span class="p">,</span> <span class="s1">&#39;mergesort_bottom_up_rho&#39;</span><span class="p">,</span>
          <span class="s1">&#39;quicksort&#39;</span><span class="p">,</span> <span class="s1">&#39;heapsort&#39;</span><span class="p">]</span>
 
 <span class="n">color_dict</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">sorts</span><span class="p">,</span> <span class="n">colors</span><span class="p">)}</span>
-<span class="n">color_dict</span><span class="p">[</span><span class="s1">&#39;ford_johnson&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">color_dict</span><span class="p">[</span><span class="s1">&#39;ford_johnson_spaced&#39;</span><span class="p">]</span>
+<span class="n">color_dict</span><span class="p">[</span><span class="s1">&#39;ford_johnson&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">color_dict</span><span class="p">[</span><span class="s1">&#39;ford_johnson_rho&#39;</span><span class="p">]</span>
 
 
 <div class="viewcode-block" id="auto_colors"><a class="viewcode-back" href="../../reference/presets.html#corsort.presets.auto_colors">[docs]</a><span class="k">def</span> <span class="nf">auto_colors</span><span class="p">(</span><span class="n">sort_list</span><span class="p">):</span>
@@ -105,12 +105,12 @@
 <span class="sd">    --------</span>
 
 <span class="sd">    &gt;&gt;&gt; from corsort.sort_ford_johnson import SortFordJohnson</span>
-<span class="sd">    &gt;&gt;&gt; from corsort.sort_merge_bfs import SortMergeBfs</span>
-<span class="sd">    &gt;&gt;&gt; from corsort.sort_merge_dfs import SortMergeDfs</span>
+<span class="sd">    &gt;&gt;&gt; from corsort.sort_merge_bottom_up import SortMergeBottomUp</span>
+<span class="sd">    &gt;&gt;&gt; from corsort.sort_merge_top_down import SortMergeTopDown</span>
 <span class="sd">    &gt;&gt;&gt; from corsort.sort_quick import SortQuick</span>
-<span class="sd">    &gt;&gt;&gt; s_list = [SortFordJohnson(), SortQuick, SortMergeBfs(), SortMergeDfs]</span>
+<span class="sd">    &gt;&gt;&gt; s_list = [SortFordJohnson(), SortQuick(), SortMergeBottomUp(), SortMergeTopDown()]</span>
 <span class="sd">    &gt;&gt;&gt; auto_colors(s_list)</span>
-<span class="sd">    {&#39;ford_johnson&#39;: &#39;#1f77b4&#39;, &#39;SortQuick&#39;: &#39;#ff7f0e&#39;, &#39;mergesort_bfs&#39;: &#39;#2ca02c&#39;, &#39;SortMergeDfs&#39;: &#39;#d62728&#39;}</span>
+<span class="sd">    {&#39;ford_johnson&#39;: &#39;#1f77b4&#39;, &#39;quicksort&#39;: &#39;#ff7f0e&#39;, &#39;mergesort_bottom_up&#39;: &#39;#2ca02c&#39;, &#39;mergesort_top_down&#39;: &#39;#d62728&#39;}</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="p">{</span><span class="n">k</span><span class="o">.</span><span class="vm">__name__</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">sort_list</span><span class="p">,</span> <span class="n">colors</span><span class="p">)}</span></div>
 </pre></div>

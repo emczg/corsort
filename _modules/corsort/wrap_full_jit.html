@@ -80,7 +80,10 @@
 <span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">corsort.entropy_bound</span> <span class="kn">import</span> <span class="n">entropy_bound</span>
 <span class="kn">from</span> <span class="nn">corsort.distance_to_sorted_array</span> <span class="kn">import</span> <span class="n">distance_to_sorted_array</span>
-<span class="kn">from</span> <span class="nn">corsort.jit_sorts</span> <span class="kn">import</span> <span class="n">jit_corsort_borda</span>
+<span class="kn">from</span> <span class="nn">corsort.jit_sorts</span> <span class="kn">import</span> <span class="n">jit_corsort_borda</span><span class="p">,</span> \
+    <span class="n">jit_corsort_delta_max_rho</span><span class="p">,</span> <span class="n">jit_corsort_delta_sum_rho</span><span class="p">,</span> <span class="n">jit_corsort_delta_max_delta</span><span class="p">,</span> <span class="n">jit_corsort_delta_sum_delta</span><span class="p">,</span> \
+    <span class="n">jit_corsort_rho_max_rho</span><span class="p">,</span> <span class="n">jit_corsort_rho_sum_rho</span><span class="p">,</span> <span class="n">jit_corsort_rho_max_delta</span><span class="p">,</span> <span class="n">jit_corsort_rho_sum_delta</span><span class="p">,</span> \
+    <span class="n">jit_heapsort</span>
 
 
 <div class="viewcode-block" id="WrapFullJit"><a class="viewcode-back" href="../../reference/wrap_full_jit.html#corsort.WrapFullJit">[docs]</a><span class="k">class</span> <span class="nc">WrapFullJit</span><span class="p">:</span>
@@ -204,6 +207,106 @@
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">history_comparisons_</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">None</span>
         <span class="k">return</span> <span class="p">[(</span><span class="bp">self</span><span class="o">.</span><span class="n">perm_</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">perm_</span><span class="p">[</span><span class="n">j</span><span class="p">])</span> <span class="k">for</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">history_comparisons_</span><span class="p">]</span></div>
+
+
+<span class="k">class</span> <span class="nc">JitCorsortBorda</span><span class="p">(</span><span class="n">WrapFullJit</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">compute_history</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">record_states</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="n">jit_sort</span><span class="o">=</span><span class="n">jit_corsort_borda</span><span class="p">,</span>
+            <span class="n">compute_history</span><span class="o">=</span><span class="n">compute_history</span><span class="p">,</span>
+            <span class="n">record_states</span><span class="o">=</span><span class="n">record_states</span><span class="p">,</span>
+        <span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">JitCorsortDeltaMaxRho</span><span class="p">(</span><span class="n">WrapFullJit</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">compute_history</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">record_states</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="n">jit_sort</span><span class="o">=</span><span class="n">jit_corsort_delta_max_rho</span><span class="p">,</span>
+            <span class="n">compute_history</span><span class="o">=</span><span class="n">compute_history</span><span class="p">,</span>
+            <span class="n">record_states</span><span class="o">=</span><span class="n">record_states</span><span class="p">,</span>
+        <span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">JitCorsortDeltaSumRho</span><span class="p">(</span><span class="n">WrapFullJit</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">compute_history</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">record_states</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="n">jit_sort</span><span class="o">=</span><span class="n">jit_corsort_delta_sum_rho</span><span class="p">,</span>
+            <span class="n">compute_history</span><span class="o">=</span><span class="n">compute_history</span><span class="p">,</span>
+            <span class="n">record_states</span><span class="o">=</span><span class="n">record_states</span><span class="p">,</span>
+        <span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">JitCorsortDeltaMaxDelta</span><span class="p">(</span><span class="n">WrapFullJit</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">compute_history</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">record_states</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="n">jit_sort</span><span class="o">=</span><span class="n">jit_corsort_delta_max_delta</span><span class="p">,</span>
+            <span class="n">compute_history</span><span class="o">=</span><span class="n">compute_history</span><span class="p">,</span>
+            <span class="n">record_states</span><span class="o">=</span><span class="n">record_states</span><span class="p">,</span>
+        <span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">JitCorsortDeltaSumDelta</span><span class="p">(</span><span class="n">WrapFullJit</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">compute_history</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">record_states</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="n">jit_sort</span><span class="o">=</span><span class="n">jit_corsort_delta_sum_delta</span><span class="p">,</span>
+            <span class="n">compute_history</span><span class="o">=</span><span class="n">compute_history</span><span class="p">,</span>
+            <span class="n">record_states</span><span class="o">=</span><span class="n">record_states</span><span class="p">,</span>
+        <span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">JitCorsortRhoMaxRho</span><span class="p">(</span><span class="n">WrapFullJit</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">compute_history</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">record_states</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="n">jit_sort</span><span class="o">=</span><span class="n">jit_corsort_rho_max_rho</span><span class="p">,</span>
+            <span class="n">compute_history</span><span class="o">=</span><span class="n">compute_history</span><span class="p">,</span>
+            <span class="n">record_states</span><span class="o">=</span><span class="n">record_states</span><span class="p">,</span>
+        <span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">JitCorsortRhoSumRho</span><span class="p">(</span><span class="n">WrapFullJit</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">compute_history</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">record_states</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="n">jit_sort</span><span class="o">=</span><span class="n">jit_corsort_rho_sum_rho</span><span class="p">,</span>
+            <span class="n">compute_history</span><span class="o">=</span><span class="n">compute_history</span><span class="p">,</span>
+            <span class="n">record_states</span><span class="o">=</span><span class="n">record_states</span><span class="p">,</span>
+        <span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">JitCorsortRhoMaxDelta</span><span class="p">(</span><span class="n">WrapFullJit</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">compute_history</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">record_states</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="n">jit_sort</span><span class="o">=</span><span class="n">jit_corsort_rho_max_delta</span><span class="p">,</span>
+            <span class="n">compute_history</span><span class="o">=</span><span class="n">compute_history</span><span class="p">,</span>
+            <span class="n">record_states</span><span class="o">=</span><span class="n">record_states</span><span class="p">,</span>
+        <span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">JitCorsortRhoSumDelta</span><span class="p">(</span><span class="n">WrapFullJit</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">compute_history</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">record_states</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="n">jit_sort</span><span class="o">=</span><span class="n">jit_corsort_rho_sum_delta</span><span class="p">,</span>
+            <span class="n">compute_history</span><span class="o">=</span><span class="n">compute_history</span><span class="p">,</span>
+            <span class="n">record_states</span><span class="o">=</span><span class="n">record_states</span><span class="p">,</span>
+        <span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">JitHeapsort</span><span class="p">(</span><span class="n">WrapFullJit</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">compute_history</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">record_states</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="n">jit_sort</span><span class="o">=</span><span class="n">jit_heapsort</span><span class="p">,</span>
+            <span class="n">compute_history</span><span class="o">=</span><span class="n">compute_history</span><span class="p">,</span>
+            <span class="n">record_states</span><span class="o">=</span><span class="n">record_states</span><span class="p">,</span>
+        <span class="p">)</span>
 </pre></div>
 
            </div>

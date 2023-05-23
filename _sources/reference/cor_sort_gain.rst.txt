@@ -1,5 +1,5 @@
-CorSortGain
+CorsortGain
 -----------
-.. autoclass:: corsort.CorSortGain
+.. autoclass:: corsort.CorsortGain
     :members:
     :inherited-members:

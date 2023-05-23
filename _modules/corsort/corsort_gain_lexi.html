@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>corsort.corsort_gain_lexi &mdash; Corsort 0.1.1 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+    <link rel="shortcut icon" href="../../_static/favicon.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/sphinx_highlight.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            Corsort
+              <img src="../../_static/logo_small.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../readme.html">Corsort</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../usage.html">Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../notebooks/index.html">Notebooks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../reference/index.html">Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../authors.html">Credits</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../history.html">History</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Corsort</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">corsort.corsort_gain_lexi</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for corsort.corsort_gain_lexi</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">corsort.entropy_bound</span> <span class="kn">import</span> <span class="n">entropy_bound</span>
+<span class="kn">from</span> <span class="nn">corsort.corsort_gain</span> <span class="kn">import</span> <span class="n">CorsortGain</span>
+
+
+<div class="viewcode-block" id="CorsortGainLexi"><a class="viewcode-back" href="../../reference/cor_sort_gain_lexi.html#corsort.CorsortGainLexi">[docs]</a><span class="k">class</span> <span class="nc">CorsortGainLexi</span><span class="p">(</span><span class="n">CorsortGain</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Corsort with lexicographic gain (information gain, difference of position estimates).</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">        &gt;&gt;&gt; np.random.seed(22)</span>
+<span class="sd">        &gt;&gt;&gt; n_ = 15</span>
+<span class="sd">        &gt;&gt;&gt; p = np.random.permutation(n_)</span>
+<span class="sd">        &gt;&gt;&gt; corsort = CorsortGainLexi(compute_history=True)</span>
+<span class="sd">        &gt;&gt;&gt; corsort(p).n_comparisons_</span>
+<span class="sd">        39</span>
+<span class="sd">        &gt;&gt;&gt; entropy_bound(n_) # doctest: +ELLIPSIS</span>
+<span class="sd">        40.24212...</span>
+<span class="sd">        &gt;&gt;&gt; corsort.history_distances_ # doctest: +NORMALIZE_WHITESPACE</span>
+<span class="sd">        [55, 42, 51, 49, 49, 43, 39, 38, 37, 36, 28, 27, 22, 21, 20, 19, 13, 14, 13, 13, 13, 14, 13, 11,</span>
+<span class="sd">        10, 6, 6, 5, 5, 3, 2, 1, 2, 2, 2, 1, 1, 1, 1, 0]</span>
+<span class="sd">        &gt;&gt;&gt; corsort.__name__</span>
+<span class="sd">        &#39;corsort_lexi&#39;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="vm">__name__</span> <span class="o">=</span> <span class="s1">&#39;corsort_lexi&#39;</span>
+
+<div class="viewcode-block" id="CorsortGainLexi.gain_i_lt_j"><a class="viewcode-back" href="../../reference/cor_sort_gain_lexi.html#corsort.CorsortGainLexi.gain_i_lt_j">[docs]</a>    <span class="k">def</span> <span class="nf">gain_i_lt_j</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Gain if we learn that perm[i] &lt; perm[j].</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        i: :class:`int`</span>
+<span class="sd">            Index of the small element.</span>
+<span class="sd">        j: :class:`int`</span>
+<span class="sd">            Index of the big element.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        :class:`tuple`</span>
+<span class="sd">            Potential gain if we compare i and j and find that perm[i] &lt; perm[j].</span>
+<span class="sd">            First element: number of pairs for which we will learn their comparison if it is the case.</span>
+<span class="sd">            Second element: difference of position estimate between i and j (currently, i.e. before comparing them).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">gain</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">leq_</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">return</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span>
+        <span class="n">i_or_lower</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">leq_</span><span class="p">[:,</span> <span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">j_or_greater</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">leq_</span><span class="p">[</span><span class="n">j</span><span class="p">,</span> <span class="p">:]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">ancestor_of_j</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">j_or_greater</span><span class="p">)[</span><span class="mi">0</span><span class="p">]:</span>
+            <span class="c1"># ancestor_of_j learns that it&#39;s larger than all items i_or_lower, except for those it already knew.</span>
+            <span class="n">gain</span> <span class="o">+=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">i_or_lower</span> <span class="o">&amp;</span> <span class="n">np</span><span class="o">.</span><span class="n">logical_not</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">leq_</span><span class="p">[:,</span> <span class="n">ancestor_of_j</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">descendant_of_i</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">i_or_lower</span><span class="p">)[</span><span class="mi">0</span><span class="p">]:</span>
+            <span class="c1"># descendant_of_i learns that it&#39;s smaller than all items j_or_greater, except for those it already knew.</span>
+            <span class="n">gain</span> <span class="o">+=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">j_or_greater</span> <span class="o">&amp;</span> <span class="n">np</span><span class="o">.</span><span class="n">logical_not</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">leq_</span><span class="p">[</span><span class="n">descendant_of_i</span><span class="p">,</span> <span class="p">:]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">gain</span><span class="p">,</span> <span class="o">-</span><span class="nb">abs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">position_estimates_</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">position_estimates_</span><span class="p">[</span><span class="n">j</span><span class="p">])</span></div>
+
+<div class="viewcode-block" id="CorsortGainLexi.gain"><a class="viewcode-back" href="../../reference/cor_sort_gain_lexi.html#corsort.CorsortGainLexi.gain">[docs]</a>    <span class="k">def</span> <span class="nf">gain</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Ensured gain when comparing perm[i] and perm[j].</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        i: :class:`int`</span>
+<span class="sd">            First index.</span>
+<span class="sd">        j: :class:`int`</span>
+<span class="sd">            Second index.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        :class:`tuple`</span>
+<span class="sd">            Ensured gain if i and j are compared. Cf. :meth:`gain_i_lt_j`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">min</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">gain_i_lt_j</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">gain_i_lt_j</span><span class="p">(</span><span class="n">j</span><span class="p">,</span> <span class="n">i</span><span class="p">))</span></div></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Emma Caizergues.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

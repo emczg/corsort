@@ -1,5 +1,5 @@
-SortMergeBfs
+SortMergeBottomUp
 ------------
-.. autoclass:: corsort.SortMergeBfs
+.. autoclass:: corsort.SortMergeBottomUp
     :members:
     :inherited-members:
