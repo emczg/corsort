@@ -5,7 +5,7 @@ __email__ = 'emma.caizergues@gmail.com'
 __version__ = '0.1.1'
 
 
-from corsort.chain_and_y import ChainAndY, print_order, linear_extensions, print_order
+from corsort.chain_and_y import ChainAndY, linear_extensions
 from corsort.corsort import Corsort
 from corsort.corsort_borda import CorsortBorda
 from corsort.corsort_chain_decomposition_merge_v import CorsortChainDecompositionMergeV
@@ -25,6 +25,7 @@ from corsort.montecarlo import print_res, evaluate, evaluate_convergence, evalua
 from corsort.multi_merge import multi_merge
 from corsort.partition import partition
 from corsort.presets import colors, sorts, color_dict, auto_colors
+from corsort.print_order_as_letters import print_order_as_letters
 from corsort.scorers import scorer_delta, scorer_rho
 from corsort.sort import Sort
 from corsort.sort_asort_quickselect import SortAsortQuickselect
