@@ -1,7 +1,10 @@
 import numpy as np
 from corsort.entropy_bound import entropy_bound
 from corsort.distance_to_sorted_array import distance_to_sorted_array
-from corsort.jit_sorts import jit_corsort_borda
+from corsort.jit_sorts import jit_corsort_borda, \
+    jit_corsort_delta_max_rho, jit_corsort_delta_sum_rho, jit_corsort_delta_max_delta, jit_corsort_delta_sum_delta, \
+    jit_corsort_rho_max_rho, jit_corsort_rho_sum_rho, jit_corsort_rho_max_delta, jit_corsort_rho_sum_delta, \
+    jit_heapsort
 
 
 class WrapFullJit:
@@ -125,3 +128,103 @@ class WrapFullJit:
         if self.history_comparisons_ is None:
             return None
         return [(self.perm_[i], self.perm_[j]) for (i, j) in self.history_comparisons_]
+
+
+class JitCorsortBorda(WrapFullJit):
+
+    def __init__(self, compute_history=False, record_states=False):
+        super().__init__(
+            jit_sort=jit_corsort_borda,
+            compute_history=compute_history,
+            record_states=record_states,
+        )
+
+
+class JitCorsortDeltaMaxRho(WrapFullJit):
+
+    def __init__(self, compute_history=False, record_states=False):
+        super().__init__(
+            jit_sort=jit_corsort_delta_max_rho,
+            compute_history=compute_history,
+            record_states=record_states,
+        )
+
+
+class JitCorsortDeltaSumRho(WrapFullJit):
+
+    def __init__(self, compute_history=False, record_states=False):
+        super().__init__(
+            jit_sort=jit_corsort_delta_sum_rho,
+            compute_history=compute_history,
+            record_states=record_states,
+        )
+
+
+class JitCorsortDeltaMaxDelta(WrapFullJit):
+
+    def __init__(self, compute_history=False, record_states=False):
+        super().__init__(
+            jit_sort=jit_corsort_delta_max_delta,
+            compute_history=compute_history,
+            record_states=record_states,
+        )
+
+
+class JitCorsortDeltaSumDelta(WrapFullJit):
+
+    def __init__(self, compute_history=False, record_states=False):
+        super().__init__(
+            jit_sort=jit_corsort_delta_sum_delta,
+            compute_history=compute_history,
+            record_states=record_states,
+        )
+
+
+class JitCorsortRhoMaxRho(WrapFullJit):
+
+    def __init__(self, compute_history=False, record_states=False):
+        super().__init__(
+            jit_sort=jit_corsort_rho_max_rho,
+            compute_history=compute_history,
+            record_states=record_states,
+        )
+
+
+class JitCorsortRhoSumRho(WrapFullJit):
+
+    def __init__(self, compute_history=False, record_states=False):
+        super().__init__(
+            jit_sort=jit_corsort_rho_sum_rho,
+            compute_history=compute_history,
+            record_states=record_states,
+        )
+
+
+class JitCorsortRhoMaxDelta(WrapFullJit):
+
+    def __init__(self, compute_history=False, record_states=False):
+        super().__init__(
+            jit_sort=jit_corsort_rho_max_delta,
+            compute_history=compute_history,
+            record_states=record_states,
+        )
+
+
+class JitCorsortRhoSumDelta(WrapFullJit):
+
+    def __init__(self, compute_history=False, record_states=False):
+        super().__init__(
+            jit_sort=jit_corsort_rho_sum_delta,
+            compute_history=compute_history,
+            record_states=record_states,
+        )
+
+
+class JitHeapsort(WrapFullJit):
+
+    def __init__(self, compute_history=False, record_states=False):
+        super().__init__(
+            jit_sort=jit_heapsort,
+            compute_history=compute_history,
+            record_states=record_states,
+        )

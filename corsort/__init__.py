@@ -37,5 +37,7 @@ from corsort.sort_quick import SortQuick
 from corsort.sort_shell import SortShell
 from corsort.split_pointer_lists import split_pointer_lists
 from corsort.util_latex import print_corsort_execution
-from corsort.wrap_full_jit import WrapFullJit
+from corsort.wrap_full_jit import WrapFullJit, JitCorsortBorda, JitHeapsort, \
+    JitCorsortDeltaMaxDelta, JitCorsortDeltaMaxRho, JitCorsortDeltaSumDelta, JitCorsortDeltaSumRho, \
+    JitCorsortRhoMaxDelta, JitCorsortRhoMaxRho, JitCorsortRhoSumDelta, JitCorsortRhoSumRho
 from corsort.wrap_sort_scorer import WrapSortScorer
