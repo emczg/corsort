@@ -37,8 +37,8 @@ Comparison-Oriented Sort.
 Features
 --------
 
-* Implement Corsort, an efficient anytime sorting algorithm.
-* Compare Corsort with classical algorithms through Monte-Carlo simulations.
+* Implement Corsort and Multizip sort, some efficient anytime sorting algorithms.
+* Compare them with classical algorithms through Monte-Carlo simulations.
 
 -------
 Credits
