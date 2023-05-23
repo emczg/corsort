@@ -30,7 +30,8 @@ def auto_colors(sort_list):
     >>> from corsort.sort_merge_top_down import SortMergeTopDown
     >>> from corsort.sort_quick import SortQuick
     >>> s_list = [SortFordJohnson(), SortQuick(), SortMergeBottomUp(), SortMergeTopDown()]
-    >>> auto_colors(s_list)
-    {'ford_johnson': '#1f77b4', 'quicksort': '#ff7f0e', 'mergesort_bottom_up': '#2ca02c', 'mergesort_top_down': '#d62728'}
+    >>> auto_colors(s_list)  # doctest: +NORMALIZE_WHITESPACE
+    {'ford_johnson': '#1f77b4', 'quicksort': '#ff7f0e', 'mergesort_bottom_up': '#2ca02c',
+    'mergesort_top_down': '#d62728'}
     """
     return {k.__name__: v for k, v in zip(sort_list, colors)}

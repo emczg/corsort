@@ -80,9 +80,9 @@ def _shellsort(xs, gap_sequence, lt=None):
 
     Examples
     --------
-        >>> gap_sequence = [701, 301, 132, 57, 23, 10, 4, 1]
+        >>> my_gap_sequence = [701, 301, 132, 57, 23, 10, 4, 1]
         >>> my_xs = np.array([4, 1, 7, 6, 0, 8, 2, 3, 5])
-        >>> _shellsort(my_xs, gap_sequence)
+        >>> _shellsort(my_xs, my_gap_sequence)
         >>> my_xs
         array([0, 1, 2, 3, 4, 5, 6, 7, 8])
     """
@@ -99,4 +99,5 @@ def _shellsort(xs, gap_sequence, lt=None):
                 xs[j] = xs[j - gap]
                 if lt(xs[j - gap], temp):
                     break
+            # noinspection PyUnboundLocalVariable
             xs[j] = temp
