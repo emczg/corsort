@@ -1,9 +1,9 @@
-from corsort.cor_sort import CorSort
+from corsort.corsort import Corsort
 
 
-class CorSortGain(CorSort):
+class CorsortGain(Corsort):
     """
-    CorSort based on a `gain` function.
+    Corsort based on a `gain` function.
     """
 
     def gain(self, i, j):

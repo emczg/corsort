@@ -1,5 +1,5 @@
-CorSortBorda
+CorsortBorda
 ------------
-.. autoclass:: corsort.CorSortBorda
+.. autoclass:: corsort.CorsortBorda
     :members:
     :inherited-members:

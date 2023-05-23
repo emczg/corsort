@@ -1,19 +1,19 @@
 import numpy as np
 from corsort.entropy_bound import entropy_bound
-from corsort.cor_sort import CorSort
+from corsort.corsort import Corsort
 from corsort.util_chains import greedy_chain_decomposition
 
 
-class CorSortChainDecompositionMergeX(CorSort):
+class CorsortChainDecompositionMergeX(Corsort):
     """
-    CorSort based on chain decomposition, with "X-shape" merging.
+    Corsort based on chain decomposition, with "X-shape" merging.
 
     Examples
     --------
         >>> np.random.seed(22)
         >>> n = 15
         >>> perm = np.random.permutation(n)
-        >>> corsort = CorSortChainDecompositionMergeX(compute_history=True)
+        >>> corsort = CorsortChainDecompositionMergeX(compute_history=True)
         >>> corsort(perm).n_comparisons_
         47
         >>> entropy_bound(n)  # doctest: +ELLIPSIS

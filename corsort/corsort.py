@@ -5,9 +5,9 @@ from corsort.sort import Sort
 from corsort.scorers import scorer_rho, scorer_delta
 
 
-class CorSort(Sort):
+class Corsort(Sort):
     """
-    CorSort.
+    Corsort.
 
     Parameters
     ----------
@@ -49,7 +49,7 @@ class CorSort(Sort):
 
         Examples
         --------
-            >>> corsort = CorSort(final_scorer=scorer_delta)
+            >>> corsort = Corsort(final_scorer=scorer_delta)
             >>> corsort.n_ = 4
             >>> corsort.leq_ = np.array([
             ...     [ 1,  1,  1,  1],
@@ -87,7 +87,7 @@ class CorSort(Sort):
 
         Examples
         --------
-            >>> corsort = CorSort()
+            >>> corsort = Corsort()
             >>> corsort.n_ = 4
 
         Assume that we know perm[0] < perm[1], and perm[2] < perm[3]:
@@ -149,7 +149,7 @@ class CorSort(Sort):
         """
         Examples
         --------
-            >>> my_sort = CorSort(compute_history=True)
+            >>> my_sort = Corsort(compute_history=True)
             >>> my_sort._initialize_algo(perm=np.array(['b', 'a']))
             >>> my_sort.test_i_lt_j(0, 1)
             False

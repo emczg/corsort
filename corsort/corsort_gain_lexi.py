@@ -1,18 +1,18 @@
 import numpy as np
 from corsort.entropy_bound import entropy_bound
-from corsort.cor_sort_gain import CorSortGain
+from corsort.corsort_gain import CorsortGain
 
 
-class CorSortGainLexi(CorSortGain):
+class CorsortGainLexi(CorsortGain):
     """
-    CorSort with lexicographic gain (information gain, difference of position estimates).
+    Corsort with lexicographic gain (information gain, difference of position estimates).
 
     Examples
     --------
         >>> np.random.seed(22)
         >>> n_ = 15
         >>> p = np.random.permutation(n_)
-        >>> corsort = CorSortGainLexi(compute_history=True)
+        >>> corsort = CorsortGainLexi(compute_history=True)
         >>> corsort(p).n_comparisons_
         39
         >>> entropy_bound(n_) # doctest: +ELLIPSIS

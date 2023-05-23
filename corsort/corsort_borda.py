@@ -1,18 +1,18 @@
 import numpy as np
 from corsort.entropy_bound import entropy_bound
-from corsort.cor_sort import CorSort
+from corsort.corsort import Corsort
 
 
-class CorSortBorda(CorSort):
+class CorsortBorda(Corsort):
     """
-    CorSort based on the Borda score.
+    Corsort based on the Borda score.
 
     Examples
     --------
         >>> np.random.seed(22)
         >>> n = 15
         >>> perm = np.random.permutation(n)
-        >>> corsort = CorSortBorda(compute_history=True)
+        >>> corsort = CorsortBorda(compute_history=True)
         >>> corsort(perm).n_comparisons_
         38
         >>> entropy_bound(n)  # doctest: +ELLIPSIS

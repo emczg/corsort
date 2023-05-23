@@ -22,7 +22,7 @@ Corsort
 |
 
 .. image:: https://github.com/emczg/corsort/raw/main/docs/logo/logo.png
-    :alt: CorSort logo
+    :alt: Corsort logo
     :target: https://emczg.github.io/corsort/
 
 

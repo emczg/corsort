@@ -1,7 +1,7 @@
 import numpy as np
 from string import Template
 from itertools import permutations
-from corsort.cor_sort_delegate import CorSortDelegate
+from corsort.corsort_delegate import CorsortDelegate
 from corsort.wrap_full_jit import WrapFullJit
 from corsort.jit_sorts import jit_corsort_delta_max_rho
 
@@ -166,7 +166,7 @@ def print_corsort_execution(perm):
         }{4/5, 2/3, 3/4, 1/2}};
         \end{tikzpicture}
     """
-    corsort = CorSortDelegate(
+    corsort = CorsortDelegate(
         sort=WrapFullJit(jit_sort=jit_corsort_delta_max_rho, record_states=True),
         compute_history=True,
         record_leq=True

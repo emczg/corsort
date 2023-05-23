@@ -1,12 +1,12 @@
 import numpy as np
-from corsort.cor_sort import CorSort
+from corsort.corsort import Corsort
 from corsort.sort_quick import SortQuick
 from corsort.scorers import scorer_delta
 
 
-class CorSortDelegate(CorSort):
+class CorsortDelegate(Corsort):
     """
-    CorSort that delegates the choice of pairwise comparisons to another sorting algorithm.
+    Corsort that delegates the choice of pairwise comparisons to another sorting algorithm.
 
     Parameters
     ----------
@@ -15,7 +15,7 @@ class CorSortDelegate(CorSort):
 
     Examples
     --------
-        >>> corsort = CorSortDelegate(SortQuick(), compute_history=True)
+        >>> corsort = CorsortDelegate(SortQuick(), compute_history=True)
         >>> corsort(np.array(['e', 'b', 'a', 'c', 'd'])).n_comparisons_
         8
         >>> corsort.history_comparisons_

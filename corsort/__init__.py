@@ -6,13 +6,13 @@ __version__ = '0.1.1'
 
 
 from corsort.chain_and_y import ChainAndY, print_order
-from corsort.cor_sort import CorSort
-from corsort.cor_sort_borda import CorSortBorda
-from corsort.cor_sort_chain_decomposition_merge_v import CorSortChainDecompositionMergeV
-from corsort.cor_sort_chain_decomposition_merge_x import CorSortChainDecompositionMergeX
-from corsort.cor_sort_delegate import CorSortDelegate
-from corsort.cor_sort_gain import CorSortGain
-from corsort.cor_sort_gain_lexi import CorSortGainLexi
+from corsort.corsort import Corsort
+from corsort.corsort_borda import CorsortBorda
+from corsort.corsort_chain_decomposition_merge_v import CorsortChainDecompositionMergeV
+from corsort.corsort_chain_decomposition_merge_x import CorsortChainDecompositionMergeX
+from corsort.corsort_delegate import CorsortDelegate
+from corsort.corsort_gain import CorsortGain
+from corsort.corsort_gain_lexi import CorsortGainLexi
 from corsort.distance_to_sorted_array import distance_to_sorted_array
 from corsort.entropy_bound import entropy_bound
 from corsort.jit_scorers import jit_scorer_rho, jit_scorer_delta
