@@ -5,7 +5,7 @@ __email__ = 'emma.caizergues@gmail.com'
 __version__ = '0.1.1'
 
 
-from corsort.chain_and_y import ChainAndY, print_order
+from corsort.chain_and_y import ChainAndY, print_order, linear_extensions, print_order
 from corsort.corsort import Corsort
 from corsort.corsort_borda import CorsortBorda
 from corsort.corsort_chain_decomposition_merge_v import CorsortChainDecompositionMergeV
@@ -28,14 +28,16 @@ from corsort.presets import colors, sorts, color_dict, auto_colors
 from corsort.scorers import scorer_delta, scorer_rho
 from corsort.sort import Sort
 from corsort.sort_asort_quickselect import SortAsortQuickselect
+from corsort.sort_binary_insertion import SortBinaryInsertion
 from corsort.sort_ford_johnson import SortFordJohnson
 from corsort.sort_largest_interval import SortLargestInterval
-from corsort.sort_merge_bfs import SortMergeBfs
-from corsort.sort_merge_dfs import SortMergeDfs
+from corsort.sort_merge_bottom_up import SortMergeBottomUp
+from corsort.sort_merge_top_down import SortMergeTopDown
 from corsort.sort_multizip import SortMultizip
 from corsort.sort_quick import SortQuick
 from corsort.sort_shell import SortShell
 from corsort.split_pointer_lists import split_pointer_lists
+from corsort.util_chains import longest_chain_starting_at, longest_chain, greedy_chain_decomposition
 from corsort.util_latex import print_corsort_execution
 from corsort.wrap_full_jit import WrapFullJit, JitCorsortBorda, JitHeapsort, \
     JitCorsortDeltaMaxDelta, JitCorsortDeltaMaxRho, JitCorsortDeltaSumDelta, JitCorsortDeltaSumRho, \

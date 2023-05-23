@@ -1,5 +1,5 @@
-SortMergeDfs
+SortMergeTopDown
 ------------
-.. autoclass:: corsort.SortMergeDfs
+.. autoclass:: corsort.SortMergeTopDown
     :members:
     :inherited-members:

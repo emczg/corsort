@@ -1,7 +1,6 @@
 import numpy as np
 from corsort.sort import Sort
 from corsort.distance_to_sorted_array import distance_to_sorted_array
-from corsort.partition import partition
 
 
 class SortBinaryInsertion(Sort):

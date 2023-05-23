@@ -9,8 +9,8 @@ class SortMultizip(Sort):
     """
     Multizip sort.
 
-    Like merge-BFS, we compare pairs first, then quadruples, etc. But at each steps, all merges are done in
-    "multizip" style, i.e. one comparison for the first merge, then one for the second merge, etc.
+    Like bottom-up (BFS) mergesort, we compare pairs first, then quadruples, etc. But at each steps, all merges are
+    done in "multizip" style, i.e. one comparison for the first merge, then one for the second merge, etc.
 
     Examples
     --------

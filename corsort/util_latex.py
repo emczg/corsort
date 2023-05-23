@@ -1,12 +1,11 @@
-import numpy as np
 from string import Template
-from itertools import permutations
 from corsort.corsort_delegate import CorsortDelegate
 from corsort.wrap_full_jit import WrapFullJit
 from corsort.jit_sorts import jit_corsort_delta_max_rho
+from corsort.transitive_reduction import transitive_reduction
 
 
-def print_legend(k, state, distance):
+def _print_legend(k, state, distance):
     if k == 0:
         positioning = ""
     elif k % 2 == 1:
@@ -18,17 +17,7 @@ def print_legend(k, state, distance):
         positioning=positioning, k=k, distance=distance, state_as_str=state_as_str))
 
 
-def transitive_reduction(leq):
-    mask_keep = (leq == 1)
-    comparisons = [(i, j) for i, j in zip(*np.where(leq == 1)) if i != j]
-    for (i, j), (k, l) in permutations(comparisons, 2):
-        if j == k:
-            mask_keep[i, l] = False
-    comparisons = [(i, j) for i, j in zip(*np.where(mask_keep)) if i != j]
-    return comparisons
-
-
-def print_graph(k, leq, history_comparisons, state, perm):
+def _print_graph(k, leq, history_comparisons, state, perm):
     print(Template(r"\node[above = \intraspace of x$k] (x${k}p) {\execution{").safe_substitute(k=k))
     n_ancestors = (leq > 0).sum(axis=1)
     n_descendants = (leq > 0).sum(axis=0)
@@ -47,7 +36,7 @@ def print_graph(k, leq, history_comparisons, state, perm):
     print(Template(r"}{$comparisons_as_str}};").safe_substitute(comparisons_as_str=comparisons_as_str))
 
 
-def print_preamble():
+def _print_preamble():
     print(r"""
 \begin{tikzpicture}
 \def\interspace{3cm}
@@ -66,7 +55,7 @@ def print_preamble():
     """)
 
 
-def print_end():
+def _print_end():
     print(r"\end{tikzpicture}")
 
 
@@ -172,7 +161,7 @@ def print_corsort_execution(perm):
         record_leq=True
     )
     corsort(perm)
-    print_preamble()
+    _print_preamble()
     # raise ValueError(str(corsort.sort.record_states))
     # if corsort.sort.history_states_ is None:
     #     raise ValueError("A")
@@ -183,6 +172,6 @@ def print_corsort_execution(perm):
     for k, (state, distance, leq) in enumerate(zip(corsort.sort.history_states_,
                                                    corsort.history_distances_,
                                                    corsort.history_leq_)):
-        print_legend(k, state, distance)
-        print_graph(k, leq, corsort.history_comparisons_, state, perm)
-    print_end()
+        _print_legend(k, state, distance)
+        _print_graph(k, leq, corsort.history_comparisons_, state, perm)
+    _print_end()
