@@ -666,7 +666,7 @@
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">Fraction</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">nb_lin_ext</span><span class="p">)</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">result</span><span class="p">])</span>
 
 
-<span class="k">def</span> <span class="nf">linear_extensions</span><span class="p">(</span><span class="n">chain_1</span><span class="p">,</span> <span class="n">chain_2</span><span class="p">):</span>
+<div class="viewcode-block" id="linear_extensions"><a class="viewcode-back" href="../../reference/chain_and_y.html#corsort.linear_extensions">[docs]</a><span class="k">def</span> <span class="nf">linear_extensions</span><span class="p">(</span><span class="n">chain_1</span><span class="p">,</span> <span class="n">chain_2</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Linear extensions for two independent chains (separate connected components).</span>
 
@@ -711,28 +711,7 @@
             <span class="n">mask_y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="n">y</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">)</span>
             <span class="n">mask_y</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">places_x</span><span class="p">)]</span> <span class="o">=</span> <span class="kc">False</span>
             <span class="n">extension</span><span class="p">[</span><span class="n">mask_y</span><span class="p">]</span> <span class="o">=</span> <span class="n">chain_2</span>
-            <span class="k">yield</span> <span class="n">extension</span>
-
-
-<div class="viewcode-block" id="print_order"><a class="viewcode-back" href="../../reference/print_order.html#corsort.print_order">[docs]</a><span class="k">def</span> <span class="nf">print_order</span><span class="p">(</span><span class="n">order</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Print a small list of integers as letters.</span>
-
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-<span class="sd">    order: :class:`list`</span>
-<span class="sd">        Size should be 26 at most.</span>
-
-<span class="sd">    Returns</span>
-<span class="sd">    -------</span>
-<span class="sd">    str</span>
-
-<span class="sd">    Examples</span>
-<span class="sd">    --------</span>
-<span class="sd">        &gt;&gt;&gt; print_order([4, 2, 3, 1, 0])</span>
-<span class="sd">        (ecdba)</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;(&quot;</span> <span class="o">+</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">string</span><span class="o">.</span><span class="n">ascii_lowercase</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">order</span><span class="p">])</span> <span class="o">+</span> <span class="s2">&quot;)&quot;</span><span class="p">)</span></div>
+            <span class="k">yield</span> <span class="n">extension</span></div>
 </pre></div>
 
            </div>

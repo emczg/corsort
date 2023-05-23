@@ -71,6 +71,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#corsort.ChainAndY.rho"><code class="docutils literal notranslate"><span class="pre">ChainAndY.rho</span></code></a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="#corsort.linear_extensions"><code class="docutils literal notranslate"><span class="pre">linear_extensions()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="cor_sort.html">Corsort</a></li>
@@ -533,6 +534,43 @@ were forming a chain and if no information was known about the other elements.</
 </div>
 </dd></dl>
 
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="corsort.linear_extensions">
+<span class="sig-prename descclassname"><span class="pre">corsort.</span></span><span class="sig-name descname"><span class="pre">linear_extensions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">chain_1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chain_2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/corsort/chain_and_y.html#linear_extensions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#corsort.linear_extensions" title="Permalink to this definition"></a></dt>
+<dd><p>Linear extensions for two independent chains (separate connected components).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>chain_1</strong> (class:<cite>list</cite>) – </p></li>
+<li><p><strong>chain_2</strong> (class:<cite>list</cite>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Yields<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>extension</strong> (class:<cite>list</cite>) – A linear extension of the poset consisting of the two given chains.</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">linear_extension</span> <span class="ow">in</span> <span class="n">linear_extensions</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">42</span><span class="p">,</span> <span class="mi">52</span><span class="p">]):</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">linear_extension</span><span class="p">)</span>
+<span class="go">[ 1  2  3 42 52]</span>
+<span class="go">[ 1  2 42  3 52]</span>
+<span class="go">[ 1  2 42 52  3]</span>
+<span class="go">[ 1 42  2  3 52]</span>
+<span class="go">[ 1 42  2 52  3]</span>
+<span class="go">[ 1 42 52  2  3]</span>
+<span class="go">[42  1  2  3 52]</span>
+<span class="go">[42  1  2 52  3]</span>
+<span class="go">[42  1 52  2  3]</span>
+<span class="go">[42 52  1  2  3]</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">linear_extension</span> <span class="ow">in</span> <span class="n">linear_extensions</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="p">[]):</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">linear_extension</span><span class="p">)</span>
+<span class="go">[1 2 3]</span>
+</pre></div>
+</div>
 </dd></dl>
 
 </section>

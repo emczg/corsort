@@ -633,24 +633,3 @@ def linear_extensions(chain_1, chain_2):
             mask_y[np.array(places_x)] = False
             extension[mask_y] = chain_2
             yield extension
-
-
-def print_order(order):
-    """
-    Print a small list of integers as letters.
-
-    Parameters
-    ----------
-    order: :class:`list`
-        Size should be 26 at most.
-
-    Returns
-    -------
-    str
-
-    Examples
-    --------
-        >>> print_order([4, 2, 3, 1, 0])
-        (ecdba)
-    """
-    print("(" + "".join([string.ascii_lowercase[i] for i in order]) + ")")
