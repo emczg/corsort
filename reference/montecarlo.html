@@ -146,13 +146,13 @@
 </pre></div>
 </div>
 <p>Evaluate corsort and quicksort using a Pool:</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">with</span> <span class="n">Pool</span><span class="p">()</span> <span class="k">as</span> <span class="n">p</span><span class="p">:</span>  
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">with</span> <span class="n">Pool</span><span class="p">()</span> <span class="k">as</span> <span class="n">p</span><span class="p">:</span>
 <span class="gp">... </span>    <span class="n">my_res</span> <span class="o">=</span> <span class="n">evaluate</span><span class="p">(</span><span class="n">my_sort_list</span><span class="p">,</span> <span class="n">my_n_list</span><span class="p">,</span> <span class="n">nt</span><span class="o">=</span><span class="n">my_nt</span><span class="p">,</span> <span class="n">pool</span><span class="o">=</span><span class="n">p</span><span class="p">)</span>
 <span class="go">Evaluate quicksort for n = 10</span>
 <span class="go">Evaluate corsort_borda for n = 10</span>
 <span class="go">Evaluate quicksort for n = 15</span>
 <span class="go">Evaluate corsort_borda for n = 15</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">print_res</span><span class="p">(</span><span class="n">my_res</span><span class="p">)</span>  
+<span class="gp">&gt;&gt;&gt; </span><span class="n">print_res</span><span class="p">(</span><span class="n">my_res</span><span class="p">)</span>
 <span class="go">n=10, quicksort: mean=24.15, std=3.50</span>
 <span class="go">n=15, quicksort: mean=46.26, std=6.99</span>
 <span class="go">n=10, corsort_borda: mean=22.11, std=0.87</span>
@@ -203,13 +203,13 @@
 </pre></div>
 </div>
 <p>Evaluate corsort and quicksort using a Pool:</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">with</span> <span class="n">Pool</span><span class="p">()</span> <span class="k">as</span> <span class="n">p</span><span class="p">:</span>  
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">with</span> <span class="n">Pool</span><span class="p">()</span> <span class="k">as</span> <span class="n">p</span><span class="p">:</span>
 <span class="gp">... </span>    <span class="n">my_res</span> <span class="o">=</span> <span class="n">evaluate_comparisons</span><span class="p">(</span><span class="n">my_sort_list</span><span class="p">,</span> <span class="n">my_n_list</span><span class="p">,</span> <span class="n">nt</span><span class="o">=</span><span class="n">my_nt</span><span class="p">,</span> <span class="n">pool</span><span class="o">=</span><span class="n">p</span><span class="p">)</span>
 <span class="go">Evaluate comparisons of quicksort for n = 10</span>
 <span class="go">Evaluate comparisons of corsort_borda for n = 10</span>
 <span class="go">Evaluate comparisons of quicksort for n = 15</span>
 <span class="go">Evaluate comparisons of corsort_borda for n = 15</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">my_res</span><span class="p">[</span><span class="s1">&#39;quicksort&#39;</span><span class="p">][</span><span class="mi">10</span><span class="p">]),</span> <span class="mi">1</span><span class="p">)</span>  
+<span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">my_res</span><span class="p">[</span><span class="s1">&#39;quicksort&#39;</span><span class="p">][</span><span class="mi">10</span><span class="p">]),</span> <span class="mi">1</span><span class="p">)</span>
 <span class="go">24.2</span>
 </pre></div>
 </div>
@@ -256,7 +256,7 @@ the history of distance to the sorted list.</p>
 </pre></div>
 </div>
 <p>Evaluate corsort and quicksort using a Pool:</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">with</span> <span class="n">Pool</span><span class="p">()</span> <span class="k">as</span> <span class="n">p</span><span class="p">:</span>  
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">with</span> <span class="n">Pool</span><span class="p">()</span> <span class="k">as</span> <span class="n">p</span><span class="p">:</span>
 <span class="gp">... </span>    <span class="n">my_res</span> <span class="o">=</span> <span class="n">evaluate_convergence</span><span class="p">(</span><span class="n">my_sort_list</span><span class="p">,</span> <span class="n">my_n</span><span class="p">,</span> <span class="n">nt</span><span class="o">=</span><span class="n">my_nt</span><span class="p">,</span> <span class="n">pool</span><span class="o">=</span><span class="n">p</span><span class="p">)</span>
 <span class="go">Evaluate convergence of quicksort for n = 10</span>
 <span class="go">Evaluate convergence of corsort_borda for n = 10</span>
