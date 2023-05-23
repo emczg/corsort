@@ -159,9 +159,9 @@
 
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
-<span class="sd">        &gt;&gt;&gt; gap_sequence = [701, 301, 132, 57, 23, 10, 4, 1]</span>
+<span class="sd">        &gt;&gt;&gt; my_gap_sequence = [701, 301, 132, 57, 23, 10, 4, 1]</span>
 <span class="sd">        &gt;&gt;&gt; my_xs = np.array([4, 1, 7, 6, 0, 8, 2, 3, 5])</span>
-<span class="sd">        &gt;&gt;&gt; _shellsort(my_xs, gap_sequence)</span>
+<span class="sd">        &gt;&gt;&gt; _shellsort(my_xs, my_gap_sequence)</span>
 <span class="sd">        &gt;&gt;&gt; my_xs</span>
 <span class="sd">        array([0, 1, 2, 3, 4, 5, 6, 7, 8])</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -178,6 +178,7 @@
                 <span class="n">xs</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">xs</span><span class="p">[</span><span class="n">j</span> <span class="o">-</span> <span class="n">gap</span><span class="p">]</span>
                 <span class="k">if</span> <span class="n">lt</span><span class="p">(</span><span class="n">xs</span><span class="p">[</span><span class="n">j</span> <span class="o">-</span> <span class="n">gap</span><span class="p">],</span> <span class="n">temp</span><span class="p">):</span>
                     <span class="k">break</span>
+            <span class="c1"># noinspection PyUnboundLocalVariable</span>
             <span class="n">xs</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">temp</span>
 </pre></div>
 

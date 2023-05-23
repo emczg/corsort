@@ -68,6 +68,6 @@ def scorer_rho(leq):
         >>> scorer_rho(my_leq)
         array([0.25, 4.  , 1.  , 1.  ])
     """
-    n_ancestors = np.sum(leq==1, axis=1)
-    n_descendants = np.sum(leq==1, axis=0)
+    n_ancestors = np.sum(leq == 1, axis=1)
+    n_descendants = np.sum(leq == 1, axis=0)
     return n_descendants / n_ancestors
