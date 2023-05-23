@@ -57,7 +57,8 @@ class CorsortChainDecompositionMergeX(Corsort):
             try:
                 i = chain_0[i_in_chain]
                 j = chain_1[j_in_chain]
-            except IndexError:  # One lower branch of the X is exhausted.
+            except IndexError:  # pragma: no cover
+                # One lower branch of the X is exhausted.
                 # This should not happen, because we already assumed that an upper branch is exhausted.
                 # This would mean, in fact, that the two chains can be fully sorted, a contradiction.
                 break
@@ -65,5 +66,6 @@ class CorsortChainDecompositionMergeX(Corsort):
                 return i, j
             elif self.leq_[i, j] == 1:
                 j_in_chain -= 1
-            else:
+            else:  # pragma: no cover
+                # TODO: Apparently it does not happen during the tests, try to understand why.
                 i_in_chain -= 1
