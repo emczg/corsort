@@ -93,14 +93,17 @@
              
   <section id="Performance-profiles">
 <h1>Performance profiles<a class="headerlink" href="#Performance-profiles" title="Permalink to this heading"></a></h1>
-<p>This notebook shows how to use the <code class="docutils literal notranslate"><span class="pre">corsort</span></code> package to determine the average termination time of several sorting algorithms.</p>
+<p>This notebook shows how to use the <code class="docutils literal notranslate"><span class="pre">corsort</span></code> package to determine the performance profiles of several sorting algorithms.</p>
 <p>Here the following sorts will be compared:</p>
 <ul class="simple">
-<li><p>Mergesort</p></li>
+<li><p>Top-down merge</p></li>
+<li><p>Binary insertion</p></li>
+<li><p>Binary insertion <span class="math notranslate nohighlight">\(\rho\)</span></p></li>
 <li><p>Ford-Johnson <span class="math notranslate nohighlight">\(\rho\)</span></p></li>
 <li><p>Quicksort</p></li>
 <li><p>ASort <span class="math notranslate nohighlight">\(\rho\)</span></p></li>
-<li><p>Mergesort BFS <span class="math notranslate nohighlight">\(\rho\)</span></p></li>
+<li><p>Bottom-up merge <span class="math notranslate nohighlight">\(\rho\)</span></p></li>
+<li><p>Multizip <span class="math notranslate nohighlight">\(\rho\)</span></p></li>
 <li><p>Corsort <span class="math notranslate nohighlight">\(\rho\)</span></p></li>
 </ul>
 <p>First we load some packages.</p>
@@ -112,12 +115,7 @@
 <span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
 <span class="kn">from</span> <span class="nn">multiprocess.pool</span> <span class="kn">import</span> <span class="n">Pool</span>
 
-<span class="kn">from</span> <span class="nn">corsort</span> <span class="kn">import</span> <span class="p">(</span>
-    <span class="n">evaluate_convergence</span><span class="p">,</span> <span class="n">auto_colors</span><span class="p">,</span>
-    <span class="n">SortFordJohnson</span><span class="p">,</span> <span class="n">SortMergeBottomUp</span><span class="p">,</span> <span class="n">SortMergeTopDown</span><span class="p">,</span> <span class="n">SortAsortQuickselect</span><span class="p">,</span> <span class="n">SortLargestInterval</span><span class="p">,</span> <span class="n">SortQuick</span><span class="p">,</span>
-    <span class="n">WrapSortScorer</span><span class="p">,</span> <span class="n">scorer_spaced</span><span class="p">,</span>
-    <span class="n">WrapFullJit</span><span class="p">,</span> <span class="n">jit_corsort_drift_max_spaced</span><span class="p">,</span>
-<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">corsort</span> <span class="kn">import</span> <span class="o">*</span>
 </pre></div>
 </div>
 </div>
@@ -128,21 +126,34 @@
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sort_list</span> <span class="o">=</span> <span class="p">[</span>
     <span class="n">SortMergeTopDown</span><span class="p">(</span><span class="n">compute_history</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
-    <span class="n">WrapSortScorer</span><span class="p">(</span><span class="n">scorer</span><span class="o">=</span><span class="n">scorer_spaced</span><span class="p">,</span> <span class="n">sort</span><span class="o">=</span><span class="n">SortFordJohnson</span><span class="p">(),</span> <span class="n">compute_history</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+    <span class="n">SortBinaryInsertion</span><span class="p">(</span><span class="n">compute_history</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+    <span class="n">WrapSortScorer</span><span class="p">(</span><span class="n">sort</span><span class="o">=</span><span class="n">SortBinaryInsertion</span><span class="p">(),</span> <span class="n">scorer</span><span class="o">=</span><span class="n">jit_scorer_rho</span><span class="p">,</span> <span class="n">compute_history</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+    <span class="n">WrapSortScorer</span><span class="p">(</span><span class="n">sort</span><span class="o">=</span><span class="n">SortFordJohnson</span><span class="p">(),</span> <span class="n">scorer</span><span class="o">=</span><span class="n">jit_scorer_rho</span><span class="p">,</span> <span class="n">compute_history</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
     <span class="n">SortQuick</span><span class="p">(</span><span class="n">compute_history</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
-    <span class="n">WrapSortScorer</span><span class="p">(</span><span class="n">scorer</span><span class="o">=</span><span class="n">scorer_spaced</span><span class="p">,</span> <span class="n">sort</span><span class="o">=</span><span class="n">SortAsortQuickselect</span><span class="p">(),</span> <span class="n">compute_history</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
-    <span class="n">WrapSortScorer</span><span class="p">(</span><span class="n">scorer</span><span class="o">=</span><span class="n">scorer_spaced</span><span class="p">,</span> <span class="n">sort</span><span class="o">=</span><span class="n">SortMergeBottomUp</span><span class="p">(),</span> <span class="n">compute_history</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
-    <span class="n">WrapFullJit</span><span class="p">(</span><span class="n">jit_corsort_drift_max_spaced</span><span class="p">,</span> <span class="n">compute_history</span><span class="o">=</span><span class="kc">True</span><span class="p">)]</span>
+    <span class="n">WrapSortScorer</span><span class="p">(</span><span class="n">sort</span><span class="o">=</span><span class="n">SortAsortQuickselect</span><span class="p">(),</span> <span class="n">scorer</span><span class="o">=</span><span class="n">jit_scorer_rho</span><span class="p">,</span> <span class="n">compute_history</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+    <span class="n">WrapSortScorer</span><span class="p">(</span><span class="n">sort</span><span class="o">=</span><span class="n">SortMergeBottomUp</span><span class="p">(),</span> <span class="n">scorer</span><span class="o">=</span><span class="n">jit_scorer_rho</span><span class="p">,</span> <span class="n">compute_history</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+    <span class="n">WrapSortScorer</span><span class="p">(</span><span class="n">sort</span><span class="o">=</span><span class="n">SortMultizip</span><span class="p">(),</span> <span class="n">scorer</span><span class="o">=</span><span class="n">jit_scorer_rho</span><span class="p">,</span> <span class="n">compute_history</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+    <span class="n">JitCorsortDeltaMaxRho</span><span class="p">(</span><span class="n">compute_history</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="p">]</span>
+<span class="n">legends</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;mergesort_top_down&#39;</span><span class="p">:</span> <span class="s1">&#39;Top-down merge&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;binary_insertion_sort&#39;</span><span class="p">:</span> <span class="s1">&#39;Binary insertion&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;binary_insertion_sort_rho&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;Binary insertion $\rho$&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;ford_johnson_rho&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;Ford-Johnson $\rho$&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;quicksort&#39;</span><span class="p">:</span> <span class="s1">&#39;Quicksort&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;asort_quickselect_rho&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;Asort $\rho$&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;mergesort_bottom_up_rho&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;Bottom-up merge $\rho$&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;multizip_sort_rho&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;Multizip $\rho$&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;corsort_delta_max_rho&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s2">&quot;Corsort-$\Delta$ $\rho$&quot;</span><span class="p">}</span>
 </pre></div>
 </div>
 </div>
-<p>We decide the value of <span class="math notranslate nohighlight">\(n\)</span> to study and the number of trials. For this notebook, we limit to <span class="math notranslate nohighlight">\(100\)</span> trials but for better quality 10,000 is recommended (takes a bit more time).</p>
+<p>We decide the value of <span class="math notranslate nohighlight">\(n\)</span> to study and the number of trials.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">n</span> <span class="o">=</span> <span class="mi">1000</span>
-<span class="n">nt</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="n">nt</span> <span class="o">=</span> <span class="mi">10000</span>
 </pre></div>
 </div>
 </div>
@@ -161,7 +172,7 @@
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Evaluate convergence of mergesort_dfs for n = 1000
+Evaluate convergence of mergesort_top_down for n = 1000
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -169,7 +180,7 @@ Evaluate convergence of mergesort_dfs for n = 1000
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-100%|██████████| 100/100 [00:13&lt;00:00,  7.35it/s]
+100%|██████████| 10000/10000 [28:20&lt;00:00,  5.88it/s]
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -177,7 +188,7 @@ Evaluate convergence of mergesort_dfs for n = 1000
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Evaluate convergence of ford_johnson_spaced for n = 1000
+Evaluate convergence of binary_insertion_sort for n = 1000
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -185,7 +196,39 @@ Evaluate convergence of ford_johnson_spaced for n = 1000
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-100%|██████████| 100/100 [00:26&lt;00:00,  3.81it/s]
+100%|██████████| 10000/10000 [29:23&lt;00:00,  5.67it/s]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Evaluate convergence of binary_insertion_sort_rho for n = 1000
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+100%|██████████| 10000/10000 [58:20&lt;00:00,  2.86it/s]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Evaluate convergence of ford_johnson_rho for n = 1000
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+100%|██████████| 10000/10000 [1:08:32&lt;00:00,  2.43it/s]
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -201,7 +244,7 @@ Evaluate convergence of quicksort for n = 1000
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-100%|██████████| 100/100 [00:16&lt;00:00,  6.18it/s]
+100%|██████████| 10000/10000 [40:55&lt;00:00,  4.07it/s]
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -209,7 +252,7 @@ Evaluate convergence of quicksort for n = 1000
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Evaluate convergence of asort_quickselect_spaced for n = 1000
+Evaluate convergence of asort_quickselect_rho for n = 1000
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -217,7 +260,7 @@ Evaluate convergence of asort_quickselect_spaced for n = 1000
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-100%|██████████| 100/100 [00:42&lt;00:00,  2.37it/s]
+100%|██████████| 10000/10000 [1:35:46&lt;00:00,  1.74it/s]
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -225,7 +268,7 @@ Evaluate convergence of asort_quickselect_spaced for n = 1000
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Evaluate convergence of mergesort_bfs_spaced for n = 1000
+Evaluate convergence of mergesort_bottom_up_rho for n = 1000
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -233,7 +276,7 @@ Evaluate convergence of mergesort_bfs_spaced for n = 1000
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-100%|██████████| 100/100 [00:18&lt;00:00,  5.54it/s]
+100%|██████████| 10000/10000 [49:53&lt;00:00,  3.34it/s]
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -241,7 +284,23 @@ Evaluate convergence of mergesort_bfs_spaced for n = 1000
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Evaluate convergence of corsort_drift_max_spaced for n = 1000
+Evaluate convergence of multizip_sort_rho for n = 1000
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+100%|██████████| 10000/10000 [52:46&lt;00:00,  3.16it/s]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Evaluate convergence of corsort_delta_max_rho for n = 1000
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
@@ -249,12 +308,30 @@ Evaluate convergence of corsort_drift_max_spaced for n = 1000
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-100%|██████████| 100/100 [00:55&lt;00:00,  1.81it/s]
+100%|██████████| 10000/10000 [2:42:29&lt;00:00,  1.03it/s]
 </pre></div></div>
+</div>
+<p>We save the raw results.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">dill</span> <span class="k">as</span> <span class="nn">pickle</span>
+<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+
+<span class="n">fn</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;profiles_n_</span><span class="si">{</span><span class="n">n</span><span class="si">}</span><span class="s2">_nt_</span><span class="si">{</span><span class="n">nt</span><span class="si">}</span><span class="s2">.pkl&quot;</span><span class="p">)</span>
+<span class="k">if</span> <span class="n">fn</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">fn</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">convergence</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">fn</span><span class="p">,</span> <span class="s1">&#39;wb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">pickle</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">convergence</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span>
+</pre></div>
+</div>
 </div>
 <p>Then we display the results.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">m</span> <span class="o">=</span> <span class="n">n</span><span class="o">*</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span>
@@ -262,18 +339,18 @@ Evaluate convergence of corsort_drift_max_spaced for n = 1000
 <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">axes</span><span class="p">()</span>
 <span class="n">decim</span><span class="o">=</span><span class="mi">40</span>
 <span class="n">color_dict</span> <span class="o">=</span> <span class="n">auto_colors</span><span class="p">(</span><span class="n">sort_list</span><span class="p">)</span>
-<span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">ref</span> <span class="ow">in</span> <span class="n">convergence</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+<span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">legends</span><span class="p">:</span>
+    <span class="n">ref</span> <span class="o">=</span> <span class="n">convergence</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
     <span class="n">color</span> <span class="o">=</span> <span class="n">color_dict</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
     <span class="n">p_m</span> <span class="o">=</span> <span class="n">ref</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
     <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">p_m</span><span class="p">)[::</span><span class="n">decim</span><span class="p">]</span>
     <span class="n">ref</span> <span class="o">=</span> <span class="n">ref</span><span class="p">[:,</span> <span class="p">::</span><span class="n">decim</span><span class="p">]</span>
     <span class="n">q</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">5</span><span class="p">,</span> <span class="n">ref</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
-    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">per</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">([</span><span class="mf">2.5</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">75</span><span class="p">,</span> <span class="mf">97.5</span><span class="p">]):</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">per</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">([</span><span class="mf">2.5</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mf">97.5</span><span class="p">]):</span>
         <span class="n">q</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">percentile</span><span class="p">(</span><span class="n">ref</span><span class="p">,</span> <span class="n">per</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
     <span class="n">q</span> <span class="o">=</span> <span class="n">q</span><span class="o">/</span><span class="n">m</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">q</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="p">:],</span> <span class="n">label</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">)</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">fill_between</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">q</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="p">:],</span> <span class="n">q</span><span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="p">:],</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">.4</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">)</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">fill_between</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">q</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="p">:],</span> <span class="n">q</span><span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="p">:],</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">.2</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">q</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="p">:],</span> <span class="n">label</span><span class="o">=</span><span class="n">legends</span><span class="p">[</span><span class="n">name</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">fill_between</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">q</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="p">:],</span> <span class="n">q</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="p">:],</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">.2</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">labelright</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">right</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -289,7 +366,7 @@ Evaluate convergence of corsort_drift_max_spaced for n = 1000
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_profiles_11_0.png" src="../_images/notebooks_profiles_11_0.png" />
+<img alt="../_images/notebooks_profiles_13_0.png" src="../_images/notebooks_profiles_13_0.png" />
 </div>
 </div>
 </section>
