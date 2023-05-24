@@ -98,9 +98,11 @@
 <p>Here the following sorts will be compared:</p>
 <ul class="simple">
 <li><p>Heapsort</p></li>
+<li><p>Shellsort</p></li>
 <li><p>Quicksort</p></li>
-<li><p>Corsort</p></li>
+<li><p>Corsort-<span class="math notranslate nohighlight">\(\Delta\)</span></p></li>
 <li><p>Mergesort</p></li>
+<li><p>Binary insertion</p></li>
 <li><p>Ford-Johnson</p></li>
 </ul>
 <p>First we load some packages.</p>
@@ -112,11 +114,7 @@
 <span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
 <span class="kn">from</span> <span class="nn">multiprocess.pool</span> <span class="kn">import</span> <span class="n">Pool</span>
 
-<span class="kn">from</span> <span class="nn">corsort</span> <span class="kn">import</span> <span class="p">(</span>
-    <span class="n">evaluate_comparisons</span><span class="p">,</span> <span class="n">auto_colors</span><span class="p">,</span> <span class="n">entropy_bound</span><span class="p">,</span>
-    <span class="n">SortFordJohnson</span><span class="p">,</span> <span class="n">SortMergeTopDown</span><span class="p">,</span> <span class="n">SortQuick</span><span class="p">,</span>
-    <span class="n">WrapFullJit</span><span class="p">,</span> <span class="n">jit_corsort_drift_max_spaced</span><span class="p">,</span> <span class="n">jit_heapsort</span>
-<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">corsort</span> <span class="kn">import</span> <span class="o">*</span>
 </pre></div>
 </div>
 </div>
@@ -125,18 +123,26 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sort_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">WrapFullJit</span><span class="p">(</span><span class="n">jit_heapsort</span><span class="p">),</span> <span class="n">SortQuick</span><span class="p">(),</span> <span class="n">WrapFullJit</span><span class="p">(</span><span class="n">jit_corsort_drift_max_spaced</span><span class="p">),</span>
-             <span class="n">SortMergeTopDown</span><span class="p">(),</span> <span class="n">SortFordJohnson</span><span class="p">()]</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sort_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">JitHeapsort</span><span class="p">(),</span> <span class="n">SortShell</span><span class="p">(),</span> <span class="n">SortQuick</span><span class="p">(),</span>
+             <span class="n">JitCorsortDeltaMaxRho</span><span class="p">(),</span> <span class="n">SortMergeTopDown</span><span class="p">(),</span>
+             <span class="n">SortBinaryInsertion</span><span class="p">(),</span> <span class="n">SortFordJohnson</span><span class="p">()]</span>
+<span class="n">legends</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;heapsort&#39;</span><span class="p">:</span> <span class="s1">&#39;Heapsort&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;shellsort&#39;</span><span class="p">:</span> <span class="s1">&#39;Shellsort&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;quicksort&#39;</span><span class="p">:</span> <span class="s1">&#39;Quicksort&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;corsort_delta_max_rho&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s2">&quot;Corsort-$\rho$&quot;</span><span class="p">,</span>
+ <span class="s1">&#39;mergesort_top_down&#39;</span><span class="p">:</span> <span class="s1">&#39;Mergesort&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;binary_insertion_sort&#39;</span><span class="p">:</span> <span class="s1">&#39;Binary insertion&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;ford_johnson&#39;</span><span class="p">:</span> <span class="s2">&quot;Ford-Johnson&quot;</span><span class="p">}</span>
 </pre></div>
 </div>
 </div>
-<p>We decide the values of <span class="math notranslate nohighlight">\(n\)</span> to study and the number of trials. For this notebook, we limit to <span class="math notranslate nohighlight">\(100\)</span> trials but for better quality 10,000 is recommended (takes a bit more time).</p>
+<p>We decide the values of <span class="math notranslate nohighlight">\(n\)</span> to study and the number of trials.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">n_list</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2</span><span class="o">**</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">11</span><span class="p">)]</span>
-<span class="n">n_t</span> <span class="o">=</span> <span class="mi">100</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">n_list</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2</span><span class="o">**</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">12</span><span class="p">)]</span>
+<span class="n">nt</span> <span class="o">=</span> <span class="mi">10000</span>
 </pre></div>
 </div>
 </div>
@@ -146,7 +152,7 @@
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">Pool</span><span class="p">()</span> <span class="k">as</span> <span class="n">p</span><span class="p">:</span>
-    <span class="n">comparisons</span> <span class="o">=</span> <span class="n">evaluate_comparisons</span><span class="p">(</span><span class="n">n_list</span><span class="o">=</span><span class="n">n_list</span><span class="p">,</span> <span class="n">sort_list</span><span class="o">=</span><span class="n">sort_list</span><span class="p">,</span> <span class="n">nt</span><span class="o">=</span><span class="n">n_t</span><span class="p">,</span> <span class="n">pool</span><span class="o">=</span><span class="n">p</span><span class="p">)</span>
+    <span class="n">comparisons</span> <span class="o">=</span> <span class="n">evaluate_comparisons</span><span class="p">(</span><span class="n">n_list</span><span class="o">=</span><span class="n">n_list</span><span class="p">,</span> <span class="n">sort_list</span><span class="o">=</span><span class="n">sort_list</span><span class="p">,</span> <span class="n">nt</span><span class="o">=</span><span class="n">nt</span><span class="p">,</span> <span class="n">pool</span><span class="o">=</span><span class="n">p</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -163,7 +169,23 @@ Evaluate comparisons of heapsort for n = 8
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-100%|██████████| 100/100 [00:03&lt;00:00, 31.23it/s]
+100%|██████████| 10000/10000 [00:11&lt;00:00, 841.85it/s]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Evaluate comparisons of shellsort for n = 8
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+100%|██████████| 10000/10000 [00:04&lt;00:00, 2344.40it/s]
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -179,7 +201,7 @@ Evaluate comparisons of quicksort for n = 8
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-100%|██████████| 100/100 [00:00&lt;00:00, 2021.14it/s]
+100%|██████████| 10000/10000 [00:04&lt;00:00, 2355.38it/s]
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -187,7 +209,7 @@ Evaluate comparisons of quicksort for n = 8
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Evaluate comparisons of corsort_drift_max_spaced for n = 8
+Evaluate comparisons of corsort_delta_max_rho for n = 8
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -195,7 +217,7 @@ Evaluate comparisons of corsort_drift_max_spaced for n = 8
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-100%|██████████| 100/100 [00:04&lt;00:00, 22.43it/s]
+100%|██████████| 10000/10000 [00:16&lt;00:00, 624.70it/s]
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -203,7 +225,7 @@ Evaluate comparisons of corsort_drift_max_spaced for n = 8
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Evaluate comparisons of mergesort_dfs for n = 8
+Evaluate comparisons of mergesort_top_down for n = 8
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -211,7 +233,23 @@ Evaluate comparisons of mergesort_dfs for n = 8
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-100%|██████████| 100/100 [00:00&lt;00:00, 1899.51it/s]
+100%|██████████| 10000/10000 [00:06&lt;00:00, 1666.56it/s]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Evaluate comparisons of binary_insertion_sort for n = 8
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+100%|██████████| 10000/10000 [00:09&lt;00:00, 1011.24it/s]
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -227,7 +265,7 @@ Evaluate comparisons of ford_johnson for n = 8
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-100%|██████████| 100/100 [00:00&lt;00:00, 2491.88it/s]
+100%|██████████| 10000/10000 [00:08&lt;00:00, 1164.60it/s]
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -243,7 +281,23 @@ Evaluate comparisons of heapsort for n = 16
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-100%|██████████| 100/100 [00:00&lt;00:00, 930.74it/s]
+100%|██████████| 10000/10000 [00:35&lt;00:00, 285.13it/s]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Evaluate comparisons of shellsort for n = 16
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+100%|██████████| 10000/10000 [00:22&lt;00:00, 451.41it/s]
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -259,7 +313,7 @@ Evaluate comparisons of quicksort for n = 16
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-100%|██████████| 100/100 [00:00&lt;00:00, 2144.56it/s]
+100%|██████████| 10000/10000 [00:14&lt;00:00, 667.70it/s]
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -267,7 +321,7 @@ Evaluate comparisons of quicksort for n = 16
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Evaluate comparisons of corsort_drift_max_spaced for n = 16
+Evaluate comparisons of corsort_delta_max_rho for n = 16
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -275,7 +329,7 @@ Evaluate comparisons of corsort_drift_max_spaced for n = 16
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-100%|██████████| 100/100 [00:00&lt;00:00, 850.86it/s]
+100%|██████████| 10000/10000 [00:56&lt;00:00, 177.30it/s]
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -283,7 +337,7 @@ Evaluate comparisons of corsort_drift_max_spaced for n = 16
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Evaluate comparisons of mergesort_dfs for n = 16
+Evaluate comparisons of mergesort_top_down for n = 16
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -291,7 +345,23 @@ Evaluate comparisons of mergesort_dfs for n = 16
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-100%|██████████| 100/100 [00:00&lt;00:00, 2498.75it/s]
+100%|██████████| 10000/10000 [00:25&lt;00:00, 385.96it/s]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Evaluate comparisons of binary_insertion_sort for n = 16
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+100%|██████████| 10000/10000 [00:29&lt;00:00, 336.20it/s]
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -307,7 +377,7 @@ Evaluate comparisons of ford_johnson for n = 16
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-100%|██████████| 100/100 [00:00&lt;00:00, 2560.53it/s]
+100%|██████████| 10000/10000 [00:27&lt;00:00, 362.09it/s]
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -323,7 +393,23 @@ Evaluate comparisons of heapsort for n = 32
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-100%|██████████| 100/100 [00:00&lt;00:00, 783.34it/s]
+100%|██████████| 10000/10000 [01:02&lt;00:00, 159.69it/s]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Evaluate comparisons of shellsort for n = 32
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+100%|██████████| 10000/10000 [00:42&lt;00:00, 236.68it/s]
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -339,7 +425,7 @@ Evaluate comparisons of quicksort for n = 32
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-100%|██████████| 100/100 [00:00&lt;00:00, 2442.25it/s]
+100%|██████████| 10000/10000 [00:37&lt;00:00, 267.40it/s]
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -347,7 +433,7 @@ Evaluate comparisons of quicksort for n = 32
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Evaluate comparisons of corsort_drift_max_spaced for n = 32
+Evaluate comparisons of corsort_delta_max_rho for n = 32
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -355,7 +441,7 @@ Evaluate comparisons of corsort_drift_max_spaced for n = 32
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-100%|██████████| 100/100 [00:00&lt;00:00, 730.45it/s]
+100%|██████████| 10000/10000 [01:40&lt;00:00, 99.07it/s]
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -363,7 +449,7 @@ Evaluate comparisons of corsort_drift_max_spaced for n = 32
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Evaluate comparisons of mergesort_dfs for n = 32
+Evaluate comparisons of mergesort_top_down for n = 32
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -371,7 +457,23 @@ Evaluate comparisons of mergesort_dfs for n = 32
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-100%|██████████| 100/100 [00:00&lt;00:00, 2098.90it/s]
+100%|██████████| 10000/10000 [00:41&lt;00:00, 239.40it/s]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Evaluate comparisons of binary_insertion_sort for n = 32
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+100%|██████████| 10000/10000 [00:39&lt;00:00, 253.58it/s]
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -387,7 +489,7 @@ Evaluate comparisons of ford_johnson for n = 32
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-100%|██████████| 100/100 [00:00&lt;00:00, 1991.26it/s]
+100%|██████████| 10000/10000 [00:36&lt;00:00, 275.44it/s]
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -403,7 +505,23 @@ Evaluate comparisons of heapsort for n = 64
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-100%|██████████| 100/100 [00:00&lt;00:00, 855.33it/s]
+100%|██████████| 10000/10000 [01:42&lt;00:00, 97.29it/s]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Evaluate comparisons of shellsort for n = 64
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+100%|██████████| 10000/10000 [00:48&lt;00:00, 206.46it/s]
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -419,7 +537,7 @@ Evaluate comparisons of quicksort for n = 64
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-100%|██████████| 100/100 [00:00&lt;00:00, 2206.22it/s]
+100%|██████████| 10000/10000 [00:39&lt;00:00, 250.50it/s]
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -427,7 +545,7 @@ Evaluate comparisons of quicksort for n = 64
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Evaluate comparisons of corsort_drift_max_spaced for n = 64
+Evaluate comparisons of corsort_delta_max_rho for n = 64
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -435,7 +553,7 @@ Evaluate comparisons of corsort_drift_max_spaced for n = 64
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-100%|██████████| 100/100 [00:00&lt;00:00, 861.19it/s]
+100%|██████████| 10000/10000 [02:10&lt;00:00, 76.78it/s]
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -443,7 +561,7 @@ Evaluate comparisons of corsort_drift_max_spaced for n = 64
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Evaluate comparisons of mergesort_dfs for n = 64
+Evaluate comparisons of mergesort_top_down for n = 64
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -451,7 +569,23 @@ Evaluate comparisons of mergesort_dfs for n = 64
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-100%|██████████| 100/100 [00:00&lt;00:00, 1817.28it/s]
+100%|██████████| 10000/10000 [00:44&lt;00:00, 227.12it/s]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Evaluate comparisons of binary_insertion_sort for n = 64
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+100%|██████████| 10000/10000 [00:39&lt;00:00, 254.93it/s]
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -467,7 +601,7 @@ Evaluate comparisons of ford_johnson for n = 64
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-100%|██████████| 100/100 [00:00&lt;00:00, 2102.90it/s]
+100%|██████████| 10000/10000 [00:33&lt;00:00, 295.54it/s]
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -483,7 +617,23 @@ Evaluate comparisons of heapsort for n = 128
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-100%|██████████| 100/100 [00:00&lt;00:00, 790.09it/s]
+100%|██████████| 10000/10000 [01:34&lt;00:00, 105.99it/s]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Evaluate comparisons of shellsort for n = 128
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+100%|██████████| 10000/10000 [01:39&lt;00:00, 100.90it/s]
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -499,7 +649,7 @@ Evaluate comparisons of quicksort for n = 128
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-100%|██████████| 100/100 [00:00&lt;00:00, 712.16it/s]
+100%|██████████| 10000/10000 [01:04&lt;00:00, 155.36it/s]
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -507,7 +657,7 @@ Evaluate comparisons of quicksort for n = 128
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Evaluate comparisons of corsort_drift_max_spaced for n = 128
+Evaluate comparisons of corsort_delta_max_rho for n = 128
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -515,7 +665,7 @@ Evaluate comparisons of corsort_drift_max_spaced for n = 128
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-100%|██████████| 100/100 [00:00&lt;00:00, 606.36it/s]
+100%|██████████| 10000/10000 [02:26&lt;00:00, 68.29it/s]
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -523,7 +673,7 @@ Evaluate comparisons of corsort_drift_max_spaced for n = 128
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Evaluate comparisons of mergesort_dfs for n = 128
+Evaluate comparisons of mergesort_top_down for n = 128
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -531,8 +681,23 @@ Evaluate comparisons of mergesort_dfs for n = 128
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-
-100%|██████████| 100/100 [00:00&lt;00:00, 571.66it/s]
+100%|██████████| 10000/10000 [01:18&lt;00:00, 127.53it/s]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Evaluate comparisons of binary_insertion_sort for n = 128
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+100%|██████████| 10000/10000 [00:54&lt;00:00, 181.83it/s]
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -548,7 +713,7 @@ Evaluate comparisons of ford_johnson for n = 128
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-100%|██████████| 100/100 [00:00&lt;00:00, 1325.86it/s]
+100%|██████████| 10000/10000 [00:41&lt;00:00, 238.24it/s]
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -564,7 +729,23 @@ Evaluate comparisons of heapsort for n = 256
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-100%|██████████| 100/100 [00:00&lt;00:00, 534.04it/s]
+100%|██████████| 10000/10000 [01:37&lt;00:00, 102.11it/s]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Evaluate comparisons of shellsort for n = 256
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+100%|██████████| 10000/10000 [03:26&lt;00:00, 48.48it/s]
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -580,7 +761,7 @@ Evaluate comparisons of quicksort for n = 256
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-100%|██████████| 100/100 [00:00&lt;00:00, 265.95it/s]
+100%|██████████| 10000/10000 [02:12&lt;00:00, 75.40it/s]
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -588,7 +769,7 @@ Evaluate comparisons of quicksort for n = 256
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Evaluate comparisons of corsort_drift_max_spaced for n = 256
+Evaluate comparisons of corsort_delta_max_rho for n = 256
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -596,7 +777,7 @@ Evaluate comparisons of corsort_drift_max_spaced for n = 256
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-100%|██████████| 100/100 [00:00&lt;00:00, 149.27it/s]
+100%|██████████| 10000/10000 [02:16&lt;00:00, 73.19it/s]
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -604,7 +785,7 @@ Evaluate comparisons of corsort_drift_max_spaced for n = 256
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Evaluate comparisons of mergesort_dfs for n = 256
+Evaluate comparisons of mergesort_top_down for n = 256
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -612,7 +793,23 @@ Evaluate comparisons of mergesort_dfs for n = 256
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-100%|██████████| 100/100 [00:00&lt;00:00, 217.84it/s]
+100%|██████████| 10000/10000 [03:08&lt;00:00, 53.06it/s]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Evaluate comparisons of binary_insertion_sort for n = 256
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+100%|██████████| 10000/10000 [02:03&lt;00:00, 81.21it/s]
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -628,7 +825,7 @@ Evaluate comparisons of ford_johnson for n = 256
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-100%|██████████| 100/100 [00:00&lt;00:00, 569.17it/s]
+100%|██████████| 10000/10000 [00:57&lt;00:00, 174.28it/s]
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -644,7 +841,23 @@ Evaluate comparisons of heapsort for n = 512
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-100%|██████████| 100/100 [00:00&lt;00:00, 249.48it/s]
+100%|██████████| 10000/10000 [02:11&lt;00:00, 76.32it/s]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Evaluate comparisons of shellsort for n = 512
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+100%|██████████| 10000/10000 [06:59&lt;00:00, 23.84it/s]
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -660,7 +873,7 @@ Evaluate comparisons of quicksort for n = 512
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-100%|██████████| 100/100 [00:00&lt;00:00, 114.65it/s]
+100%|██████████| 10000/10000 [04:57&lt;00:00, 33.66it/s]
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -668,7 +881,7 @@ Evaluate comparisons of quicksort for n = 512
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Evaluate comparisons of corsort_drift_max_spaced for n = 512
+Evaluate comparisons of corsort_delta_max_rho for n = 512
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -676,7 +889,7 @@ Evaluate comparisons of corsort_drift_max_spaced for n = 512
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-100%|██████████| 100/100 [00:05&lt;00:00, 18.07it/s]
+100%|██████████| 10000/10000 [17:44&lt;00:00,  9.40it/s]
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -684,7 +897,7 @@ Evaluate comparisons of corsort_drift_max_spaced for n = 512
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Evaluate comparisons of mergesort_dfs for n = 512
+Evaluate comparisons of mergesort_top_down for n = 512
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -692,7 +905,23 @@ Evaluate comparisons of mergesort_dfs for n = 512
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-100%|██████████| 100/100 [00:01&lt;00:00, 88.81it/s]
+100%|██████████| 10000/10000 [05:43&lt;00:00, 29.10it/s]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Evaluate comparisons of binary_insertion_sort for n = 512
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+100%|██████████| 10000/10000 [03:53&lt;00:00, 42.89it/s]
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -708,7 +937,7 @@ Evaluate comparisons of ford_johnson for n = 512
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-100%|██████████| 100/100 [00:00&lt;00:00, 231.70it/s]
+100%|██████████| 10000/10000 [02:39&lt;00:00, 62.74it/s]
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -724,7 +953,23 @@ Evaluate comparisons of heapsort for n = 1024
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-100%|██████████| 100/100 [00:01&lt;00:00, 83.40it/s]
+100%|██████████| 10000/10000 [04:22&lt;00:00, 38.14it/s]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Evaluate comparisons of shellsort for n = 1024
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+100%|██████████| 10000/10000 [13:26&lt;00:00, 12.40it/s]
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -740,7 +985,7 @@ Evaluate comparisons of quicksort for n = 1024
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-100%|██████████| 100/100 [00:02&lt;00:00, 48.27it/s]
+100%|██████████| 10000/10000 [08:52&lt;00:00, 18.77it/s]
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -748,7 +993,7 @@ Evaluate comparisons of quicksort for n = 1024
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Evaluate comparisons of corsort_drift_max_spaced for n = 1024
+Evaluate comparisons of corsort_delta_max_rho for n = 1024
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -756,7 +1001,7 @@ Evaluate comparisons of corsort_drift_max_spaced for n = 1024
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-100%|██████████| 100/100 [00:49&lt;00:00,  2.04it/s]
+100%|██████████| 10000/10000 [2:33:02&lt;00:00,  1.09it/s]
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -764,7 +1009,7 @@ Evaluate comparisons of corsort_drift_max_spaced for n = 1024
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Evaluate comparisons of mergesort_dfs for n = 1024
+Evaluate comparisons of mergesort_top_down for n = 1024
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -772,7 +1017,23 @@ Evaluate comparisons of mergesort_dfs for n = 1024
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-100%|██████████| 100/100 [00:02&lt;00:00, 38.68it/s]
+100%|██████████| 10000/10000 [10:30&lt;00:00, 15.86it/s]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Evaluate comparisons of binary_insertion_sort for n = 1024
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+100%|██████████| 10000/10000 [07:31&lt;00:00, 22.13it/s]
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -783,17 +1044,147 @@ Evaluate comparisons of mergesort_dfs for n = 1024
 Evaluate comparisons of ford_johnson for n = 1024
 </pre></div></div>
 </div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+100%|██████████| 10000/10000 [04:16&lt;00:00, 38.94it/s]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Evaluate comparisons of heapsort for n = 2048
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+100%|██████████| 10000/10000 [07:55&lt;00:00, 21.04it/s]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Evaluate comparisons of shellsort for n = 2048
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+100%|██████████| 10000/10000 [24:50&lt;00:00,  6.71it/s]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Evaluate comparisons of quicksort for n = 2048
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+100%|██████████| 10000/10000 [16:31&lt;00:00, 10.08it/s]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Evaluate comparisons of corsort_delta_max_rho for n = 2048
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+100%|██████████| 10000/10000 [8:50:53&lt;00:00,  3.19s/it]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Evaluate comparisons of mergesort_top_down for n = 2048
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+100%|██████████| 10000/10000 [04:32&lt;00:00, 36.64it/s]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Evaluate comparisons of binary_insertion_sort for n = 2048
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+100%|██████████| 10000/10000 [03:13&lt;00:00, 51.79it/s]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Evaluate comparisons of ford_johnson for n = 2048
+</pre></div></div>
+</div>
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-100%|██████████| 100/100 [00:00&lt;00:00, 102.84it/s]
+100%|██████████| 10000/10000 [01:45&lt;00:00, 94.52it/s]
 </pre></div></div>
+</div>
+<p>We save the raw results.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">dill</span> <span class="k">as</span> <span class="nn">pickle</span>
+<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+
+<span class="n">fn</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;terminations_n_</span><span class="si">{</span><span class="n">n_list</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">_N_</span><span class="si">{</span><span class="n">n_list</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">_nt_</span><span class="si">{</span><span class="n">nt</span><span class="si">}</span><span class="s2">.pkl&quot;</span><span class="p">)</span>
+<span class="k">if</span> <span class="n">fn</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">fn</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">comparisons</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">fn</span><span class="p">,</span> <span class="s1">&#39;wb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">pickle</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">comparisons</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span>
+</pre></div>
+</div>
 </div>
 <p>Then we display the results.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
@@ -801,26 +1192,26 @@ Evaluate comparisons of ford_johnson for n = 1024
 <span class="n">ax</span><span class="o">.</span><span class="n">set_xscale</span><span class="p">(</span><span class="s2">&quot;log&quot;</span><span class="p">)</span>
 <span class="n">color_dict</span> <span class="o">=</span> <span class="n">auto_colors</span><span class="p">(</span><span class="n">sort_list</span><span class="p">)</span>
 
-<span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">stats</span> <span class="ow">in</span> <span class="n">comparisons</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+<span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">legends</span><span class="p">:</span>
+    <span class="n">stats</span> <span class="o">=</span> <span class="n">comparisons</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
     <span class="n">color</span> <span class="o">=</span> <span class="n">color_dict</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
     <span class="n">n_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">n</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">stats</span><span class="p">]</span>
     <span class="n">bounds</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">entropy_bound</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">n_list</span><span class="p">])</span>
     <span class="n">times</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">values</span><span class="p">()</span>
     <span class="n">q</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">5</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">times</span><span class="p">)),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
-    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">per</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">([</span><span class="mf">2.5</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">75</span><span class="p">,</span> <span class="mf">97.5</span><span class="p">]):</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">per</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">([</span><span class="mf">2.5</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mf">97.5</span><span class="p">]):</span>
         <span class="k">for</span> <span class="n">j</span><span class="p">,</span> <span class="n">s</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">times</span><span class="p">):</span>
             <span class="n">q</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">percentile</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">per</span><span class="p">)</span>
     <span class="n">q</span> <span class="o">=</span> <span class="mi">100</span><span class="o">*</span><span class="p">(</span><span class="n">q</span><span class="o">/</span><span class="n">bounds</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">n_list</span><span class="p">,</span> <span class="n">q</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="p">:],</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;.&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">)</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">fill_between</span><span class="p">(</span><span class="n">n_list</span><span class="p">,</span> <span class="n">q</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="p">:],</span> <span class="n">q</span><span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="p">:],</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">.4</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">)</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">fill_between</span><span class="p">(</span><span class="n">n_list</span><span class="p">,</span> <span class="n">q</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="p">:],</span> <span class="n">q</span><span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="p">:],</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">.2</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">n_list</span><span class="p">,</span> <span class="n">q</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="p">:],</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;.&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">legends</span><span class="p">[</span><span class="n">name</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">fill_between</span><span class="p">(</span><span class="n">n_list</span><span class="p">,</span> <span class="n">q</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="p">:],</span> <span class="n">q</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="p">:],</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">.2</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">)</span>
 
-<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">labelright</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">right</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Relative overhead (%)&#39;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;$n$&#39;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">])</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">([</span><span class="mi">8</span><span class="p">,</span> <span class="mi">1024</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">([</span><span class="n">n_list</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">n_list</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]])</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -829,7 +1220,7 @@ Evaluate comparisons of ford_johnson for n = 1024
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_termination_11_0.png" src="../_images/notebooks_termination_11_0.png" />
+<img alt="../_images/notebooks_termination_13_0.png" src="../_images/notebooks_termination_13_0.png" />
 </div>
 </div>
 </section>
