@@ -7,8 +7,10 @@ Next release
 ------------
 
 * `Corsort` and subclasses (i.e. non-jit Corsort algorithms):
+
   * Add parameter `record_leq`. If True, then record all the states of the `leq_` matrix.
   * Add parameter `final_score`. Scorer used to compute the tentative estimate of the sorted list.
+
 * Add `CorsortChainDecompositionMergeV`: Corsort based on chain decomposition, with "V-shape" merging.
 * Add `CorsortChainDecompositionMergeX`: Corsort based on chain decomposition, with "X-shape" merging.
 * Add `greedy_chain_decomposition`: greedy chain decomposition.
