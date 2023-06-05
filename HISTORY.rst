@@ -2,9 +2,9 @@
 History
 =======
 
-------------
-Next release
-------------
+-------------------------------------------------------------------
+0.1.2 (2023-06-05): Binary Insertion Sort, Multizip Sort, Shellsort
+-------------------------------------------------------------------
 
 * `Corsort` and subclasses (i.e. non-jit Corsort algorithms):
 
