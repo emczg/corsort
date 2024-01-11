@@ -9,7 +9,10 @@ readme = "README.rst"
 [tool.poetry.dependencies]
 python = ">=3.10"
 networkx = "^3.2.1"
-numba = "^0.58.1"
+numba = [
+    {version = "^0.58.1", python = ">=3.10,<3.12"},
+    {version = "0.59.0rc1", python = ">=3.12"}
+]
 svvamp = "^0.10.0"
 multiprocess = "^0.70.15"
 tqdm = "^4.66.1"
