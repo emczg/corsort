@@ -23,6 +23,7 @@ sphinx-rtd-theme = "^2.0.0"
 nbsphinx = "^0.9.3"
 ipython = "^8.20.0"
 tox = "^4.11.4"
+mypy = "^1.8.0"
 
 [build-system]
 requires = ["poetry-core"]
