@@ -158,7 +158,7 @@ class Corsort(Sort):
             >>> my_sort.n_comparisons_
             1
             >>> my_sort.history_distances_
-            [1]
+            [2]
         """
         self.leq_ = np.eye(self.n_, dtype=int)
         self.history_leq_ = []

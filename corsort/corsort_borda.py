@@ -18,8 +18,8 @@ class CorsortBorda(Corsort):
         >>> entropy_bound(n)  # doctest: +ELLIPSIS
         40.24212...
         >>> corsort.history_distances_ # doctest: +NORMALIZE_WHITESPACE
-        [55, 42, 51, 49, 49, 49, 43, 37, 36, 35, 34, 32, 32, 33, 26, 22, 17, 19, 20, 18, 13,
-        11, 11, 11, 11, 6, 6, 7, 9, 7, 5, 5, 4, 2, 2, 2, 1, 2, 1]
+        [76, 64, 76, 74, 74, 72, 64, 58, 56, 54, 56, 52, 58, 56, 44, 36, 28, 30, 30, 28, 22, 20, 20, 20, 18, 10,
+         12, 12, 16, 12, 10, 10, 8, 4, 4, 4, 2, 4, 2]
         >>> corsort.__name__
         'corsort_borda'
     """
