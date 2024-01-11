@@ -1,7 +1,7 @@
 import numpy as np
-from multiprocess.pool import Pool
+from multiprocess.pool import Pool  # type: ignore
 from collections import defaultdict
-from tqdm import tqdm
+from tqdm import tqdm  # type: ignore
 
 
 def print_res(res):

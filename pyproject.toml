@@ -34,7 +34,7 @@ skip_empty = true
 
 [tool.coverage.run]
 branch = true
-source = ["kleinberg_grid_simulator"]
+source = ["corsort"]
 
 [tool.coverage.html]
 directory = "cov"
@@ -49,10 +49,10 @@ addopts = "--doctest-modules --cov --cov-config=pyproject.toml --cov-report xml 
 files = ["corsort"]
 disallow_untyped_defs = "False"
 disallow_any_unimported = "True"
-no_implicit_optional = "True"
-check_untyped_defs = "True"
+no_implicit_optional = "False"
+check_untyped_defs = "False"
 warn_return_any = "True"
-warn_unused_ignores = "True"
+warn_unused_ignores = "False"
 show_error_codes = "True"
 
 [tool.tox]

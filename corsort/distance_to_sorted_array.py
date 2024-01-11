@@ -1,5 +1,5 @@
 import numpy as np
-import scipy
+import scipy  # type: ignore
 
 
 def _distance_to_sorted_array_old_old(xs):

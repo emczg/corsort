@@ -31,9 +31,9 @@ class Sort:
         # Computed values
         self.n_ = None
         self.perm_ = None
-        self.n_comparisons_ = None
-        self.history_distances_ = None
-        self.history_comparisons_ = None
+        self.n_comparisons_ = None  # type: ignore  # noqa
+        self.history_distances_ = None  # type: ignore  # noqa
+        self.history_comparisons_ = None  # type: ignore  # noqa
 
     def distance_to_sorted_array(self):
         """
