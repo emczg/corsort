@@ -1,4 +1,10 @@
-# This workflow will generate the docs on each push, and publish them on GitHub Pages if the branch is "main".
+# This workflow will generate the docs on each push, and publish them on GitHub Pages if the branch is the main one.
+name: docs
+
+on: [push]
+
+permissions:
+  contents: write
 
 jobs:
   docs:
