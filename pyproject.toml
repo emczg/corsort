@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "corsort"
-version = "0.1.2"
+version = "0.1.3"
 description = "Comparison-Oriented Sort."
 authors = ["Emma Caizergues <emma.caizergues@gmail.com>"]
 license = "GNU General Public License v3"
@@ -78,4 +78,4 @@ commands =
     mypy
 """
 
-[tool.poetry_bumpversion.file."kleinberg_grid_simulator/__init__.py"]
+[tool.poetry_bumpversion.file."corsort/__init__.py"]

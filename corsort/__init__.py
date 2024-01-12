@@ -2,7 +2,7 @@
 
 __author__ = """Emma Caizergues"""
 __email__ = 'emma.caizergues@gmail.com'
-__version__ = '0.1.2'
+__version__ = '0.1.3'
 
 
 from corsort.chain_and_y import ChainAndY, linear_extensions
