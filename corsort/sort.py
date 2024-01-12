@@ -84,7 +84,7 @@ class Sort:
         Parameters
         ----------
         perm: :class:`numpy.ndarray`
-            Input permutation to sort. Typically the output of :meth`~numpy.random.permutation`.
+            Input permutation to sort. Typically, the output of :meth`~numpy.random.permutation`.
         """
         if isinstance(perm, list):
             perm = np.array(perm)
@@ -108,7 +108,7 @@ class Sort:
         Parameters
         ----------
         perm: :class:`numpy.ndarray`
-            Input permutation to sort. Typically the output of :meth`~numpy.random.permutation`.
+            Input permutation to sort. Typically, the output of :meth`~numpy.random.permutation`.
 
         Returns
         -------
