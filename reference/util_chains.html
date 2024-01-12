@@ -1,22 +1,24 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en" data-content_root="../">
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>util_chains &mdash; Corsort 0.1.2 documentation</title>
-      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
+
+  
     <link rel="shortcut icon" href="../_static/favicon.ico"/>
   <!--[if lt IE 9]>
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script src="../_static/jquery.js"></script>
-        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-        <script src="../_static/doctools.js"></script>
-        <script src="../_static/sphinx_highlight.js"></script>
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=92734c54"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
@@ -124,16 +126,16 @@
            <div itemprop="articleBody">
              
   <section id="module-corsort.util_chains">
-<span id="util-chains"></span><h1>util_chains<a class="headerlink" href="#module-corsort.util_chains" title="Permalink to this heading"></a></h1>
+<span id="util-chains"></span><h1>util_chains<a class="headerlink" href="#module-corsort.util_chains" title="Link to this heading"></a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="corsort.util_chains.greedy_chain_decomposition">
-<span class="sig-prename descclassname"><span class="pre">corsort.util_chains.</span></span><span class="sig-name descname"><span class="pre">greedy_chain_decomposition</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">leq</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/corsort/util_chains.html#greedy_chain_decomposition"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#corsort.util_chains.greedy_chain_decomposition" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">corsort.util_chains.</span></span><span class="sig-name descname"><span class="pre">greedy_chain_decomposition</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">leq</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/corsort/util_chains.html#greedy_chain_decomposition"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#corsort.util_chains.greedy_chain_decomposition" title="Link to this definition"></a></dt>
 <dd><p>Greedy chain decomposition.</p>
 <p>Find the longest chain. Then remove its elements from the graph, find the longest chain of the remaining vertices,
 and so on until exhaustion.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>leq</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.24)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>.) – Matrix of size <cite>(n_, n_)</cite>. Coefficient (i, j) is
+<dd class="field-odd"><p><strong>leq</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.26)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>.) – Matrix of size <cite>(n_, n_)</cite>. Coefficient (i, j) is
 +1 if we know that item i &lt;= item j,
 -1 if we know that item i &gt; item j,
 0 if we do not know the comparison between them.</p>
@@ -143,7 +145,7 @@ and so on until exhaustion.</p>
 chain is sorted from smallest item to greatest item.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a> of <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a> of <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a></p>
 </dd>
 </dl>
 <p class="rubric">Examples</p>
@@ -163,11 +165,11 @@ chain is sorted from smallest item to greatest item.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="corsort.util_chains.longest_chain">
-<span class="sig-prename descclassname"><span class="pre">corsort.util_chains.</span></span><span class="sig-name descname"><span class="pre">longest_chain</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">leq</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/corsort/util_chains.html#longest_chain"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#corsort.util_chains.longest_chain" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">corsort.util_chains.</span></span><span class="sig-name descname"><span class="pre">longest_chain</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">leq</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/corsort/util_chains.html#longest_chain"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#corsort.util_chains.longest_chain" title="Link to this definition"></a></dt>
 <dd><p>Longest chain.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>leq</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.24)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>.) – Matrix of size <cite>(n_, n_)</cite>. Coefficient (i, j) is
+<dd class="field-odd"><p><strong>leq</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.26)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>.) – Matrix of size <cite>(n_, n_)</cite>. Coefficient (i, j) is
 +1 if we know that item i &lt;= item j,
 -1 if we know that item i &gt; item j,
 0 if we do not know the comparison between them.</p>
@@ -176,7 +178,7 @@ chain is sorted from smallest item to greatest item.</p>
 <dd class="field-even"><p>The chain, from smallest to greatest element.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a>.</p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a>.</p>
 </dd>
 </dl>
 <p class="rubric">Examples</p>
@@ -196,23 +198,23 @@ chain is sorted from smallest item to greatest item.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="corsort.util_chains.longest_chain_starting_at">
-<span class="sig-prename descclassname"><span class="pre">corsort.util_chains.</span></span><span class="sig-name descname"><span class="pre">longest_chain_starting_at</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">leq</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_item</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/corsort/util_chains.html#longest_chain_starting_at"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#corsort.util_chains.longest_chain_starting_at" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">corsort.util_chains.</span></span><span class="sig-name descname"><span class="pre">longest_chain_starting_at</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">leq</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_item</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/corsort/util_chains.html#longest_chain_starting_at"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#corsort.util_chains.longest_chain_starting_at" title="Link to this definition"></a></dt>
 <dd><p>Longest chain starting at a given item.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>leq</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.24)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>.) – Matrix of size <cite>(n_, n_)</cite>. Coefficient (i, j) is
+<li><p><strong>leq</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.26)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>.) – Matrix of size <cite>(n_, n_)</cite>. Coefficient (i, j) is
 +1 if we know that item i &lt;= item j,
 -1 if we know that item i &gt; item j,
 0 if we do not know the comparison between them.</p></li>
-<li><p><strong>start_item</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – Item which will be the smallest of the chain.</p></li>
+<li><p><strong>start_item</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><em>int</em></a>) – Item which will be the smallest of the chain.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>The chain, from smallest to greatest element.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a>.</p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a>.</p>
 </dd>
 </dl>
 <p class="rubric">Examples</p>

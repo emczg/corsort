@@ -1,22 +1,24 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en" data-content_root="../">
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>jit_scorers &mdash; Corsort 0.1.2 documentation</title>
-      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
+
+  
     <link rel="shortcut icon" href="../_static/favicon.ico"/>
   <!--[if lt IE 9]>
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script src="../_static/jquery.js"></script>
-        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-        <script src="../_static/doctools.js"></script>
-        <script src="../_static/sphinx_highlight.js"></script>
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=92734c54"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
@@ -123,19 +125,19 @@
            <div itemprop="articleBody">
              
   <section id="module-corsort.jit_scorers">
-<span id="jit-scorers"></span><h1>jit_scorers<a class="headerlink" href="#module-corsort.jit_scorers" title="Permalink to this heading"></a></h1>
+<span id="jit-scorers"></span><h1>jit_scorers<a class="headerlink" href="#module-corsort.jit_scorers" title="Link to this heading"></a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="corsort.jit_scorers.jit_scorer_delta">
-<span class="sig-prename descclassname"><span class="pre">corsort.jit_scorers.</span></span><span class="sig-name descname"><span class="pre">jit_scorer_delta</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">downs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ups</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/corsort/jit_scorers.html#jit_scorer_delta"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#corsort.jit_scorers.jit_scorer_delta" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">corsort.jit_scorers.</span></span><span class="sig-name descname"><span class="pre">jit_scorer_delta</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">downs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ups</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/corsort/jit_scorers.html#jit_scorer_delta"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#corsort.jit_scorers.jit_scorer_delta" title="Link to this definition"></a></dt>
 <dd><p>Estimates scores of nodes by the difference between the numbers of descendants and ascendants.
 The rational is to consider that an item should be in average halfway between
 its highest and lowest possible values.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>n</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – Number of items to sort</p></li>
-<li><p><strong>downs</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.24)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>) – Indices of the low value of a sequence of performed comparisons</p></li>
-<li><p><strong>ups</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.24)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>) – Indices of the high value of a sequence of performed comparisons</p></li>
+<li><p><strong>n</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – Number of items to sort</p></li>
+<li><p><strong>downs</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.26)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>) – Indices of the low value of a sequence of performed comparisons</p></li>
+<li><p><strong>ups</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.26)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>) – Indices of the high value of a sequence of performed comparisons</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -143,7 +145,7 @@ its highest and lowest possible values.</p>
 some item scores that estimate the final position of items.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.24)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.26)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a></p>
 </dd>
 </dl>
 <p class="rubric">Examples</p>
@@ -161,15 +163,15 @@ some item scores that estimate the final position of items.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="corsort.jit_scorers.jit_scorer_rho">
-<span class="sig-prename descclassname"><span class="pre">corsort.jit_scorers.</span></span><span class="sig-name descname"><span class="pre">jit_scorer_rho</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">downs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ups</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/corsort/jit_scorers.html#jit_scorer_rho"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#corsort.jit_scorers.jit_scorer_rho" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">corsort.jit_scorers.</span></span><span class="sig-name descname"><span class="pre">jit_scorer_rho</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">downs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ups</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/corsort/jit_scorers.html#jit_scorer_rho"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#corsort.jit_scorers.jit_scorer_rho" title="Link to this definition"></a></dt>
 <dd><p>Estimates scores of nodes by dividing the number of the descendants by the size of the family plus one.
 The rational is to consider that the family should be in average evenly spaced in the sorted result.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>n</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – Number of items to sort</p></li>
-<li><p><strong>downs</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.24)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>) – Indices of the low value of a sequence of performed comparisons</p></li>
-<li><p><strong>ups</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.24)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>) – Indices of the high value of a sequence of performed comparisons</p></li>
+<li><p><strong>n</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – Number of items to sort</p></li>
+<li><p><strong>downs</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.26)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>) – Indices of the low value of a sequence of performed comparisons</p></li>
+<li><p><strong>ups</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.26)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>) – Indices of the high value of a sequence of performed comparisons</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -177,7 +179,7 @@ The rational is to consider that the family should be in average evenly spaced i
 some item scores that estimate the final position of items.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.24)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.26)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a></p>
 </dd>
 </dl>
 <p class="rubric">Examples</p>

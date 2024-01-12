@@ -1,21 +1,23 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en" data-content_root="../../">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>corsort.sort &mdash; Corsort 0.1.2 documentation</title>
-      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
+
+  
     <link rel="shortcut icon" href="../../_static/favicon.ico"/>
   <!--[if lt IE 9]>
     <script src="../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script src="../../_static/jquery.js"></script>
-        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
-        <script src="../../_static/doctools.js"></script>
-        <script src="../../_static/sphinx_highlight.js"></script>
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../_static/documentation_options.js?v=92734c54"></script>
+        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
@@ -82,7 +84,9 @@
 <span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
 
-<div class="viewcode-block" id="Sort"><a class="viewcode-back" href="../../reference/sort.html#corsort.Sort">[docs]</a><span class="k">class</span> <span class="nc">Sort</span><span class="p">:</span>
+<div class="viewcode-block" id="Sort">
+<a class="viewcode-back" href="../../reference/sort.html#corsort.Sort">[docs]</a>
+<span class="k">class</span> <span class="nc">Sort</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Abstract class for sorting algorithms.</span>
 
@@ -100,7 +104,7 @@
 <span class="sd">    n_comparisons_: :class:`int`</span>
 <span class="sd">        Number of comparison performed.</span>
 <span class="sd">    history_distances_: :class:`list` of :class:`int`</span>
-<span class="sd">        History of the kendall-tau distance to the sorted list.</span>
+<span class="sd">        History of the Spearman footrule metric to the sorted list.</span>
 <span class="sd">    history_comparisons_: :class:`list` of :class:`tuple`</span>
 <span class="sd">        History of the pairwise comparisons. Tuple (i, j) means that items of indices i and j were compared, and</span>
 <span class="sd">        that perm[i] &lt; perm[j].</span>
@@ -112,11 +116,13 @@
         <span class="c1"># Computed values</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">n_</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">perm_</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">n_comparisons_</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">history_distances_</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">history_comparisons_</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_comparisons_</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># type: ignore  # noqa</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">history_distances_</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># type: ignore  # noqa</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">history_comparisons_</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># type: ignore  # noqa</span>
 
-<div class="viewcode-block" id="Sort.distance_to_sorted_array"><a class="viewcode-back" href="../../reference/sort.html#corsort.Sort.distance_to_sorted_array">[docs]</a>    <span class="k">def</span> <span class="nf">distance_to_sorted_array</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Sort.distance_to_sorted_array">
+<a class="viewcode-back" href="../../reference/sort.html#corsort.Sort.distance_to_sorted_array">[docs]</a>
+    <span class="k">def</span> <span class="nf">distance_to_sorted_array</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Distance to sorted array.</span>
 
@@ -127,7 +133,10 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
 
-<div class="viewcode-block" id="Sort.test_i_lt_j"><a class="viewcode-back" href="../../reference/sort.html#corsort.Sort.test_i_lt_j">[docs]</a>    <span class="k">def</span> <span class="nf">test_i_lt_j</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">):</span>
+
+<div class="viewcode-block" id="Sort.test_i_lt_j">
+<a class="viewcode-back" href="../../reference/sort.html#corsort.Sort.test_i_lt_j">[docs]</a>
+    <span class="k">def</span> <span class="nf">test_i_lt_j</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Test whether perm[i] &lt; perm[j].</span>
 
@@ -157,6 +166,7 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">history_comparisons_</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">j</span><span class="p">,</span> <span class="n">i</span><span class="p">))</span>
             <span class="k">return</span> <span class="kc">False</span></div>
+
 
     <span class="k">def</span> <span class="nf">_initialize_algo</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">perm</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -216,6 +226,7 @@
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">history_comparisons_</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">None</span>
         <span class="k">return</span> <span class="p">[(</span><span class="bp">self</span><span class="o">.</span><span class="n">perm_</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">perm_</span><span class="p">[</span><span class="n">j</span><span class="p">])</span> <span class="k">for</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">history_comparisons_</span><span class="p">]</span></div>
+
 </pre></div>
 
            </div>

@@ -1,21 +1,23 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en" data-content_root="../../">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>corsort.chain_and_y &mdash; Corsort 0.1.2 documentation</title>
-      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
+
+  
     <link rel="shortcut icon" href="../../_static/favicon.ico"/>
   <!--[if lt IE 9]>
     <script src="../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script src="../../_static/jquery.js"></script>
-        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
-        <script src="../../_static/doctools.js"></script>
-        <script src="../../_static/sphinx_highlight.js"></script>
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../_static/documentation_options.js?v=92734c54"></script>
+        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
@@ -84,12 +86,14 @@
 <span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">combinations</span>
 <span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="n">comb</span>
 
-<span class="kn">import</span> <span class="nn">networkx</span> <span class="k">as</span> <span class="nn">nx</span>
+<span class="kn">import</span> <span class="nn">networkx</span> <span class="k">as</span> <span class="nn">nx</span>  <span class="c1"># type: ignore</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">svvamp</span>
+<span class="kn">import</span> <span class="nn">svvamp</span>  <span class="c1"># type: ignore</span>
 
 
-<div class="viewcode-block" id="ChainAndY"><a class="viewcode-back" href="../../reference/chain_and_y.html#corsort.ChainAndY">[docs]</a><span class="k">class</span> <span class="nc">ChainAndY</span><span class="p">:</span>
+<div class="viewcode-block" id="ChainAndY">
+<a class="viewcode-back" href="../../reference/chain_and_y.html#corsort.ChainAndY">[docs]</a>
+<span class="k">class</span> <span class="nc">ChainAndY</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A poset consisting of a chain and a Y-shape.</span>
 
@@ -170,7 +174,9 @@
                 <span class="n">g</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">a</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">b</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">c</span> <span class="o">+</span> <span class="n">i</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">a</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">b</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">c</span> <span class="o">+</span> <span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">g</span>
 
-<div class="viewcode-block" id="ChainAndY.draw"><a class="viewcode-back" href="../../reference/chain_and_y.html#corsort.ChainAndY.draw">[docs]</a>    <span class="k">def</span> <span class="nf">draw</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">with_labels</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">alpha_labels</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="ChainAndY.draw">
+<a class="viewcode-back" href="../../reference/chain_and_y.html#corsort.ChainAndY.draw">[docs]</a>
+    <span class="k">def</span> <span class="nf">draw</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">with_labels</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">alpha_labels</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Draw the poset.</span>
 
@@ -198,6 +204,7 @@
             <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;node_color&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;white&#39;</span>
             <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;edgecolors&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;black&#39;</span>
         <span class="n">nx</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">graph</span><span class="p">,</span> <span class="n">pos</span><span class="p">,</span> <span class="n">with_labels</span><span class="o">=</span><span class="n">with_labels</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">nb_linear_extensions</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -549,7 +556,9 @@
         <span class="n">election</span> <span class="o">=</span> <span class="n">svvamp</span><span class="o">.</span><span class="n">RuleKemeny</span><span class="p">()(</span><span class="bp">self</span><span class="o">.</span><span class="n">profile_linear_extensions_svvamp</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">election</span><span class="o">.</span><span class="n">candidates_by_scores_best_to_worst_</span>
 
-<div class="viewcode-block" id="ChainAndY.kemeny_score"><a class="viewcode-back" href="../../reference/chain_and_y.html#corsort.ChainAndY.kemeny_score">[docs]</a>    <span class="k">def</span> <span class="nf">kemeny_score</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">order</span><span class="p">):</span>
+<div class="viewcode-block" id="ChainAndY.kemeny_score">
+<a class="viewcode-back" href="../../reference/chain_and_y.html#corsort.ChainAndY.kemeny_score">[docs]</a>
+    <span class="k">def</span> <span class="nf">kemeny_score</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">order</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Kemeny score of an order over the candidates.</span>
 
@@ -572,6 +581,7 @@
         <span class="n">profile</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">profile_linear_extensions_svvamp</span>
         <span class="n">n_extensions</span> <span class="o">=</span> <span class="n">profile</span><span class="o">.</span><span class="n">n_v</span>
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">tril</span><span class="p">(</span><span class="n">profile</span><span class="o">.</span><span class="n">matrix_duels_rk</span><span class="p">[</span><span class="n">order</span><span class="p">,</span> <span class="p">:][:,</span> <span class="n">order</span><span class="p">],</span> <span class="o">-</span><span class="mi">1</span><span class="p">))</span> <span class="o">/</span> <span class="n">n_extensions</span></div>
+
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">order_delta</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -625,6 +635,7 @@
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">average_height</span><span class="p">)</span></div>
 
 
+
 <span class="k">def</span> <span class="nf">_average_height_c</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">d</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Average height for branch `c`.</span>
@@ -668,7 +679,9 @@
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">Fraction</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">nb_lin_ext</span><span class="p">)</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">result</span><span class="p">])</span>
 
 
-<div class="viewcode-block" id="linear_extensions"><a class="viewcode-back" href="../../reference/chain_and_y.html#corsort.linear_extensions">[docs]</a><span class="k">def</span> <span class="nf">linear_extensions</span><span class="p">(</span><span class="n">chain_1</span><span class="p">,</span> <span class="n">chain_2</span><span class="p">):</span>
+<div class="viewcode-block" id="linear_extensions">
+<a class="viewcode-back" href="../../reference/chain_and_y.html#corsort.linear_extensions">[docs]</a>
+<span class="k">def</span> <span class="nf">linear_extensions</span><span class="p">(</span><span class="n">chain_1</span><span class="p">,</span> <span class="n">chain_2</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Linear extensions for two independent chains (separate connected components).</span>
 
@@ -714,6 +727,7 @@
             <span class="n">mask_y</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">places_x</span><span class="p">)]</span> <span class="o">=</span> <span class="kc">False</span>
             <span class="n">extension</span><span class="p">[</span><span class="n">mask_y</span><span class="p">]</span> <span class="o">=</span> <span class="n">chain_2</span>
             <span class="k">yield</span> <span class="n">extension</span></div>
+
 </pre></div>
 
            </div>

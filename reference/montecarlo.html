@@ -1,22 +1,24 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en" data-content_root="../">
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>montecarlo &mdash; Corsort 0.1.2 documentation</title>
-      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
+
+  
     <link rel="shortcut icon" href="../_static/favicon.ico"/>
   <!--[if lt IE 9]>
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script src="../_static/jquery.js"></script>
-        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-        <script src="../_static/doctools.js"></script>
-        <script src="../_static/sphinx_highlight.js"></script>
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=92734c54"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
@@ -124,18 +126,18 @@
            <div itemprop="articleBody">
              
   <section id="module-corsort.montecarlo">
-<span id="montecarlo"></span><h1>montecarlo<a class="headerlink" href="#module-corsort.montecarlo" title="Permalink to this heading"></a></h1>
+<span id="montecarlo"></span><h1>montecarlo<a class="headerlink" href="#module-corsort.montecarlo" title="Link to this heading"></a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="corsort.montecarlo.evaluate">
-<span class="sig-prename descclassname"><span class="pre">corsort.montecarlo.</span></span><span class="sig-name descname"><span class="pre">evaluate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sort_list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nt</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pool</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/corsort/montecarlo.html#evaluate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#corsort.montecarlo.evaluate" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">corsort.montecarlo.</span></span><span class="sig-name descname"><span class="pre">evaluate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sort_list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nt</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pool</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/corsort/montecarlo.html#evaluate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#corsort.montecarlo.evaluate" title="Link to this definition"></a></dt>
 <dd><p>Run a sim.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>sort_list</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a>) – List of sorting algorithms (cf. examples).</p></li>
-<li><p><strong>n_list</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a>) – List of sizes for the tested lists.</p></li>
-<li><p><strong>nt</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – Number of samples.</p></li>
-<li><p><strong>pool</strong> (<a class="reference external" href="https://multiprocess.readthedocs.io/en/latest/multiprocess.html#multiprocess.pool.Pool" title="(in multiprocess v0.70.15.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Pool</span></code></a>, optional.) – Use parallelism.</p></li>
+<li><p><strong>sort_list</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a>) – List of sorting algorithms (cf. examples).</p></li>
+<li><p><strong>n_list</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a>) – List of sizes for the tested lists.</p></li>
+<li><p><strong>nt</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – Number of samples.</p></li>
+<li><p><strong>pool</strong> (<a class="reference external" href="https://multiprocess.readthedocs.io/en/latest/multiprocess.html#multiprocess.pool.Pool" title="(in multiprocess v0.70.16.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Pool</span></code></a>, optional.) – Use parallelism.</p></li>
 </ul>
 </dd>
 </dl>
@@ -185,7 +187,7 @@
 
 <dl class="py function">
 <dt class="sig sig-object py" id="corsort.montecarlo.evaluate_comparisons">
-<span class="sig-prename descclassname"><span class="pre">corsort.montecarlo.</span></span><span class="sig-name descname"><span class="pre">evaluate_comparisons</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sort_list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nt</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pool</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/corsort/montecarlo.html#evaluate_comparisons"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#corsort.montecarlo.evaluate_comparisons" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">corsort.montecarlo.</span></span><span class="sig-name descname"><span class="pre">evaluate_comparisons</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sort_list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nt</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pool</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/corsort/montecarlo.html#evaluate_comparisons"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#corsort.montecarlo.evaluate_comparisons" title="Link to this definition"></a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -230,15 +232,15 @@
 
 <dl class="py function">
 <dt class="sig sig-object py" id="corsort.montecarlo.evaluate_convergence">
-<span class="sig-prename descclassname"><span class="pre">corsort.montecarlo.</span></span><span class="sig-name descname"><span class="pre">evaluate_convergence</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sort_list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nt</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pool</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/corsort/montecarlo.html#evaluate_convergence"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#corsort.montecarlo.evaluate_convergence" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">corsort.montecarlo.</span></span><span class="sig-name descname"><span class="pre">evaluate_convergence</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sort_list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nt</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pool</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/corsort/montecarlo.html#evaluate_convergence"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#corsort.montecarlo.evaluate_convergence" title="Link to this definition"></a></dt>
 <dd><p>Performance profile.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>sort_list</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a>) – List of sorting algorithms (cf. examples).</p></li>
-<li><p><strong>n</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – Size for the tested lists.</p></li>
-<li><p><strong>nt</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – Number of samples.</p></li>
-<li><p><strong>pool</strong> (<a class="reference external" href="https://multiprocess.readthedocs.io/en/latest/multiprocess.html#multiprocess.pool.Pool" title="(in multiprocess v0.70.15.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Pool</span></code></a>, optional.) – Use parallelism.</p></li>
+<li><p><strong>sort_list</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a>) – List of sorting algorithms (cf. examples).</p></li>
+<li><p><strong>n</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><em>int</em></a>) – Size for the tested lists.</p></li>
+<li><p><strong>nt</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – Number of samples.</p></li>
+<li><p><strong>pool</strong> (<a class="reference external" href="https://multiprocess.readthedocs.io/en/latest/multiprocess.html#multiprocess.pool.Pool" title="(in multiprocess v0.70.16.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Pool</span></code></a>, optional.) – Use parallelism.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -246,7 +248,7 @@
 the history of distance to the sorted list.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.11)">dict</a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.12)">dict</a></p>
 </dd>
 </dl>
 <p class="rubric">Examples</p>
@@ -263,10 +265,10 @@ the history of distance to the sorted list.</p>
 <span class="go">Evaluate convergence of quicksort for n = 10</span>
 <span class="go">Evaluate convergence of corsort_borda for n = 10</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">my_res</span><span class="p">[</span><span class="s1">&#39;quicksort&#39;</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span> <span class="mi">1</span><span class="p">)</span>  
-<span class="go">array([22.7, 22.1, 21.5, 20.6, 19.9, 18.8, 17.5, 16.2, 14.2, 12.2, 11.7,</span>
-<span class="go">       11.2, 10.5,  9.5,  8.6,  7.5,  6.3,  5.4,  4.6,  3.8,  3. ,  2.3,</span>
-<span class="go">        1.7,  1.3,  0.9,  0.7,  0.5,  0.4,  0.3,  0.2,  0.1,  0.1,  0. ,</span>
-<span class="go">        0. ,  0. ,  0. ,  0. ])</span>
+<span class="go">array([32.7, 32.4, 32. , 31.4, 30.4, 28.9, 27.1, 24.8, 21.7, 18.8, 18.3,</span>
+<span class="go">       17.5, 16.8, 15.3, 13.9, 12.1, 10.2,  9. ,  7.8,  6.5,  5.1,  3.9,</span>
+<span class="go">        2.9,  2.1,  1.5,  1.1,  0.9,  0.6,  0.5,  0.3,  0.2,  0.1,  0.1,</span>
+<span class="go">        0.1,  0. ,  0. ,  0. ])</span>
 </pre></div>
 </div>
 <p>Same without the pool:</p>
@@ -275,10 +277,10 @@ the history of distance to the sorted list.</p>
 <span class="go">Evaluate convergence of quicksort for n = 10</span>
 <span class="go">Evaluate convergence of corsort_borda for n = 10</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">my_res</span><span class="p">[</span><span class="s1">&#39;quicksort&#39;</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span> <span class="mi">1</span><span class="p">)</span>  
-<span class="go">array([22.7, 22.1, 21.5, 20.6, 19.9, 18.8, 17.5, 16.2, 14.2, 12.2, 11.7,</span>
-<span class="go">       11.2, 10.5,  9.5,  8.6,  7.5,  6.3,  5.4,  4.6,  3.8,  3. ,  2.3,</span>
-<span class="go">        1.7,  1.3,  0.9,  0.7,  0.5,  0.4,  0.3,  0.2,  0.1,  0.1,  0. ,</span>
-<span class="go">        0. ,  0. ,  0. ,  0. ])</span>
+<span class="go">array([32.7, 32.4, 32. , 31.4, 30.4, 28.9, 27.1, 24.8, 21.7, 18.8, 18.3,</span>
+<span class="go">       17.5, 16.8, 15.3, 13.9, 12.1, 10.2,  9. ,  7.8,  6.5,  5.1,  3.9,</span>
+<span class="go">        2.9,  2.1,  1.5,  1.1,  0.9,  0.6,  0.5,  0.3,  0.2,  0.1,  0.1,</span>
+<span class="go">        0.1,  0. ,  0. ,  0. ])</span>
 </pre></div>
 </div>
 </dd></dl>

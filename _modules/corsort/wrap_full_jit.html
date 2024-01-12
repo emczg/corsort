@@ -1,21 +1,23 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en" data-content_root="../../">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>corsort.wrap_full_jit &mdash; Corsort 0.1.2 documentation</title>
-      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
+
+  
     <link rel="shortcut icon" href="../../_static/favicon.ico"/>
   <!--[if lt IE 9]>
     <script src="../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script src="../../_static/jquery.js"></script>
-        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
-        <script src="../../_static/doctools.js"></script>
-        <script src="../../_static/sphinx_highlight.js"></script>
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../_static/documentation_options.js?v=92734c54"></script>
+        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
@@ -88,7 +90,9 @@
     <span class="n">jit_heapsort</span>
 
 
-<div class="viewcode-block" id="WrapFullJit"><a class="viewcode-back" href="../../reference/wrap_full_jit.html#corsort.wrap_full_jit.WrapFullJit">[docs]</a><span class="k">class</span> <span class="nc">WrapFullJit</span><span class="p">:</span>
+<div class="viewcode-block" id="WrapFullJit">
+<a class="viewcode-back" href="../../reference/wrap_full_jit.html#corsort.wrap_full_jit.WrapFullJit">[docs]</a>
+<span class="k">class</span> <span class="nc">WrapFullJit</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Delegate everything (sort and scores) to a jit function.</span>
 
@@ -128,8 +132,8 @@
 <span class="sd">        &gt;&gt;&gt; entropy_bound(n)  # doctest: +ELLIPSIS</span>
 <span class="sd">        40.24212...</span>
 <span class="sd">        &gt;&gt;&gt; corsort.history_distances_  # doctest: +NORMALIZE_WHITESPACE</span>
-<span class="sd">        [55, 42, 51, 49, 49, 48, 40, 39, 33, 29, 29, 29, 28, 28, 28, 26, 26, 21, 20, 16, 14, 11, 10, 9, 8, 10,</span>
-<span class="sd">        8, 7, 6, 7, 5, 4, 4, 5, 4, 3, 4, 3, 3, 2, 2, 0, 1, 0]</span>
+<span class="sd">        [76, 64, 76, 74, 74, 72, 62, 62, 54, 48, 48, 48, 44, 46, 44, 44, 44, 36, 36, 26, 22, 18, 18, 16, 14, 18, 14, 12,</span>
+<span class="sd">         10, 12, 8, 6, 6, 10, 8, 6, 8, 6, 6, 4, 4, 0, 2, 0]</span>
 <span class="sd">        &gt;&gt;&gt; corsort.history_comparisons_  # doctest: +NORMALIZE_WHITESPACE</span>
 <span class="sd">        [(0, 1), (3, 2), (3, 0), (0, 4), (4, 1), (2, 4), (2, 0), (0, 5), (7, 6), (7, 0),</span>
 <span class="sd">        (3, 7), (0, 8), (8, 5), (5, 1), (8, 6), (2, 7), (9, 10), (8, 10), (11, 8), (11, 7),</span>
@@ -213,7 +217,10 @@
         <span class="k">return</span> <span class="p">[(</span><span class="bp">self</span><span class="o">.</span><span class="n">perm_</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">perm_</span><span class="p">[</span><span class="n">j</span><span class="p">])</span> <span class="k">for</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">history_comparisons_</span><span class="p">]</span></div>
 
 
-<div class="viewcode-block" id="JitCorsortBorda"><a class="viewcode-back" href="../../reference/wrap_full_jit.html#corsort.wrap_full_jit.JitCorsortBorda">[docs]</a><span class="k">class</span> <span class="nc">JitCorsortBorda</span><span class="p">(</span><span class="n">WrapFullJit</span><span class="p">):</span>
+
+<div class="viewcode-block" id="JitCorsortBorda">
+<a class="viewcode-back" href="../../reference/wrap_full_jit.html#corsort.wrap_full_jit.JitCorsortBorda">[docs]</a>
+<span class="k">class</span> <span class="nc">JitCorsortBorda</span><span class="p">(</span><span class="n">WrapFullJit</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Corsort &quot;Borda&quot;. Cf. :class:`WrapFullJit`.</span>
 
@@ -230,7 +237,10 @@
         <span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="JitCorsortDeltaMaxRho"><a class="viewcode-back" href="../../reference/wrap_full_jit.html#corsort.wrap_full_jit.JitCorsortDeltaMaxRho">[docs]</a><span class="k">class</span> <span class="nc">JitCorsortDeltaMaxRho</span><span class="p">(</span><span class="n">WrapFullJit</span><span class="p">):</span>
+
+<div class="viewcode-block" id="JitCorsortDeltaMaxRho">
+<a class="viewcode-back" href="../../reference/wrap_full_jit.html#corsort.wrap_full_jit.JitCorsortDeltaMaxRho">[docs]</a>
+<span class="k">class</span> <span class="nc">JitCorsortDeltaMaxRho</span><span class="p">(</span><span class="n">WrapFullJit</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Corsort with delta core scorer, max-knowledge tie-break, and rho output scorer. Cf. :class:`WrapFullJit`.</span>
 
@@ -247,7 +257,10 @@
         <span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="JitCorsortDeltaSumRho"><a class="viewcode-back" href="../../reference/wrap_full_jit.html#corsort.wrap_full_jit.JitCorsortDeltaSumRho">[docs]</a><span class="k">class</span> <span class="nc">JitCorsortDeltaSumRho</span><span class="p">(</span><span class="n">WrapFullJit</span><span class="p">):</span>
+
+<div class="viewcode-block" id="JitCorsortDeltaSumRho">
+<a class="viewcode-back" href="../../reference/wrap_full_jit.html#corsort.wrap_full_jit.JitCorsortDeltaSumRho">[docs]</a>
+<span class="k">class</span> <span class="nc">JitCorsortDeltaSumRho</span><span class="p">(</span><span class="n">WrapFullJit</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Corsort with delta core scorer, sum-knowledge tie-break, and rho output scorer. Cf. :class:`WrapFullJit`.</span>
 
@@ -264,7 +277,10 @@
         <span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="JitCorsortDeltaMaxDelta"><a class="viewcode-back" href="../../reference/wrap_full_jit.html#corsort.wrap_full_jit.JitCorsortDeltaMaxDelta">[docs]</a><span class="k">class</span> <span class="nc">JitCorsortDeltaMaxDelta</span><span class="p">(</span><span class="n">WrapFullJit</span><span class="p">):</span>
+
+<div class="viewcode-block" id="JitCorsortDeltaMaxDelta">
+<a class="viewcode-back" href="../../reference/wrap_full_jit.html#corsort.wrap_full_jit.JitCorsortDeltaMaxDelta">[docs]</a>
+<span class="k">class</span> <span class="nc">JitCorsortDeltaMaxDelta</span><span class="p">(</span><span class="n">WrapFullJit</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Corsort with delta core scorer, max-knowledge tie-break, and delta output scorer. Cf. :class:`WrapFullJit`.</span>
 
@@ -281,7 +297,10 @@
         <span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="JitCorsortDeltaSumDelta"><a class="viewcode-back" href="../../reference/wrap_full_jit.html#corsort.wrap_full_jit.JitCorsortDeltaSumDelta">[docs]</a><span class="k">class</span> <span class="nc">JitCorsortDeltaSumDelta</span><span class="p">(</span><span class="n">WrapFullJit</span><span class="p">):</span>
+
+<div class="viewcode-block" id="JitCorsortDeltaSumDelta">
+<a class="viewcode-back" href="../../reference/wrap_full_jit.html#corsort.wrap_full_jit.JitCorsortDeltaSumDelta">[docs]</a>
+<span class="k">class</span> <span class="nc">JitCorsortDeltaSumDelta</span><span class="p">(</span><span class="n">WrapFullJit</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Corsort with delta core scorer, sum-knowledge tie-break, and delta output scorer. Cf. :class:`WrapFullJit`.</span>
 
@@ -298,7 +317,10 @@
         <span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="JitCorsortRhoMaxRho"><a class="viewcode-back" href="../../reference/wrap_full_jit.html#corsort.wrap_full_jit.JitCorsortRhoMaxRho">[docs]</a><span class="k">class</span> <span class="nc">JitCorsortRhoMaxRho</span><span class="p">(</span><span class="n">WrapFullJit</span><span class="p">):</span>
+
+<div class="viewcode-block" id="JitCorsortRhoMaxRho">
+<a class="viewcode-back" href="../../reference/wrap_full_jit.html#corsort.wrap_full_jit.JitCorsortRhoMaxRho">[docs]</a>
+<span class="k">class</span> <span class="nc">JitCorsortRhoMaxRho</span><span class="p">(</span><span class="n">WrapFullJit</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Corsort with rho core scorer, max-knowledge tie-break, and rho output scorer. Cf. :class:`WrapFullJit`.</span>
 
@@ -315,7 +337,10 @@
         <span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="JitCorsortRhoSumRho"><a class="viewcode-back" href="../../reference/wrap_full_jit.html#corsort.wrap_full_jit.JitCorsortRhoSumRho">[docs]</a><span class="k">class</span> <span class="nc">JitCorsortRhoSumRho</span><span class="p">(</span><span class="n">WrapFullJit</span><span class="p">):</span>
+
+<div class="viewcode-block" id="JitCorsortRhoSumRho">
+<a class="viewcode-back" href="../../reference/wrap_full_jit.html#corsort.wrap_full_jit.JitCorsortRhoSumRho">[docs]</a>
+<span class="k">class</span> <span class="nc">JitCorsortRhoSumRho</span><span class="p">(</span><span class="n">WrapFullJit</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Corsort with rho core scorer, sum-knowledge tie-break, and rho output scorer. Cf. :class:`WrapFullJit`.</span>
 
@@ -332,7 +357,10 @@
         <span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="JitCorsortRhoMaxDelta"><a class="viewcode-back" href="../../reference/wrap_full_jit.html#corsort.wrap_full_jit.JitCorsortRhoMaxDelta">[docs]</a><span class="k">class</span> <span class="nc">JitCorsortRhoMaxDelta</span><span class="p">(</span><span class="n">WrapFullJit</span><span class="p">):</span>
+
+<div class="viewcode-block" id="JitCorsortRhoMaxDelta">
+<a class="viewcode-back" href="../../reference/wrap_full_jit.html#corsort.wrap_full_jit.JitCorsortRhoMaxDelta">[docs]</a>
+<span class="k">class</span> <span class="nc">JitCorsortRhoMaxDelta</span><span class="p">(</span><span class="n">WrapFullJit</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Corsort with rho core scorer, max-knowledge tie-break, and delta output scorer. Cf. :class:`WrapFullJit`.</span>
 
@@ -349,7 +377,10 @@
         <span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="JitCorsortRhoSumDelta"><a class="viewcode-back" href="../../reference/wrap_full_jit.html#corsort.wrap_full_jit.JitCorsortRhoSumDelta">[docs]</a><span class="k">class</span> <span class="nc">JitCorsortRhoSumDelta</span><span class="p">(</span><span class="n">WrapFullJit</span><span class="p">):</span>
+
+<div class="viewcode-block" id="JitCorsortRhoSumDelta">
+<a class="viewcode-back" href="../../reference/wrap_full_jit.html#corsort.wrap_full_jit.JitCorsortRhoSumDelta">[docs]</a>
+<span class="k">class</span> <span class="nc">JitCorsortRhoSumDelta</span><span class="p">(</span><span class="n">WrapFullJit</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Corsort with rho core scorer, sum-knowledge tie-break, and delta output scorer. Cf. :class:`WrapFullJit`.</span>
 
@@ -366,7 +397,10 @@
         <span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="JitHeapsort"><a class="viewcode-back" href="../../reference/wrap_full_jit.html#corsort.wrap_full_jit.JitHeapsort">[docs]</a><span class="k">class</span> <span class="nc">JitHeapsort</span><span class="p">(</span><span class="n">WrapFullJit</span><span class="p">):</span>
+
+<div class="viewcode-block" id="JitHeapsort">
+<a class="viewcode-back" href="../../reference/wrap_full_jit.html#corsort.wrap_full_jit.JitHeapsort">[docs]</a>
+<span class="k">class</span> <span class="nc">JitHeapsort</span><span class="p">(</span><span class="n">WrapFullJit</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Heapsort. Cf. :class:`WrapFullJit`.</span>
 
@@ -381,6 +415,7 @@
             <span class="n">compute_history</span><span class="o">=</span><span class="n">compute_history</span><span class="p">,</span>
             <span class="n">record_states</span><span class="o">=</span><span class="n">record_states</span><span class="p">,</span>
         <span class="p">)</span></div>
+
 </pre></div>
 
            </div>
