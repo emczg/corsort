@@ -1,7 +1,7 @@
 import numpy as np
-from multiprocess.pool import Pool
+from multiprocess.pool import Pool  # type: ignore
 from collections import defaultdict
-from tqdm import tqdm
+from tqdm import tqdm  # type: ignore
 
 
 def print_res(res):
@@ -135,10 +135,10 @@ def evaluate_convergence(sort_list, n, nt, pool=None):
     Evaluate convergence of quicksort for n = 10
     Evaluate convergence of corsort_borda for n = 10
     >>> np.round(np.mean(my_res['quicksort'], axis=0), 1)  # doctest: +NORMALIZE_WHITESPACE
-    array([22.7, 22.1, 21.5, 20.6, 19.9, 18.8, 17.5, 16.2, 14.2, 12.2, 11.7,
-           11.2, 10.5,  9.5,  8.6,  7.5,  6.3,  5.4,  4.6,  3.8,  3. ,  2.3,
-            1.7,  1.3,  0.9,  0.7,  0.5,  0.4,  0.3,  0.2,  0.1,  0.1,  0. ,
-            0. ,  0. ,  0. ,  0. ])
+    array([32.7, 32.4, 32. , 31.4, 30.4, 28.9, 27.1, 24.8, 21.7, 18.8, 18.3,
+           17.5, 16.8, 15.3, 13.9, 12.1, 10.2,  9. ,  7.8,  6.5,  5.1,  3.9,
+            2.9,  2.1,  1.5,  1.1,  0.9,  0.6,  0.5,  0.3,  0.2,  0.1,  0.1,
+            0.1,  0. ,  0. ,  0. ])
 
     Same without the pool:
 
@@ -147,10 +147,10 @@ def evaluate_convergence(sort_list, n, nt, pool=None):
     Evaluate convergence of quicksort for n = 10
     Evaluate convergence of corsort_borda for n = 10
     >>> np.round(np.mean(my_res['quicksort'], axis=0), 1)  # doctest: +NORMALIZE_WHITESPACE
-    array([22.7, 22.1, 21.5, 20.6, 19.9, 18.8, 17.5, 16.2, 14.2, 12.2, 11.7,
-           11.2, 10.5,  9.5,  8.6,  7.5,  6.3,  5.4,  4.6,  3.8,  3. ,  2.3,
-            1.7,  1.3,  0.9,  0.7,  0.5,  0.4,  0.3,  0.2,  0.1,  0.1,  0. ,
-            0. ,  0. ,  0. ,  0. ])
+    array([32.7, 32.4, 32. , 31.4, 30.4, 28.9, 27.1, 24.8, 21.7, 18.8, 18.3,
+           17.5, 16.8, 15.3, 13.9, 12.1, 10.2,  9. ,  7.8,  6.5,  5.1,  3.9,
+            2.9,  2.1,  1.5,  1.1,  0.9,  0.6,  0.5,  0.3,  0.2,  0.1,  0.1,
+            0.1,  0. ,  0. ,  0. ])
     """
     res = dict()
     for sort in sort_list:

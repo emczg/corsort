@@ -3,9 +3,9 @@ from fractions import Fraction
 from itertools import combinations
 from math import comb
 
-import networkx as nx
+import networkx as nx  # type: ignore
 import numpy as np
-import svvamp
+import svvamp  # type: ignore
 
 
 class ChainAndY:

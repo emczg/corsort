@@ -1,4 +1,4 @@
-from matplotlib import pylab as plt
+from matplotlib import pylab as plt  # type: ignore
 
 colors = plt.rcParams['axes.prop_cycle'].by_key()['color']
 

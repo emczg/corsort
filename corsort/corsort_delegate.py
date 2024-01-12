@@ -21,7 +21,7 @@ class CorsortDelegate(Corsort):
         >>> corsort.history_comparisons_
         [(1, 0), (2, 0), (3, 0), (4, 0), (2, 1), (1, 3), (1, 4), (3, 4)]
         >>> corsort.history_distances_
-        [5, 1, 1, 1, 1, 2, 1, 0, 0]
+        [8, 2, 2, 2, 2, 4, 2, 0, 0]
         >>> corsort.__name__
         'corsort_delegate_quicksort'
     """

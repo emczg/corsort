@@ -18,8 +18,8 @@ class CorsortGainLexi(CorsortGain):
         >>> entropy_bound(n_) # doctest: +ELLIPSIS
         40.24212...
         >>> corsort.history_distances_ # doctest: +NORMALIZE_WHITESPACE
-        [55, 42, 51, 49, 49, 43, 39, 38, 37, 36, 28, 27, 22, 21, 20, 19, 13, 14, 13, 13, 13, 14, 13, 11,
-        10, 6, 6, 5, 5, 3, 2, 1, 2, 2, 2, 1, 1, 1, 1, 0]
+        [76, 64, 76, 74, 74, 68, 64, 64, 60, 60, 46, 44, 34, 32, 30, 28, 20, 22, 22, 20, 20, 22, 20, 18, 16, 12, 12, 10,
+         10, 6, 4, 2, 4, 4, 4, 2, 2, 2, 2, 0]
         >>> corsort.__name__
         'corsort_lexi'
     """

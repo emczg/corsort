@@ -19,7 +19,7 @@ class Sort:
     n_comparisons_: :class:`int`
         Number of comparison performed.
     history_distances_: :class:`list` of :class:`int`
-        History of the kendall-tau distance to the sorted list.
+        History of the Spearman footrule metric to the sorted list.
     history_comparisons_: :class:`list` of :class:`tuple`
         History of the pairwise comparisons. Tuple (i, j) means that items of indices i and j were compared, and
         that perm[i] < perm[j].
@@ -31,9 +31,9 @@ class Sort:
         # Computed values
         self.n_ = None
         self.perm_ = None
-        self.n_comparisons_ = None
-        self.history_distances_ = None
-        self.history_comparisons_ = None
+        self.n_comparisons_ = None  # type: ignore  # noqa
+        self.history_distances_ = None  # type: ignore  # noqa
+        self.history_comparisons_ = None  # type: ignore  # noqa
 
     def distance_to_sorted_array(self):
         """

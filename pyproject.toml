@@ -1,0 +1,81 @@
+[tool.poetry]
+name = "corsort"
+version = "0.1.2"
+description = "Comparison-Oriented Sort."
+authors = ["Emma Caizergues <emma.caizergues@gmail.com>"]
+license = "GNU General Public License v3"
+readme = "README.rst"
+
+[tool.poetry.dependencies]
+python = ">=3.10"
+networkx = "^3.2.1"
+numba = [
+    {version = "^0.58.1", python = ">=3.10,<3.12"},
+    {version = "0.59.0rc1", python = ">=3.12"}
+]
+svvamp = "^0.10.0"
+multiprocess = "^0.70.15"
+tqdm = "^4.66.1"
+
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^7.4.4"
+pytest-cov = "^4.1.0"
+sphinx = "^7.2.6"
+sphinx-rtd-theme = "^2.0.0"
+nbsphinx = "^0.9.3"
+ipython = "^8.20.0"
+tox = "^4.11.4"
+mypy = "^1.8.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.coverage.report]
+skip_empty = true
+
+[tool.coverage.run]
+branch = true
+source = ["corsort"]
+
+[tool.coverage.html]
+directory = "cov"
+
+[tool.ruff.per-file-ignores]
+"tests/*" = ["S101"]
+
+[tool.pytest.ini_options]
+addopts = "--doctest-modules --cov --cov-config=pyproject.toml --cov-report xml --cov-report html --showlocals --capture=no --exitfirst --failed-first"
+
+[tool.mypy]
+files = ["corsort"]
+disallow_untyped_defs = "False"
+disallow_any_unimported = "True"
+no_implicit_optional = "False"
+check_untyped_defs = "False"
+warn_return_any = "True"
+warn_unused_ignores = "False"
+show_error_codes = "True"
+
+[tool.tox]
+legacy_tox_ini = """
+[tox]
+skipsdist = true
+
+[gh-actions]
+python =
+    3.10: py310
+    3.11: py311
+    3.12: py312
+
+[testenv]
+passenv = PYTHON_VERSION
+allowlist_externals = poetry
+commands =
+    poetry install -v
+    pytest
+    mypy
+"""
+
+[tool.poetry_bumpversion.file."kleinberg_grid_simulator/__init__.py"]
