@@ -62,6 +62,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#corsort.ChainAndY.draw"><code class="docutils literal notranslate"><span class="pre">ChainAndY.draw()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#corsort.ChainAndY.graph"><code class="docutils literal notranslate"><span class="pre">ChainAndY.graph</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#corsort.ChainAndY.kemeny_score"><code class="docutils literal notranslate"><span class="pre">ChainAndY.kemeny_score()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#corsort.ChainAndY.median_height"><code class="docutils literal notranslate"><span class="pre">ChainAndY.median_height</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#corsort.ChainAndY.n_nodes"><code class="docutils literal notranslate"><span class="pre">ChainAndY.n_nodes</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#corsort.ChainAndY.nb_ancestors"><code class="docutils literal notranslate"><span class="pre">ChainAndY.nb_ancestors</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#corsort.ChainAndY.nb_descendants"><code class="docutils literal notranslate"><span class="pre">ChainAndY.nb_descendants</span></code></a></li>
@@ -69,10 +70,15 @@
 <li class="toctree-l4"><a class="reference internal" href="#corsort.ChainAndY.order_average_height"><code class="docutils literal notranslate"><span class="pre">ChainAndY.order_average_height</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#corsort.ChainAndY.order_delta"><code class="docutils literal notranslate"><span class="pre">ChainAndY.order_delta</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#corsort.ChainAndY.order_kemeny"><code class="docutils literal notranslate"><span class="pre">ChainAndY.order_kemeny</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#corsort.ChainAndY.order_median_height"><code class="docutils literal notranslate"><span class="pre">ChainAndY.order_median_height</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#corsort.ChainAndY.order_rho"><code class="docutils literal notranslate"><span class="pre">ChainAndY.order_rho</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#corsort.ChainAndY.order_spearman_optimal"><code class="docutils literal notranslate"><span class="pre">ChainAndY.order_spearman_optimal</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#corsort.ChainAndY.positions_counts_in_extensions"><code class="docutils literal notranslate"><span class="pre">ChainAndY.positions_counts_in_extensions</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#corsort.ChainAndY.profile_linear_extensions"><code class="docutils literal notranslate"><span class="pre">ChainAndY.profile_linear_extensions</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#corsort.ChainAndY.profile_linear_extensions_svvamp"><code class="docutils literal notranslate"><span class="pre">ChainAndY.profile_linear_extensions_svvamp</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#corsort.ChainAndY.rho"><code class="docutils literal notranslate"><span class="pre">ChainAndY.rho</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#corsort.ChainAndY.spearman_costs"><code class="docutils literal notranslate"><span class="pre">ChainAndY.spearman_costs</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#corsort.ChainAndY.spearman_score"><code class="docutils literal notranslate"><span class="pre">ChainAndY.spearman_score()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#corsort.linear_extensions"><code class="docutils literal notranslate"><span class="pre">linear_extensions()</span></code></a></li>
@@ -252,7 +258,7 @@ parameter <cite>with_labels</cite> is ignored and automatically set to True.</p>
 <dl class="py property">
 <dt class="sig sig-object py" id="corsort.ChainAndY.graph">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">graph</span></span><a class="headerlink" href="#corsort.ChainAndY.graph" title="Link to this definition"></a></dt>
-<dd><p>The poset as an networkx graph.</p>
+<dd><p>The poset as a networkx graph.</p>
 <p>The main purpose of the property is to be used by <a class="reference internal" href="#corsort.ChainAndY.draw" title="corsort.ChainAndY.draw"><code class="xref py py-meth docutils literal notranslate"><span class="pre">draw()</span></code></a>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
@@ -288,6 +294,25 @@ parameter <cite>with_labels</cite> is ignored and automatically set to True.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">poset</span> <span class="o">=</span> <span class="n">ChainAndY</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">poset</span><span class="o">.</span><span class="n">kemeny_score</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
 <span class="go">13.5</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="corsort.ChainAndY.median_height">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">median_height</span></span><a class="headerlink" href="#corsort.ChainAndY.median_height" title="Link to this definition"></a></dt>
+<dd><p>Median height.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Size <cite>a + b + c + d</cite>. Median height for each node in the linear extensions.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.26)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a></p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ChainAndY</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span><span class="o">.</span><span class="n">median_height</span>  
+<span class="go">array([ 3.,  9.,  0.,  2.,  3.,  5.,  7.,  8., 10., 12.,  3.,  7., 10.])</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -428,6 +453,25 @@ parameter <cite>with_labels</cite> is ignored and automatically set to True.</p>
 </dd></dl>
 
 <dl class="py property">
+<dt class="sig sig-object py" id="corsort.ChainAndY.order_median_height">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">order_median_height</span></span><a class="headerlink" href="#corsort.ChainAndY.order_median_height" title="Link to this definition"></a></dt>
+<dd><p>Order of the nodes, according to median height.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Estimated order of the nodes.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.26)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a></p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ChainAndY</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span><span class="o">.</span><span class="n">order_median_height</span>  
+<span class="go">array([2, 3, 0, 5, 1, 4, 6, 7]...)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py property">
 <dt class="sig sig-object py" id="corsort.ChainAndY.order_rho">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">order_rho</span></span><a class="headerlink" href="#corsort.ChainAndY.order_rho" title="Link to this definition"></a></dt>
 <dd><p>Order of the nodes, according to estimator rho.</p>
@@ -442,6 +486,70 @@ parameter <cite>with_labels</cite> is ignored and automatically set to True.</p>
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ChainAndY</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span><span class="o">.</span><span class="n">order_rho</span>  
 <span class="go">array([2, 3, 0, 5, 1, 6, 4, 7]...)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="corsort.ChainAndY.order_spearman_optimal">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">order_spearman_optimal</span></span><a class="headerlink" href="#corsort.ChainAndY.order_spearman_optimal" title="Link to this definition"></a></dt>
+<dd><p>Order of the nodes optimizing the expected Spearman distance.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The candidates, in their optimal order for expected Spearman distance.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.26)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a></p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ChainAndY</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">7</span><span class="p">)</span><span class="o">.</span><span class="n">order_spearman_optimal</span>
+<span class="go">array([0, 3, 4, 1, 5, 6, 7, 2, 8, 9], dtype=int64)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="corsort.ChainAndY.positions_counts_in_extensions">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">positions_counts_in_extensions</span></span><a class="headerlink" href="#corsort.ChainAndY.positions_counts_in_extensions" title="Link to this definition"></a></dt>
+<dd><p>Positions counts in linear extensions for the elements of the poset.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Size <cite>a + b + c + d</cite> * <cite>a + b + c + d</cite>. Coefficient (i, r) represents the number of linear extensions of the
+poset where node <cite>i</cite> is in rank <cite>r</cite> (note that items and ranks are numbered from 0, Python-style).</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.26)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a></p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ChainAndY</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span><span class="o">.</span><span class="n">positions_counts_in_extensions</span>  
+<span class="go">array([[1440, 1320, 1200, 1080,  960,  840,  720,  600,  480,  360,  240,</span>
+<span class="go">         120,    0],</span>
+<span class="go">       [   0,  120,  240,  360,  480,  600,  720,  840,  960, 1080, 1200,</span>
+<span class="go">        1320, 1440],</span>
+<span class="go">       [7920, 1320,  120,    0,    0,    0,    0,    0,    0,    0,    0,</span>
+<span class="go">           0,    0],</span>
+<span class="go">       [   0, 4620, 2940, 1260,  420,  105,   15,    0,    0,    0,    0,</span>
+<span class="go">           0,    0],</span>
+<span class="go">       [   0,    0, 2520, 3024, 2184, 1134,  414,   84,    0,    0,    0,</span>
+<span class="go">           0,    0],</span>
+<span class="go">       [   0,    0,    0, 1260, 2380, 2555, 1905,  980,  280,    0,    0,</span>
+<span class="go">           0,    0],</span>
+<span class="go">       [   0,    0,    0,    0,  560, 1540, 2340, 2440, 1760,  720,    0,</span>
+<span class="go">           0,    0],</span>
+<span class="go">       [   0,    0,    0,    0,    0,  210,  810, 1710, 2490, 2565, 1575,</span>
+<span class="go">           0,    0],</span>
+<span class="go">       [   0,    0,    0,    0,    0,    0,   60,  320,  940, 1950, 3010,</span>
+<span class="go">        3080,    0],</span>
+<span class="go">       [   0,    0,    0,    0,    0,    0,    0,   10,   74,  309,  959,</span>
+<span class="go">        2464, 5544],</span>
+<span class="go">       [   0, 1980, 1980, 1620, 1260,  945,  675,  450,  270,  135,   45,</span>
+<span class="go">           0,    0],</span>
+<span class="go">       [   0,    0,  360,  720, 1000, 1190, 1290, 1300, 1220, 1050,  790,</span>
+<span class="go">         440,    0],</span>
+<span class="go">       [   0,    0,    0,   36,  116,  241,  411,  626,  886, 1191, 1541,</span>
+<span class="go">        1936, 2376]]...)</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -544,6 +652,74 @@ were forming a chain and if no information was known about the other elements.</
 <span class="go">       Fraction(3, 5), Fraction(7, 10), Fraction(4, 5), Fraction(9, 10),</span>
 <span class="go">       Fraction(5, 12), Fraction(1, 2), Fraction(7, 12), Fraction(2, 3),</span>
 <span class="go">       Fraction(3, 4), Fraction(5, 6), Fraction(11, 12)], dtype=object)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="corsort.ChainAndY.spearman_costs">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">spearman_costs</span></span><a class="headerlink" href="#corsort.ChainAndY.spearman_costs" title="Link to this definition"></a></dt>
+<dd><p>Spearman costs.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Size <cite>a + b + c + d</cite> * <cite>a + b + c + d</cite>. Coefficient (i, r) represents the contribution of item <cite>i</cite> to the
+Spearman distance if it is placed in position <cite>r</cite> in the estimate ranking.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.26)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a></p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ChainAndY</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span><span class="o">.</span><span class="n">spearman_costs</span>  
+<span class="go">array([[ 34320,  27840,  24000,  22560,  23280,  25920,  30240,  36000,</span>
+<span class="go">         42960,  50880,  59520,  68640,  78000],</span>
+<span class="go">       [ 78000,  68640,  59520,  50880,  42960,  36000,  30240,  25920,</span>
+<span class="go">         23280,  22560,  24000,  27840,  34320],</span>
+<span class="go">       [  1560,   8040,  17160,  26520,  35880,  45240,  54600,  63960,</span>
+<span class="go">         73320,  82680,  92040, 101400, 110760],</span>
+<span class="go">       [ 16575,   7215,   7095,  12855,  21135,  30255,  39585,  48945,</span>
+<span class="go">         58305,  67665,  77025,  86385,  95745],</span>
+<span class="go">       [ 31590,  22230,  12870,   8550,  10278,  16374,  24738,  33930,</span>
+<span class="go">         43290,  52650,  62010,  71370,  80730],</span>
+<span class="go">       [ 46605,  37245,  27885,  18525,  11685,   9605,  12635,  19475,</span>
+<span class="go">         28275,  37635,  46995,  56355,  65715],</span>
+<span class="go">       [ 61620,  52260,  42900,  33540,  24180,  15940,  10780,  10300,</span>
+<span class="go">         14700,  22620,  31980,  41340,  50700],</span>
+<span class="go">       [ 76635,  67275,  57915,  48555,  39195,  29835,  20895,  13575,</span>
+<span class="go">          9675,  10755,  16965,  26325,  35685],</span>
+<span class="go">       [ 91650,  82290,  72930,  63570,  54210,  44850,  35490,  26250,</span>
+<span class="go">         17650,  10930,   8110,  11310,  20670],</span>
+<span class="go">       [106665,  97305,  87945,  78585,  69225,  59865,  50505,  41145,</span>
+<span class="go">         31805,  22613,  14039,   7383,   5655],</span>
+<span class="go">       [ 31590,  22230,  16830,  15390,  17190,  21510,  27720,  35280,</span>
+<span class="go">         43740,  52740,  62010,  71370,  80730],</span>
+<span class="go">       [ 61620,  52260,  42900,  34260,  27060,  21860,  19040,  18800,</span>
+<span class="go">         21160,  25960,  32860,  41340,  50700],</span>
+<span class="go">       [ 91650,  82290,  72930,  63570,  54282,  45226,  36652,  28900,</span>
+<span class="go">         22400,  17672,  15326,  16062,  20670]]...)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="corsort.ChainAndY.spearman_score">
+<span class="sig-name descname"><span class="pre">spearman_score</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">order</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/corsort/chain_and_y.html#ChainAndY.spearman_score"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#corsort.ChainAndY.spearman_score" title="Link to this definition"></a></dt>
+<dd><p>Spearman score of an order over the candidates.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>order</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a>) – An order over the candidates.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The Spearman score (average Spearman distance with a linear extension of the poset).</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)">float</a></p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">poset</span> <span class="o">=</span> <span class="n">ChainAndY</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">poset</span><span class="o">.</span><span class="n">spearman_score</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+<span class="go">22.142857142857142</span>
 </pre></div>
 </div>
 </dd></dl>

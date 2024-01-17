@@ -88,6 +88,7 @@
 
 <span class="kn">import</span> <span class="nn">networkx</span> <span class="k">as</span> <span class="nn">nx</span>  <span class="c1"># type: ignore</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">scipy.optimize</span> <span class="kn">import</span> <span class="n">linear_sum_assignment</span>
 <span class="kn">import</span> <span class="nn">svvamp</span>  <span class="c1"># type: ignore</span>
 
 
@@ -116,6 +117,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_cache_average_height_d</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_cache_profile_linear_extensions</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_cache_profile_linear_extensions_svvamp</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_cache_positions_counts_in_extensions</span> <span class="o">=</span> <span class="kc">None</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">n_nodes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -137,7 +139,7 @@
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">graph</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        The poset as an networkx graph.</span>
+<span class="sd">        The poset as a networkx graph.</span>
 
 <span class="sd">        The main purpose of the property is to be used by :meth:`draw`.</span>
 
@@ -455,6 +457,261 @@
         <span class="p">))</span>
 
     <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">_positions_counts_in_extensions_a</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Positions counts in linear extensions for the elements of the chain `a`.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        :class:`~numpy.ndarray`</span>
+<span class="sd">            Size `a` * `a + b + c + d`. Coefficient (i, r) represents the number of linear extensions of the</span>
+<span class="sd">            poset where item `i` of the chain is in rank `r`.</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">            &gt;&gt;&gt; ChainAndY(2, 1, 7, 3)._positions_counts_in_extensions_a  # doctest: +NORMALIZE_WHITESPACE +ELLIPSIS</span>
+<span class="sd">            array([[1440, 1320, 1200, 1080,  960,  840,  720,  600,  480,  360,  240,</span>
+<span class="sd">                     120,    0],</span>
+<span class="sd">                   [   0,  120,  240,  360,  480,  600,  720,  840,  960, 1080, 1200,</span>
+<span class="sd">                    1320, 1440]]...)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">a</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">a</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">b</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">c</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">d</span><span class="p">),</span> <span class="s1">&#39;int64&#39;</span><span class="p">)</span>
+        <span class="n">ways_to_merge_c_and_d</span> <span class="o">=</span> <span class="n">comb</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">c</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">d</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">c</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">a</span><span class="p">):</span>  <span class="c1"># i: index of element in chain `a`</span>
+            <span class="n">smaller_from_a</span> <span class="o">=</span> <span class="n">i</span>
+            <span class="n">greater_from_a</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">a</span> <span class="o">-</span> <span class="n">smaller_from_a</span> <span class="o">-</span> <span class="mi">1</span>
+            <span class="k">for</span> <span class="n">smaller_from_y</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">b</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">c</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">d</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+                <span class="n">greater_from_y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">b</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">c</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">d</span> <span class="o">-</span> <span class="n">smaller_from_y</span>
+                <span class="n">final_rank</span> <span class="o">=</span> <span class="n">smaller_from_a</span> <span class="o">+</span> <span class="n">smaller_from_y</span>
+                <span class="n">ways_left</span> <span class="o">=</span> <span class="n">comb</span><span class="p">(</span><span class="n">smaller_from_a</span> <span class="o">+</span> <span class="n">smaller_from_y</span><span class="p">,</span> <span class="n">smaller_from_a</span><span class="p">)</span>
+                <span class="n">ways_right</span> <span class="o">=</span> <span class="n">comb</span><span class="p">(</span><span class="n">greater_from_a</span> <span class="o">+</span> <span class="n">greater_from_y</span><span class="p">,</span> <span class="n">greater_from_a</span><span class="p">)</span>
+                <span class="n">ways</span> <span class="o">=</span> <span class="n">ways_left</span> <span class="o">*</span> <span class="n">ways_right</span> <span class="o">*</span> <span class="n">ways_to_merge_c_and_d</span>
+                <span class="n">result</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">final_rank</span><span class="p">]</span> <span class="o">=</span> <span class="n">ways</span>
+        <span class="k">return</span> <span class="n">result</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">_positions_counts_in_extensions_b</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Positions counts in linear extensions for the elements of the trunk `b`.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        :class:`~numpy.ndarray`</span>
+<span class="sd">            Size `b` * `a + b + c + d`. Coefficient (i, r) represents the number of linear extensions of the</span>
+<span class="sd">            poset where item `i` of the trunk is in rank `r`.</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">            &gt;&gt;&gt; ChainAndY(2, 1, 7, 3)._positions_counts_in_extensions_b  # doctest: +NORMALIZE_WHITESPACE +ELLIPSIS</span>
+<span class="sd">            array([[7920, 1320,  120,    0,    0,    0,    0,    0,    0,    0,    0,</span>
+<span class="sd">                       0,    0]]...)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">b</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">a</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">b</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">c</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">d</span><span class="p">),</span> <span class="s1">&#39;int64&#39;</span><span class="p">)</span>
+        <span class="n">ways_to_merge_c_and_d</span> <span class="o">=</span> <span class="n">comb</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">c</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">d</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">c</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">b</span><span class="p">):</span>  <span class="c1"># i: index of element in chain `b`</span>
+            <span class="n">smaller_from_y</span> <span class="o">=</span> <span class="n">i</span>
+            <span class="n">greater_from_y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">b</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">c</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">d</span> <span class="o">-</span> <span class="n">smaller_from_y</span> <span class="o">-</span> <span class="mi">1</span>
+            <span class="k">for</span> <span class="n">smaller_from_a</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">a</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+                <span class="n">greater_from_a</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">a</span> <span class="o">-</span> <span class="n">smaller_from_a</span>
+                <span class="n">final_rank</span> <span class="o">=</span> <span class="n">smaller_from_a</span> <span class="o">+</span> <span class="n">smaller_from_y</span>
+                <span class="n">ways_left</span> <span class="o">=</span> <span class="n">comb</span><span class="p">(</span><span class="n">smaller_from_a</span> <span class="o">+</span> <span class="n">smaller_from_y</span><span class="p">,</span> <span class="n">smaller_from_a</span><span class="p">)</span>
+                <span class="n">ways_right</span> <span class="o">=</span> <span class="n">comb</span><span class="p">(</span><span class="n">greater_from_a</span> <span class="o">+</span> <span class="n">greater_from_y</span><span class="p">,</span> <span class="n">greater_from_a</span><span class="p">)</span>
+                <span class="n">ways</span> <span class="o">=</span> <span class="n">ways_left</span> <span class="o">*</span> <span class="n">ways_right</span> <span class="o">*</span> <span class="n">ways_to_merge_c_and_d</span>
+                <span class="n">result</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">final_rank</span><span class="p">]</span> <span class="o">=</span> <span class="n">ways</span>
+        <span class="k">return</span> <span class="n">result</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">_positions_counts_in_extensions_c</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Positions counts in linear extensions for the elements of the branch `c`.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        :class:`~numpy.ndarray`</span>
+<span class="sd">            Size `c` * `a + b + c + d`. Coefficient (i, r) represents the number of linear extensions of the</span>
+<span class="sd">            poset where item `i` of the branch is in rank `r`.</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">            &gt;&gt;&gt; ChainAndY(2, 1, 7, 3)._positions_counts_in_extensions_c  # doctest: +NORMALIZE_WHITESPACE +ELLIPSIS</span>
+<span class="sd">            array([[   0, 4620, 2940, 1260,  420,  105,   15,    0,    0,    0,    0,</span>
+<span class="sd">                       0,    0],</span>
+<span class="sd">                   [   0,    0, 2520, 3024, 2184, 1134,  414,   84,    0,    0,    0,</span>
+<span class="sd">                       0,    0],</span>
+<span class="sd">                   [   0,    0,    0, 1260, 2380, 2555, 1905,  980,  280,    0,    0,</span>
+<span class="sd">                       0,    0],</span>
+<span class="sd">                   [   0,    0,    0,    0,  560, 1540, 2340, 2440, 1760,  720,    0,</span>
+<span class="sd">                       0,    0],</span>
+<span class="sd">                   [   0,    0,    0,    0,    0,  210,  810, 1710, 2490, 2565, 1575,</span>
+<span class="sd">                       0,    0],</span>
+<span class="sd">                   [   0,    0,    0,    0,    0,    0,   60,  320,  940, 1950, 3010,</span>
+<span class="sd">                    3080,    0],</span>
+<span class="sd">                   [   0,    0,    0,    0,    0,    0,    0,   10,   74,  309,  959,</span>
+<span class="sd">                    2464, 5544]]...)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">_positions_counts_in_extensions_c</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">a</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">b</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">c</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">d</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">_positions_counts_in_extensions_d</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Positions counts in linear extensions for the elements of the branch `d`.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        :class:`~numpy.ndarray`</span>
+<span class="sd">            Size `d` * `a + b + c + d`. Coefficient (i, r) represents the number of linear extensions of the</span>
+<span class="sd">            poset where item `i` of the branch is in rank `r`.</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">            &gt;&gt;&gt; ChainAndY(2, 1, 7, 3)._positions_counts_in_extensions_d  # doctest: +NORMALIZE_WHITESPACE +ELLIPSIS</span>
+<span class="sd">            array([[   0, 1980, 1980, 1620, 1260,  945,  675,  450,  270,  135,   45,</span>
+<span class="sd">                       0,    0],</span>
+<span class="sd">                   [   0,    0,  360,  720, 1000, 1190, 1290, 1300, 1220, 1050,  790,</span>
+<span class="sd">                     440,    0],</span>
+<span class="sd">                   [   0,    0,    0,   36,  116,  241,  411,  626,  886, 1191, 1541,</span>
+<span class="sd">                    1936, 2376]]...)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">_positions_counts_in_extensions_c</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">a</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">b</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">d</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">c</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">positions_counts_in_extensions</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Positions counts in linear extensions for the elements of the poset.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        :class:`~numpy.ndarray`</span>
+<span class="sd">            Size `a + b + c + d` * `a + b + c + d`. Coefficient (i, r) represents the number of linear extensions of the</span>
+<span class="sd">            poset where node `i` is in rank `r` (note that items and ranks are numbered from 0, Python-style).</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">            &gt;&gt;&gt; ChainAndY(2, 1, 7, 3).positions_counts_in_extensions  # doctest: +NORMALIZE_WHITESPACE +ELLIPSIS</span>
+<span class="sd">            array([[1440, 1320, 1200, 1080,  960,  840,  720,  600,  480,  360,  240,</span>
+<span class="sd">                     120,    0],</span>
+<span class="sd">                   [   0,  120,  240,  360,  480,  600,  720,  840,  960, 1080, 1200,</span>
+<span class="sd">                    1320, 1440],</span>
+<span class="sd">                   [7920, 1320,  120,    0,    0,    0,    0,    0,    0,    0,    0,</span>
+<span class="sd">                       0,    0],</span>
+<span class="sd">                   [   0, 4620, 2940, 1260,  420,  105,   15,    0,    0,    0,    0,</span>
+<span class="sd">                       0,    0],</span>
+<span class="sd">                   [   0,    0, 2520, 3024, 2184, 1134,  414,   84,    0,    0,    0,</span>
+<span class="sd">                       0,    0],</span>
+<span class="sd">                   [   0,    0,    0, 1260, 2380, 2555, 1905,  980,  280,    0,    0,</span>
+<span class="sd">                       0,    0],</span>
+<span class="sd">                   [   0,    0,    0,    0,  560, 1540, 2340, 2440, 1760,  720,    0,</span>
+<span class="sd">                       0,    0],</span>
+<span class="sd">                   [   0,    0,    0,    0,    0,  210,  810, 1710, 2490, 2565, 1575,</span>
+<span class="sd">                       0,    0],</span>
+<span class="sd">                   [   0,    0,    0,    0,    0,    0,   60,  320,  940, 1950, 3010,</span>
+<span class="sd">                    3080,    0],</span>
+<span class="sd">                   [   0,    0,    0,    0,    0,    0,    0,   10,   74,  309,  959,</span>
+<span class="sd">                    2464, 5544],</span>
+<span class="sd">                   [   0, 1980, 1980, 1620, 1260,  945,  675,  450,  270,  135,   45,</span>
+<span class="sd">                       0,    0],</span>
+<span class="sd">                   [   0,    0,  360,  720, 1000, 1190, 1290, 1300, 1220, 1050,  790,</span>
+<span class="sd">                     440,    0],</span>
+<span class="sd">                   [   0,    0,    0,   36,  116,  241,  411,  626,  886, 1191, 1541,</span>
+<span class="sd">                    1936, 2376]]...)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cache_positions_counts_in_extensions</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_cache_positions_counts_in_extensions</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">((</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_positions_counts_in_extensions_a</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_positions_counts_in_extensions_b</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_positions_counts_in_extensions_c</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_positions_counts_in_extensions_d</span>
+            <span class="p">))</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cache_positions_counts_in_extensions</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">median_height</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Median height.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        :class:`~numpy.ndarray`</span>
+<span class="sd">            Size `a + b + c + d`. Median height for each node in the linear extensions.</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">            &gt;&gt;&gt; ChainAndY(2, 1, 7, 3).median_height  # doctest: +NORMALIZE_WHITESPACE</span>
+<span class="sd">            array([ 3.,  9.,  0.,  2.,  3.,  5.,  7.,  8., 10., 12.,  3.,  7., 10.])</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">m</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">positions_counts_in_extensions</span>
+        <span class="n">m_cumsum</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">nb_linear_extensions</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">nb_linear_extensions</span>
+        <span class="n">median_low</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">m_cumsum</span> <span class="o">&gt;=</span> <span class="n">nb_linear_extensions</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">median_high</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">m_cumsum</span> <span class="o">&gt;</span> <span class="n">nb_linear_extensions</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">median_low</span> <span class="o">+</span> <span class="n">median_high</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">spearman_costs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Spearman costs.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        :class:`~numpy.ndarray`</span>
+<span class="sd">            Size `a + b + c + d` * `a + b + c + d`. Coefficient (i, r) represents the contribution of item `i` to the</span>
+<span class="sd">            Spearman distance if it is placed in position `r` in the estimate ranking.</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">            &gt;&gt;&gt; ChainAndY(2, 1, 7, 3).spearman_costs  # doctest: +NORMALIZE_WHITESPACE +ELLIPSIS</span>
+<span class="sd">            array([[ 34320,  27840,  24000,  22560,  23280,  25920,  30240,  36000,</span>
+<span class="sd">                     42960,  50880,  59520,  68640,  78000],</span>
+<span class="sd">                   [ 78000,  68640,  59520,  50880,  42960,  36000,  30240,  25920,</span>
+<span class="sd">                     23280,  22560,  24000,  27840,  34320],</span>
+<span class="sd">                   [  1560,   8040,  17160,  26520,  35880,  45240,  54600,  63960,</span>
+<span class="sd">                     73320,  82680,  92040, 101400, 110760],</span>
+<span class="sd">                   [ 16575,   7215,   7095,  12855,  21135,  30255,  39585,  48945,</span>
+<span class="sd">                     58305,  67665,  77025,  86385,  95745],</span>
+<span class="sd">                   [ 31590,  22230,  12870,   8550,  10278,  16374,  24738,  33930,</span>
+<span class="sd">                     43290,  52650,  62010,  71370,  80730],</span>
+<span class="sd">                   [ 46605,  37245,  27885,  18525,  11685,   9605,  12635,  19475,</span>
+<span class="sd">                     28275,  37635,  46995,  56355,  65715],</span>
+<span class="sd">                   [ 61620,  52260,  42900,  33540,  24180,  15940,  10780,  10300,</span>
+<span class="sd">                     14700,  22620,  31980,  41340,  50700],</span>
+<span class="sd">                   [ 76635,  67275,  57915,  48555,  39195,  29835,  20895,  13575,</span>
+<span class="sd">                      9675,  10755,  16965,  26325,  35685],</span>
+<span class="sd">                   [ 91650,  82290,  72930,  63570,  54210,  44850,  35490,  26250,</span>
+<span class="sd">                     17650,  10930,   8110,  11310,  20670],</span>
+<span class="sd">                   [106665,  97305,  87945,  78585,  69225,  59865,  50505,  41145,</span>
+<span class="sd">                     31805,  22613,  14039,   7383,   5655],</span>
+<span class="sd">                   [ 31590,  22230,  16830,  15390,  17190,  21510,  27720,  35280,</span>
+<span class="sd">                     43740,  52740,  62010,  71370,  80730],</span>
+<span class="sd">                   [ 61620,  52260,  42900,  34260,  27060,  21860,  19040,  18800,</span>
+<span class="sd">                     21160,  25960,  32860,  41340,  50700],</span>
+<span class="sd">                   [ 91650,  82290,  72930,  63570,  54282,  45226,  36652,  28900,</span>
+<span class="sd">                     22400,  17672,  15326,  16062,  20670]]...)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">distances</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
+            <span class="p">[</span><span class="nb">abs</span><span class="p">(</span><span class="n">i</span> <span class="o">-</span> <span class="n">j</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_nodes</span><span class="p">)]</span>
+            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_nodes</span><span class="p">)</span>
+        <span class="p">])</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">positions_counts_in_extensions</span> <span class="o">@</span> <span class="n">distances</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">order_spearman_optimal</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Order of the nodes optimizing the expected Spearman distance.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        :class:`~numpy.ndarray`</span>
+<span class="sd">            The candidates, in their optimal order for expected Spearman distance.</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">            &gt;&gt;&gt; ChainAndY(0, 1, 2, 7).order_spearman_optimal</span>
+<span class="sd">            array([0, 3, 4, 1, 5, 6, 7, 2, 8, 9], dtype=int64)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">_</span><span class="p">,</span> <span class="n">col_ind</span> <span class="o">=</span> <span class="n">linear_sum_assignment</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">spearman_costs</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">col_ind</span>
+
+    <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">profile_linear_extensions</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Profile consisting of all linear extensions.</span>
@@ -583,6 +840,35 @@
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">tril</span><span class="p">(</span><span class="n">profile</span><span class="o">.</span><span class="n">matrix_duels_rk</span><span class="p">[</span><span class="n">order</span><span class="p">,</span> <span class="p">:][:,</span> <span class="n">order</span><span class="p">],</span> <span class="o">-</span><span class="mi">1</span><span class="p">))</span> <span class="o">/</span> <span class="n">n_extensions</span></div>
 
 
+<div class="viewcode-block" id="ChainAndY.spearman_score">
+<a class="viewcode-back" href="../../reference/chain_and_y.html#corsort.ChainAndY.spearman_score">[docs]</a>
+    <span class="k">def</span> <span class="nf">spearman_score</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">order</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Spearman score of an order over the candidates.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        order: :class:`list`</span>
+<span class="sd">            An order over the candidates.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        float</span>
+<span class="sd">            The Spearman score (average Spearman distance with a linear extension of the poset).</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">            &gt;&gt;&gt; poset = ChainAndY(2, 2, 1, 3)</span>
+<span class="sd">            &gt;&gt;&gt; poset.spearman_score([0, 4, 7, 2, 6, 3, 5, 1])</span>
+<span class="sd">            22.142857142857142</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">spearman_costs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">spearman_costs</span>
+        <span class="n">total</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">rank</span><span class="p">,</span> <span class="n">item</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">order</span><span class="p">):</span>
+            <span class="n">total</span> <span class="o">+=</span> <span class="p">(</span><span class="n">spearman_costs</span><span class="p">[</span><span class="n">item</span><span class="p">,</span> <span class="n">rank</span><span class="p">]</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">nb_linear_extensions</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">total</span></div>
+
+
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">order_delta</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -632,7 +918,24 @@
 <span class="sd">            &gt;&gt;&gt; ChainAndY(2, 2, 1, 3).order_average_height  # doctest: +ELLIPSIS</span>
 <span class="sd">            array([2, 3, 0, 5, 4, 6, 1, 7]...)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">average_height</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">average_height</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">order_median_height</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Order of the nodes, according to median height.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        :class:`~numpy.ndarray`</span>
+<span class="sd">            Estimated order of the nodes.</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">            &gt;&gt;&gt; ChainAndY(2, 2, 1, 3).order_median_height  # doctest: +ELLIPSIS</span>
+<span class="sd">            array([2, 3, 0, 5, 1, 4, 6, 7]...)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">median_height</span><span class="p">)</span></div>
 
 
 
@@ -660,7 +963,7 @@
 <span class="sd">        array([Fraction(5, 4), Fraction(5, 2), Fraction(15, 4), Fraction(5, 1),</span>
 <span class="sd">               Fraction(25, 4), Fraction(15, 2), Fraction(35, 4)], dtype=object)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">result</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;int64&#39;</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">c</span><span class="p">):</span>
         <span class="c1"># Elements of c are: 0 ... (k-1) k (k+1) .. (c-1)</span>
         <span class="n">smaller_from_c</span> <span class="o">=</span> <span class="n">k</span>
@@ -677,6 +980,54 @@
                 <span class="n">result</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">+=</span> <span class="n">n_lin_ext</span> <span class="o">*</span> <span class="n">height</span>
     <span class="n">nb_lin_ext</span> <span class="o">=</span> <span class="n">ChainAndY</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span><span class="o">.</span><span class="n">nb_linear_extensions</span>
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">Fraction</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">nb_lin_ext</span><span class="p">)</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">result</span><span class="p">])</span>
+
+
+<span class="k">def</span> <span class="nf">_positions_counts_in_extensions_c</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">d</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Positions counts in linear extensions for the elements of the branch `c`.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    a: int</span>
+<span class="sd">        Number of nodes in the isolated chain.</span>
+<span class="sd">    b: int</span>
+<span class="sd">        Number of nodes in the trunk of the Y.</span>
+<span class="sd">    c, d: int</span>
+<span class="sd">        Number of nodes in each branch of the Y.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    :class:`~numpy.ndarray`</span>
+<span class="sd">        Size `c` * `a + b + c + d`. Coefficient (i, r) represents the number of linear extensions of the</span>
+<span class="sd">        poset where item `i` of the branch is in rank `r`.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">        &gt;&gt;&gt; _positions_counts_in_extensions_c(2, 0, 7, 0)  # doctest: +NORMALIZE_WHITESPACE +ELLIPSIS</span>
+<span class="sd">        array([[28,  7,  1,  0,  0,  0,  0,  0,  0],</span>
+<span class="sd">               [ 0, 21, 12,  3,  0,  0,  0,  0,  0],</span>
+<span class="sd">               [ 0,  0, 15, 15,  6,  0,  0,  0,  0],</span>
+<span class="sd">               [ 0,  0,  0, 10, 16, 10,  0,  0,  0],</span>
+<span class="sd">               [ 0,  0,  0,  0,  6, 15, 15,  0,  0],</span>
+<span class="sd">               [ 0,  0,  0,  0,  0,  3, 12, 21,  0],</span>
+<span class="sd">               [ 0,  0,  0,  0,  0,  0,  1,  7, 28]]...)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">c</span><span class="p">,</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span> <span class="o">+</span> <span class="n">c</span> <span class="o">+</span> <span class="n">d</span><span class="p">),</span> <span class="s1">&#39;int64&#39;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">c</span><span class="p">):</span>
+        <span class="c1"># Elements of c are: 0 ... (k-1) k (k+1) .. (c-1)</span>
+        <span class="n">smaller_from_c</span> <span class="o">=</span> <span class="n">k</span>
+        <span class="n">greater_from_c</span> <span class="o">=</span> <span class="n">c</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">k</span>
+        <span class="k">for</span> <span class="n">smaller_from_a</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">a</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="n">greater_from_a</span> <span class="o">=</span> <span class="n">a</span> <span class="o">-</span> <span class="n">smaller_from_a</span>
+            <span class="k">for</span> <span class="n">smaller_from_d</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">d</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+                <span class="n">greater_from_d</span> <span class="o">=</span> <span class="n">d</span> <span class="o">-</span> <span class="n">smaller_from_d</span>
+                <span class="n">height</span> <span class="o">=</span> <span class="n">smaller_from_a</span> <span class="o">+</span> <span class="n">b</span> <span class="o">+</span> <span class="n">smaller_from_c</span> <span class="o">+</span> <span class="n">smaller_from_d</span>
+                <span class="n">n_lin_ext</span> <span class="o">=</span> <span class="p">(</span>
+                    <span class="n">ChainAndY</span><span class="p">(</span><span class="n">smaller_from_a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">smaller_from_c</span><span class="p">,</span> <span class="n">smaller_from_d</span><span class="p">)</span><span class="o">.</span><span class="n">nb_linear_extensions</span>
+                    <span class="o">*</span> <span class="n">ChainAndY</span><span class="p">(</span><span class="n">greater_from_a</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">greater_from_c</span><span class="p">,</span> <span class="n">greater_from_d</span><span class="p">)</span><span class="o">.</span><span class="n">nb_linear_extensions</span>
+                <span class="p">)</span>
+                <span class="n">result</span><span class="p">[</span><span class="n">k</span><span class="p">,</span> <span class="n">height</span><span class="p">]</span> <span class="o">+=</span> <span class="n">n_lin_ext</span>
+    <span class="k">return</span> <span class="n">result</span>
 
 
 <div class="viewcode-block" id="linear_extensions">
