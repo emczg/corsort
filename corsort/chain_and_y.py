@@ -5,6 +5,7 @@ from math import comb
 
 import networkx as nx  # type: ignore
 import numpy as np
+from scipy.optimize import linear_sum_assignment
 import svvamp  # type: ignore
 
 
@@ -31,6 +32,7 @@ class ChainAndY:
         self._cache_average_height_d = None
         self._cache_profile_linear_extensions = None
         self._cache_profile_linear_extensions_svvamp = None
+        self._cache_positions_counts_in_extensions = None
 
     @property
     def n_nodes(self):
@@ -52,7 +54,7 @@ class ChainAndY:
     @property
     def graph(self):
         """
-        The poset as an networkx graph.
+        The poset as a networkx graph.
 
         The main purpose of the property is to be used by :meth:`draw`.
 
@@ -367,6 +369,261 @@ class ChainAndY:
         ))
 
     @property
+    def _positions_counts_in_extensions_a(self):
+        """
+        Positions counts in linear extensions for the elements of the chain `a`.
+
+        Returns
+        -------
+        :class:`~numpy.ndarray`
+            Size `a` * `a + b + c + d`. Coefficient (i, r) represents the number of linear extensions of the
+            poset where item `i` of the chain is in rank `r`.
+
+        Examples
+        --------
+            >>> ChainAndY(2, 1, 7, 3)._positions_counts_in_extensions_a  # doctest: +NORMALIZE_WHITESPACE +ELLIPSIS
+            array([[1440, 1320, 1200, 1080,  960,  840,  720,  600,  480,  360,  240,
+                     120,    0],
+                   [   0,  120,  240,  360,  480,  600,  720,  840,  960, 1080, 1200,
+                    1320, 1440]]...)
+        """
+        result = np.zeros((self.a, self.a + self.b + self.c + self.d), 'int64')
+        ways_to_merge_c_and_d = comb(self.c + self.d, self.c)
+        for i in range(self.a):  # i: index of element in chain `a`
+            smaller_from_a = i
+            greater_from_a = self.a - smaller_from_a - 1
+            for smaller_from_y in range(self.b + self.c + self.d + 1):
+                greater_from_y = self.b + self.c + self.d - smaller_from_y
+                final_rank = smaller_from_a + smaller_from_y
+                ways_left = comb(smaller_from_a + smaller_from_y, smaller_from_a)
+                ways_right = comb(greater_from_a + greater_from_y, greater_from_a)
+                ways = ways_left * ways_right * ways_to_merge_c_and_d
+                result[i, final_rank] = ways
+        return result
+
+    @property
+    def _positions_counts_in_extensions_b(self):
+        """
+        Positions counts in linear extensions for the elements of the trunk `b`.
+
+        Returns
+        -------
+        :class:`~numpy.ndarray`
+            Size `b` * `a + b + c + d`. Coefficient (i, r) represents the number of linear extensions of the
+            poset where item `i` of the trunk is in rank `r`.
+
+        Examples
+        --------
+            >>> ChainAndY(2, 1, 7, 3)._positions_counts_in_extensions_b  # doctest: +NORMALIZE_WHITESPACE +ELLIPSIS
+            array([[7920, 1320,  120,    0,    0,    0,    0,    0,    0,    0,    0,
+                       0,    0]]...)
+        """
+        result = np.zeros((self.b, self.a + self.b + self.c + self.d), 'int64')
+        ways_to_merge_c_and_d = comb(self.c + self.d, self.c)
+        for i in range(self.b):  # i: index of element in chain `b`
+            smaller_from_y = i
+            greater_from_y = self.b + self.c + self.d - smaller_from_y - 1
+            for smaller_from_a in range(self.a + 1):
+                greater_from_a = self.a - smaller_from_a
+                final_rank = smaller_from_a + smaller_from_y
+                ways_left = comb(smaller_from_a + smaller_from_y, smaller_from_a)
+                ways_right = comb(greater_from_a + greater_from_y, greater_from_a)
+                ways = ways_left * ways_right * ways_to_merge_c_and_d
+                result[i, final_rank] = ways
+        return result
+
+    @property
+    def _positions_counts_in_extensions_c(self):
+        """
+        Positions counts in linear extensions for the elements of the branch `c`.
+
+        Returns
+        -------
+        :class:`~numpy.ndarray`
+            Size `c` * `a + b + c + d`. Coefficient (i, r) represents the number of linear extensions of the
+            poset where item `i` of the branch is in rank `r`.
+
+        Examples
+        --------
+            >>> ChainAndY(2, 1, 7, 3)._positions_counts_in_extensions_c  # doctest: +NORMALIZE_WHITESPACE +ELLIPSIS
+            array([[   0, 4620, 2940, 1260,  420,  105,   15,    0,    0,    0,    0,
+                       0,    0],
+                   [   0,    0, 2520, 3024, 2184, 1134,  414,   84,    0,    0,    0,
+                       0,    0],
+                   [   0,    0,    0, 1260, 2380, 2555, 1905,  980,  280,    0,    0,
+                       0,    0],
+                   [   0,    0,    0,    0,  560, 1540, 2340, 2440, 1760,  720,    0,
+                       0,    0],
+                   [   0,    0,    0,    0,    0,  210,  810, 1710, 2490, 2565, 1575,
+                       0,    0],
+                   [   0,    0,    0,    0,    0,    0,   60,  320,  940, 1950, 3010,
+                    3080,    0],
+                   [   0,    0,    0,    0,    0,    0,    0,   10,   74,  309,  959,
+                    2464, 5544]]...)
+        """
+        return _positions_counts_in_extensions_c(self.a, self.b, self.c, self.d)
+
+    @property
+    def _positions_counts_in_extensions_d(self):
+        """
+        Positions counts in linear extensions for the elements of the branch `d`.
+
+        Returns
+        -------
+        :class:`~numpy.ndarray`
+            Size `d` * `a + b + c + d`. Coefficient (i, r) represents the number of linear extensions of the
+            poset where item `i` of the branch is in rank `r`.
+
+        Examples
+        --------
+            >>> ChainAndY(2, 1, 7, 3)._positions_counts_in_extensions_d  # doctest: +NORMALIZE_WHITESPACE +ELLIPSIS
+            array([[   0, 1980, 1980, 1620, 1260,  945,  675,  450,  270,  135,   45,
+                       0,    0],
+                   [   0,    0,  360,  720, 1000, 1190, 1290, 1300, 1220, 1050,  790,
+                     440,    0],
+                   [   0,    0,    0,   36,  116,  241,  411,  626,  886, 1191, 1541,
+                    1936, 2376]]...)
+        """
+        return _positions_counts_in_extensions_c(self.a, self.b, self.d, self.c)
+
+    @property
+    def positions_counts_in_extensions(self):
+        """
+        Positions counts in linear extensions for the elements of the poset.
+
+        Returns
+        -------
+        :class:`~numpy.ndarray`
+            Size `a + b + c + d` * `a + b + c + d`. Coefficient (i, r) represents the number of linear extensions of the
+            poset where node `i` is in rank `r` (note that items and ranks are numbered from 0, Python-style).
+
+        Examples
+        --------
+            >>> ChainAndY(2, 1, 7, 3).positions_counts_in_extensions  # doctest: +NORMALIZE_WHITESPACE +ELLIPSIS
+            array([[1440, 1320, 1200, 1080,  960,  840,  720,  600,  480,  360,  240,
+                     120,    0],
+                   [   0,  120,  240,  360,  480,  600,  720,  840,  960, 1080, 1200,
+                    1320, 1440],
+                   [7920, 1320,  120,    0,    0,    0,    0,    0,    0,    0,    0,
+                       0,    0],
+                   [   0, 4620, 2940, 1260,  420,  105,   15,    0,    0,    0,    0,
+                       0,    0],
+                   [   0,    0, 2520, 3024, 2184, 1134,  414,   84,    0,    0,    0,
+                       0,    0],
+                   [   0,    0,    0, 1260, 2380, 2555, 1905,  980,  280,    0,    0,
+                       0,    0],
+                   [   0,    0,    0,    0,  560, 1540, 2340, 2440, 1760,  720,    0,
+                       0,    0],
+                   [   0,    0,    0,    0,    0,  210,  810, 1710, 2490, 2565, 1575,
+                       0,    0],
+                   [   0,    0,    0,    0,    0,    0,   60,  320,  940, 1950, 3010,
+                    3080,    0],
+                   [   0,    0,    0,    0,    0,    0,    0,   10,   74,  309,  959,
+                    2464, 5544],
+                   [   0, 1980, 1980, 1620, 1260,  945,  675,  450,  270,  135,   45,
+                       0,    0],
+                   [   0,    0,  360,  720, 1000, 1190, 1290, 1300, 1220, 1050,  790,
+                     440,    0],
+                   [   0,    0,    0,   36,  116,  241,  411,  626,  886, 1191, 1541,
+                    1936, 2376]]...)
+        """
+        if self._cache_positions_counts_in_extensions is None:
+            self._cache_positions_counts_in_extensions = np.vstack((
+                self._positions_counts_in_extensions_a,
+                self._positions_counts_in_extensions_b,
+                self._positions_counts_in_extensions_c,
+                self._positions_counts_in_extensions_d
+            ))
+        return self._cache_positions_counts_in_extensions
+
+    @property
+    def median_height(self):
+        """
+        Median height.
+
+        Returns
+        -------
+        :class:`~numpy.ndarray`
+            Size `a + b + c + d`. Median height for each node in the linear extensions.
+
+        Examples
+        --------
+            >>> ChainAndY(2, 1, 7, 3).median_height  # doctest: +NORMALIZE_WHITESPACE
+            array([ 3.,  9.,  0.,  2.,  3.,  5.,  7.,  8., 10., 12.,  3.,  7., 10.])
+        """
+        m = self.positions_counts_in_extensions
+        m_cumsum = m.cumsum(axis=1)
+        nb_linear_extensions = self.nb_linear_extensions
+        median_low = np.argmax(m_cumsum >= nb_linear_extensions / 2, axis=1)
+        median_high = np.argmax(m_cumsum > nb_linear_extensions / 2, axis=1)
+        return (median_low + median_high) / 2
+
+    @property
+    def spearman_costs(self):
+        """
+        Spearman costs.
+
+        Returns
+        -------
+        :class:`~numpy.ndarray`
+            Size `a + b + c + d` * `a + b + c + d`. Coefficient (i, r) represents the contribution of item `i` to the
+            Spearman distance if it is placed in position `r` in the estimate ranking.
+
+        Examples
+        --------
+            >>> ChainAndY(2, 1, 7, 3).spearman_costs  # doctest: +NORMALIZE_WHITESPACE +ELLIPSIS
+            array([[ 34320,  27840,  24000,  22560,  23280,  25920,  30240,  36000,
+                     42960,  50880,  59520,  68640,  78000],
+                   [ 78000,  68640,  59520,  50880,  42960,  36000,  30240,  25920,
+                     23280,  22560,  24000,  27840,  34320],
+                   [  1560,   8040,  17160,  26520,  35880,  45240,  54600,  63960,
+                     73320,  82680,  92040, 101400, 110760],
+                   [ 16575,   7215,   7095,  12855,  21135,  30255,  39585,  48945,
+                     58305,  67665,  77025,  86385,  95745],
+                   [ 31590,  22230,  12870,   8550,  10278,  16374,  24738,  33930,
+                     43290,  52650,  62010,  71370,  80730],
+                   [ 46605,  37245,  27885,  18525,  11685,   9605,  12635,  19475,
+                     28275,  37635,  46995,  56355,  65715],
+                   [ 61620,  52260,  42900,  33540,  24180,  15940,  10780,  10300,
+                     14700,  22620,  31980,  41340,  50700],
+                   [ 76635,  67275,  57915,  48555,  39195,  29835,  20895,  13575,
+                      9675,  10755,  16965,  26325,  35685],
+                   [ 91650,  82290,  72930,  63570,  54210,  44850,  35490,  26250,
+                     17650,  10930,   8110,  11310,  20670],
+                   [106665,  97305,  87945,  78585,  69225,  59865,  50505,  41145,
+                     31805,  22613,  14039,   7383,   5655],
+                   [ 31590,  22230,  16830,  15390,  17190,  21510,  27720,  35280,
+                     43740,  52740,  62010,  71370,  80730],
+                   [ 61620,  52260,  42900,  34260,  27060,  21860,  19040,  18800,
+                     21160,  25960,  32860,  41340,  50700],
+                   [ 91650,  82290,  72930,  63570,  54282,  45226,  36652,  28900,
+                     22400,  17672,  15326,  16062,  20670]]...)
+        """
+        distances = np.array([
+            [abs(i - j) for i in range(self.n_nodes)]
+            for j in range(self.n_nodes)
+        ])
+        return self.positions_counts_in_extensions @ distances
+
+    @property
+    def order_spearman_optimal(self):
+        """
+        Order of the nodes optimizing the expected Spearman distance.
+
+        Returns
+        -------
+        :class:`~numpy.ndarray`
+            The candidates, in their optimal order for expected Spearman distance.
+
+        Examples
+        --------
+            >>> ChainAndY(0, 1, 2, 7).order_spearman_optimal
+            array([0, 3, 4, 1, 5, 6, 7, 2, 8, 9], dtype=int64)
+        """
+        _, col_ind = linear_sum_assignment(self.spearman_costs.T)
+        return col_ind
+
+    @property
     def profile_linear_extensions(self):
         """
         Profile consisting of all linear extensions.
@@ -492,6 +749,32 @@ class ChainAndY:
         n_extensions = profile.n_v
         return np.sum(np.tril(profile.matrix_duels_rk[order, :][:, order], -1)) / n_extensions
 
+    def spearman_score(self, order):
+        """
+        Spearman score of an order over the candidates.
+
+        Parameters
+        ----------
+        order: :class:`list`
+            An order over the candidates.
+
+        Returns
+        -------
+        float
+            The Spearman score (average Spearman distance with a linear extension of the poset).
+
+        Examples
+        --------
+            >>> poset = ChainAndY(2, 2, 1, 3)
+            >>> poset.spearman_score([0, 4, 7, 2, 6, 3, 5, 1])
+            22.142857142857142
+        """
+        spearman_costs = self.spearman_costs
+        total = 0
+        for rank, item in enumerate(order):
+            total += (spearman_costs[item, rank] / self.nb_linear_extensions)
+        return total
+
     @property
     def order_delta(self):
         """
@@ -543,6 +826,23 @@ class ChainAndY:
         """
         return np.argsort(self.average_height)
 
+    @property
+    def order_median_height(self):
+        """
+        Order of the nodes, according to median height.
+
+        Returns
+        -------
+        :class:`~numpy.ndarray`
+            Estimated order of the nodes.
+
+        Examples
+        --------
+            >>> ChainAndY(2, 2, 1, 3).order_median_height  # doctest: +ELLIPSIS
+            array([2, 3, 0, 5, 1, 4, 6, 7]...)
+        """
+        return np.argsort(self.median_height)
+
 
 def _average_height_c(a, b, c, d):
     """
@@ -568,7 +868,7 @@ def _average_height_c(a, b, c, d):
         array([Fraction(5, 4), Fraction(5, 2), Fraction(15, 4), Fraction(5, 1),
                Fraction(25, 4), Fraction(15, 2), Fraction(35, 4)], dtype=object)
     """
-    result = np.zeros(c, dtype=int)
+    result = np.zeros(c, dtype='int64')
     for k in range(c):
         # Elements of c are: 0 ... (k-1) k (k+1) .. (c-1)
         smaller_from_c = k
@@ -585,6 +885,54 @@ def _average_height_c(a, b, c, d):
                 result[k] += n_lin_ext * height
     nb_lin_ext = ChainAndY(a, b, c, d).nb_linear_extensions
     return np.array([Fraction(r, nb_lin_ext) for r in result])
+
+
+def _positions_counts_in_extensions_c(a, b, c, d):
+    """
+    Positions counts in linear extensions for the elements of the branch `c`.
+
+    Parameters
+    ----------
+    a: int
+        Number of nodes in the isolated chain.
+    b: int
+        Number of nodes in the trunk of the Y.
+    c, d: int
+        Number of nodes in each branch of the Y.
+
+    Returns
+    -------
+    :class:`~numpy.ndarray`
+        Size `c` * `a + b + c + d`. Coefficient (i, r) represents the number of linear extensions of the
+        poset where item `i` of the branch is in rank `r`.
+
+    Examples
+    --------
+        >>> _positions_counts_in_extensions_c(2, 0, 7, 0)  # doctest: +NORMALIZE_WHITESPACE +ELLIPSIS
+        array([[28,  7,  1,  0,  0,  0,  0,  0,  0],
+               [ 0, 21, 12,  3,  0,  0,  0,  0,  0],
+               [ 0,  0, 15, 15,  6,  0,  0,  0,  0],
+               [ 0,  0,  0, 10, 16, 10,  0,  0,  0],
+               [ 0,  0,  0,  0,  6, 15, 15,  0,  0],
+               [ 0,  0,  0,  0,  0,  3, 12, 21,  0],
+               [ 0,  0,  0,  0,  0,  0,  1,  7, 28]]...)
+    """
+    result = np.zeros((c, a + b + c + d), 'int64')
+    for k in range(c):
+        # Elements of c are: 0 ... (k-1) k (k+1) .. (c-1)
+        smaller_from_c = k
+        greater_from_c = c - 1 - k
+        for smaller_from_a in range(a + 1):
+            greater_from_a = a - smaller_from_a
+            for smaller_from_d in range(d + 1):
+                greater_from_d = d - smaller_from_d
+                height = smaller_from_a + b + smaller_from_c + smaller_from_d
+                n_lin_ext = (
+                    ChainAndY(smaller_from_a, b, smaller_from_c, smaller_from_d).nb_linear_extensions
+                    * ChainAndY(greater_from_a, 0, greater_from_c, greater_from_d).nb_linear_extensions
+                )
+                result[k, height] += n_lin_ext
+    return result
 
 
 def linear_extensions(chain_1, chain_2):
