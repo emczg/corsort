@@ -65,7 +65,6 @@
 <li class="toctree-l3"><a class="reference internal" href="#Looking-for-a-more-complex-example">Looking for a more complex example</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#LaTeX-code">LaTeX code</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../reference/index.html">Reference</a></li>
@@ -128,7 +127,7 @@
 </div>
 <section id="A-simple-example">
 <h2>A simple example<a class="headerlink" href="#A-simple-example" title="Link to this heading"></a></h2>
-<p>The purpose of this example is to illustrate <span class="math notranslate nohighlight">\(\Delta\)</span>, <span class="math notranslate nohighlight">\(\rho\)</span>, the median height and the optimal order (to minimize the expected Spearman distance).</p>
+<p>The purpose of this example is to illustrate <span class="math notranslate nohighlight">\(\Delta\)</span>, <span class="math notranslate nohighlight">\(\rho\)</span>, the median height and the optimal order (minimizing the expected Spearman distance).</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
@@ -264,15 +263,15 @@ array([0., 1., 3., 5., 2., 4.])
 </section>
 <section id="Looking-for-a-more-complex-example">
 <h2>Looking for a more complex example<a class="headerlink" href="#Looking-for-a-more-complex-example" title="Link to this heading"></a></h2>
-<p>We are now looking for an example where the estimators <span class="math notranslate nohighlight">\(\Delta\)</span>, <span class="math notranslate nohighlight">\(\rho\)</span>, the median height and the optimal order all yield distinct orderings.</p>
+<p>We are now looking for an example where the estimators <span class="math notranslate nohighlight">\(\Delta\)</span>, <span class="math notranslate nohighlight">\(\rho\)</span> and the median height all yield distinct orderings. We will also impose that there is no tie in these estimators, so that there is no ambiguity when ordering the nodes according to them. A side effect of this decision is that <code class="docutils literal notranslate"><span class="pre">order_median_height</span></code> is optimal, i.e. it is the same as <code class="docutils literal notranslate"><span class="pre">order_spearman_optimal</span></code>.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[27]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">is_good_example</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">d</span><span class="p">):</span>
     <span class="n">poset</span> <span class="o">=</span> <span class="n">ChainAndY</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span>
     <span class="n">n_nodes</span> <span class="o">=</span> <span class="n">poset</span><span class="o">.</span><span class="n">n_nodes</span>
-    <span class="c1"># Non degenerate</span>
+    <span class="c1"># Non degenerate example</span>
     <span class="k">if</span> <span class="nb">min</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
         <span class="k">return</span> <span class="kc">False</span>
     <span class="c1"># rho</span>
@@ -296,33 +295,12 @@ array([0., 1., 3., 5., 2., 4.])
         <span class="k">return</span> <span class="kc">False</span>
     <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">array_equal</span><span class="p">(</span><span class="n">order_median_height</span><span class="p">,</span> <span class="n">order_delta</span><span class="p">):</span>  <span class="c1"># m and delta agree</span>
         <span class="k">return</span> <span class="kc">False</span>
-    <span class="c1"># Average height</span>
-<span class="c1">#     average_height = poset.average_height</span>
-<span class="c1">#     if len(set(average_height)) &lt; n_nodes:  # Tie in p</span>
-<span class="c1">#         return False</span>
-<span class="c1">#     order_average_height = poset.order_average_height</span>
-<span class="c1">#     if np.array_equal(order_average_height, order_rho):  # p and rho agree</span>
-<span class="c1">#         return False</span>
-<span class="c1">#     if np.array_equal(order_average_height, order_delta):  # p and delta agree</span>
-<span class="c1">#         return False</span>
-<span class="c1">#     if np.array_equal(order_average_height, order_median_height):  # p and m agree</span>
-<span class="c1">#         return False</span>
-    <span class="c1"># Spearman-optimal</span>
-    <span class="n">order_spearman_optimal</span> <span class="o">=</span> <span class="n">poset</span><span class="o">.</span><span class="n">order_spearman_optimal</span>
-    <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">array_equal</span><span class="p">(</span><span class="n">order_spearman_optimal</span><span class="p">,</span> <span class="n">order_rho</span><span class="p">):</span>  <span class="c1"># spearman-optimal and rho agree</span>
-        <span class="k">return</span> <span class="kc">False</span>
-    <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">array_equal</span><span class="p">(</span><span class="n">order_spearman_optimal</span><span class="p">,</span> <span class="n">order_delta</span><span class="p">):</span>  <span class="c1"># spearman-optimal and delta agree</span>
-        <span class="k">return</span> <span class="kc">False</span>
-<span class="c1">#     if np.array_equal(order_spearman_optimal, order_median_height):  # spearman-optimal and m agree</span>
-<span class="c1">#         return False</span>
-<span class="c1">#     if np.array_equal(order_spearman_optimal, order_average_height):  # spearman-optimal and p agree</span>
-<span class="c1">#         return False</span>
     <span class="k">return</span> <span class="kc">True</span>
 </pre></div>
 </div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[28]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">find_minimal_example</span><span class="p">():</span>
@@ -346,7 +324,7 @@ array([0., 1., 3., 5., 2., 4.])
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[29]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">results</span> <span class="o">=</span> <span class="n">find_minimal_example</span><span class="p">()</span>
@@ -378,7 +356,7 @@ Testing n_nodes=17...
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[30]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">results</span>
@@ -386,7 +364,7 @@ Testing n_nodes=17...
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[30]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -395,7 +373,7 @@ Testing n_nodes=17...
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[31]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">poset</span> <span class="o">=</span> <span class="n">ChainAndY</span><span class="p">(</span><span class="o">*</span><span class="n">results</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
@@ -411,7 +389,7 @@ Testing n_nodes=17...
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[32]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">criterion</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;delta&#39;</span><span class="p">,</span> <span class="s1">&#39;rho&#39;</span><span class="p">,</span> <span class="s1">&#39;median_height&#39;</span><span class="p">,</span> <span class="s1">&#39;spearman_optimal&#39;</span><span class="p">]:</span>
@@ -452,7 +430,7 @@ spearman_optimal
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[33]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">poset</span><span class="o">.</span><span class="n">delta</span>
@@ -460,7 +438,7 @@ spearman_optimal
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[33]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -470,7 +448,7 @@ array([ -1,   1, -14, -12, -10,  -8,  -6,  -4,  -2,   0,   2,   4,   6,
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[34]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">poset</span><span class="o">.</span><span class="n">rho</span>
@@ -478,7 +456,7 @@ array([ -1,   1, -14, -12, -10,  -8,  -6,  -4,  -2,   0,   2,   4,   6,
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[34]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -491,7 +469,7 @@ array([Fraction(1, 3), Fraction(2, 3), Fraction(1, 16), Fraction(1, 8),
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[35]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">poset</span><span class="o">.</span><span class="n">median_height</span>
@@ -499,7 +477,7 @@ array([Fraction(1, 3), Fraction(2, 3), Fraction(1, 16), Fraction(1, 8),
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[35]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -509,143 +487,6 @@ array([ 4., 12.,  0.,  1.,  2.,  3.,  5.,  6.,  7.,  8.,  9., 10., 11.,
 </pre></div></div>
 </div>
 </section>
-</section>
-<section id="LaTeX-code">
-<h1>LaTeX code<a class="headerlink" href="#LaTeX-code" title="Link to this heading"></a></h1>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[111]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">string</span>
-<span class="kn">from</span> <span class="nn">fractions</span> <span class="kn">import</span> <span class="n">Fraction</span>
-</pre></div>
-</div>
-</div>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[112]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="bp">self</span> <span class="o">=</span> <span class="n">poset</span>
-</pre></div>
-</div>
-</div>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[126]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">print_latex</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;&quot;&quot;</span>
-<span class="s2">\begin</span><span class="si">{tikzpicture}</span><span class="s2">[scale=.45, transform shape]</span>
-<span class="s2">\footnotesize</span>
-<span class="s2">\foreach \label/\desc/\anc/\x/\m/\mn in {% \m: median height (between 1 and n) ; \mn: median height normalized by n+1&quot;&quot;&quot;</span><span class="p">)</span>
-    <span class="n">nb_descendants</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">nb_descendants</span>
-    <span class="n">nb_ancestors</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">nb_ancestors</span>
-    <span class="n">median_height</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">median_height</span>
-    <span class="n">median_height_normalized</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">median_height</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_nodes</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
-    <span class="n">lst</span> <span class="o">=</span> <span class="s2">&quot;, </span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span>
-      <span class="sa">f</span><span class="s2">&quot;  </span><span class="si">{</span><span class="n">string</span><span class="o">.</span><span class="n">ascii_lowercase</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">nb_descendants</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">nb_ancestors</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">x</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="nb">int</span><span class="p">(</span><span class="n">median_height</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">median_height_normalized</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span>
-      <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_nodes</span><span class="p">),</span> <span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">a</span> <span class="o">+</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">b</span> <span class="o">+</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">c</span> <span class="o">+</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">d</span><span class="p">)</span>
-    <span class="p">])</span>
-    <span class="nb">print</span><span class="p">(</span><span class="n">lst</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;&quot;&quot;}</span>
-<span class="s2">{</span>
-<span class="s2">  \pgfmathtruncatemacro{\to}{\desc + \anc}</span>
-<span class="s2">  \pgfmathtruncatemacro{\delta}{\desc - \anc}</span>
-<span class="s2">  \node[obj,inner sep=1pt,minimum size=1pt] (d\label) at (1.15*\x, 7.01+.624*13/15*\delta) {\Large\strut$\label$};</span>
-<span class="s2">  \node[right = -.5mm of d\label] {\Large$\delta$};</span>
-<span class="s2">  \node[obj,inner sep=1pt,minimum size=1pt] (r\label) at (7+1.4*\x, 13*\desc/\to) {\Large\strut$\label$};</span>
-<span class="s2">  \node[right = -.5mm of r\label] {\Large$\frac{\desc}{\to} $};</span>
-<span class="s2">  \node[obj,inner sep=1pt,minimum size=1pt] (h\label) at (14+1.6*\x, 13*\mn) {\Large\strut$\label$};</span>
-<span class="s2">  \node[right = -.5mm of h\label] {\Large $\m$};</span>
-<span class="s2">}</span>
-<span class="s2">\node at (0, 0) {\LARGE(a) $\Delta$ scores.};</span>
-<span class="s2">\node at (7, 0) {\LARGE(b) $\rho$ scores.};</span>
-<span class="s2">\node at (14, 0) {\LARGE(c) $m$ scores.};&quot;&quot;&quot;</span><span class="p">)</span>
-    <span class="n">labels_a</span> <span class="o">=</span> <span class="n">string</span><span class="o">.</span><span class="n">ascii_lowercase</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="bp">self</span><span class="o">.</span><span class="n">a</span><span class="p">]</span>
-    <span class="n">labels_b</span> <span class="o">=</span> <span class="n">string</span><span class="o">.</span><span class="n">ascii_lowercase</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">a</span><span class="p">:</span><span class="bp">self</span><span class="o">.</span><span class="n">a</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">b</span><span class="p">]</span>
-    <span class="n">labels_c</span> <span class="o">=</span> <span class="n">string</span><span class="o">.</span><span class="n">ascii_lowercase</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">a</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">b</span><span class="p">:</span><span class="bp">self</span><span class="o">.</span><span class="n">a</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">b</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">c</span><span class="p">]</span>
-    <span class="n">labels_d</span> <span class="o">=</span> <span class="n">string</span><span class="o">.</span><span class="n">ascii_lowercase</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">a</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">b</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">c</span><span class="p">:</span><span class="bp">self</span><span class="o">.</span><span class="n">a</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">b</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">c</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">d</span><span class="p">]</span>
-    <span class="n">edges</span> <span class="o">=</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
-        <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">x</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">y</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">labels_a</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">labels_a</span><span class="p">[</span><span class="mi">1</span><span class="p">:])]</span>
-        <span class="o">+</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">x</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">y</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">labels_b</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">labels_b</span><span class="p">[</span><span class="mi">1</span><span class="p">:])]</span>
-        <span class="o">+</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">labels_b</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">labels_c</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span>
-        <span class="o">+</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">x</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">y</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">labels_c</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">labels_c</span><span class="p">[</span><span class="mi">1</span><span class="p">:])]</span>
-        <span class="o">+</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">labels_b</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">labels_d</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span>
-        <span class="o">+</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">x</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">y</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">labels_d</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">labels_d</span><span class="p">[</span><span class="mi">1</span><span class="p">:])]</span>
-    <span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;\foreach \i/\j in {&quot;</span> <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">edges</span><span class="si">}</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="sa">r</span><span class="s2">&quot;}{%&quot;</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;&quot;&quot;  \draw[&lt;-] (d\i) -- (d\j);</span>
-<span class="s2">  \draw[&lt;-] (r\i) -- (r\j);</span>
-<span class="s2">  \draw[&lt;-] (h\i) -- (h\j);</span>
-<span class="s2">}</span>
-<span class="s2">\end</span><span class="si">{tikzpicture}</span><span class="s2">&quot;&quot;&quot;</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[127]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">print_latex</span><span class="p">(</span><span class="n">poset</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-
-\begin{tikzpicture}[scale=.45, transform shape]
-\footnotesize
-\foreach \label/\desc/\anc/\x/\m/\mn in {% \m: median height (between 1 and n) ; \mn: median height normalized by n+1
-  a/1/2/-2/5/0.2777777777777778,
-  b/2/1/-2/13/0.7222222222222222,
-  c/1/15/0/1/0.05555555555555555,
-  d/2/14/0/2/0.1111111111111111,
-  e/3/13/0/3/0.16666666666666666,
-  f/4/12/0/4/0.2222222222222222,
-  g/5/11/0/6/0.3333333333333333,
-  h/6/10/0/7/0.3888888888888889,
-  i/7/9/0/8/0.4444444444444444,
-  j/8/8/0/9/0.5,
-  k/9/7/0/10/0.5555555555555556,
-  l/10/6/0/11/0.6111111111111112,
-  m/11/5/0/12/0.6666666666666666,
-  n/12/4/0/14/0.7777777777777778,
-  o/13/1/-1/16/0.8888888888888888,
-  p/13/2/1/15/0.8333333333333334,
-  q/14/1/1/17/0.9444444444444444
-}
-{
-  \pgfmathtruncatemacro{\to}{\desc + \anc}
-  \pgfmathtruncatemacro{\delta}{\desc - \anc}
-  \node[obj,inner sep=1pt,minimum size=1pt] (d\label) at (1.15*\x, 7.01+.624*13/15*\delta) {\Large\strut$\label$};
-  \node[right = -.5mm of d\label] {\Large$\delta$};
-  \node[obj,inner sep=1pt,minimum size=1pt] (r\label) at (7+1.4*\x, 13*\desc/\to) {\Large\strut$\label$};
-  \node[right = -.5mm of r\label] {\Large$\frac{\desc}{\to} $};
-  \node[obj,inner sep=1pt,minimum size=1pt] (h\label) at (14+1.6*\x, 13*\mn) {\Large\strut$\label$};
-  \node[right = -.5mm of h\label] {\Large $\m$};
-}
-\node at (0, 0) {\LARGE(a) $\Delta$ scores.};
-\node at (7, 0) {\LARGE(b) $\rho$ scores.};
-\node at (14, 0) {\LARGE(c) $m$ scores.};
-\foreach \i/\j in {a/b, c/d, d/e, e/f, f/g, g/h, h/i, i/j, j/k, k/l, l/m, m/n, n/o, n/p, p/q}{%
-  \draw[&lt;-] (d\i) -- (d\j);
-  \draw[&lt;-] (r\i) -- (r\j);
-  \draw[&lt;-] (h\i) -- (h\j);
-}
-\end{tikzpicture}
-</pre></div></div>
-</div>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
-</pre></div>
-</div>
-</div>
 </section>
 
 
