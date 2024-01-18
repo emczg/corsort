@@ -617,8 +617,8 @@ class ChainAndY:
 
         Examples
         --------
-            >>> ChainAndY(0, 1, 2, 7).order_spearman_optimal
-            array([0, 3, 4, 1, 5, 6, 7, 2, 8, 9], dtype=int64)
+            >>> ChainAndY(0, 1, 2, 7).order_spearman_optimal  # doctest: +ELLIPSIS
+            array([0, 3, 4, 1, 5, 6, 7, 2, 8, 9]...)
         """
         _, col_ind = linear_sum_assignment(self.spearman_costs.T)
         return col_ind
