@@ -3,6 +3,12 @@ History
 =======
 
 -------------------------------------------------------------------
+Next release: Adapt ChainAndY to Spearman footrule
+-------------------------------------------------------------------
+
+* Compute Spearman costs, median heights, optimal ordering minimizing the expected Spearman footrule.
+
+-------------------------------------------------------------------
 0.1.3 (2024-01-12): Spearman footrule
 -------------------------------------------------------------------
 
