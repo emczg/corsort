@@ -843,6 +843,56 @@ class ChainAndY:
         """
         return np.argsort(self.median_height)
 
+    def _print_latex_delta_rho_m(self):
+        """
+        Print the LaTeX code for the article.
+        """
+        print(r"""\begin{tikzpicture}[scale=.45, transform shape]
+\footnotesize
+\foreach \label/\desc/\anc/\x/\m/\mn in {% \m: median height in [1, n] ; \mn: median height normalized by n+1""")
+        nb_descendants = self.nb_descendants
+        nb_ancestors = self.nb_ancestors
+        median_height = self.median_height
+        median_height_normalized = (self.median_height + 1) / (self.n_nodes + 1)
+        lst = ", \n".join([
+            f"  {string.ascii_lowercase[i]}/{nb_descendants[i]}/{nb_ancestors[i]}/{x}/{int(median_height[i] + 1)}/"
+            + f"{median_height_normalized[i]}"
+            for i, x in zip(range(self.n_nodes), [-2] * self.a + [0] * self.b + [-1] * self.c + [1] * self.d)
+        ])
+        print(lst)
+        print(r"""}
+{
+  \pgfmathtruncatemacro{\to}{\desc + \anc}
+  \pgfmathtruncatemacro{\delta}{\desc - \anc}
+  \node[obj,inner sep=1pt,minimum size=1pt] (d\label) at (1.15*\x, 7.01+.624*13/15*\delta) {\Large\strut$\label$};
+  \node[right = -.5mm of d\label] {\Large$\delta$};
+  \node[obj,inner sep=1pt,minimum size=1pt] (r\label) at (7+1.4*\x, 16.5*\desc/\to - 1.5) {\Large\strut$\label$};
+  \node[right = -.5mm of r\label] {\Large$\frac{\desc}{\to} $};
+  \node[obj,inner sep=1pt,minimum size=1pt] (h\label) at (14+1.6*\x, 16.5*\mn - 1.5) {\Large\strut$\label$};
+  \node[right = -.5mm of h\label] {\Large $\m$};
+}
+\node at (0, 0) {\LARGE(a) $\Delta$ scores.};
+\node at (7, 0) {\LARGE(b) $\rho$ scores.};
+\node at (14, 0) {\LARGE(c) $m$ scores.};""")
+        labels_a = string.ascii_lowercase[0:self.a]
+        labels_b = string.ascii_lowercase[self.a:self.a + self.b]
+        labels_c = string.ascii_lowercase[self.a + self.b:self.a + self.b + self.c]
+        labels_d = string.ascii_lowercase[self.a + self.b + self.c:self.a + self.b + self.c + self.d]
+        edges = ", ".join(
+            [f"{x}/{y}" for x, y in zip(labels_a[:-1], labels_a[1:])]
+            + [f"{x}/{y}" for x, y in zip(labels_b[:-1], labels_b[1:])]
+            + [f"{labels_b[-1]}/{labels_c[0]}"]
+            + [f"{x}/{y}" for x, y in zip(labels_c[:-1], labels_c[1:])]
+            + [f"{labels_b[-1]}/{labels_d[0]}"]
+            + [f"{x}/{y}" for x, y in zip(labels_d[:-1], labels_d[1:])]
+        )
+        print(r"\foreach \i/\j in {" + f"{edges}" + r"}{%")
+        print(r"""  \draw[<-] (d\i) -- (d\j);
+  \draw[<-] (r\i) -- (r\j);
+  \draw[<-] (h\i) -- (h\j);
+}
+\end{tikzpicture}""")
+
 
 def _average_height_c(a, b, c, d):
     """
