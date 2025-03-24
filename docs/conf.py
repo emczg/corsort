@@ -40,7 +40,7 @@ intersphinx_mapping = {'python':('https://docs.python.org/3', None),
                        'ipython':('https://ipython.readthedocs.io/en/stable/', None),
                        'numpy': ('https://docs.scipy.org/doc/numpy/', None),
                        'scipy': ('https://docs.scipy.org/doc/scipy/reference/', None),
-                       'matplotlib': ('http://matplotlib.sourceforge.net/', None),
+                       'matplotlib': ('https://matplotlib.org/stable/', None),
                        'numba': ('https://numba.readthedocs.io/en/stable/', None),
                        'gismo': ('https://gismo.readthedocs.io/en/latest/', None),
                        'multiprocess': ('https://multiprocess.readthedocs.io/en/latest/', None)

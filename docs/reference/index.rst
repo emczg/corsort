@@ -4,6 +4,7 @@ Reference
 
 .. toctree::
 
+   baie_sort
    chain_and_y
    corsort
    corsort_borda
