@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Index &mdash; Corsort 0.1.3 documentation</title>
+  <title>Index &mdash; Corsort 0.1.4 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
 
@@ -15,7 +15,7 @@
   
         <script src="_static/jquery.js?v=5d32c60e"></script>
         <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="_static/documentation_options.js?v=360bc84d"></script>
+        <script src="_static/documentation_options.js?v=fd825880"></script>
         <script src="_static/doctools.js?v=888ff710"></script>
         <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
@@ -126,6 +126,8 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/presets.html#corsort.presets.auto_colors">auto_colors() (in module corsort.presets)</a>
 </li>
+      <li><a href="reference/baie_sort.html#corsort.sort_baiesort.aux_split">aux_split() (in module corsort.sort_baiesort)</a>
+</li>
       <li><a href="reference/chain_and_y.html#corsort.ChainAndY.average_height">average_height (corsort.ChainAndY property)</a>
 </li>
       <li><a href="reference/chain_and_y.html#corsort.ChainAndY.average_normalized_height">average_normalized_height (corsort.ChainAndY property)</a>
@@ -177,8 +179,6 @@
         <li><a href="reference/montecarlo.html#module-corsort.montecarlo">module</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     corsort.presets
 
@@ -186,11 +186,20 @@
         <li><a href="reference/presets.html#module-corsort.presets">module</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     corsort.scorers
 
       <ul>
         <li><a href="reference/scorers.html#module-corsort.scorers">module</a>
+</li>
+      </ul></li>
+      <li>
+    corsort.sort_baiesort
+
+      <ul>
+        <li><a href="reference/baie_sort.html#module-corsort.sort_baiesort">module</a>
 </li>
       </ul></li>
       <li>
@@ -250,6 +259,8 @@
         <li><a href="reference/corsort_gain_lexi.html#corsort.CorsortGainLexi.distance_to_sorted_array">(corsort.CorsortGainLexi method)</a>
 </li>
         <li><a href="reference/sort.html#corsort.Sort.distance_to_sorted_array">(corsort.Sort method)</a>
+</li>
+        <li><a href="reference/baie_sort.html#corsort.sort_baiesort.SortBaie.distance_to_sorted_array">(corsort.sort_baiesort.SortBaie method)</a>
 </li>
         <li><a href="reference/sort_asort_quickselect.html#corsort.SortAsortQuickselect.distance_to_sorted_array">(corsort.SortAsortQuickselect method)</a>
 </li>
@@ -342,6 +353,8 @@
         <li><a href="reference/corsort_gain_lexi.html#corsort.CorsortGainLexi.history_comparisons_values_">(corsort.CorsortGainLexi property)</a>
 </li>
         <li><a href="reference/sort.html#corsort.Sort.history_comparisons_values_">(corsort.Sort property)</a>
+</li>
+        <li><a href="reference/baie_sort.html#corsort.sort_baiesort.SortBaie.history_comparisons_values_">(corsort.sort_baiesort.SortBaie property)</a>
 </li>
         <li><a href="reference/sort_asort_quickselect.html#corsort.SortAsortQuickselect.history_comparisons_values_">(corsort.SortAsortQuickselect property)</a>
 </li>
@@ -476,6 +489,8 @@
 </li>
         <li><a href="reference/scorers.html#module-corsort.scorers">corsort.scorers</a>
 </li>
+        <li><a href="reference/baie_sort.html#module-corsort.sort_baiesort">corsort.sort_baiesort</a>
+</li>
         <li><a href="reference/util_chains.html#module-corsort.util_chains">corsort.util_chains</a>
 </li>
         <li><a href="reference/util_latex.html#module-corsort.util_latex">corsort.util_latex</a>
@@ -601,6 +616,8 @@
 </li>
       <li><a href="reference/sort_asort_quickselect.html#corsort.SortAsortQuickselect">SortAsortQuickselect (class in corsort)</a>
 </li>
+      <li><a href="reference/baie_sort.html#corsort.sort_baiesort.SortBaie">SortBaie (class in corsort.sort_baiesort)</a>
+</li>
       <li><a href="reference/sort_binary_insertion.html#corsort.SortBinaryInsertion">SortBinaryInsertion (class in corsort)</a>
 </li>
       <li><a href="reference/sort_ford_johnson.html#corsort.SortFordJohnson">SortFordJohnson (class in corsort)</a>
@@ -622,6 +639,8 @@
       <li><a href="reference/chain_and_y.html#corsort.ChainAndY.spearman_costs">spearman_costs (corsort.ChainAndY property)</a>
 </li>
       <li><a href="reference/chain_and_y.html#corsort.ChainAndY.spearman_score">spearman_score() (corsort.ChainAndY method)</a>
+</li>
+      <li><a href="reference/baie_sort.html#corsort.sort_baiesort.split">split() (in module corsort.sort_baiesort)</a>
 </li>
       <li><a href="reference/split_pointer_lists.html#corsort.split_pointer_lists">split_pointer_lists() (in module corsort)</a>
 </li>
@@ -647,6 +666,8 @@
         <li><a href="reference/corsort_gain_lexi.html#corsort.CorsortGainLexi.test_i_lt_j">(corsort.CorsortGainLexi method)</a>
 </li>
         <li><a href="reference/sort.html#corsort.Sort.test_i_lt_j">(corsort.Sort method)</a>
+</li>
+        <li><a href="reference/baie_sort.html#corsort.sort_baiesort.SortBaie.test_i_lt_j">(corsort.sort_baiesort.SortBaie method)</a>
 </li>
         <li><a href="reference/sort_asort_quickselect.html#corsort.SortAsortQuickselect.test_i_lt_j">(corsort.SortAsortQuickselect method)</a>
 </li>
