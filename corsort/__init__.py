@@ -2,7 +2,7 @@
 
 __author__ = """Emma Caizergues"""
 __email__ = 'emma.caizergues@gmail.com'
-__version__ = '0.1.3'
+__version__ = '0.1.4'
 
 
 from corsort.chain_and_y import ChainAndY, linear_extensions
@@ -44,3 +44,4 @@ from corsort.wrap_full_jit import WrapFullJit, JitCorsortBorda, JitHeapsort, \
     JitCorsortDeltaMaxDelta, JitCorsortDeltaMaxRho, JitCorsortDeltaSumDelta, JitCorsortDeltaSumRho, \
     JitCorsortRhoMaxDelta, JitCorsortRhoMaxRho, JitCorsortRhoSumDelta, JitCorsortRhoSumRho
 from corsort.wrap_sort_scorer import WrapSortScorer
+from corsort.sort_baiesort import SortBaie
