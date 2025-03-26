@@ -9,10 +9,8 @@ readme = "README.rst"
 [tool.poetry.dependencies]
 python = ">=3.10"
 networkx = "^3.2.1"
-numba = [
-    {version = "^0.58.1", python = ">=3.10,<3.12"},
-    {version = "0.59.0rc1", python = ">=3.12"}
-]
+numba = "^0.61.0"
+numpy = "<2.0.0"
 svvamp = "^0.10.0"
 multiprocess = "^0.70.15"
 tqdm = "^4.66.1"
@@ -68,6 +66,7 @@ python =
     3.10: py310
     3.11: py311
     3.12: py312
+    3.13: py313
 
 [testenv]
 passenv = PYTHON_VERSION
