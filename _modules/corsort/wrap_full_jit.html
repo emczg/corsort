@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>corsort.wrap_full_jit &mdash; Corsort 0.1.4 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
 
   
@@ -16,7 +16,7 @@
         <script src="../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
         <script src="../../_static/documentation_options.js?v=fd825880"></script>
-        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/doctools.js?v=9a2dae69"></script>
         <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="../../_static/js/theme.js"></script>
@@ -81,10 +81,10 @@
            <div itemprop="articleBody">
              
   <h1>Source code for corsort.wrap_full_jit</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">corsort.entropy_bound</span> <span class="kn">import</span> <span class="n">entropy_bound</span>
-<span class="kn">from</span> <span class="nn">corsort.distance_to_sorted_array</span> <span class="kn">import</span> <span class="n">distance_to_sorted_array</span>
-<span class="kn">from</span> <span class="nn">corsort.jit_sorts</span> <span class="kn">import</span> <span class="n">jit_corsort_borda</span><span class="p">,</span> \
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">corsort.entropy_bound</span><span class="w"> </span><span class="kn">import</span> <span class="n">entropy_bound</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">corsort.distance_to_sorted_array</span><span class="w"> </span><span class="kn">import</span> <span class="n">distance_to_sorted_array</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">corsort.jit_sorts</span><span class="w"> </span><span class="kn">import</span> <span class="n">jit_corsort_borda</span><span class="p">,</span> \
     <span class="n">jit_corsort_delta_max_rho</span><span class="p">,</span> <span class="n">jit_corsort_delta_sum_rho</span><span class="p">,</span> <span class="n">jit_corsort_delta_max_delta</span><span class="p">,</span> <span class="n">jit_corsort_delta_sum_delta</span><span class="p">,</span> \
     <span class="n">jit_corsort_rho_max_rho</span><span class="p">,</span> <span class="n">jit_corsort_rho_sum_rho</span><span class="p">,</span> <span class="n">jit_corsort_rho_max_delta</span><span class="p">,</span> <span class="n">jit_corsort_rho_sum_delta</span><span class="p">,</span> \
     <span class="n">jit_heapsort</span>
@@ -92,7 +92,7 @@
 
 <div class="viewcode-block" id="WrapFullJit">
 <a class="viewcode-back" href="../../reference/wrap_full_jit.html#corsort.wrap_full_jit.WrapFullJit">[docs]</a>
-<span class="k">class</span> <span class="nc">WrapFullJit</span><span class="p">:</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">WrapFullJit</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Delegate everything (sort and scores) to a jit function.</span>
 
@@ -152,7 +152,7 @@
 <span class="sd">        [[2, 1, 3, 0], [1, 3, 0, 2], [1, 0, 2, 3], [1, 0, 2, 3], [1, 0, 2, 3], [0, 1, 2, 3]]</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">jit_sort</span><span class="p">,</span> <span class="n">compute_history</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">record_states</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">jit_sort</span><span class="p">,</span> <span class="n">compute_history</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">record_states</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Examples</span>
 <span class="sd">        --------</span>
@@ -179,7 +179,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">history_comparisons_</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">history_states_</span> <span class="o">=</span> <span class="kc">None</span>
 
-    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">perm</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">perm</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Sort.</span>
 
@@ -208,7 +208,7 @@
         <span class="k">return</span> <span class="bp">self</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">history_comparisons_values_</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">history_comparisons_values_</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;:class:`list` of :class:`tuple`: History of the pairwise comparisons, in terms of compared values.</span>
 <span class="sd">        Tuple (x, y) means that items of values x and y were compared, and that x &lt; y.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -220,7 +220,7 @@
 
 <div class="viewcode-block" id="JitCorsortBorda">
 <a class="viewcode-back" href="../../reference/wrap_full_jit.html#corsort.wrap_full_jit.JitCorsortBorda">[docs]</a>
-<span class="k">class</span> <span class="nc">JitCorsortBorda</span><span class="p">(</span><span class="n">WrapFullJit</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">JitCorsortBorda</span><span class="p">(</span><span class="n">WrapFullJit</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Corsort &quot;Borda&quot;. Cf. :class:`WrapFullJit`.</span>
 
@@ -229,7 +229,7 @@
 <span class="sd">        &gt;&gt;&gt; sort = JitCorsortBorda()</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">compute_history</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">record_states</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">compute_history</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">record_states</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
             <span class="n">jit_sort</span><span class="o">=</span><span class="n">jit_corsort_borda</span><span class="p">,</span>
             <span class="n">compute_history</span><span class="o">=</span><span class="n">compute_history</span><span class="p">,</span>
@@ -240,7 +240,7 @@
 
 <div class="viewcode-block" id="JitCorsortDeltaMaxRho">
 <a class="viewcode-back" href="../../reference/wrap_full_jit.html#corsort.wrap_full_jit.JitCorsortDeltaMaxRho">[docs]</a>
-<span class="k">class</span> <span class="nc">JitCorsortDeltaMaxRho</span><span class="p">(</span><span class="n">WrapFullJit</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">JitCorsortDeltaMaxRho</span><span class="p">(</span><span class="n">WrapFullJit</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Corsort with delta core scorer, max-knowledge tie-break, and rho output scorer. Cf. :class:`WrapFullJit`.</span>
 
@@ -249,7 +249,7 @@
 <span class="sd">        &gt;&gt;&gt; sort = JitCorsortDeltaMaxRho()</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">compute_history</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">record_states</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">compute_history</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">record_states</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
             <span class="n">jit_sort</span><span class="o">=</span><span class="n">jit_corsort_delta_max_rho</span><span class="p">,</span>
             <span class="n">compute_history</span><span class="o">=</span><span class="n">compute_history</span><span class="p">,</span>
@@ -260,7 +260,7 @@
 
 <div class="viewcode-block" id="JitCorsortDeltaSumRho">
 <a class="viewcode-back" href="../../reference/wrap_full_jit.html#corsort.wrap_full_jit.JitCorsortDeltaSumRho">[docs]</a>
-<span class="k">class</span> <span class="nc">JitCorsortDeltaSumRho</span><span class="p">(</span><span class="n">WrapFullJit</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">JitCorsortDeltaSumRho</span><span class="p">(</span><span class="n">WrapFullJit</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Corsort with delta core scorer, sum-knowledge tie-break, and rho output scorer. Cf. :class:`WrapFullJit`.</span>
 
@@ -269,7 +269,7 @@
 <span class="sd">        &gt;&gt;&gt; sort = JitCorsortDeltaSumRho()</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">compute_history</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">record_states</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">compute_history</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">record_states</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
             <span class="n">jit_sort</span><span class="o">=</span><span class="n">jit_corsort_delta_sum_rho</span><span class="p">,</span>
             <span class="n">compute_history</span><span class="o">=</span><span class="n">compute_history</span><span class="p">,</span>
@@ -280,7 +280,7 @@
 
 <div class="viewcode-block" id="JitCorsortDeltaMaxDelta">
 <a class="viewcode-back" href="../../reference/wrap_full_jit.html#corsort.wrap_full_jit.JitCorsortDeltaMaxDelta">[docs]</a>
-<span class="k">class</span> <span class="nc">JitCorsortDeltaMaxDelta</span><span class="p">(</span><span class="n">WrapFullJit</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">JitCorsortDeltaMaxDelta</span><span class="p">(</span><span class="n">WrapFullJit</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Corsort with delta core scorer, max-knowledge tie-break, and delta output scorer. Cf. :class:`WrapFullJit`.</span>
 
@@ -289,7 +289,7 @@
 <span class="sd">        &gt;&gt;&gt; sort = JitCorsortDeltaMaxDelta()</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">compute_history</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">record_states</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">compute_history</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">record_states</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
             <span class="n">jit_sort</span><span class="o">=</span><span class="n">jit_corsort_delta_max_delta</span><span class="p">,</span>
             <span class="n">compute_history</span><span class="o">=</span><span class="n">compute_history</span><span class="p">,</span>
@@ -300,7 +300,7 @@
 
 <div class="viewcode-block" id="JitCorsortDeltaSumDelta">
 <a class="viewcode-back" href="../../reference/wrap_full_jit.html#corsort.wrap_full_jit.JitCorsortDeltaSumDelta">[docs]</a>
-<span class="k">class</span> <span class="nc">JitCorsortDeltaSumDelta</span><span class="p">(</span><span class="n">WrapFullJit</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">JitCorsortDeltaSumDelta</span><span class="p">(</span><span class="n">WrapFullJit</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Corsort with delta core scorer, sum-knowledge tie-break, and delta output scorer. Cf. :class:`WrapFullJit`.</span>
 
@@ -309,7 +309,7 @@
 <span class="sd">        &gt;&gt;&gt; sort = JitCorsortDeltaSumDelta()</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">compute_history</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">record_states</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">compute_history</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">record_states</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
             <span class="n">jit_sort</span><span class="o">=</span><span class="n">jit_corsort_delta_sum_delta</span><span class="p">,</span>
             <span class="n">compute_history</span><span class="o">=</span><span class="n">compute_history</span><span class="p">,</span>
@@ -320,7 +320,7 @@
 
 <div class="viewcode-block" id="JitCorsortRhoMaxRho">
 <a class="viewcode-back" href="../../reference/wrap_full_jit.html#corsort.wrap_full_jit.JitCorsortRhoMaxRho">[docs]</a>
-<span class="k">class</span> <span class="nc">JitCorsortRhoMaxRho</span><span class="p">(</span><span class="n">WrapFullJit</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">JitCorsortRhoMaxRho</span><span class="p">(</span><span class="n">WrapFullJit</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Corsort with rho core scorer, max-knowledge tie-break, and rho output scorer. Cf. :class:`WrapFullJit`.</span>
 
@@ -329,7 +329,7 @@
 <span class="sd">        &gt;&gt;&gt; sort = JitCorsortRhoMaxRho()</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">compute_history</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">record_states</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">compute_history</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">record_states</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
             <span class="n">jit_sort</span><span class="o">=</span><span class="n">jit_corsort_rho_max_rho</span><span class="p">,</span>
             <span class="n">compute_history</span><span class="o">=</span><span class="n">compute_history</span><span class="p">,</span>
@@ -340,7 +340,7 @@
 
 <div class="viewcode-block" id="JitCorsortRhoSumRho">
 <a class="viewcode-back" href="../../reference/wrap_full_jit.html#corsort.wrap_full_jit.JitCorsortRhoSumRho">[docs]</a>
-<span class="k">class</span> <span class="nc">JitCorsortRhoSumRho</span><span class="p">(</span><span class="n">WrapFullJit</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">JitCorsortRhoSumRho</span><span class="p">(</span><span class="n">WrapFullJit</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Corsort with rho core scorer, sum-knowledge tie-break, and rho output scorer. Cf. :class:`WrapFullJit`.</span>
 
@@ -349,7 +349,7 @@
 <span class="sd">        &gt;&gt;&gt; sort = JitCorsortRhoSumRho()</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">compute_history</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">record_states</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">compute_history</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">record_states</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
             <span class="n">jit_sort</span><span class="o">=</span><span class="n">jit_corsort_rho_sum_rho</span><span class="p">,</span>
             <span class="n">compute_history</span><span class="o">=</span><span class="n">compute_history</span><span class="p">,</span>
@@ -360,7 +360,7 @@
 
 <div class="viewcode-block" id="JitCorsortRhoMaxDelta">
 <a class="viewcode-back" href="../../reference/wrap_full_jit.html#corsort.wrap_full_jit.JitCorsortRhoMaxDelta">[docs]</a>
-<span class="k">class</span> <span class="nc">JitCorsortRhoMaxDelta</span><span class="p">(</span><span class="n">WrapFullJit</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">JitCorsortRhoMaxDelta</span><span class="p">(</span><span class="n">WrapFullJit</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Corsort with rho core scorer, max-knowledge tie-break, and delta output scorer. Cf. :class:`WrapFullJit`.</span>
 
@@ -369,7 +369,7 @@
 <span class="sd">        &gt;&gt;&gt; sort = JitCorsortRhoMaxDelta()</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">compute_history</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">record_states</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">compute_history</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">record_states</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
             <span class="n">jit_sort</span><span class="o">=</span><span class="n">jit_corsort_rho_max_delta</span><span class="p">,</span>
             <span class="n">compute_history</span><span class="o">=</span><span class="n">compute_history</span><span class="p">,</span>
@@ -380,7 +380,7 @@
 
 <div class="viewcode-block" id="JitCorsortRhoSumDelta">
 <a class="viewcode-back" href="../../reference/wrap_full_jit.html#corsort.wrap_full_jit.JitCorsortRhoSumDelta">[docs]</a>
-<span class="k">class</span> <span class="nc">JitCorsortRhoSumDelta</span><span class="p">(</span><span class="n">WrapFullJit</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">JitCorsortRhoSumDelta</span><span class="p">(</span><span class="n">WrapFullJit</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Corsort with rho core scorer, sum-knowledge tie-break, and delta output scorer. Cf. :class:`WrapFullJit`.</span>
 
@@ -389,7 +389,7 @@
 <span class="sd">        &gt;&gt;&gt; sort = JitCorsortRhoSumDelta()</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">compute_history</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">record_states</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">compute_history</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">record_states</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
             <span class="n">jit_sort</span><span class="o">=</span><span class="n">jit_corsort_rho_sum_delta</span><span class="p">,</span>
             <span class="n">compute_history</span><span class="o">=</span><span class="n">compute_history</span><span class="p">,</span>
@@ -400,7 +400,7 @@
 
 <div class="viewcode-block" id="JitHeapsort">
 <a class="viewcode-back" href="../../reference/wrap_full_jit.html#corsort.wrap_full_jit.JitHeapsort">[docs]</a>
-<span class="k">class</span> <span class="nc">JitHeapsort</span><span class="p">(</span><span class="n">WrapFullJit</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">JitHeapsort</span><span class="p">(</span><span class="n">WrapFullJit</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Heapsort. Cf. :class:`WrapFullJit`.</span>
 
@@ -409,7 +409,7 @@
 <span class="sd">        &gt;&gt;&gt; sort = JitHeapsort()</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">compute_history</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">record_states</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">compute_history</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">record_states</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
             <span class="n">jit_sort</span><span class="o">=</span><span class="n">jit_heapsort</span><span class="p">,</span>
             <span class="n">compute_history</span><span class="o">=</span><span class="n">compute_history</span><span class="p">,</span>

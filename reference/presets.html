@@ -5,7 +5,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>presets &mdash; Corsort 0.1.4 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
 
   
@@ -17,7 +17,7 @@
         <script src="../_static/jquery.js?v=5d32c60e"></script>
         <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
         <script src="../_static/documentation_options.js?v=fd825880"></script>
-        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/doctools.js?v=9a2dae69"></script>
         <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="../_static/js/theme.js"></script>
@@ -132,17 +132,17 @@
 <dd><p>Maps a list of sorts to standard pyplot colors.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>sort_list</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a>) – </p>
+<dd class="field-odd"><p><strong>sort_list</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a>)</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a></p>
 </dd>
 </dl>
 <p class="rubric">Examples</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">corsort.sort_ford_johnson</span> <span class="kn">import</span> <span class="n">SortFordJohnson</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">corsort.sort_merge_bottom_up</span> <span class="kn">import</span> <span class="n">SortMergeBottomUp</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">corsort.sort_merge_top_down</span> <span class="kn">import</span> <span class="n">SortMergeTopDown</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">corsort.sort_quick</span> <span class="kn">import</span> <span class="n">SortQuick</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">corsort.sort_ford_johnson</span><span class="w"> </span><span class="kn">import</span> <span class="n">SortFordJohnson</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">corsort.sort_merge_bottom_up</span><span class="w"> </span><span class="kn">import</span> <span class="n">SortMergeBottomUp</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">corsort.sort_merge_top_down</span><span class="w"> </span><span class="kn">import</span> <span class="n">SortMergeTopDown</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">corsort.sort_quick</span><span class="w"> </span><span class="kn">import</span> <span class="n">SortQuick</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">s_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">SortFordJohnson</span><span class="p">(),</span> <span class="n">SortQuick</span><span class="p">(),</span> <span class="n">SortMergeBottomUp</span><span class="p">(),</span> <span class="n">SortMergeTopDown</span><span class="p">()]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">auto_colors</span><span class="p">(</span><span class="n">s_list</span><span class="p">)</span>  
 <span class="go">{&#39;ford_johnson&#39;: &#39;#1f77b4&#39;, &#39;quicksort&#39;: &#39;#ff7f0e&#39;, &#39;mergesort_bottom_up&#39;: &#39;#2ca02c&#39;,</span>

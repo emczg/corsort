@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>corsort.sort_ford_johnson &mdash; Corsort 0.1.4 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
 
   
@@ -16,7 +16,7 @@
         <script src="../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
         <script src="../../_static/documentation_options.js?v=fd825880"></script>
-        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/doctools.js?v=9a2dae69"></script>
         <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="../../_static/js/theme.js"></script>
@@ -81,13 +81,13 @@
            <div itemprop="articleBody">
              
   <h1>Source code for corsort.sort_ford_johnson</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">corsort.sort</span> <span class="kn">import</span> <span class="n">Sort</span>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">corsort.sort</span><span class="w"> </span><span class="kn">import</span> <span class="n">Sort</span>
 
 
 <div class="viewcode-block" id="SortFordJohnson">
 <a class="viewcode-back" href="../../reference/sort_ford_johnson.html#corsort.SortFordJohnson">[docs]</a>
-<span class="k">class</span> <span class="nc">SortFordJohnson</span><span class="p">(</span><span class="n">Sort</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">SortFordJohnson</span><span class="p">(</span><span class="n">Sort</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Ford-Johnson sorting algorithm.</span>
 
@@ -105,29 +105,29 @@
 
     <span class="vm">__name__</span> <span class="o">=</span> <span class="s1">&#39;ford_johnson&#39;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">compute_history</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">compute_history</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">compute_history</span><span class="o">=</span><span class="n">compute_history</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">sorted_indices_</span> <span class="o">=</span> <span class="kc">None</span>
 
-    <span class="k">def</span> <span class="nf">_initialize_algo_aux</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_initialize_algo_aux</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">pass</span>
 
-    <span class="k">def</span> <span class="nf">_call_aux</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_call_aux</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">sorted_indices_</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">_ford_johnson_sorting</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_</span><span class="p">),</span> <span class="n">lt</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">test_i_lt_j</span><span class="p">))</span>
 
 <div class="viewcode-block" id="SortFordJohnson.distance_to_sorted_array">
 <a class="viewcode-back" href="../../reference/sort_ford_johnson.html#corsort.SortFordJohnson.distance_to_sorted_array">[docs]</a>
-    <span class="k">def</span> <span class="nf">distance_to_sorted_array</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>  <span class="c1"># pragma: no cover</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">distance_to_sorted_array</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>  <span class="c1"># pragma: no cover</span>
         <span class="k">return</span> <span class="kc">None</span>  <span class="c1"># TODO: implement distance to sorted array</span></div>
 
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">sorted_list_</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">sorted_list_</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">perm_</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">sorted_indices_</span><span class="p">]</span></div>
 
 
 
-<span class="k">def</span> <span class="nf">_binary_search_insertion</span><span class="p">(</span><span class="n">sorted_list</span><span class="p">,</span> <span class="n">item</span><span class="p">,</span> <span class="n">lt</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_binary_search_insertion</span><span class="p">(</span><span class="n">sorted_list</span><span class="p">,</span> <span class="n">item</span><span class="p">,</span> <span class="n">lt</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 
 <span class="sd">    Parameters</span>
@@ -173,7 +173,7 @@
     <span class="k">return</span> <span class="n">sorted_list</span><span class="p">,</span> <span class="n">left</span>
 
 
-<span class="k">def</span> <span class="nf">_give_the_right_order</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>  <span class="c1"># In ford_johnson_sorting, always need to put len(collection)-1</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_give_the_right_order</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>  <span class="c1"># In ford_johnson_sorting, always need to put len(collection)-1</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 
 <span class="sd">    Parameters</span>
@@ -214,7 +214,7 @@
     <span class="k">return</span> <span class="n">my_list</span>
 
 
-<span class="k">def</span> <span class="nf">_update_indices</span><span class="p">(</span><span class="n">position</span><span class="p">,</span> <span class="n">nb_iter</span><span class="p">,</span> <span class="n">positions_of_insertion</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_update_indices</span><span class="p">(</span><span class="n">position</span><span class="p">,</span> <span class="n">nb_iter</span><span class="p">,</span> <span class="n">positions_of_insertion</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 
 <span class="sd">    Parameters</span>
@@ -246,7 +246,7 @@
     <span class="k">return</span> <span class="n">positions_of_insertion</span>
 
 
-<span class="k">def</span> <span class="nf">_insert_y</span><span class="p">(</span><span class="n">sorted_pairs</span><span class="p">,</span> <span class="n">result</span><span class="p">,</span> <span class="n">lt</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_insert_y</span><span class="p">(</span><span class="n">sorted_pairs</span><span class="p">,</span> <span class="n">result</span><span class="p">,</span> <span class="n">lt</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 
 <span class="sd">    Parameters</span>
@@ -297,7 +297,7 @@
     <span class="k">return</span> <span class="n">result</span>
 
 
-<span class="k">def</span> <span class="nf">_create_pairs</span><span class="p">(</span><span class="n">elements_to_sort</span><span class="p">,</span> <span class="n">lt</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_create_pairs</span><span class="p">(</span><span class="n">elements_to_sort</span><span class="p">,</span> <span class="n">lt</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 
 <span class="sd">    Parameters</span>
@@ -336,7 +336,7 @@
         <span class="k">return</span> <span class="n">two_paired_list</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span>
 
 
-<span class="k">def</span> <span class="nf">_ford_johnson_sorting</span><span class="p">(</span><span class="n">collection</span><span class="p">,</span> <span class="n">lt</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_ford_johnson_sorting</span><span class="p">(</span><span class="n">collection</span><span class="p">,</span> <span class="n">lt</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Ford-Johnson sorting algorithm</span>
 
@@ -386,7 +386,7 @@
 <span class="sd">        [12, 42, 51]</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">lt</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="k">def</span> <span class="nf">lt</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">lt</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
             <span class="k">return</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="n">y</span>
 
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">collection</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">:</span>
