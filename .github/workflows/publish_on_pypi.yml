@@ -7,8 +7,6 @@ on:
   release:
     types: [published]
     branches: [main]
-  push:
-    branches: [main]
 
 jobs:
 
@@ -36,5 +34,4 @@ jobs:
           poetry version ${{ steps.vars.outputs.tag }}
           poetry build
           poetry config pypi-token.pypi ${{ secrets.PYPI_TOKEN }}
-          echo "${{ secrets.PYPI_TOKEN }}"
           poetry publish
